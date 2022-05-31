@@ -29,7 +29,9 @@ function errorMiddleware(error, req, res, next) {
         operational: false,
       },
     });
-    logger.warn(error.stack);
+    process.exit(1);
+    // 로거를 사용하게 되면 코멘트를 제거할 수 있습니다.
+    // logger.warn(error.stack);
   }
 }
 
