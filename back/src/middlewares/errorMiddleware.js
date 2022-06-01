@@ -16,7 +16,7 @@ function errorMiddleware(error, req, res, next) {
       detail: {
         status: error.status,
         message: error.message,
-        operational: error.exit === 0,
+        operational: !!error.operational,
       },
     });
     if (!error.operational) {
