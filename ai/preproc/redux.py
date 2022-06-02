@@ -21,8 +21,9 @@ def cli():
         'json_top',
         required=True,
         help=(
-            '애노테이션 json 파일들이 있는 경로입니다.'
+            '애노테이션 json 파일들이 있는 최상위 경로입니다.'
             ' json 포맷만 알아서 골라냅니다.'
+            ' 디렉터리 구조가 이미지와 같아야 합니다.'
         )
     )
     parser.add_argument(
