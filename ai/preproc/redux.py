@@ -5,7 +5,9 @@ import argparse
 
 def cli():
     parser = argparse.ArgumentParser(
-        description='생활쓰레기 이미지 데이터 사이즈를 1/4 이하로 줄입니다.'
+        description=(
+            '저장 공간 절약을 위해 생활쓰레기 이미지 데이터 사이즈를 줄입니다.'
+        )
     )
     parser.add_argument(
         'image_top',
@@ -26,13 +28,20 @@ def cli():
     parser.add_argument(
         'dest',
         required=True,
-        help='출력 내용을 적을 텍스트 파일입니다. 기본 모드는 w입니다.'
+        help=(
+            '출력 내용을 저장할 경로입니다.'
+            ' 애노테이션 파일은 append 모드로 적습니다.'
+            ' 이미지 파일 상대 경로 등 디렉터리 구조는 보존합니다.'
+        )
     )
 
     parser.add_argument(
-        '--append', '-a',
-        action='store_true',
-        help='출력 파일에 w 대신 a 모드로 씁니다.'
+        '--format', '-f',
+        help=(
+            '애노테이션 포맷입니다.'
+            ' 기본값은 "{image_path},{xmin},{ymin},{xmax},{ymax},{classid}"'
+            '입니다.'
+        )
     )
 
 
