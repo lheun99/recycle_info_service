@@ -2,6 +2,15 @@
 
 import argparse
 import threading
+from typing import Any, Callable, List, Iterable, Mapping
+
+
+class ImageRedux(threading.Thread):
+    pass
+
+
+def open_threads(num: int, args, kwargs) -> List[threading.Thread]:
+    ...
 
 
 def cli():
@@ -38,13 +47,36 @@ def cli():
     )
 
     parser.add_argument(
-        '--format', '-f',
+        '--format',
+        '-f',
         help=(
             '애노테이션 포맷입니다.'
-            ' 기본값은 "{image_path},{xmin},{ymin},{xmax},{ymax},{classid}"'
+            ' 기본값은 "{image_path}, {xmin}, {ymin}, {xmax}, {ymax}, {classid}"'
             '입니다.'
         ),
         default='{image_path},{xmin},{ymin},{xmax},{ymax},{classid}',
+    )
+    # ..todo:: 리사이즈 방식 변경하기
+    parser.add_argument(
+        '--w-max',
+        '-w',
+        help='출력 이미지의 최대 가로 픽셀 수입니다. 기본값은 960입니다.',
+        type=int,
+        default=960,
+    )
+    parser.add_argument(
+        '--h-max',
+        '-h',
+        help='출력 이미지의 최대 세로 픽셀 수입니다. 기본값은 412입니다.',
+        type=int,
+        default=412,
+    )
+    parser.add_argument(
+        '--threads',
+        '-nt',
+        help='작업 스레드의 수입니다. 기본값은 4입니다.',
+        type=int,
+        default=4,
     )
 
 
