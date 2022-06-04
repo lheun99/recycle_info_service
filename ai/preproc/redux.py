@@ -6,7 +6,8 @@ from concurrent.futures import ThreadPoolExecutor
 from typing import Any, Callable, List, Iterable, Mapping
 
 
-def cli():
+def getopts() -> dict:
+    '''커맨드라인용 인자를 분석합니다.'''
     parser = argparse.ArgumentParser(
         description=(
             '저장 공간 절약을 위해 생활쓰레기 이미지 데이터 사이즈를 줄입니다.'
@@ -71,6 +72,13 @@ def cli():
         type=int,
         default=0,
     )
+
+    args = parser.parse_args()
+    return args.__dict__.copy()
+
+
+def cli():
+    pass
 
 
 if __name__ == '__main__':
