@@ -49,20 +49,16 @@ def cli():
         ),
         default='{image_path},{xmin},{ymin},{xmax},{ymax},{classid}',
     )
-    # ..todo:: 리사이즈 방식 변경하기
     parser.add_argument(
-        '--w-max',
-        '-w',
-        help='출력 이미지의 최대 가로 픽셀 수입니다. 기본값은 960입니다.',
+        '--minimum-dimension',
+        '--min-dim',
+        '-md',
+        help=(
+            '이미지의 가로, 세로 중 작은 쪽이 이 값이 되도록 리사이즈합니다.'
+            '기본값은 512입니다.'
+        ),
         type=int,
-        default=960,
-    )
-    parser.add_argument(
-        '--h-max',
-        '-h',
-        help='출력 이미지의 최대 세로 픽셀 수입니다. 기본값은 412입니다.',
-        type=int,
-        default=412,
+        default=512,
     )
     parser.add_argument(
         '--threads',
