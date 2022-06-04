@@ -84,9 +84,9 @@ def _getargs() -> argparse.Namespace:
 
 def cli():
     args = _getargs()
-    executor = concurrent.ThreadPoolExecutor(
-        max_workers=None if args.threads == 0 else args.threads,
-    )
+    if args.threads is not None:
+        print(f'MAIN: 스레드를 최대 {args.threads}개 사용합니다.')
+    executor = concurrent.ThreadPoolExecutor(max_workers=args.threads)
 
     for stem, branches, leaves in os.walk(args.json_top):
         for leaf in leaves:
