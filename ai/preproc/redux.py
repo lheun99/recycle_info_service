@@ -2,11 +2,13 @@
 
 import argparse
 from concurrent.futures import ThreadPoolExecutor
+from os import path
+import os
 # import threading
 from typing import Any, Callable, List, Iterable, Mapping
 
 
-def getargs() -> dict:
+def _getargs() -> dict:
     '''커맨드라인용 인자를 분석합니다.'''
     parser = argparse.ArgumentParser(
         description=(
@@ -78,7 +80,7 @@ def getargs() -> dict:
 
 
 def cli():
-    args = getargs()
+    args = _getargs()
 
 
 if __name__ == '__main__':
