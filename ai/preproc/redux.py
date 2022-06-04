@@ -1,7 +1,7 @@
 #! /usr/bin/env python3
 
 import argparse
-from concurrent.futures import ThreadPoolExecutor
+import concurrent.futures as concurrent
 from os import path
 import os
 # import threading
@@ -77,7 +77,7 @@ def _getargs() -> Tuple[argparse.Namespace, dict]:
 
 def cli():
     args, argsd = _getargs()
-    executor = ThreadPoolExecutor(
+    executor = concurrent.ThreadPoolExecutor(
         max_workers=None if args.threads == 0 else args.threads,
     )
 
