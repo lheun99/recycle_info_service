@@ -66,11 +66,7 @@ def _getargs() -> dict:
     parser.add_argument(
         '--threads',
         '-nt',
-        help=(
-            '작업 스레드의 수입니다.'
-            ' 0(기본값)이면 자동으로 맞춥니다.'
-            ' 1이면 스레드를 열지 않습니다.'
-        ),
+        help='작업 스레드의 수입니다. 0(기본값)이면 자동으로 맞춥니다.',
         type=int,
         default=0,
     )
@@ -81,6 +77,7 @@ def _getargs() -> dict:
 
 def cli():
     args = _getargs()
+    executor = ThreadPoolExecutor()
 
 
 if __name__ == '__main__':
