@@ -5,10 +5,10 @@ from concurrent.futures import ThreadPoolExecutor
 from os import path
 import os
 # import threading
-from typing import Any, Callable, List, Iterable, Mapping
+from typing import Any, List, Tuple, Callable, Iterable, Mapping
 
 
-def _getargs() -> dict:
+def _getargs() -> Tuple[argparse.Namespace, dict]:
     '''커맨드라인용 인자를 분석합니다.'''
     parser = argparse.ArgumentParser(
         description=(
@@ -72,12 +72,14 @@ def _getargs() -> dict:
     )
 
     args = parser.parse_args()
-    return args.__dict__.copy()
+    return args, args.__dict__.copy()
 
 
 def cli():
-    args = _getargs()
-    executor = ThreadPoolExecutor()
+    args, argsd = _getargs()
+    executor = ThreadPoolExecutor(
+        max_workers=None if args.threads == 0 else args.threads,
+    )
 
 
 if __name__ == '__main__':
