@@ -81,6 +81,11 @@ def cli():
         max_workers=None if args.threads == 0 else args.threads,
     )
 
+    for stem, branches, leaves in os.walk(args.json_top):
+        for leaf in leaves:
+            if path.splitext(leaf)[1].lower() == 'json':
+                pass
+
 
 if __name__ == '__main__':
     cli()
