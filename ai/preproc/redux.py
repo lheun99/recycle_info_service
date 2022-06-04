@@ -1,11 +1,19 @@
 #! /usr/bin/env python3
 
 import argparse
-import concurrent.futures as concurrent
+import json
 from os import path
 import os
+
+import concurrent.futures as concurrent
 # import threading
+
 from typing import Any, List, Tuple, Callable, Iterable, Mapping
+
+
+def parse_json(pathname: str, min_dim: int) -> dict[str, int | str]:
+    '''json annotation 파일을 읽어 워크로드를 생성합니다.'''
+    label = json.load(pathname)
 
 
 def _getargs() -> argparse.Namespace:
