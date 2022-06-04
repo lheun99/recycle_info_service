@@ -8,7 +8,7 @@ import os
 from typing import Any, List, Tuple, Callable, Iterable, Mapping
 
 
-def _getargs() -> Tuple[argparse.Namespace, dict]:
+def _getargs() -> argparse.Namespace:
     '''커맨드라인용 인자를 분석합니다.'''
     parser = argparse.ArgumentParser(
         description=(
@@ -71,12 +71,12 @@ def _getargs() -> Tuple[argparse.Namespace, dict]:
         default=0,
     )
 
-    args = parser.parse_args()
-    return args, args.__dict__.copy()
+    return parser.parse_args()
+    # return args, args.__dict__.copy()
 
 
 def cli():
-    args, argsd = _getargs()
+    args = _getargs()
     executor = concurrent.ThreadPoolExecutor(
         max_workers=None if args.threads == 0 else args.threads,
     )
