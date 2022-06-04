@@ -71,8 +71,15 @@ def _getargs() -> argparse.Namespace:
         default=0,
     )
 
-    return parser.parse_args()
+    args = parser.parse_args()
     # return args, args.__dict__.copy()
+    top = path.normcase(path.normpath(args.image_top))
+    args.json_top = path.normcase(path.normpath(args.json_top))
+    args.dest = path.normcase(path.normpath(args.dest))
+    if args.threads == 0:
+        args.threads = None
+
+    return args
 
 
 def cli():
