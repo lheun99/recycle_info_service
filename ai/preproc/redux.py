@@ -1,16 +1,9 @@
 #! /usr/bin/env python3
 
 import argparse
-import threading
+from concurrent.futures import ThreadPoolExecutor
+# import threading
 from typing import Any, Callable, List, Iterable, Mapping
-
-
-class ImageRedux(threading.Thread):
-    pass
-
-
-def open_threads(num: int, args, kwargs) -> List[threading.Thread]:
-    ...
 
 
 def cli():
