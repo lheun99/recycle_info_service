@@ -6,7 +6,7 @@ from concurrent.futures import ThreadPoolExecutor
 from typing import Any, Callable, List, Iterable, Mapping
 
 
-def getopts() -> dict:
+def getargs() -> dict:
     '''커맨드라인용 인자를 분석합니다.'''
     parser = argparse.ArgumentParser(
         description=(
@@ -78,7 +78,7 @@ def getopts() -> dict:
 
 
 def cli():
-    pass
+    args = getargs()
 
 
 if __name__ == '__main__':
