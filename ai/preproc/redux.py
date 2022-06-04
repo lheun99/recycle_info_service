@@ -63,9 +63,13 @@ def cli():
     parser.add_argument(
         '--threads',
         '-nt',
-        help='작업 스레드의 수입니다. 기본값은 4입니다.',
+        help=(
+            '작업 스레드의 수입니다.'
+            ' 0(기본값)이면 자동으로 맞춥니다.'
+            ' 1이면 스레드를 열지 않습니다.'
+        ),
         type=int,
-        default=4,
+        default=0,
     )
 
 
