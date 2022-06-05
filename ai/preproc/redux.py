@@ -1,6 +1,7 @@
 #! /usr/bin/env python3
 
 import argparse
+from collections import deque
 from os import path
 import os
 
@@ -36,12 +37,13 @@ class SerialExecutor(object):
     def submit(self, fn: Callable, /, *args, **kwargs) -> Present:
         return Present(fn(*args, **kwargs))
 
-    def map(self, func: Callable, *iterables: Iterable) -> map:
-        '''``map`` 객체를 반환합니다.
+    def map(self, func: Callable, *iterables: Iterable) -> list:
+        '''모든 작업을 완료한 후 결과를 그대로 반환합니다.'''
+        return list(map(func, *iterables))
 
-        ``iterables``의 소모 방식이 기존 ``Executor.map`` 메서드와 다릅니다.
-        '''
-        return map(func, *iterables)
+    def shutdown(self, wait=True):
+        '''``shutdown`` 메서드는 의도적으로 아무 일도 하지 않습니다.'''
+        return
 
 
 def whtuple(whstr: str) -> tuple[int, int]:
