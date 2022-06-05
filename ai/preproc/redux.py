@@ -300,7 +300,21 @@ async def cli():
                             'dim': args.image_output_dimension
                         }
                     )
-        ...
+        resize_tasks = []
+        for task in tasks:
+            resize_tasks.append(
+                executor.submit(
+                    resize_image,
+                    path.join(args.image_src, task['image']),
+                    path.join(args.image_dst, task['image']),
+                    task['dim'],
+                )
+            )
+
+        if not isinstance(executor, SerialExecutor):
+            # Future 타입을 완전히 흉내낼 수는 없습니다.
+            # 다행히 SerialExecutor는 기다릴 필요가 없습니다.
+            futures.wait(resize_tasks)
 
 
 if __name__ == '__main__':
