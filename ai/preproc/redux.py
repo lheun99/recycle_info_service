@@ -1,9 +1,11 @@
 #! /usr/bin/env python3
 
 import argparse
-import json
 from os import path
 import os
+
+import json
+import pickle
 
 import asyncio
 from concurrent import futures
@@ -48,11 +50,15 @@ async def parse_json(
     top: str, pathname: str, dim: tuple[int, int], label_output_type: str
 ) -> dict[str, int | str]:
     '''json annotation 파일을 읽어 태스크를 생성합니다.'''
-    prefix = path.dirname(path.relpath(pathname, top))
-    label = json.load(pathname)
+    with open(pathname, 'r') as json_in:
+        label = json.load(json_in)
+
+    rel = path.relpath(pathname, top)
+    prefix = path.dirname(rel)
     res_old = tuple(map(int, label['RESOLUTION'].split('*')))
     task = {
         'image': path.join(prefix, label['FILE NAME']),
+        'label': rel,
         'dim': dim,
         'boxes': []
     }
@@ -98,6 +104,21 @@ async def parse_json(
             )
 
     return task
+
+
+async def write_label(
+    dst: str, label_output_type: str, **kwargs: Any
+) -> None:
+    ...
+
+
+def write_pickle(dst: str, tasks: Iterable[Mapping]) -> None:
+    '''파이썬 피클 포맷으로 수정되지 않은 라벨 데이터를 저장합니다.'''
+    try:
+        with open(dst, 'wb') as pickle_out:
+            pickle.dump(tasks, pickle_out)
+    except OSError as why:
+        print(f'MAIN: ERROR: "{dst}" 쓰기 실패')
 
 
 def _getargs() -> argparse.Namespace:
@@ -208,6 +229,12 @@ async def cli():
                         )
                     )
         tasks = await asyncio.gather(tasks)
+        if args.label_output_type == 'yolov5':
+            ...
+        elif args.label_output_type == 'yolov5':
+            ...
+        elif args.label_output_type == 'pickle':
+            write_pickle(args.label_dst, tasks)
 
 
 if __name__ == '__main__':
