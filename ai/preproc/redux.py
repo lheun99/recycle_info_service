@@ -116,6 +116,7 @@ async def parse_json(
 async def write_yolov5(dst: str, boxes: Iterable[Mapping]) -> None:
     '''YOLOv5 /ultralytics 포맷 라벨 하나를 작성합니다.'''
     try:
+        os.makedirs(path.dirname(dst))
         with open(dst, 'w', encoding='utf-8') as label_out:
             for box in boxes:
                 label_out.write(
@@ -128,6 +129,7 @@ async def write_yolov5(dst: str, boxes: Iterable[Mapping]) -> None:
 def write_yolov3(dst: str, data: Iterable[Mapping]) -> None:
     '''YOLOv3 /david8862 포맷으로 라벨 데이터를 저장합니다.'''
     try:
+        os.makedirs(path.dirname(dst))
         with open(dst, 'a', encoding='utf-8') as label_out:
             for task in data:
                 msgs = [task['image']]
@@ -144,6 +146,7 @@ def write_yolov3(dst: str, data: Iterable[Mapping]) -> None:
 def write_pickle(dst: str, data: Iterable[Mapping]) -> None:
     '''파이썬 피클 포맷으로 수정되지 않은 라벨 데이터를 저장합니다.'''
     try:
+        os.makedirs(path.dirname(dst))
         with open(dst, 'wb') as pickle_out:
             pickle.dump(data, pickle_out)
     except OSError as why:
