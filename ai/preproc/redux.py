@@ -11,6 +11,16 @@ from concurrent import futures
 from typing import Any, Callable, Iterable, Mapping
 
 
+class Present(object):
+    '''Future 타입을 흉내내는 더미입니다.'''
+
+    def __init__(self, data) -> None:
+        self._data = data
+
+    def result(self) -> Any:
+        return self._data
+
+
 def whtuple(whstr: str) -> tuple[int, int]:
     '''``WxH`` 형식 문자열을 튜플로 변환해 반환합니다.'''
     return tuple(map(int, whstr.split('x')))
