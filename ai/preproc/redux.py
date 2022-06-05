@@ -312,7 +312,7 @@ async def cli():
             resize_image,
             [path.join(args.image_src, task['image']) for task in tasks],
             [path.join(args.image_dst, task['image']) for task in tasks],
-            [task['dim'] for _ in range(len(tasks))],
+            [task['dim'] for task in tasks],
         )
         # resize_tasks = []
         # for task in tasks:
