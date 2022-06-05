@@ -106,10 +106,16 @@ async def parse_json(
     return task
 
 
-async def write_label(
-    dst: str, label_output_type: str, **kwargs: Any
-) -> None:
-    ...
+async def write_yolov5(dst: str, boxes: Iterable[Mapping]) -> None:
+    '''YOLOv5 /ultralytics 포맷 라벨 하나를 작성합니다.'''
+    try:
+        with open(dst, 'w', encoding='utf-8') as label_out:
+            for box in boxes:
+                label_out.write(
+                    '{class} {xmid} {ymid} {width} {height}\n'.format(**box)
+                )
+    except OSError as why:
+        print(f'MAIN: ERROR: "{dst}" 쓰기 실패 ({why})')
 
 
 def write_yolov3(dst: str, data: Iterable[Mapping]) -> None:
