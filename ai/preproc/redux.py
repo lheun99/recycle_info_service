@@ -30,9 +30,12 @@ class SerialExecutor(object):
     def submit(self, fn: Callable, /, *args, **kwargs) -> Present:
         return Present(fn(*args, **kwargs))
 
-    def map(self, func: Callable, *iterables: Iterable) -> Iterable:
-        for args in zip(*iterables):
-            yield func(*args)
+    def map(self, func: Callable, *iterables: Iterable) -> map:
+        '''``map`` 객체를 반환합니다.
+
+        ``iterables``의 소모 방식이 기존 ``Executor.map`` 메서드와 다릅니다.
+        '''
+        return map(func, *iterables)
 
 
 def whtuple(whstr: str) -> tuple[int, int]:
