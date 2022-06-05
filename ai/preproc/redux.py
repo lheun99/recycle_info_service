@@ -44,12 +44,17 @@ def whtuple(whstr: str) -> tuple[int, int]:
 
 
 def parse_json(
-    pathname: str, dim: tuple[int, int], label_output_type: str
+    top: str, pathname: str, dim: tuple[int, int], label_output_type: str
 ) -> dict[str, int | str]:
-    '''json annotation 파일을 읽어 워크로드를 생성합니다.'''
-    workload = {'image': '', 'dim': (), 'boxes': []}
+    '''json annotation 파일을 읽어 태스크를 생성합니다.'''
+    prefix = path.dirname(path.relpath(pathname, top))
     label = json.load(pathname)
     res_old = tuple(map(int, label['RESOLUTION'].split('*')))
+    task = {
+        'image': path.join(prefix, label['FILE NAME']),
+        'dim': dim,
+        'boxes': []
+    }
 
     for box_n in range(label['BoundingCount']):
         box_old = label['Bounding'][box_n]
@@ -58,17 +63,40 @@ def parse_json(
         class_id = box_old['CLASS']
 
         if label_output_type == 'yolov5':
-            ...
+            task['boxes'].append(
+                {
+                    'class': class_id,
+                    'xmid': (box_old['x1'] + box_old['x2']) / 2.0 / res_old[0],
+                    'ymid': (box_old['y1'] + box_old['y2']) / 2.0 / res_old[1],
+                    'width': (box_old['x2'] - box_old['x1']) / res_old[0],
+                    'height': (box_old['y2'] - box_old['y1']) / res_old[1],
+                }
+            )
         elif label_output_type == 'yolov3':
-            workload['boxes'][box_n] = {
-                'class': class_id,
-                'xmin': round(box_old['x1'] / res_old[0]),
-                'ymin': round(box_old['y1'] / res_old[1]),
-                'xmax': round(box_old['x2'] / res_old[0]),
-                'ymax': round(box_old['y2'] / res_old[1]),
-            }
+            task['boxes'].append(
+                {
+                    'class': class_id,
+                    'xmin': round(box_old['x1'] / res_old[0]),
+                    'ymin': round(box_old['y1'] / res_old[1]),
+                    'xmax': round(box_old['x2'] / res_old[0]),
+                    'ymax': round(box_old['y2'] / res_old[1]),
+                }
+            )
         elif label_output_type == 'pickle':
-            ...
+            task['boxes'].append(
+                {
+                    'class': class_id,
+                    'class_name': box_old['CLASS'],
+                    'class_detail': box_old['DETAILS'],
+                    'resolution': res_old,
+                    'xmin': box_old['x1'],
+                    'ymin': box_old['y1'],
+                    'xmax': box_old['x2'],
+                    'ymax': box_old['y2'],
+                }
+            )
+
+    return task
 
 
 def _getargs() -> argparse.Namespace:
