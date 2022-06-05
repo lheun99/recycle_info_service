@@ -37,7 +37,9 @@ class SerialExecutor(object):
     def submit(self, fn: Callable, /, *args, **kwargs) -> Present:
         return Present(fn(*args, **kwargs))
 
-    def map(self, func: Callable, *iterables: Iterable) -> list:
+    def map(
+        self, func: Callable, *iterables: Iterable, chunksize: int = 1
+    ) -> list:
         '''모든 작업을 완료한 후 결과를 그대로 반환합니다.'''
         return list(map(func, *iterables))
 
@@ -255,7 +257,7 @@ def _getargs() -> argparse.Namespace:
 
 async def cli():
     args = _getargs()
-    executor = args.Executor()
+    executor: SerialExecutor | futures.ThreadPoolExecutor | futures.ProcessPoolExecutor = args.Executor()
     if not isinstance(executor, SerialExecutor):
         print(f'MAIN: 작업자 수는 최대 {executor._max_workers}개입니다.')
 
@@ -302,21 +304,24 @@ async def cli():
                             'dim': args.image_output_dimension
                         }
                     )
-        resize_tasks = []
-        for task in tasks:
-            resize_tasks.append(
-                executor.submit(
-                    resize_image,
-                    path.join(args.image_src, task['image']),
-                    path.join(args.image_dst, task['image']),
-                    task['dim'],
-                )
-            )
 
-        if not isinstance(executor, SerialExecutor):
-            # Future 타입을 완전히 흉내낼 수는 없습니다.
-            # 다행히 SerialExecutor는 기다릴 필요가 없습니다.
-            futures.wait(resize_tasks)
+        pending = executor.map(
+            resize_image,
+            [path.join(args.image_src, task['image']) for task in tasks],
+            [path.join(args.image_dst, task['image']) for task in tasks],
+            [task['dim'] for _ in range(len(tasks))],
+        )
+        # resize_tasks = []
+        # for task in tasks:
+        #     resize_tasks.append(
+        #         executor.submit(
+        #             resize_image,
+        #             path.join(args.image_src, task['image']),
+        #             path.join(args.image_dst, task['image']),
+        #             task['dim'],
+        #         )
+        #     )
+        executor.shutdown()
 
 
 if __name__ == '__main__':
