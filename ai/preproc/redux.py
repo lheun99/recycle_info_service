@@ -144,16 +144,20 @@ def write_pickle(dst: str, data: Iterable[Mapping]) -> None:
             pickle.dump(data, pickle_out)
     except OSError as why:
         print(f'MAIN: ERROR: "{dst}" 쓰기 실패 ({why})')
-    except Exception as why:
-        print(f)
 
 
 def resize_image(src: str, dst: str, dim: tuple[int, int]) -> None:
     try:
+        if dim is None:
+            return
         image_in = Image.open(src)
         image_out = image_in.resize(dim)
+        image_in.close()
+        image_out.save(dst)
     except OSError as why:
-        print(f'MAIN: ERROR: "{dst}" 쓰기 실패 ({why})')
+        print(f'{".".join(_getident())}: ERROR: "{dst}" 쓰기 실패 ({why})')
+    except Exception as why:
+        print(f'{".".join(_getident())}: ERROR: "{dst}" 처리 불가 ({why})')
 
 
 def _getident() -> tuple[int, int]:
