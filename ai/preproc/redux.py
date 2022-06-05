@@ -25,7 +25,7 @@ class SerialExecutor(object):
     '''Executor 타입을 흉내내는 직렬 코드용 더미입니다.'''
 
     def __init__(self, max_workers: int | None = None) -> None:
-        pass
+        self._max_workers = 0
 
     def submit(self, fn: Callable, /, *args, **kwargs) -> Present:
         return Present(fn(*args, **kwargs))
@@ -43,9 +43,32 @@ def whtuple(whstr: str) -> tuple[int, int]:
     return tuple(map(int, whstr.split('x')))
 
 
-def parse_json(pathname: str, min_dim: int) -> dict[str, int | str]:
+def parse_json(
+    pathname: str, dim: tuple[int, int], label_output_type: str
+) -> dict[str, int | str]:
     '''json annotation 파일을 읽어 워크로드를 생성합니다.'''
+    workload = {'image': '', 'dim': (), 'boxes': []}
     label = json.load(pathname)
+    res_old = tuple(map(int, label['RESOLUTION'].split('*')))
+
+    for box_n in range(label['BoundingCount']):
+        box_old = label['Bounding'][box_n]
+
+        # .. todo:: 분류 방식을 바꿀 경우 여기를 고칩니다.
+        class_id = box_old['CLASS']
+
+        if label_output_type == 'yolov5':
+            ...
+        elif label_output_type == 'yolov3':
+            workload['boxes'][box_n] = {
+                'class': class_id,
+                'xmin': round(box_old['x1'] / res_old[0]),
+                'ymin': round(box_old['y1'] / res_old[0]),
+                'xmax': round(box_old['x2'] / res_old[0]),
+                'ymax': round(box_old['y2'] / res_old[0]),
+            }
+        elif label_output_type == 'pickle':
+            ...
 
 
 def _getargs() -> argparse.Namespace:
@@ -100,8 +123,8 @@ def _getargs() -> argparse.Namespace:
     parser.add_argument(
         '--label-output-type',
         '-lbf',
-        help='애노테이션 포맷입니다. yolov3, yolov5 중 하나입니다.',
-        choices=['yolov3', 'yolov5'],
+        help='애노테이션 출력 포맷입니다. pickle, yolov3, yolov5 중 하나입니다.',
+        choices=['pickle', 'yolov3', 'yolov5'],
     )
 
     parser.add_argument(
@@ -121,9 +144,10 @@ def _getargs() -> argparse.Namespace:
     # return args, args.__dict__.copy()
     for arg in ['image_src', 'image_dst', 'label_src', 'label_dst']:
         pathname = args.__dict__[arg]
-        args.__dict__[arg] = path.abspath(
-            path.normpath(path.normcase(pathname))
-        )
+        if pathname is not None:
+            args.__dict__[arg] = path.abspath(
+                path.normpath(path.normcase(pathname))
+            )
     if args.parallelize in ('mt', 'multithreading'):
         args.Executor = futures.ThreadPoolExecutor
     elif args.parallelize in ('mp', 'multiprocessing'):
@@ -136,16 +160,15 @@ def _getargs() -> argparse.Namespace:
 
 def cli():
     args = _getargs()
-    executor = futures.ThreadPoolExecutor(max_workers=args.threads)
-    print(
-        'MAIN: 스레드를 최대 '
-        f'{args.threads if args.threads is not None else executor._max_workers}'
-        '개 사용합니다.')
+    executor = args.Executor()
+    if not isinstance(executor, SerialExecutor):
+        print(f'MAIN: 작업자 수는 최대 {executor._max_workers}개입니다.')
 
-    for stem, branches, leaves in os.walk(args.label_src):
-        for leaf in leaves:
-            if path.splitext(leaf)[1].lower() == 'json':
-                pass
+    if args.label_src is not None and args.label_dst is not None:
+        for stem, branches, leaves in os.walk(args.label_src):
+            for leaf in leaves:
+                if path.splitext(leaf)[1].lower() == 'json':
+                    pass
 
 
 if __name__ == '__main__':
