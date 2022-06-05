@@ -7,9 +7,12 @@ import os
 import json
 import pickle
 
+from PIL import Image
+
 import asyncio
 from concurrent import futures
-# import threading
+import multiprocessing
+import threading
 
 from typing import Any, Callable, Iterable, Mapping
 
@@ -141,6 +144,24 @@ def write_pickle(dst: str, data: Iterable[Mapping]) -> None:
             pickle.dump(data, pickle_out)
     except OSError as why:
         print(f'MAIN: ERROR: "{dst}" 쓰기 실패 ({why})')
+    except Exception as why:
+        print(f)
+
+
+def resize_image(src: str, dst: str, dim: tuple[int, int]) -> None:
+    try:
+        image_in = Image.open(src)
+        image_out = image_in.resize(dim)
+    except OSError as why:
+        print(f'MAIN: ERROR: "{dst}" 쓰기 실패 ({why})')
+
+
+def _getident() -> tuple[int, int]:
+    '''``(process id, thread id)``를 구합니다.'''
+    return (
+        multiprocessing.current_process().ident,
+        threading.current_thread().ident
+    )
 
 
 def _getargs() -> argparse.Namespace:
@@ -233,10 +254,14 @@ async def cli():
         print(f'MAIN: 작업자 수는 최대 {executor._max_workers}개입니다.')
 
     do_label = args.label_src is not None and args.label_dst is not None
-    do_image = args.image_src is not None and args.image_dst is not None
+    do_image = (
+        args.image_src is not None
+        and args.image_dst is not None
+        and args.image_output_dimension is not None
+    )
 
+    tasks = []
     if do_label:
-        tasks = []
         for stem, branches, leaves in os.walk(args.label_src):
             for leaf in leaves:
                 if path.splitext(leaf)[1].lower() == 'json':
@@ -260,6 +285,18 @@ async def cli():
             write_yolov3(args.label_dst, tasks)
         elif args.label_output_type == 'pickle':
             write_pickle(args.label_dst, tasks)
+
+    if do_image:
+        if not do_label:
+            for stem, branches, leaves in os.walk(args.image_src):
+                for leaf in leaves:
+                    tasks.append(
+                        {
+                            'image': path.join(stem, leaf),
+                            'dim': args.image_output_dimension
+                        }
+                    )
+        ...
 
 
 if __name__ == '__main__':
