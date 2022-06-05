@@ -21,6 +21,20 @@ class Present(object):
         return self._data
 
 
+class SerialExecutor(object):
+    '''Executor 타입을 흉내내는 직렬 코드용 더미입니다.'''
+
+    def __init__(self, max_workers: int | None = None) -> None:
+        pass
+
+    def submit(self, fn: Callable, /, *args, **kwargs) -> Present:
+        return Present(fn(*args, **kwargs))
+
+    def map(self, func: Callable, *iterables: Iterable) -> Iterable:
+        for args in zip(*iterables):
+            yield func(*args)
+
+
 def whtuple(whstr: str) -> tuple[int, int]:
     '''``WxH`` 형식 문자열을 튜플로 변환해 반환합니다.'''
     return tuple(map(int, whstr.split('x')))
