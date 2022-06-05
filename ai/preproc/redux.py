@@ -5,7 +5,7 @@ import json
 from os import path
 import os
 
-import concurrent.futures as concurrent
+from concurrent import futures
 # import threading
 
 from typing import Any, List, Tuple, Callable, Iterable, Mapping
@@ -92,7 +92,7 @@ def _getargs() -> argparse.Namespace:
 
 def cli():
     args = _getargs()
-    executor = concurrent.ThreadPoolExecutor(max_workers=args.threads)
+    executor = futures.ThreadPoolExecutor(max_workers=args.threads)
     print(
         'MAIN: 스레드를 최대 '
         f'{args.threads if args.threads is not None else executor._max_workers}'
