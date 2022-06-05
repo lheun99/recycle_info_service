@@ -50,7 +50,7 @@ async def parse_json(
     top: str, pathname: str, dim: tuple[int, int], label_output_type: str
 ) -> dict[str, int | str]:
     '''json annotation 파일을 읽어 태스크를 생성합니다.'''
-    with open(pathname, 'r') as json_in:
+    with open(pathname, 'r', encoding='utf-8') as json_in:
         label = json.load(json_in)
 
     rel = path.relpath(pathname, top)
@@ -112,13 +112,29 @@ async def write_label(
     ...
 
 
-def write_pickle(dst: str, tasks: Iterable[Mapping]) -> None:
+def write_yolov3(dst: str, data: Iterable[Mapping]) -> None:
+    '''YOLOv3 /david8862 포맷으로 라벨 데이터를 저장합니다.'''
+    try:
+        with open(dst, 'a', encoding='utf-8') as label_out:
+            for task in data:
+                msgs = [task['image']]
+                for box in task['boxes']:
+                    msgs.append(
+                        '{xmin},{ymin},{xmax},{ymax},{class}'.format(**box)
+                    )
+                label_out.write(' '.join(msgs))
+                label_out.write('\n')
+    except OSError as why:
+        print(f'MAIN: ERROR: "{dst}" 쓰기 실패 ({why})')
+
+
+def write_pickle(dst: str, data: Iterable[Mapping]) -> None:
     '''파이썬 피클 포맷으로 수정되지 않은 라벨 데이터를 저장합니다.'''
     try:
         with open(dst, 'wb') as pickle_out:
-            pickle.dump(tasks, pickle_out)
+            pickle.dump(data, pickle_out)
     except OSError as why:
-        print(f'MAIN: ERROR: "{dst}" 쓰기 실패')
+        print(f'MAIN: ERROR: "{dst}" 쓰기 실패 ({why})')
 
 
 def _getargs() -> argparse.Namespace:
@@ -231,8 +247,8 @@ async def cli():
         tasks = await asyncio.gather(tasks)
         if args.label_output_type == 'yolov5':
             ...
-        elif args.label_output_type == 'yolov5':
-            ...
+        elif args.label_output_type == 'yolov3':
+            write_yolov3(args.label_dst, tasks)
         elif args.label_output_type == 'pickle':
             write_pickle(args.label_dst, tasks)
 
