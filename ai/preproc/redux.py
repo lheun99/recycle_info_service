@@ -5,6 +5,7 @@ import json
 from os import path
 import os
 
+import asyncio
 from concurrent import futures
 # import threading
 
@@ -43,7 +44,7 @@ def whtuple(whstr: str) -> tuple[int, int]:
     return tuple(map(int, whstr.split('x')))
 
 
-def parse_json(
+async def parse_json(
     top: str, pathname: str, dim: tuple[int, int], label_output_type: str
 ) -> dict[str, int | str]:
     '''json annotation 파일을 읽어 태스크를 생성합니다.'''
@@ -122,12 +123,8 @@ def _getargs() -> argparse.Namespace:
     parser.add_argument(
         '--image-output-dimension',
         '-dim',
-        help=(
-            '이미지 크기를 조정할 목표 값을 WxH 형식으로 지정합니다.'
-            '기본값은 640x640입니다.'
-        ),
+        help='이미지 크기를 조정할 목표 값을 WxH 형식으로 지정합니다.',
         type=whtuple,
-        default=(640, 640),
     )
 
     parser.add_argument(
@@ -186,18 +183,32 @@ def _getargs() -> argparse.Namespace:
     return args
 
 
-def cli():
+async def cli():
     args = _getargs()
     executor = args.Executor()
     if not isinstance(executor, SerialExecutor):
         print(f'MAIN: 작업자 수는 최대 {executor._max_workers}개입니다.')
 
-    if args.label_src is not None and args.label_dst is not None:
+    do_label = args.label_src is not None and args.label_dst is not None
+    do_image = args.image_src is not None and args.image_dst is not None
+
+    if do_label:
+        tasks = []
         for stem, branches, leaves in os.walk(args.label_src):
             for leaf in leaves:
                 if path.splitext(leaf)[1].lower() == 'json':
-                    pass
+                    tasks.append(
+                        asyncio.create_task(
+                            parse_json(
+                                args.label_src,
+                                path.join(stem, leaf),
+                                args.image_output_dimension,
+                                args.label_output_type
+                            )
+                        )
+                    )
+        tasks = await asyncio.gather(tasks)
 
 
 if __name__ == '__main__':
-    cli()
+    asyncio.run(cli())
