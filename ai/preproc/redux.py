@@ -241,18 +241,21 @@ async def cli():
             for leaf in leaves:
                 if path.splitext(leaf)[1].lower() == 'json':
                     tasks.append(
-                        asyncio.create_task(
-                            parse_json(
-                                args.label_src,
-                                path.join(stem, leaf),
-                                args.image_output_dimension,
-                                args.label_output_type
-                            )
+                        parse_json(
+                            args.label_src,
+                            path.join(stem, leaf),
+                            args.image_output_dimension,
+                            args.label_output_type
                         )
                     )
         tasks = await asyncio.gather(tasks)
+
         if args.label_output_type == 'yolov5':
-            ...
+            write_tasks = []
+            for task in tasks:
+                dst = path.join(args.label_dst, task['label'])
+                write_tasks.append(write_yolov5(dst, task['boxes']))
+            await asyncio.gather(write_tasks)
         elif args.label_output_type == 'yolov3':
             write_yolov3(args.label_dst, tasks)
         elif args.label_output_type == 'pickle':
