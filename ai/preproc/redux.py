@@ -105,15 +105,15 @@ def _getargs() -> argparse.Namespace:
     )
 
     parser.add_argument(
-        '--parellelize',
+        '--parallelize',
         '-p',
         help=(
             '병렬화 방식입니다.'
-            "'multithreading', 'mt', 'multiprocessing', 'mp' 중의 하나입니다."
-            '스레드/프로세스의 수는 자동으로 결정합니다.'
-            '지정하지 않으면 병렬화를 시도하지 않습니다.'
+            " 'mt', 'mp' 중의 하나입니다."
+            ' 스레드/프로세스의 수는 자동으로 결정합니다.'
+            ' 지정하지 않으면 병렬화를 시도하지 않습니다.'
         ),
-        choices=['multithreading', 'mt', 'multiprocessing', 'mp'],
+        choices=['mt', 'mp'],
         default=None,
     )
 
@@ -124,6 +124,12 @@ def _getargs() -> argparse.Namespace:
         args.__dict__[arg] = path.abspath(
             path.normpath(path.normcase(pathname))
         )
+    if args.parallelize in ('mt', 'multithreading'):
+        args.Executor = futures.ThreadPoolExecutor
+    elif args.parallelize in ('mp', 'multiprocessing'):
+        args.Executor = futures.ProcessPoolExecutor
+    else:
+        args.Executor = SerialExecutor
 
     return args
 
