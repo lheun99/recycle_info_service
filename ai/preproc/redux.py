@@ -48,7 +48,7 @@ class SerialExecutor(object):
         return
 
 
-def whtuple(whstr: str) -> tuple[int, int]:
+def whpair(whstr: str) -> tuple[int, int]:
     '''``WxH`` 형식 문자열을 튜플로 변환해 반환합니다.'''
     return tuple(map(int, whstr.split('x')))
 
@@ -199,7 +199,7 @@ def _getargs() -> argparse.Namespace:
         '--image-output-dimension',
         '-dim',
         help='이미지 크기를 조정할 목표 값을 WxH 형식으로 지정합니다.',
-        type=whtuple,
+        type=whpair,
     )
 
     parser.add_argument(
