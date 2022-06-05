@@ -63,9 +63,9 @@ def parse_json(
             workload['boxes'][box_n] = {
                 'class': class_id,
                 'xmin': round(box_old['x1'] / res_old[0]),
-                'ymin': round(box_old['y1'] / res_old[0]),
+                'ymin': round(box_old['y1'] / res_old[1]),
                 'xmax': round(box_old['x2'] / res_old[0]),
-                'ymax': round(box_old['y2'] / res_old[0]),
+                'ymax': round(box_old['y2'] / res_old[1]),
             }
         elif label_output_type == 'pickle':
             ...
