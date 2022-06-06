@@ -187,14 +187,15 @@ def resize_image(src: str, dst: str, dim: tuple[int, int]) -> None:
     try:
         if dim is None:
             return
+        os.makedirs(path.dirname(dst), exist_ok=True)
         image_in = Image.open(src)
         image_out = image_in.resize(dim)
         image_in.close()
         image_out.save(dst)
     except OSError as why:
-        print(f'{".".join(_getident())}: ERROR: "{dst}" 쓰기 실패 ({why})')
+        print(f'{identstr()}: ERROR: "{dst}" 쓰기 실패 ({why})')
     except Exception as why:
-        print(f'{".".join(_getident())}: ERROR: "{dst}" 처리 불가 ({why})')
+        print(f'{identstr()}: ERROR: "{dst}" 처리 불가 ({why})')
 
 
 def _getident() -> tuple[int, int]:
@@ -203,6 +204,10 @@ def _getident() -> tuple[int, int]:
         multiprocessing.current_process().ident,
         threading.current_thread().ident
     )
+
+
+def identstr() -> str:
+    return '.'.join(map(str, _getident()))
 
 
 def _getargs() -> argparse.Namespace:
@@ -338,7 +343,9 @@ async def cli():
                 for leaf in leaves:
                     tasks.append(
                         {
-                            'image': path.join(stem, leaf),
+                            'image': path.relpath(
+                                path.join(stem, leaf), args.image_src
+                            ),
                             'dim': args.image_output_dimension
                         }
                     )
