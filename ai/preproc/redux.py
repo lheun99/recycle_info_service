@@ -382,7 +382,7 @@ async def cli():
         print(f'MAIN: stats')
         print(f'    labels processed: {done_labels}')
         print(f'    images resized: {done_images}')
-        print(f'    time taken: {end_time - start_time:0.2} seconds')
+        print(f'    time taken: {end_time - start_time:0.2f} seconds')
 
 
 if __name__ == '__main__':
