@@ -1,8 +1,8 @@
 // import { logger } from "../utils/winstonLogger.js";
 const logger = console;
 
-import { AppError, RequestError } from "../utils/errors.js";
-import * as status from "../utils/status.js";
+const { AppError, RequestError } = require("../utils/errors.js");
+const status = require("../utils/status.js");
 
 function errorMiddleware(error, req, res, next) {
   if (error instanceof AppError) {
@@ -37,4 +37,4 @@ function errorMiddleware(error, req, res, next) {
   }
 }
 
-export { errorMiddleware };
+module.exports = { errorMiddleware };

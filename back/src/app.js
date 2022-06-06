@@ -1,46 +1,27 @@
-import path from "path"; // 파일 경로 모듈
-
-import dotenv from "dotenv";
-const __dirname = path.resolve();
-dotenv.config({ path: path.join(__dirname, "../.env") });
-
-import cors from "cors";
-import express from "express";
-// import morgan from "morgan";
-// import redis from "redis";
-// import sriracha from "sriracha";
-// import { logger } from "./utils/winstonLogger.js";
-
-import { errorMiddleware } from "./middlewares/errorMiddleware.js";
-import "../src/loaders/index.js";
+const cors = require("cors");
+const express = require("express");
+const db = require("./models/index.js");
+const errorMiddleware = require("./middlewares/errorMiddleware.js");
+const postRouter = require("./routes/postRouter");
 
 const app = express();
 
+db.sequelize
+  .sync()
+  .then(() => {
+    console.log("데이터베이스가 성공적으로 연결되었습니다.");
+  })
+  .catch((err) => {
+    console.log(err);
+  });
 app.use(cors());
 app.use(express.json());
-// app.use("/uploads", express.static("./uploads"));
 app.use(express.urlencoded({ extended: false }));
-// app.use("/admin", sriracha());
 
-// if (process.env.NODE_ENV === "production") {
-//   app.use(
-//     morgan(":method :status :url :response-time ms", {
-//       stream: logger.stream,
-//       skip: function (req, res) {
-//         return res.statusCode <= 400;
-//       },
-//     })
-//   );
-// } else {
-//   app.use(
-//     morgan(":method :status :url :response-time ms", {
-//       stream: logger.stream,
-//     })
-//   );
-// }
+app.get("/", (req, res) => {
+  res.send("Hello, world!!!");
+});
+app.use(postRouter);
+// app.use(errorMiddleware);
 
-/* Common routes */
-
-app.use(errorMiddleware);
-
-export { app };
+module.exports = app;
