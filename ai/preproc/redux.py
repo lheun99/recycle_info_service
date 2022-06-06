@@ -1,7 +1,8 @@
 #! /usr/bin/env python3
 
 import argparse
-from collections import deque
+# from collections import deque
+# from operator import itemgetter
 from os import path
 import os
 
@@ -15,7 +16,11 @@ from concurrent import futures
 import multiprocessing
 import threading
 
-from typing import Any, Callable, Iterable, Mapping
+from typing import Any, Callable, Iterable, Mapping, NewType
+
+
+# typedef
+Rect = NewType('Rect', tuple[tuple[int, int], tuple[int, int]])
 
 
 class Present(object):
@@ -53,12 +58,26 @@ def whpair(whstr: str) -> tuple[int, int]:
     return tuple(map(int, whstr.split('x')))
 
 
+def polygon_to_box(verts: Iterable[Mapping[str, str]]) -> Rect:
+    '''``POLYGON`` 타입 드로잉을 ``BOX`` 형식으로 변환해 반환합니다.'''
+    as_nums = [tuple(map(int, vert.values[0].split(','))) for vert in verts]
+    x1 = min(x for x, y in as_nums)
+    y1 = min(y for x, y in as_nums)
+    x2 = max(x for x, y in as_nums)
+    y2 = max(y for x, y in as_nums)
+    return ((x1, y1), (x2, y2))
+
+
 async def parse_json(
     top: str, pathname: str, dim: tuple[int, int], label_output_type: str
 ) -> dict[str, int | str]:
     '''json annotation 파일을 읽어 태스크를 생성합니다.'''
     with open(pathname, 'r', encoding='utf-8') as json_in:
         label = json.load(json_in)
+        # 정말 웃기는 일이지만 숫자여야 하는 값도 문자열로 되어 있습니다.
+        # json 디코더를 조작하는 것보다는 몇 개 안되니까 그냥 수동으로 바꿉니다.
+        # 라벨 쓴놈 3대가 대머리
+        label['BoundingCount'] = int(label['BoundingCount'])
 
     rel = path.relpath(pathname, top)
     prefix = path.dirname(rel)
@@ -72,6 +91,14 @@ async def parse_json(
 
     for box_n in range(label['BoundingCount']):
         box_old = label['Bounding'][box_n]
+        if 'x1' not in box_old:
+            print(pathname)
+        # print(pathname)
+        # print(box_old['x1'])
+        box_old['x1'] = int(box_old['x1'])
+        box_old['y1'] = int(box_old['y1'])
+        box_old['x2'] = int(box_old['x2'])
+        box_old['y2'] = int(box_old['y2'])
 
         # .. todo:: 분류 방식을 바꿀 경우 여기를 고칩니다.
         class_id = box_old['CLASS']
@@ -246,8 +273,9 @@ def _getargs() -> argparse.Namespace:
         pathname = args.__dict__[arg]
         if pathname is not None:
             args.__dict__[arg] = path.abspath(
-                path.normpath(path.normcase(pathname))
+                path.normpath(pathname)
             )
+            print(path.exists(pathname))
     if args.parallelize in ('mt', 'multithreading'):
         args.Executor = futures.ThreadPoolExecutor
     elif args.parallelize in ('mp', 'multiprocessing'):
@@ -260,6 +288,7 @@ def _getargs() -> argparse.Namespace:
 
 async def cli():
     args = _getargs()
+    print(args)
     executor = args.Executor()
     if not isinstance(executor, SerialExecutor):
         print(f'MAIN: 작업자 수는 최대 {executor._max_workers}개입니다.')
@@ -275,7 +304,7 @@ async def cli():
     if do_label:
         for stem, branches, leaves in os.walk(args.label_src):
             for leaf in leaves:
-                if path.splitext(leaf)[1].lower() == 'json':
+                if path.splitext(leaf)[1].lower() == '.json':
                     tasks.append(
                         parse_json(
                             args.label_src,
@@ -284,7 +313,8 @@ async def cli():
                             args.label_output_type
                         )
                     )
-        tasks = await asyncio.gather(tasks)
+        print(2)
+        tasks = await asyncio.gather(*tasks)
 
         if args.label_output_type == 'yolov5':
             write_tasks = []
@@ -295,6 +325,7 @@ async def cli():
         elif args.label_output_type == 'yolov3':
             write_yolov3(args.label_dst, tasks)
         elif args.label_output_type == 'pickle':
+            print(3)
             write_pickle(args.label_dst, tasks)
 
     if do_image:
