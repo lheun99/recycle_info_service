@@ -300,7 +300,7 @@ async def cli():
     done_images = 0
     args = _getargs()
     # debug
-    print(args)
+    # print(args)
     executor = args.Executor()
     if not isinstance(executor, SerialExecutor):
         print(f'MAIN: 작업자 수는 최대 {executor._max_workers}개입니다.')
