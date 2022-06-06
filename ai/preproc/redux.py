@@ -361,7 +361,7 @@ async def cli():
             [path.join(args.image_src, task['image']) for task in tasks],
             [path.join(args.image_dst, task['image']) for task in tasks],
             [task['dim'] for task in tasks],
-            chunksize=round(len(tasks) / executor._max_workers),
+            chunksize=min(1, round(len(tasks) / executor._max_workers)),
         )
         # resize_tasks = []
         # for task in tasks:
