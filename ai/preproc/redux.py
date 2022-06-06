@@ -323,7 +323,7 @@ async def cli():
             for task in tasks:
                 dst = path.join(args.label_dst, task['label'])
                 write_tasks.append(write_yolov5(dst, task['boxes']))
-            await asyncio.gather(write_tasks)
+            await asyncio.gather(*write_tasks)
         elif args.label_output_type == 'yolov3':
             write_yolov3(args.label_dst, tasks)
         elif args.label_output_type == 'pickle':
