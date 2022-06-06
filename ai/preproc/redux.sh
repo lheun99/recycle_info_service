@@ -34,8 +34,22 @@ TESTDIR=/d/movomo/Downloads/test
 #     --label-dst=$TESTDIR/yolov5 \
 #     --label-output-type=yolov5
 
-# Test resize image serial
+# Test resize image serial -> 35.85
 # python ./redux.py \
 #     --image-src=$TESTDIR/images \
 #     --image-dst=$TESTDIR/image-out \
 #     --image-output-dimension=640x640
+
+# Test resize image mt -> 10.12
+# python ./redux.py \
+#     --image-src=$TESTDIR/images \
+#     --image-dst=$TESTDIR/image-out \
+#     --image-output-dimension=640x640 \
+#     --parallelize=mt
+
+# Test resize image mp -> 11.39
+# python ./redux.py \
+#     --image-src=$TESTDIR/images \
+#     --image-dst=$TESTDIR/image-out \
+#     --image-output-dimension=640x640 \
+#     --parallelize=mp
