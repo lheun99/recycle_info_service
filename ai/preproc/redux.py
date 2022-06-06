@@ -20,7 +20,7 @@ from typing import Any, Callable, Iterable, Mapping, NewType
 
 
 # typedef
-Rect = NewType('Rect', tuple[tuple[int, int], tuple[int, int]])
+# Rect = NewType('Rect', Mapping[str, int])
 
 
 class Present(object):
@@ -58,14 +58,16 @@ def whpair(whstr: str) -> tuple[int, int]:
     return tuple(map(int, whstr.split('x')))
 
 
-def polygon_to_box(verts: Iterable[Mapping[str, str]]) -> Rect:
+def polygon_to_box(verts: Iterable[Mapping[str, str]]) -> Mapping[str, int]:
     '''``POLYGON`` 타입 드로잉을 ``BOX`` 형식으로 변환해 반환합니다.'''
     as_nums = [tuple(map(int, vert.values[0].split(','))) for vert in verts]
-    x1 = min(x for x, y in as_nums)
-    y1 = min(y for x, y in as_nums)
-    x2 = max(x for x, y in as_nums)
-    y2 = max(y for x, y in as_nums)
-    return ((x1, y1), (x2, y2))
+    box = {
+        'x1': min(x for x, y in as_nums),
+        'y1': min(y for x, y in as_nums),
+        'x2': max(x for x, y in as_nums),
+        'y2': max(y for x, y in as_nums),
+    }
+    return box
 
 
 async def parse_json(
@@ -95,6 +97,8 @@ async def parse_json(
             print(pathname)
         # print(pathname)
         # print(box_old['x1'])
+        if box_old['Drawing'] == 'POLYGON':
+            box_old.update()
         box_old['x1'] = int(box_old['x1'])
         box_old['y1'] = int(box_old['y1'])
         box_old['x2'] = int(box_old['x2'])
