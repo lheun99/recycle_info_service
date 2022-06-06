@@ -21,7 +21,8 @@ TESTDIR=/d/movomo/Downloads/test
 #     --label-output-type=pickle
 
 # Test process labels to yolov3
-$python3 ./redux.py \
-    --label-src=$TESTDIR/labels \
-    --label-dst=$TESTDIR/yolov3/test.text \
-    --label-output-type=yolov3
+# $python3 ./redux.py \
+#     --image-output-dimension=640x640 \
+#     --label-src=$TESTDIR/labels \
+#     --label-dst=$TESTDIR/yolov3/test.text \
+#     --label-output-type=yolov3
