@@ -33,3 +33,9 @@ TESTDIR=/d/movomo/Downloads/test
 #     --label-src=$TESTDIR/labels \
 #     --label-dst=$TESTDIR/yolov5 \
 #     --label-output-type=yolov5
+
+# Test resize image serial
+python ./redux.py \
+    --image-src=$TESTDIR/images \
+    --image-dst=$TESTDIR/image-outputs \
+    --image-output-dimension=640x640
