@@ -2,8 +2,11 @@
 .venv
 node_modules
 
-## security
+# config
+.vscode
+
+# security
 .env
 
-## excel lock file
+# excel lock file
 ~$*
