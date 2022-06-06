@@ -60,7 +60,9 @@ def whpair(whstr: str) -> tuple[int, int]:
 
 def polygon_to_box(verts: Iterable[Mapping[str, str]]) -> Mapping[str, int]:
     '''``POLYGON`` 타입 드로잉을 ``BOX`` 형식으로 변환해 반환합니다.'''
-    as_nums = [tuple(map(int, vert.values[0].split(','))) for vert in verts]
+    as_nums = [
+        tuple(map(int, list(vert.values())[0].split(','))) for vert in verts
+    ]
     box = {
         'x1': min(x for x, y in as_nums),
         'y1': min(y for x, y in as_nums),
@@ -93,16 +95,13 @@ async def parse_json(
 
     for box_n in range(label['BoundingCount']):
         box_old = label['Bounding'][box_n]
-        if 'x1' not in box_old:
-            print(pathname)
-        # print(pathname)
-        # print(box_old['x1'])
         if box_old['Drawing'] == 'POLYGON':
-            box_old.update()
-        box_old['x1'] = int(box_old['x1'])
-        box_old['y1'] = int(box_old['y1'])
-        box_old['x2'] = int(box_old['x2'])
-        box_old['y2'] = int(box_old['y2'])
+            box_old.update(polygon_to_box(box_old['PolygonPoint']))
+        else:
+            box_old['x1'] = int(box_old['x1'])
+            box_old['y1'] = int(box_old['y1'])
+            box_old['x2'] = int(box_old['x2'])
+            box_old['y2'] = int(box_old['y2'])
 
         # .. todo:: 분류 방식을 바꿀 경우 여기를 고칩니다.
         class_id = box_old['CLASS']
@@ -292,6 +291,7 @@ def _getargs() -> argparse.Namespace:
 
 async def cli():
     args = _getargs()
+    # debug
     print(args)
     executor = args.Executor()
     if not isinstance(executor, SerialExecutor):
@@ -317,7 +317,6 @@ async def cli():
                             args.label_output_type
                         )
                     )
-        print(2)
         tasks = await asyncio.gather(*tasks)
 
         if args.label_output_type == 'yolov5':
@@ -329,7 +328,6 @@ async def cli():
         elif args.label_output_type == 'yolov3':
             write_yolov3(args.label_dst, tasks)
         elif args.label_output_type == 'pickle':
-            print(3)
             write_pickle(args.label_dst, tasks)
 
     if do_image:
