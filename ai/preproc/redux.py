@@ -38,7 +38,7 @@ class SerialExecutor(object):
     '''Executor 타입을 흉내내는 직렬 코드용 더미입니다.'''
 
     def __init__(self, max_workers: int | None = None) -> None:
-        self._max_workers = 0
+        self._max_workers = 1
 
     def submit(self, fn: Callable, /, *args, **kwargs) -> Present:
         return Present(fn(*args, **kwargs))
