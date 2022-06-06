@@ -90,7 +90,7 @@ async def parse_json(
     task = {
         'image': path.join(prefix, label['FILE NAME']),
         'label': rel,
-        'dim': dim,
+        'dim': dim if dim is not None else res_old,
         'boxes': []
     }
 
