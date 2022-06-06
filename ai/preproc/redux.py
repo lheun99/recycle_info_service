@@ -5,6 +5,7 @@ import argparse
 # from operator import itemgetter
 from os import path
 import os
+import time
 
 import json
 import pickle
@@ -294,6 +295,9 @@ def _getargs() -> argparse.Namespace:
 
 
 async def cli():
+    start_time = time.perf_counter()
+    done_labels = 0
+    done_images = 0
     args = _getargs()
     # debug
     print(args)
@@ -322,6 +326,7 @@ async def cli():
                         )
                     )
         tasks = await asyncio.gather(*tasks)
+        done_labels += len(tasks)
 
         if args.label_output_type == 'yolov5':
             write_tasks = []
@@ -350,11 +355,13 @@ async def cli():
                         }
                     )
 
+        done_images += len(tasks)
         pending = executor.map(
             resize_image,
             [path.join(args.image_src, task['image']) for task in tasks],
             [path.join(args.image_dst, task['image']) for task in tasks],
             [task['dim'] for task in tasks],
+            chunksize=round(len(tasks) / executor._max_workers),
         )
         # resize_tasks = []
         # for task in tasks:
@@ -366,7 +373,16 @@ async def cli():
         #             task['dim'],
         #         )
         #     )
+        for done in pending:
+            pass
+
         executor.shutdown()
+
+        end_time = time.perf_counter()
+        print(f'MAIN: stats')
+        print(f'    labels processed: {done_labels}')
+        print(f'    images resized: {done_images}')
+        print(f'    time taken: {start_time - end_time:0.2} seconds')
 
 
 if __name__ == '__main__':
