@@ -120,10 +120,10 @@ async def parse_json(
             task['boxes'].append(
                 {
                     'class': class_id,
-                    'xmin': round(box_old['x1'] / res_old[0]),
-                    'ymin': round(box_old['y1'] / res_old[1]),
-                    'xmax': round(box_old['x2'] / res_old[0]),
-                    'ymax': round(box_old['y2'] / res_old[1]),
+                    'xmin': round(dim[0] * box_old['x1'] / res_old[0]),
+                    'ymin': round(dim[1] * box_old['y1'] / res_old[1]),
+                    'xmax': round(dim[0] * box_old['x2'] / res_old[0]),
+                    'ymax': round(dim[1] * box_old['y2'] / res_old[1]),
                 }
             )
         elif label_output_type == 'pickle':
@@ -278,7 +278,6 @@ def _getargs() -> argparse.Namespace:
             args.__dict__[arg] = path.abspath(
                 path.normpath(pathname)
             )
-            print(path.exists(pathname))
     if args.parallelize in ('mt', 'multithreading'):
         args.Executor = futures.ThreadPoolExecutor
     elif args.parallelize in ('mp', 'multiprocessing'):
