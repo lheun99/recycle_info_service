@@ -1,0 +1,53 @@
+.intro_wrapper {
+    width: 100%;
+}
+
+.intro_head, 
+.intro_recycling, 
+.intro_chart {
+    height: 600px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.intro_head {
+    background-color: var(--green);
+    
+}
+
+.intro_data {
+    width: 330px;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.intro_title {
+    font-size: var(--font-title);
+}
+
+.intro_subtitle {
+    font-size: var(--font-subtitle);
+}
+
+
+.intro_recycling {
+    background-color: var(--gray);
+}
+
+.intro_chart {
+}
+
+.intro_card {
+
+}
+
+.intro_subtitle {
+
+}
+
+.intro_waste_market {
+
+}
