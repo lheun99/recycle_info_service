@@ -1,0 +1,10 @@
+.dragImage {
+    width: 400px;
+    height: 400px;
+    border: 2px dashed #a7c4bc;
+}
+.inputImage {
+    cursor: pointer;
+    border: 1px solid #000000;
+    padding: 2px 2px;
+}
