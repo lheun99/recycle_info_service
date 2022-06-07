@@ -6,7 +6,6 @@ import argparse
 from os import path
 import os
 import time
-from tqdm import tqdm
 
 import json
 import pickle
@@ -19,6 +18,7 @@ import threading
 from typing import Any, Callable, Iterable, Mapping, NewType
 
 from PIL import Image
+from tqdm import tqdm
 
 
 # typedef
