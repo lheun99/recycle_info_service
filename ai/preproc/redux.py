@@ -188,6 +188,9 @@ def resize_image(src: str, dst: str, dim: tuple[int, int]) -> None:
     try:
         if dim is None:
             return
+        if path.exists(dst):
+            print(f'{identstr()}: FAIL: "{dst}" 이미 존재하는 파일입니다')
+            return
         os.makedirs(path.dirname(dst), exist_ok=True)
         image_in = Image.open(src)
         image_out = image_in.resize(dim)
@@ -373,10 +376,11 @@ async def cli():
         #             task['dim'],
         #         )
         #     )
+        executor.shutdown()
         for done in pending:
             pass
 
-        executor.shutdown()
+        # executor.shutdown()
 
         end_time = time.perf_counter()
         print(f'MAIN: stats')
