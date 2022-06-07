@@ -190,7 +190,7 @@ def resize_image(src: str, dst: str, dim: tuple[int, int]) -> None:
         if dim is None:
             return
         if path.exists(dst):
-            print(f'{identstr()}: FAIL: "{dst}" 이미 존재하는 파일입니다')
+            print(f'{_identstr()}: FAIL: "{dst}" 이미 존재하는 파일입니다')
             return
         os.makedirs(path.dirname(dst), exist_ok=True)
         image_in = Image.open(src)
@@ -198,9 +198,9 @@ def resize_image(src: str, dst: str, dim: tuple[int, int]) -> None:
         image_in.close()
         image_out.save(dst)
     except OSError as why:
-        print(f'{identstr()}: ERROR: "{dst}" 쓰기 실패 ({why})')
+        print(f'{_identstr()}: ERROR: "{dst}" 쓰기 실패 ({why})')
     except Exception as why:
-        print(f'{identstr()}: ERROR: "{dst}" 처리 불가 ({why})')
+        print(f'{_identstr()}: ERROR: "{dst}" 처리 불가 ({why})')
 
 
 def _getident() -> tuple[int, int]:
@@ -211,7 +211,7 @@ def _getident() -> tuple[int, int]:
     )
 
 
-def identstr() -> str:
+def _identstr() -> str:
     return '.'.join(map(str, _getident()))
 
 
