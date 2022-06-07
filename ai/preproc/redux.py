@@ -11,14 +11,14 @@ from tqdm import tqdm
 import json
 import pickle
 
-from PIL import Image
-
 import asyncio
 from concurrent import futures
 import multiprocessing
 import threading
 
 from typing import Any, Callable, Iterable, Mapping, NewType
+
+from PIL import Image
 
 
 # typedef
