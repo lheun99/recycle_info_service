@@ -6,6 +6,7 @@ import argparse
 from os import path
 import os
 import time
+from tqdm import tqdm
 
 import json
 import pickle
@@ -317,6 +318,8 @@ async def cli():
 
     tasks = []
     if do_label:
+        print(f'MAIN: 애노테이션을 처리합니다.')
+
         for stem, branches, leaves in os.walk(args.label_src):
             for leaf in leaves:
                 if path.splitext(leaf)[1].lower() == '.json':
@@ -328,7 +331,14 @@ async def cli():
                             args.label_output_type
                         )
                     )
-        tasks = await asyncio.gather(*tasks)
+        tasks_ = tasks
+        tasks = []
+        with tqdm(total=len(tasks_), desc='Read json labels') as pbar:
+            for coro in asyncio.as_completed(tasks_):
+                tasks.append(await coro)
+                pbar.update(1)
+
+        # tasks = await asyncio.gather(*tasks)
         done_labels += len(tasks)
 
         if args.label_output_type == 'yolov5':
@@ -339,13 +349,20 @@ async def cli():
                     path.splitext(task['label'])[0] + '.txt',
                 )
                 write_tasks.append(write_yolov5(dst, task['boxes']))
-            await asyncio.gather(*write_tasks)
+            # await asyncio.gather(*write_tasks)
+            with tqdm(
+                total=len(write_tasks), desc='Write yolov5 labels'
+            ) as pbar:
+                for coro in write_tasks:
+                    await coro
+                    pbar.update(1)
         elif args.label_output_type == 'yolov3':
             write_yolov3(args.label_dst, tasks)
         elif args.label_output_type == 'pickle':
             write_pickle(args.label_dst, tasks)
 
     if do_image:
+        print(f'MAIN: 이미지를 처리합니다.')
         if not do_label:
             for stem, branches, leaves in os.walk(args.image_src):
                 for leaf in leaves:
@@ -377,8 +394,9 @@ async def cli():
         #         )
         #     )
         executor.shutdown()
-        for done in pending:
-            pass
+        with tqdm(total=len(pending), desc='Resize images') as pbar:
+            for done in pending:
+                pbar.update(1)
 
         # executor.shutdown()
 
