@@ -394,7 +394,7 @@ async def cli():
         #         )
         #     )
         # executor.shutdown()
-        with tqdm(total=len(pending), desc='Resize images') as pbar:
+        with tqdm(total=len(tasks), desc='Resize images') as pbar:
             for done in pending:
                 pbar.update(1)
 
