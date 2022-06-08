@@ -72,6 +72,24 @@ const userService = {
         const count = await User.update({ id, toUpdate });
         return { message: "success", count };
     },
+
+    updatePassword: async ({ id, updateData }) => {
+        let user = await User.findById({ id });
+
+        if (!user) {
+            throw new Error(
+                "이미 탈퇴했거나 존재하지 않는 사용자입니다. 다시 한 번 확인해 주세요."
+            );
+        }
+
+        const hashedPassword = await bcrypt.hash(updateData.password, 10);
+        updateData.password = hashedPassword;
+
+        const toUpdate = setUtil.compareValues(updateData, user);
+
+        user = await User.update({ id, toUpdate });
+        return { message: "success", data: user };
+    },
 };
 
 module.exports = userService;
