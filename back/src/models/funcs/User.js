@@ -20,6 +20,15 @@ const User = {
         return user;
     },
 
+    findRankers: async () => {
+        const rankers = await userModel.findAll({
+            attributes: ["nickname", "totalPoint"],
+            order: [["totalPoint", "DESC"]],
+            limit: 3,
+        });
+        return rankers;
+    },
+
     update: async ({ id, toUpdate }) => {
         const count = await userModel.update(toUpdate, { where: { id } });
         return count;
