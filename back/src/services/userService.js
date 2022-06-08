@@ -18,7 +18,26 @@ const userService = {
         const newUser = { nickname, email, password: hashedPassword };
 
         const createdNewUser = await User.create({ newUser });
-        return { message: "success", data: createdNewUser };
+        const {
+            id,
+            nickname,
+            email,
+            pickture,
+            totalPoint,
+            createdAt,
+            updatedAt,
+        } = createdNewUser;
+        const data = {
+            id,
+            nickname,
+            email,
+            pickture,
+            totalPoint,
+            createdAt,
+            updatedAt,
+        };
+
+        return { message: "success", data };
     },
 
     getUser: async ({ email, password }) => {
