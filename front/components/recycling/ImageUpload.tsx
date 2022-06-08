@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
-import uploadingImage from "../public/image.upload.png";
-import imgUploadStyles from "../styles/ImgUpload.module.css";
+import uploadingImage from "../../public/image.upload.png";
+import imgUploadStyles from "../../styles/ImgUpload.module.css";
 
 const ImageUpload = () => {
     const dragOver = (e: React.DragEvent<HTMLDivElement>) => {

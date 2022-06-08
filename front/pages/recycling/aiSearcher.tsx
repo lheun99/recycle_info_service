@@ -1,6 +1,6 @@
 import React from "react";
-import ImageUpload from "../../components/ImageUpload";
-import Search from "../../components/Search";
+import ImageUpload from "../../components/recycling/ImageUpload";
+import Search from "../../components/recycling/Search";
 
 const aiSearcher = () => {
     return (
