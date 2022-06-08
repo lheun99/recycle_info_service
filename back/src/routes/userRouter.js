@@ -43,4 +43,34 @@ userRouter.post("/login", async (req, res, next) => {
     }
 });
 
+UserAuthRouter.put(
+    "/:userId/profile",
+    loginRequired,
+    async (req, res, next) => {
+        try {
+            // URI로부터 사용자 id를 추출함.
+            const loginId = req.currentUserId;
+            const userId = req.params.userId;
+
+            if (loginId !== userId) {
+                throw new Error(
+                    "수정 권한이 없습니다. 다시 한 번 확인해 주세요."
+                );
+            }
+
+            const { nickname, picture } = req.body ?? null;
+            const updateData = { nickname, picture };
+
+            const updatedUser = await userService.updateProfile({
+                id: userId,
+                updateData,
+            });
+
+            res.status(200).json(updatedUser);
+        } catch (error) {
+            next(error);
+        }
+    }
+);
+
 module.exports = userRouter;
