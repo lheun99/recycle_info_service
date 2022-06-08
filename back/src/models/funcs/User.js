@@ -24,6 +24,10 @@ const User = {
         const count = await userModel.update(toUpdate, { where: { id } });
         return count;
     },
+
+    delete: async ({ id }) => {
+        await userModel.destroy({ where: { id } });
+    },
 };
 
 module.exports = User;
