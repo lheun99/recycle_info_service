@@ -18,20 +18,13 @@ const userService = {
         const newUser = { nickname, email, password: hashedPassword };
 
         const createdNewUser = await User.create({ newUser });
-        const {
-            id,
-            nickname,
-            email,
-            pickture,
-            totalPoint,
-            createdAt,
-            updatedAt,
-        } = createdNewUser;
+        const { id, picture, totalPoint, createdAt, updatedAt } =
+            createdNewUser;
         const data = {
             id,
             nickname,
             email,
-            pickture,
+            picture,
             totalPoint,
             createdAt,
             updatedAt,
@@ -87,8 +80,8 @@ const userService = {
         }
         const toUpdate = setUtil.compareValues(updateData, user);
 
-        const count = await User.update({ id, toUpdate });
-        return { message: "success", count };
+        user = await User.update({ id, toUpdate });
+        return { message: "success", data: user };
     },
 
     updatePassword: async ({ id, password }) => {
