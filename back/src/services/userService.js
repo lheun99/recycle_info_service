@@ -70,6 +70,25 @@ const userService = {
         return { message: "success", data: loginUser };
     },
 
+    getUserPage: async ({ id }) => {
+        const user = await User.findById({ id });
+
+        if (!user) {
+            throw new Error(
+                "이미 탈퇴했거나 존재하지 않는 사용자입니다. 다시 한 번 확인해 주세요."
+            );
+        }
+
+        const { nickname, picture, totalPoint } = user;
+
+        const rankers = await User.findAllByPoint();
+        const rank = await User.findRank({ id });
+
+        const data = { nickname, picture, totalPoint, rank, rankers };
+
+        return { message: "success", data };
+    },
+
     updateProfile: async ({ id, updateData }) => {
         let user = await User.findById({ id });
 
