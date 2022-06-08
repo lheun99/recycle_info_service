@@ -43,7 +43,7 @@ const userService = {
         }
 
         const secretKey = process.env.JWT_SECRET_KEY;
-        const token = jwt.sign({ userId: user.userId }, secretKey);
+        const token = jwt.sign({ userId: user.id }, secretKey);
 
         const { id, nickname, picture, totalPoint } = user;
 

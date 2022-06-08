@@ -1,6 +1,7 @@
 const userRouter = require("express").Router();
 const userService = require("../services/userService");
 const { body, validationResult } = require("express-validator");
+const loginRequired = require("../middlewares/loginRequired");
 
 userRouter.post(
     "/register",
