@@ -3,6 +3,7 @@ const express = require("express");
 const db = require("./models/index.js");
 const errorMiddleware = require("./middlewares/errorMiddleware.js");
 const postRouter = require("./routes/postRouter");
+const userRouter = require("./routes/userRouter");
 
 const app = express();
 
@@ -22,6 +23,7 @@ app.get("/", (req, res) => {
     res.send("Hello, world!!!");
 });
 app.use(postRouter);
+app.user("/user", userRouter);
 app.use(errorMiddleware);
 
 module.exports = app;

@@ -1,5 +1,5 @@
 const userRouter = require("express").Router();
-// const UserService = require("../services/userService");
+const UserService = require("../services/userService");
 const { body, validationResult } = require("express-validator");
 
 userRouter.post(
