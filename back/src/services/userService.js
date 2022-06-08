@@ -81,10 +81,10 @@ const userService = {
 
         const { nickname, picture, totalPoint } = user;
 
-        const rankers = await User.findAllByPoint();
-        const rank = await User.findRank({ id });
+        const rankers = await User.findRankers();
+        // const rank = await User.findRank({ id });
 
-        const data = { nickname, picture, totalPoint, rank, rankers };
+        const data = { nickname, picture, totalPoint, rankers };
 
         return { message: "success", data };
     },
