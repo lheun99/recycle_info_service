@@ -16,7 +16,6 @@ const userService = {
         const hashedPassword = await bcrypt.hash(password, 10);
 
         const newUser = { nickname, email, password: hashedPassword };
-        console.log(newUser);
 
         const createdNewUser = await User.create({ newUser });
         return { message: "success", data: createdNewUser };

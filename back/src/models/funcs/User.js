@@ -3,7 +3,6 @@ const userModel = db.user;
 
 const User = {
     create: async ({ newUser }) => {
-        console.log("잘 넘어오니?", newUser);
         const createdNewUser = await userModel.create(newUser, {
             fields: ["nickname", "email", "password"],
         });
