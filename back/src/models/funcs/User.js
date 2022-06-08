@@ -29,6 +29,19 @@ const User = {
         return rankers;
     },
 
+    findRank: async ({ id }) => {
+        const rank = await userModel.findOne({
+            attributes: [
+                [
+                    Sequelize.literal("(RANK() OVER (ORDER BY rating DESC))"),
+                    "rank",
+                ],
+            ],
+            where: { id },
+        });
+        return rank;
+    },
+
     update: async ({ id, toUpdate }) => {
         const count = await userModel.update(toUpdate, { where: { id } });
         return count;
