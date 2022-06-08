@@ -70,4 +70,27 @@ userRouter.put("/:userId/profile", loginRequired, async (req, res, next) => {
     }
 });
 
+userRouter.put("/:userId/password", loginRequired, async (req, res, next) => {
+    try {
+        const loginId = req.currentUserId;
+        const userId = Number(req.params.userId);
+
+        if (loginId !== userId) {
+            throw new Error("수정 권한이 없습니다. 다시 한 번 확인해 주세요.");
+        }
+
+        const { password } = req.body;
+        const updateData = { password };
+
+        const updatedUser = await userService.updatePassword({
+            id: userId,
+            updateData,
+        });
+
+        res.status(200).json(updatedUser);
+    } catch (error) {
+        next(error);
+    }
+});
+
 module.exports = userRouter;
