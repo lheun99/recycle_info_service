@@ -43,6 +43,18 @@ userRouter.post("/login", async (req, res, next) => {
     }
 });
 
+userRouter.get("/:userId/myPage", loginRequired, async (req, res, next) => {
+    try {
+        const id = req.currentUserId;
+
+        const userPage = await userService.getUserPage({ id });
+
+        res.status(200).json(userPage);
+    } catch (error) {
+        next(error);
+    }
+});
+
 userRouter.put("/:userId/profile", loginRequired, async (req, res, next) => {
     try {
         // URI로부터 사용자 id를 추출함.
