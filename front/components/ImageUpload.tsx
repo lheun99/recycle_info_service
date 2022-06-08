@@ -4,27 +4,27 @@ import uploadingImage from "../public/image.upload.png";
 import imgUploadStyles from "../styles/ImgUpload.module.css";
 
 const ImageUpload = () => {
-    const dragOver = (e) => {
+    const dragOver = (e: React.DragEvent<HTMLDivElement>) => {
         e.preventDefault();
         e.stopPropagation();
-        e.target.style.backgroundColor = "#a7c4bc";
+        (e.target as HTMLElement).style.backgroundColor = "#a7c4bc";
     };
 
-    const dragEnter = (e) => {
+    const dragEnter = (e: React.DragEvent<HTMLDivElement>) => {
         e.preventDefault();
         e.stopPropagation();
     };
 
-    const dragLeave = (e) => {
+    const dragLeave = (e: React.DragEvent<HTMLDivElement>) => {
         e.preventDefault();
         e.stopPropagation();
-        e.target.style.backgroundColor = "#F2F2F2";
+        (e.target as HTMLElement).style.backgroundColor = "#F2F2F2";
     };
 
-    const fileDrop = (e) => {
+    const fileDrop = (e: React.DragEvent<HTMLDivElement>) => {
         e.preventDefault();
         e.stopPropagation();
-        e.target.style.backgroundColor = "#F2F2F2";
+        (e.target as HTMLElement).style.backgroundColor = "#F2F2F2";
         const file = e.dataTransfer.files[0];
         sendImage(file);
     };
