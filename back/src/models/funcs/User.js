@@ -8,17 +8,17 @@ const User = {
             fields: ["nickname", "email", "password"],
         });
 
-        return { message: "success", data: createdNewUser };
+        return createdNewUser;
     },
 
     findById: async ({ id }) => {
         const user = await userModel.findOne({ where: { id } });
-        return { message: "success", data: user };
+        return user;
     },
 
     findByEmail: async ({ email }) => {
         const user = await userModel.findOne({ where: { email } });
-        return { message: "success", data: user };
+        return user;
     },
 };
 

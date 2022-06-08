@@ -1,5 +1,6 @@
 const User = require("../models/funcs/User");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 const userService = {
     addUser: async ({ nickname, email, password }) => {
@@ -17,7 +18,7 @@ const userService = {
         console.log(newUser);
 
         const createdNewUser = await User.create({ newUser });
-        return createdNewUser;
+        return { message: "success", data: createdNewUser };
     },
 
     getUser: async ({ email, password }) => {
@@ -54,7 +55,7 @@ const userService = {
             totalPoint,
         };
 
-        return loginUser;
+        return { message: "success", data: loginUser };
     },
 };
 
