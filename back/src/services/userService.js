@@ -73,7 +73,7 @@ const userService = {
         return { message: "success", count };
     },
 
-    updatePassword: async ({ id, updateData }) => {
+    updatePassword: async ({ id, password }) => {
         let user = await User.findById({ id });
 
         if (!user) {
@@ -82,10 +82,8 @@ const userService = {
             );
         }
 
-        const hashedPassword = await bcrypt.hash(updateData.password, 10);
-        updateData.password = hashedPassword;
-
-        const toUpdate = setUtil.compareValues(updateData, user);
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const toUpdate = { password: hashedPassword };
 
         user = await User.update({ id, toUpdate });
         return { message: "success", data: user };
