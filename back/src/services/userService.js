@@ -87,6 +87,18 @@ const userService = {
         user = await User.update({ id, toUpdate });
         return { message: "success", data: user };
     },
+
+    deleteUser: async ({ id }) => {
+        const user = await User.findById({ id });
+
+        if (!user) {
+            throw new Error(
+                "이미 탈퇴했거나 존재하지 않는 사용자입니다. 다시 한 번 확인해 주세요."
+            );
+        }
+
+        await User.delete({ id });
+    },
 };
 
 module.exports = userService;
