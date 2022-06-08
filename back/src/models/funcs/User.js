@@ -20,6 +20,11 @@ const User = {
         const user = await userModel.findOne({ where: { email } });
         return user;
     },
+
+    update: async ({ id, toUpdate }) => {
+        const count = await userModel.update(toUpdate, { where: { id } });
+        return count;
+    },
 };
 
 module.exports = User;

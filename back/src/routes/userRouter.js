@@ -43,34 +43,31 @@ userRouter.post("/login", async (req, res, next) => {
     }
 });
 
-UserAuthRouter.put(
-    "/:userId/profile",
-    loginRequired,
-    async (req, res, next) => {
-        try {
-            // URI로부터 사용자 id를 추출함.
-            const loginId = req.currentUserId;
-            const userId = req.params.userId;
+userRouter.put("/:userId/profile", loginRequired, async (req, res, next) => {
+    try {
+        // URI로부터 사용자 id를 추출함.
+        const loginId = req.currentUserId;
+        const userId = Number(req.params.userId);
+        console.log("loginId", loginId, typeof loginId);
+        console.log("userId", userId, typeof userId);
 
-            if (loginId !== userId) {
-                throw new Error(
-                    "수정 권한이 없습니다. 다시 한 번 확인해 주세요."
-                );
-            }
-
-            const { nickname, picture } = req.body ?? null;
-            const updateData = { nickname, picture };
-
-            const updatedUser = await userService.updateProfile({
-                id: userId,
-                updateData,
-            });
-
-            res.status(200).json(updatedUser);
-        } catch (error) {
-            next(error);
+        if (loginId !== userId) {
+            throw new Error("수정 권한이 없습니다. 다시 한 번 확인해 주세요.");
         }
+        console.log(req.body);
+        const { nickname, picture } = req.body ?? null;
+        const updateData = { nickname, picture };
+        console.log(updateData);
+
+        const updatedUser = await userService.updateProfile({
+            id: userId,
+            updateData,
+        });
+
+        res.status(200).json(updatedUser);
+    } catch (error) {
+        next(error);
     }
-);
+});
 
 module.exports = userRouter;
