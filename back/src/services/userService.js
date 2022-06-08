@@ -1,4 +1,5 @@
 const User = require("../models/funcs/User");
+const bcrypt = require("bcrypt");
 
 const userService = {
     addUser: async ({ nickname, email, password }) => {
@@ -10,8 +11,11 @@ const userService = {
             );
         }
 
-        const newUser = { nickname, email, password };
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        const newUser = { nickname, email, password: hashedPassword };
         console.log(newUser);
+
         const createdNewUser = await User.create({ newUser });
         return createdNewUser;
     },
