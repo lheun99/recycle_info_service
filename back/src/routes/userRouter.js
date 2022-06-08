@@ -102,4 +102,21 @@ userRouter.put(
     }
 );
 
+userRouter.delete("/:userId", loginRequired, async (req, res, next) => {
+    try {
+        const loginId = req.currentUserId;
+        const userId = Number(req.params.userId);
+
+        if (loginId !== userId) {
+            throw new Error("탈퇴 권한이 없습니다. 다시 한 번 확인해 주세요.");
+        }
+
+        await userService.deleteUser({ id: userId });
+
+        res.status(204).end();
+    } catch (error) {
+        next(error);
+    }
+});
+
 module.exports = userRouter;
