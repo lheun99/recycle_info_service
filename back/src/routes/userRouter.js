@@ -66,26 +66,40 @@ userRouter.put("/:userId/profile", loginRequired, async (req, res, next) => {
     }
 });
 
-userRouter.put("/:userId/password", loginRequired, async (req, res, next) => {
-    try {
-        const loginId = req.currentUserId;
-        const userId = Number(req.params.userId);
+userRouter.put(
+    "/:userId/password",
+    loginRequired,
+    body("password")
+        .isLength({ min: 8, max: 16 })
+        .withMessage("8 ~ 16자리 비밀번호를 입력해주세요"),
+    async (req, res, next) => {
+        try {
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                throw new Error(errors.errors[0].msg);
+            }
 
-        if (loginId !== userId) {
-            throw new Error("수정 권한이 없습니다. 다시 한 번 확인해 주세요.");
+            const loginId = req.currentUserId;
+            const userId = Number(req.params.userId);
+
+            if (loginId !== userId) {
+                throw new Error(
+                    "수정 권한이 없습니다. 다시 한 번 확인해 주세요."
+                );
+            }
+
+            const password = req.body.password;
+
+            const updatedUser = await userService.updatePassword({
+                id: userId,
+                password,
+            });
+
+            res.status(200).json(updatedUser);
+        } catch (error) {
+            next(error);
         }
-
-        const password = req.body.password;
-
-        const updatedUser = await userService.updatePassword({
-            id: userId,
-            password,
-        });
-
-        res.status(200).json(updatedUser);
-    } catch (error) {
-        next(error);
     }
-});
+);
 
 module.exports = userRouter;
