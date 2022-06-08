@@ -8,7 +8,7 @@ userRouter.post(
     body("password")
         .isLength({ min: 8, max: 16 })
         .withMessage("8 ~ 16자리 비밀번호를 입력해주세요"),
-    (req, res, next) => {
+    async (req, res, next) => {
         try {
             const errors = validationResult(req);
             if (!errors.isEmpty()) {
@@ -17,7 +17,11 @@ userRouter.post(
 
             const { nickname, email, password } = req.body;
 
-            const newUser = { nickname, email, password };
+            const newUser = await userService.addUser({
+                nickname,
+                email,
+                password,
+            });
 
             res.status(201).json(newUser);
         } catch (error) {
