@@ -20,9 +20,41 @@ const userService = {
         return createdNewUser;
     },
 
-    getUser: async ({ id }) => {
-        const user = await User.findById({ id });
-        return user;
+    getUser: async ({ email, password }) => {
+        const user = await User.findByEmail({ email });
+
+        if (!user) {
+            throw new Error(
+                "해당 이메일은 가입 내역이 없습니다. 다시 한 번 확인해 주세요."
+            );
+        }
+
+        const correctPasswordHash = user.password;
+        const isPasswordCorrect = await bcrypt.compare(
+            password,
+            correctPasswordHash
+        );
+
+        if (!isPasswordCorrect) {
+            throw new Error(
+                "비밀번호가 일치하지 않습니다. 다시 한 번 확인해 주세요."
+            );
+        }
+
+        const secretKey = process.env.JWT_SECRET_KEY;
+        const token = jwt.sign({ userId: user.userId }, secretKey);
+
+        const { id, nickname, picture, totalPoint } = user;
+
+        const loginUser = {
+            token,
+            id,
+            nickname,
+            picture,
+            totalPoint,
+        };
+
+        return loginUser;
     },
 };
 
