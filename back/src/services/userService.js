@@ -1,8 +1,11 @@
 const User = require("../models/funcs/User");
 
 const userService = {
-    create: () => {
-        return "hi";
+    addUser: async ({ nickname, email, password }) => {
+        const newUser = { nickname, email, password };
+        console.log(newUser);
+        const createdNewUser = await User.create({ newUser });
+        return createdNewUser;
     },
 };
 
