@@ -7,6 +7,11 @@ const userService = {
         const createdNewUser = await User.create({ newUser });
         return createdNewUser;
     },
+
+    getUser: async ({ id }) => {
+        const user = await User.findById({ id });
+        return user;
+    },
 };
 
 module.exports = userService;

@@ -30,4 +30,15 @@ userRouter.post(
     }
 );
 
+userRouter.get("/:id", async (req, res, next) => {
+    try {
+        const id = req.params.id;
+        const user = await userService.getUser({ id });
+
+        res.status(200).json(user);
+    } catch (error) {
+        next(error);
+    }
+});
+
 module.exports = userRouter;

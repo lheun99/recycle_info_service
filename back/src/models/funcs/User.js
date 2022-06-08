@@ -10,6 +10,11 @@ const User = {
 
         return { message: "success", data: createdNewUser };
     },
+
+    findById: async ({ id }) => {
+        const user = await userModel.findOne({ where: { id } });
+        return user;
+    },
 };
 
 module.exports = User;
