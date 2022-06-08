@@ -15,6 +15,11 @@ const User = {
         const user = await userModel.findOne({ where: { id } });
         return user;
     },
+
+    findByEmail: async ({ email }) => {
+        const user = await userModel.findOne({ where: { email } });
+        return user;
+    },
 };
 
 module.exports = User;
