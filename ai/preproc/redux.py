@@ -50,7 +50,7 @@ class SerialExecutor(object):
     ) -> list:
         '''작업 완료된 결과물의 제너레이터를 반환합니다.'''
         # return list(map(func, *iterables))
-        self._pending.extend([(func, args) for args in zip(iterables)])
+        self._pending.extend([(func, args) for args in zip(*iterables)])
         # return (func(*args) for args in self._pending)
         while len(self._pending):
             func, args = self._pending.popleft()
