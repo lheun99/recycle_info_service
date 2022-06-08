@@ -9,37 +9,39 @@ const config = require(__dirname + "/../config/config.js")[env];
 const db = {};
 
 let sequelize = new Sequelize({
-  username: config.username,
-  password: config.password,
-  database: config.database,
-  host: config.host,
-  port: config.port,
-  dialect: "postgres",
+    username: config.username,
+    password: config.password,
+    database: config.database,
+    host: config.host,
+    port: config.port,
+    dialect: "postgres",
 });
 
 fs.readdirSync(__dirname)
-  .filter((file) => {
-    return (
-      file.indexOf(".") !== 0 && file !== basename && file.slice(-3) === ".js"
-    );
-  })
-  .forEach((file) => {
-    const model = require(path.join(__dirname, file))(
-      sequelize,
-      Sequelize.DataTypes
-    );
-    db[model.name] = model;
-  });
+    .filter((file) => {
+        return (
+            file.indexOf(".") !== 0 &&
+            file !== basename &&
+            file.slice(-3) === ".js"
+        );
+    })
+    .forEach((file) => {
+        const model = require(path.join(__dirname, file))(
+            sequelize,
+            Sequelize.DataTypes
+        );
+        db[model.name] = model;
+    });
 
 Object.keys(db).forEach((modelName) => {
-  if (db[modelName].associate) {
-    db[modelName].associate(db);
-  }
+    if (db[modelName].associate) {
+        db[modelName].associate(db);
+    }
 });
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
-db.post = require("./post.js")(sequelize, Sequelize);
+db.post = require("./schemas/post.js")(sequelize, Sequelize);
 
 module.exports = db;
