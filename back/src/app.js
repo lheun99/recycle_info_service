@@ -23,7 +23,7 @@ app.get("/", (req, res) => {
     res.send("Hello, world!!!");
 });
 app.use(postRouter);
-app.user("/user", userRouter);
+app.use("/user", userRouter);
 app.use(errorMiddleware);
 
 module.exports = app;
