@@ -1,3 +1,5 @@
+const User = require("../models/funcs/User");
+
 const userService = {
     create: () => {
         return "hi";
