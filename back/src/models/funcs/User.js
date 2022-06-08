@@ -13,12 +13,12 @@ const User = {
 
     findById: async ({ id }) => {
         const user = await userModel.findOne({ where: { id } });
-        return user;
+        return { message: "success", data: user };
     },
 
     findByEmail: async ({ email }) => {
         const user = await userModel.findOne({ where: { email } });
-        return user;
+        return { message: "success", data: user };
     },
 };
 
