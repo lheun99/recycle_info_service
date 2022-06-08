@@ -12,7 +12,7 @@ python ./redux.py \
     --image-src="$DATA_IN/Training" \
     --image-dst="$DATA_OUT/training" \
     --image-output-dimension=640x640 \
-    --parallelize=mt
+    --parallelize=mp
 
 
 if [ $TEST -eq 0 ]; then
