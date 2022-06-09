@@ -1,4 +1,5 @@
 const quizeRouter = require("express").Router();
+const quizService = require("../services/quizService.js");
 
 quizeRouter.get("/", async (req, res, next) => {
     try {
