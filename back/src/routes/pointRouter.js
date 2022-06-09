@@ -1,4 +1,5 @@
 const pointRouter = require("express").Router();
+const pointService = require("../services/pointService");
 
 pointRouter.post("/", async (req, res, next) => {
     try {
