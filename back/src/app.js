@@ -4,6 +4,7 @@ const db = require("./models/index.js");
 const errorMiddleware = require("./middlewares/errorMiddleware.js");
 const postRouter = require("./routes/postRouter");
 const userRouter = require("./routes/userRouter");
+const pointRouter = require("./routes/pointRouter");
 
 const app = express();
 
@@ -24,6 +25,7 @@ app.get("/", (req, res) => {
 });
 app.use(postRouter);
 app.use("/users", userRouter);
+app.use("/points", pointRouter);
 app.use(errorMiddleware);
 
 module.exports = app;
