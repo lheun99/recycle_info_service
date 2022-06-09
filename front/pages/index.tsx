@@ -1,10 +1,11 @@
-import Head from "next/head";
-import Link from "next/link";
+import Intro from "../components/Intro/Intro";
+import Footer from "../components/Footer";
 
 export default function Home() {
     return (
         <div>
-            <h1>구해줘! 지구</h1>
+            <Intro />
+            <Footer />
         </div>
     );
 }

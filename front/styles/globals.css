@@ -1,3 +1,12 @@
+:root {
+    --green: #A7C4BC;
+    --gray: #F2F2F2;
+
+    --font-title: 2rem;
+    --font-subtitle: 1.5rem;
+    --font-text: 1.2rem;
+}
+
 html,
 body {
     padding: 0;
