@@ -6,4 +6,10 @@ const pointService = {
         const createdNewPoint = await Point.create({ newPoint });
         return createdNewPoint;
     },
+
+    getPoint: async ({ userId, route }) => {
+        // 2022-06-08 17:17:21.831 +0900
+        const today = new Date();
+        return today;
+    },
 };
