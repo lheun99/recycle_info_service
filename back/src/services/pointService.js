@@ -1,3 +1,5 @@
+const Point = require("../models/funcs/Point");
+
 const pointService = {
     addPoint: async ({ userId, route, point }) => {
         const newPoint = { userId, route, point };
