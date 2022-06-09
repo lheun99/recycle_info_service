@@ -26,10 +26,12 @@
 
 .intro_title {
     font-size: var(--font-title);
+    font-family: 'Gugi', cursive;
 }
 
 .intro_subtitle {
     font-size: var(--font-subtitle);
+    font-family: 'Gugi', cursive;
 }
 
 .intro_text {
@@ -63,7 +65,6 @@
 .intro_card_background {
     width: 100%;
     height: 100%;
-    background-color: var(--green);
 }
 
 .intro_card_image {
@@ -111,6 +112,7 @@
     background-color: #305E63;
     color: white;
     font-size: var(--font-title);
+    font-family: 'Gugi', cursive;
     padding: 50px 0 0 50px;
 }
 
@@ -127,5 +129,6 @@
     height: 310px;
     background-color: white;
     font-size: var(--font-subtitle);
+    font-family: 'Gugi', cursive;
     padding: 50px 0 0 50px;
 }
