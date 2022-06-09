@@ -6,6 +6,9 @@ const quizService = {
 
         const quiz = await Quiz.findById(number);
 
+        const newMultiples = quiz.multiples.split("/");
+        quiz.multiples = setUtil.shuffle(newMultiples);
+
         return quiz;
     },
 };
