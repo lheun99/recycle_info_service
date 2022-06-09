@@ -8,6 +8,11 @@ const setUtil = {
         });
         return toUpdate;
     },
+
+    shuffle: (datalist) => {
+        const datalist = datalist.sort(() => Math.random() - 0.5);
+        return datalist;
+    },
 };
 
 module.exports = setUtil;
