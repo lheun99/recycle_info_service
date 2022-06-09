@@ -2,16 +2,17 @@
 TEST=0
 # python3=../../.venv/Scripts/python
 
-# DATA_IN='/d/movomo/Downloads/생활 폐기물 이미지'
-DATA_IN='/s/public.downloads/image-src'
-DATA_OUT='/d/OneDrive/.attach/cyberdyne/dataset'
+DATA_IN='/d/movomo/Downloads/생활 폐기물 이미지'
+# DATA_IN='/s/public.downloads/image-src'
+# DATA_OUT='/d/OneDrive/.attach/cyberdyne/dataset'
+DATA_OUT='/d/movomo/Downloads/dataset'
 
 # 이미지 저장을 위해 라벨은 그대로 두고 이미지만 640x640 크기로 조정합니다.
 python ./redux.py \
-    --image-src="$DATA_IN/Training" \
-    --image-dst="$DATA_OUT/training" \
+    --image-src="$DATA_IN/Validation" \
+    --image-dst="$DATA_OUT/validation" \
     --image-output-dimension=640x640 \
-    --parallelize=mt
+    --parallelize=mp
 
 
 if [ $TEST -eq 0 ]; then

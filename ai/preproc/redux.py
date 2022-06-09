@@ -1,12 +1,11 @@
 #! /usr/bin/env python3
 
 import argparse
-# from collections import deque
+from collections import deque
 # from operator import itemgetter
 from os import path
 import os
 import time
-from tqdm import tqdm
 
 import json
 import pickle
@@ -19,6 +18,7 @@ import threading
 from typing import Any, Callable, Iterable, Mapping, NewType
 
 from PIL import Image
+from tqdm import tqdm
 
 
 # typedef
@@ -40,6 +40,7 @@ class SerialExecutor(object):
 
     def __init__(self, max_workers: int | None = None) -> None:
         self._max_workers = 1
+        self._pending = deque()
 
     def submit(self, fn: Callable, /, *args, **kwargs) -> Present:
         return Present(fn(*args, **kwargs))
@@ -47,12 +48,18 @@ class SerialExecutor(object):
     def map(
         self, func: Callable, *iterables: Iterable, chunksize: int = 1
     ) -> list:
-        '''모든 작업을 완료한 후 결과를 그대로 반환합니다.'''
-        return list(map(func, *iterables))
+        '''작업 완료된 결과물의 제너레이터를 반환합니다.'''
+        # return list(map(func, *iterables))
+        self._pending.extend([(func, args) for args in zip(*iterables)])
+        # return (func(*args) for args in self._pending)
+        while len(self._pending):
+            func, args = self._pending.popleft()
+            yield func(*args)
 
     def shutdown(self, wait=True):
-        '''``shutdown`` 메서드는 의도적으로 아무 일도 하지 않습니다.'''
-        return
+        if wait:
+            for func, args in self._pending:
+                func(*args)
 
 
 def whpair(whstr: str) -> tuple[int, int]:
@@ -381,7 +388,7 @@ async def cli():
             [path.join(args.image_src, task['image']) for task in tasks],
             [path.join(args.image_dst, task['image']) for task in tasks],
             [task['dim'] for task in tasks],
-            chunksize=max(1, round(len(tasks) / executor._max_workers)),
+            chunksize=max(1, round(len(tasks) / executor._max_workers / 128)),
         )
         # resize_tasks = []
         # for task in tasks:
@@ -393,18 +400,20 @@ async def cli():
         #             task['dim'],
         #         )
         #     )
-        executor.shutdown()
-        with tqdm(total=len(pending), desc='Resize images') as pbar:
+        # executor.shutdown()
+        with tqdm(total=len(tasks), desc='Resize images') as pbar:
             for done in pending:
                 pbar.update(1)
 
-        # executor.shutdown()
+        executor.shutdown()
 
         end_time = time.perf_counter()
         print(f'MAIN: stats')
         print(f'    labels processed: {done_labels}')
         print(f'    images resized: {done_images}')
-        print(f'    parallelization: {args.parallelize}')
+        print(
+            f'    parallelization: {args.parallelize if do_image else "async"}'
+        )
         print(f'    time taken: {end_time - start_time:0.2f} seconds')
 
 
