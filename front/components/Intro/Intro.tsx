@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import IntroStyles from "../../styles/Intro.module.css";
 import IntroData from "./IntroData";
+import IntroCardData from "./IntroCardData";
+import Image from "next/image";
 import DoughnutChart from "./DoughnutChart";
 
 const Intro = () => {
@@ -11,11 +13,11 @@ const Intro = () => {
       <div className={IntroStyles.intro_wrapper}>
         <div className={IntroStyles.intro_head}>
           <IntroData title={"구해줘! 지구"} text={"내 손안의 분리배출\n작은 실천이 지구를 지킵니다."} button={"분리배출 하러가기"}/>
-          <img src="favicon.ico" style={{ width: "300px"}}></img>
+          {/* <Image src="../../public/favicon.ico" alt="favicon.ico" width={500} height={500} /> */}
         </div>
         <div style={{ height: "400px"}}/>
         <div className={IntroStyles.intro_recycling}>
-          <img src="handphone.png" style={{ width: "300px"}}></img>
+          <Image src="/images/handphone.png" alt="handphone" width={300} height={300} />
           <IntroData title={"분리수거 어렵다구요?\n찍어보세요!"} text={"헷갈리는 분리배출을 도와줍니다."} button={"분리배출 하러가기"}/>
         </div>
         <div className={IntroStyles.intro_chart}>
@@ -24,7 +26,7 @@ const Intro = () => {
         </div>
         <div className={IntroStyles.intro_card}>
           <div className={IntroStyles.intro_card_item}>
-            <div className={IntroStyles.intro_card_background}>
+            <div className={IntroStyles.intro_card_background} style={{backgroundColor: "var(--deepgreen)"}}>
               <div className={IntroStyles.intro_card_image} />
             </div>
           </div>
@@ -37,14 +39,14 @@ const Intro = () => {
             <IntroData subtitle={"하루 한 번 퀴즈에 참여해요!"} text={"분리수거에 관련된 퀴즈를 풀어보고 포인트를 얻어요!"} button={"퀴즈 참여하기"} />
           </div>
           <div className={IntroStyles.intro_card_item}>
-            <div className={IntroStyles.intro_card_background}>
+            <div className={IntroStyles.intro_card_background} style={{backgroundColor: "var(--green)"}}>
               <div className={IntroStyles.intro_card_image} />
             </div>
           </div>
         </div>
         <div className={IntroStyles.intro_card}>
           <div className={IntroStyles.intro_card_item}>
-            <div className={IntroStyles.intro_card_background}>
+            <div className={IntroStyles.intro_card_background} style={{backgroundColor: "var(--deepgray)"}}>
               <div className={IntroStyles.intro_card_image} />
             </div>
           </div>
