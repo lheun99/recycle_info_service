@@ -9,7 +9,10 @@ const pointService = {
 
     getPoint: async ({ userId, route }) => {
         // 2022-06-08 17:17:21.831 +0900
-        const today = new Date();
-        return today;
+        const today = "2022-06-08T15:00:00.000Z";
+        const point = await Point.findByFilter({ userId, route, today });
+        return point;
     },
 };
+
+module.exports = pointService;

@@ -18,6 +18,7 @@ pointRouter.get("/", async (req, res, next) => {
     try {
         const userId = req.currentUserId;
         const route = req.query.route;
+        console.log(route);
 
         const point = await pointService.getPoint({ userId, route });
 
@@ -38,3 +39,5 @@ pointRouter.get("/list", async (req, res, next) => {
         next(error);
     }
 });
+
+module.exports = pointRouter;
