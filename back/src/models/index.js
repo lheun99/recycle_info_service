@@ -44,5 +44,6 @@ db.Sequelize = Sequelize;
 
 db.post = require("./schemas/post.js")(sequelize, Sequelize);
 db.user = require("./schemas/user.js")(sequelize, Sequelize);
+db.point = require("./schemas/point.js")(sequelize, Sequelize);
 
 module.exports = db;
