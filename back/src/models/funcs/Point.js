@@ -9,4 +9,9 @@ const Point = {
 
         return createdNewPoint;
     },
+
+    findAllById: async ({ userId }) => {
+        const points = await pointModel.findAll({ where: { userId } });
+        return points;
+    },
 };
