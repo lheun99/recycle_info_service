@@ -1,4 +1,5 @@
 import IntroStyles from "../../styles/Intro.module.css";
+// import styled from "styled-components";
 import Button from '@mui/material/Button';
 
 type IntroDataProps = {
@@ -7,6 +8,12 @@ type IntroDataProps = {
     text?: string;
     button?: string;
 }
+
+// const IntroButton = styled(Button)`
+//     border-color: var(--gray);
+//     color: var(--gray);
+//     `
+// ;
 
 const IntroData = ({ title, subtitle, text, button } : IntroDataProps) => {
     return (

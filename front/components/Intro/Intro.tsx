@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import IntroStyles from "../../styles/Intro.module.css";
 import IntroData from "./IntroData";
-import IntroCardData from "./IntroCardData";
 import Image from "next/image";
 import DoughnutChart from "./DoughnutChart";
 
