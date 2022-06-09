@@ -13,6 +13,11 @@ const pointService = {
         const point = await Point.findByFilter({ userId, route, today });
         return point;
     },
+
+    getPoints: async ({ userId }) => {
+        const points = await Point.findAllById({ userId });
+        return points;
+    },
 };
 
 module.exports = pointService;
