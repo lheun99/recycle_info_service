@@ -26,3 +26,15 @@ pointRouter.get("/", async (req, res, next) => {
         next(error);
     }
 });
+
+pointRouter.get("/list", async (req, res, next) => {
+    try {
+        const userId = req.currentUserId;
+
+        const points = await pointService.getPoints({ userId });
+
+        res.status(200).json(points);
+    } catch (error) {
+        next(error);
+    }
+});
