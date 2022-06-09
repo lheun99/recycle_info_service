@@ -12,3 +12,5 @@ const quizService = {
         return quiz;
     },
 };
+
+module.exports = quizService;
