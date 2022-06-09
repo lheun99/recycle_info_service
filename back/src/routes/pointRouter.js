@@ -1,7 +1,8 @@
 const pointRouter = require("express").Router();
 const pointService = require("../services/pointService");
+const loginRequired = require("../middlewares/loginRequired");
 
-pointRouter.post("/", async (req, res, next) => {
+pointRouter.post("/", loginRequired, async (req, res, next) => {
     try {
         const userId = req.currentUserId;
         const { route, point } = req.body;
@@ -14,7 +15,7 @@ pointRouter.post("/", async (req, res, next) => {
     }
 });
 
-pointRouter.get("/", async (req, res, next) => {
+pointRouter.get("/", loginRequired, async (req, res, next) => {
     try {
         const userId = req.currentUserId;
         const route = req.query.route;
@@ -28,7 +29,7 @@ pointRouter.get("/", async (req, res, next) => {
     }
 });
 
-pointRouter.get("/list", async (req, res, next) => {
+pointRouter.get("/list", loginRequired, async (req, res, next) => {
     try {
         const userId = req.currentUserId;
 
