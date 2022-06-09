@@ -4,9 +4,9 @@ const pointService = require("../services/pointService");
 pointRouter.post("/", async (req, res, next) => {
     try {
         const userId = req.currentUserId;
-        const route = req.body.route;
+        const { route, point } = req.body;
 
-        const newPoint = await pointService.addPoint({ userId, route });
+        const newPoint = await pointService.addPoint({ userId, route, point });
 
         res.status(201).json(newPoint);
     } catch (error) {
