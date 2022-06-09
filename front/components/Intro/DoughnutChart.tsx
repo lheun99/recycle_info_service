@@ -4,8 +4,8 @@ import { Doughnut } from 'react-chartjs-2';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-export const data = {
-  labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+const data = {
+  labels: ['재활용률'],
   datasets: [
     {
       label: '# of Votes',
@@ -29,8 +29,22 @@ export const data = {
       borderWidth: 1,
     },
   ],
-};
+}
 
-export function DoughnutChart() {
-  return <Doughnut data={data} style={{ position: "relative", width:"200px", height: "200px"}}/>;
+const options = {
+  responsive: true,
+  plugins: {
+      legend: {
+          position: 'bottom',
+      }
+  }
+}
+
+
+export default function DoughnutChart() {
+  return (
+    <div style={{ position: "relative", width:"200px", height: "200px"}}>
+      <Doughnut data={data} />
+    </div>
+  ) 
 }

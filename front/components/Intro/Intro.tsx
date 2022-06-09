@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import IntroStyles from "../../styles/Intro.module.css";
 import IntroData from "./IntroData";
-import { DoughnutChart } from "./DoughnutChart";
+import DoughnutChart from "./DoughnutChart";
 
 const Intro = () => {
   const [text, setText] = useState<string>("aa");
@@ -20,6 +20,7 @@ const Intro = () => {
         </div>
         <div className={IntroStyles.intro_chart}>
           <IntroData title={"환경을 도와주세요!"} text={"우리나라의 실질적인 재활용률은 40%도 되지 않습니다."} />
+          <DoughnutChart />
         </div>
         <div className={IntroStyles.intro_card}>
           <div className={IntroStyles.intro_card_item}>
