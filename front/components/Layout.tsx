@@ -1,5 +1,6 @@
 import React from "react";
 import Nav from "./Nav";
+import Footer from "./Footer";
 import Head from "next/Head";
 
 type AppLayoutProps = {
@@ -16,6 +17,7 @@ const Layout = ({ children }: AppLayoutProps) => {
             </Head>
             <Nav />
             <div>{children}</div>
+            <Footer />
         </div>
     );
 };
