@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import IntroStyles from "../../styles/Intro.module.css";
 import IntroData from "./IntroData";
+import Image from "next/image";
 import DoughnutChart from "./DoughnutChart";
 
 const Intro = () => {
@@ -10,46 +11,60 @@ const Intro = () => {
     <div>
       <div className={IntroStyles.intro_wrapper}>
         <div className={IntroStyles.intro_head}>
-          <IntroData title={"구해줘! 지구"} text={"내 손안의 분리배출\n작은 실천이 지구를 지킵니다."} button={"분리배출 하러가기"}/>
-          <img src="favicon.ico" style={{ width: "300px"}}></img>
+          <IntroData title={"구해줘! 지구"} 
+                     text={"내 손안의 분리배출\n작은 실천이 지구를 지킵니다."} 
+                     button={"분리배출 하러가기"}/>
         </div>
-        <div style={{ height: "400px"}}/>
+        <div className={IntroStyles.intro_video}>
+          <video muted autoPlay loop>
+            <source src="/videos/Preview.mp4" type="video/mp4" />
+          </video>
+        </div>
         <div className={IntroStyles.intro_recycling}>
-          <img src="handphone.png" style={{ width: "300px"}}></img>
-          <IntroData title={"분리수거 어렵다구요?\n찍어보세요!"} text={"헷갈리는 분리배출을 도와줍니다."} button={"분리배출 하러가기"}/>
+          <Image src="/images/handphone.png" alt="handphone" width={300} height={300} />
+          <IntroData title={"분리수거 어렵다구요?\n찍어보세요!"} 
+                     text={"헷갈리는 분리배출을 도와줍니다."} 
+                     button={"분리배출 하러가기"}/>
         </div>
         <div className={IntroStyles.intro_chart}>
-          <IntroData title={"환경을 도와주세요!"} text={"우리나라의 실질적인 재활용률은 40%도 되지 않습니다."} />
+          <IntroData title={"환경을 도와주세요!"} 
+                     text={"우리나라의 실질적인 재활용률은 40%도 되지 않습니다."} />
           <DoughnutChart />
         </div>
         <div className={IntroStyles.intro_card}>
           <div className={IntroStyles.intro_card_item}>
-            <div className={IntroStyles.intro_card_background}>
+            <div className={IntroStyles.intro_card_background} style={{backgroundColor: "var(--deepgreen)"}}>
               <div className={IntroStyles.intro_card_image} />
             </div>
           </div>
           <div className={IntroStyles.intro_card_item}>
-            <IntroData subtitle={"게임하고 포인트 받자!"} text={"올바른 분리수거 방법을 재미있게 알아보아요!"} button={"게임 하러가기"} />
+            <IntroData subtitle={"게임하고 포인트 받자!"} 
+                       text={"올바른 분리수거 방법을 재미있게 알아보아요!"} 
+                       button={"게임 하러가기"} />
           </div>
         </div>
         <div className={IntroStyles.intro_card}>
           <div className={IntroStyles.intro_card_item}>
-            <IntroData subtitle={"하루 한 번 퀴즈에 참여해요!"} text={"분리수거에 관련된 퀴즈를 풀어보고 포인트를 얻어요!"} button={"퀴즈 참여하기"} />
+            <IntroData subtitle={"하루 한 번 퀴즈에 참여해요!"} 
+                       text={"분리수거에 관련된 퀴즈를 풀어보고 포인트를 얻어요!"} 
+                       button={"퀴즈 참여하기"} />
           </div>
           <div className={IntroStyles.intro_card_item}>
-            <div className={IntroStyles.intro_card_background}>
+            <div className={IntroStyles.intro_card_background} style={{backgroundColor: "var(--green)"}}>
               <div className={IntroStyles.intro_card_image} />
             </div>
           </div>
         </div>
         <div className={IntroStyles.intro_card}>
           <div className={IntroStyles.intro_card_item}>
-            <div className={IntroStyles.intro_card_background}>
+            <div className={IntroStyles.intro_card_background} style={{backgroundColor: "var(--deepgray)"}}>
               <div className={IntroStyles.intro_card_image} />
             </div>
           </div>
           <div className={IntroStyles.intro_card_item}>
-            <IntroData subtitle={"나의 랭킹은?"} text={"열심히 모은 포인트! 얼마나 되는지 랭킹을 통해 알아보아요."} button={"랭킹 확인하기"}/>
+            <IntroData subtitle={"나의 랭킹은?"} 
+                       text={"열심히 모은 포인트! 얼마나 되는지 랭킹을 통해 알아보아요."} 
+                       button={"랭킹 확인하기"}/>
           </div>
         </div>
         <div className={IntroStyles.intro_insert_text}>
@@ -66,11 +81,11 @@ const Intro = () => {
           <div className={IntroStyles.intro_waste_market_item}>
             <div className={IntroStyles.intro_waste_market_bottom_wrapper}>
               <div className={IntroStyles.intro_waste_market_data}>
-                <div>우리 동네 대형폐기물 스티커는 어디서?</div>
+                <div className={IntroStyles.intro_subtitle}>우리 동네 대형폐기물 스티커는 어디서?</div>
                 <div>버튼</div>
               </div>
               <div className={IntroStyles.intro_waste_market_data}>
-                <div>멀쩡한데.. 중고로 팔아볼까?</div>
+                <div className={IntroStyles.intro_subtitle}>멀쩡한데.. 중고로 팔아볼까?</div>
                 <div>버튼</div>
               </div>
               </div>

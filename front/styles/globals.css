@@ -1,10 +1,13 @@
-@import url("https://fonts.googleapis.com/css2?family=Gugi&display=swap");
-:root {
-    --green: #a7c4bc;
-    --gray: #f2f2f2;
+@import url('https://fonts.googleapis.com/css2?family=Gugi&display=swap');
 
-    --font-title: 2rem;
-    --font-subtitle: 1.5rem;
+:root {
+    --green: #A7C4BC;
+    --gray: #F2F2F2;
+    --deepgreen: #305E63;
+    --deepgray: #DEDEDE;
+
+    --font-title: 2.5rem;
+    --font-subtitle: 1.8rem;
     --font-text: 1.2rem;
 }
 

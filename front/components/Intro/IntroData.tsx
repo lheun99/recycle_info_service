@@ -15,7 +15,7 @@ const IntroData = ({ title, subtitle, text, button } : IntroDataProps) => {
             <div className={IntroStyles.intro_subtitle}>{subtitle}</div>
             <div className={IntroStyles.intro_text}>{text}</div>
             {
-                button ? <Button className={IntroStyles.intro_button} variant="outlined">{button}</Button> : null
+                button ? <Button sx={{ borderColor: "#818479", color: "#818479"}} className={IntroStyles.intro_button} variant="outlined">{button}</Button> : null
             }
         </div>
     )
