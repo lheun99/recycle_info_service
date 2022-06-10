@@ -14,9 +14,12 @@ const Intro = () => {
           <IntroData title={"구해줘! 지구"} 
                      text={"내 손안의 분리배출\n작은 실천이 지구를 지킵니다."} 
                      button={"분리배출 하러가기"}/>
-          <Image src="/favicon.ico" alt="favicon" width={300} height={300} />
         </div>
-        <div style={{ height: "400px"}}/>
+        <div className={IntroStyles.intro_video}>
+          <video muted autoPlay loop>
+            <source src="/videos/Preview.mp4" type="video/mp4" />
+          </video>
+        </div>
         <div className={IntroStyles.intro_recycling}>
           <Image src="/images/handphone.png" alt="handphone" width={300} height={300} />
           <IntroData title={"분리수거 어렵다구요?\n찍어보세요!"} 
