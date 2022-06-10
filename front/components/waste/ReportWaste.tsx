@@ -1,6 +1,7 @@
 import React from "react";
 import ReportWasteStyle from "../../styles/ReportWaste.module.css";
 import Search from "./Search"
+import Map from "./Map"
 
 const ReportWaste = () => {
   return (
@@ -18,7 +19,9 @@ const ReportWaste = () => {
             <Search />
 
           </div>
-          <div className={ReportWasteStyle.map}>map</div>
+          <div id="map" className={ReportWasteStyle.map}>
+            <Map latitude={33.450701} longitude={126.570667} />
+          </div>
         </div>
         <div style={{ fontSize: "var(--font-text)"}}>Tip! 대형폐기물은 무료로  수거가 가능하기도 해요!</div>
       </div>

@@ -10,12 +10,13 @@
 
 .mapform {
     width: 800px;
-    height: 500px;
+    height: 650px;
     background-color: var(--deepgray);
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
+    padding-bottom: 40px;
 }
 
 .mapform_title {
