@@ -30,7 +30,8 @@
 
 .mapform_text {
     font-size: var(--font-text);
-    white-space: pre-wrap;
+    white-space: pre-wrap; /*이거 왜 안먹지?*/
+    text-align: center;
 }
 
 .map {
