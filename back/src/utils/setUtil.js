@@ -10,7 +10,7 @@ const setUtil = {
     },
 
     shuffle: (datalist) => {
-        const datalist = datalist.sort(() => Math.random() - 0.5);
+        datalist = datalist.sort(() => Math.random() - 0.5);
         return datalist;
     },
 };
