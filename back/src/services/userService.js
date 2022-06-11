@@ -1,4 +1,5 @@
 const User = require("../models/funcs/User");
+const Point = require("../models/funcs/Point");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const setUtil = require("../utils/setUtil");
@@ -77,8 +78,8 @@ const userService = {
         return { message: "success", data: loginUser };
     },
 
-    getUserPage: async ({ id }) => {
-        const user = await User.findById({ id });
+    getUserPage: async ({ userId }) => {
+        const user = await User.findById({ user_id: userId });
 
         if (!user) {
             throw new Error(
@@ -86,12 +87,15 @@ const userService = {
             );
         }
 
-        const { nickname, picture, totalPoint } = user;
+        const { nickname, picture } = user;
 
-        const rankers = await User.findRankers();
+        const rankerIds = await Point.getRankerIds();
+        console.log(rankerIds);
+
+        // const rankers = await User.findRankers();
         // const rank = await User.findRank({ id });
 
-        const data = { nickname, picture, totalPoint, rankers };
+        const data = { nickname, picture };
 
         return { message: "success", data };
     },

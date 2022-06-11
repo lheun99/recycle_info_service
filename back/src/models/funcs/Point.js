@@ -1,6 +1,7 @@
 const db = require("../index.js");
 const pointModel = db.point;
 const Op = db.Sequelize.Op;
+const sequelize = db.sequelize;
 
 const Point = {
     create: async ({ newPoint }) => {
@@ -21,6 +22,13 @@ const Point = {
     findAllById: async ({ user_id }) => {
         const points = await pointModel.findAll({ where: { user_id } });
         return points;
+    },
+
+    getRankerIds: async () => {
+        const ids = await sequelize.query(
+            "SELECT user_id, SUM(point) OVER (PARTITION BY user_id) SUM_POINT FROM points"
+        );
+        return ids;
     },
 };
 
