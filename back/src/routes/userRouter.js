@@ -92,7 +92,7 @@ userRouter.put(
             }
 
             const loginId = req.currentUserId;
-            const userId = Number(req.params.userId);
+            const userId = req.params.userId;
 
             if (loginId !== userId) {
                 throw new Error(

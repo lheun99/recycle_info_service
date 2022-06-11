@@ -110,8 +110,8 @@ const userService = {
         return { message: "success", data: user };
     },
 
-    updatePassword: async ({ id, password }) => {
-        let user = await User.findById({ id });
+    updatePassword: async ({ userId, password }) => {
+        let user = await User.findById({ user_id: userId });
 
         if (!user) {
             throw new Error(
@@ -122,7 +122,7 @@ const userService = {
         const hashedPassword = await bcrypt.hash(password, 10);
         const toUpdate = { password: hashedPassword };
 
-        user = await User.update({ id, toUpdate });
+        user = await User.update({ user_id: userId, toUpdate });
         return { message: "success", data: user };
     },
 
