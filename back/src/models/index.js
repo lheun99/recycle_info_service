@@ -41,7 +41,6 @@ db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
 //model정의
-db.post = require("./schemas/post.js")(sequelize, Sequelize);
 db.user = require("./schemas/user.js")(sequelize, Sequelize);
 db.recycleInfo = require("./schemas/recycleInfo.js")(sequelize, Sequelize);
 db.recycleCategory = require("./schemas/recycleCategory.js")(

@@ -3,58 +3,58 @@ const userModel = db.user;
 const Sequelize = db.Sequelize;
 
 const User = {
-    create: async ({ newUser }) => {
-        const createdNewUser = await userModel.create(newUser, {
-            fields: ["nickname", "email", "password"],
-        });
+  create: async ({ newUser }) => {
+    const createdNewUser = await userModel.create(newUser, {
+      fields: ["nickname", "email", "password"],
+    });
 
-        return createdNewUser;
-    },
+    return createdNewUser;
+  },
 
-    findById: async ({ id }) => {
-        const user = await userModel.findOne({ where: { id } });
-        return user;
-    },
+  findById: async ({ id }) => {
+    const user = await userModel.findOne({ where: { id } });
+    return user;
+  },
 
-    findByEmail: async ({ email }) => {
-        const user = await userModel.findOne({ where: { email } });
-        return user;
-    },
+  findByEmail: async ({ email }) => {
+    const user = await userModel.findOne({ where: { email } });
+    return user;
+  },
 
-    findRankers: async () => {
-        const rankers = await userModel.findAll({
-            attributes: ["nickname", "totalPoint"],
-            order: [["totalPoint", "DESC"]],
-            limit: 3,
-        });
-        return rankers;
-    },
+  findRankers: async () => {
+    const rankers = await userModel.findAll({
+      attributes: ["nickname", "totalPoint"],
+      order: [["totalPoint", "DESC"]],
+      limit: 3,
+    });
+    return rankers;
+  },
 
-    // findRank: async ({ id }) => {
-    //     const rank = await userModel.findOne({
-    //         attributes: [
-    //             [
-    //                 id,
-    //                 Sequelize.literal(
-    //                     "(RANK() OVER (ORDER BY totalPoint DESC))"
-    //                 ),
-    //                 "rank",
-    //             ],
-    //         ],
-    //         where: { id },
-    //     });
-    //     console.log(rank);
-    //     return rank;
-    // },
+  // findRank: async ({ id }) => {
+  //     const rank = await userModel.findOne({
+  //         attributes: [
+  //             [
+  //                 id,
+  //                 Sequelize.literal(
+  //                     "(RANK() OVER (ORDER BY totalPoint DESC))"
+  //                 ),
+  //                 "rank",
+  //             ],
+  //         ],
+  //         where: { id },
+  //     });
+  //     console.log(rank);
+  //     return rank;
+  // },
 
-    update: async ({ id, toUpdate }) => {
-        const count = await userModel.update(toUpdate, { where: { id } });
-        return count;
-    },
+  update: async ({ id, toUpdate }) => {
+    const count = await userModel.update(toUpdate, { where: { id } });
+    return count;
+  },
 
-    delete: async ({ id }) => {
-        await userModel.destroy({ where: { id } });
-    },
+  delete: async ({ id }) => {
+    await userModel.destroy({ where: { id } });
+  },
 };
 
 module.exports = User;

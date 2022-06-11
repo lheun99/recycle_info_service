@@ -7,7 +7,7 @@ const RecycleInfo = {
   //이미지를 인공지능에 전달한다
   findRecycleCode: async ({ img }) => {
     //인공지능 분석 결과를 return
-    const result = 1;
+    const result = 4;
     return result;
   },
 

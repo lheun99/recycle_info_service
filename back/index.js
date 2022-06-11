@@ -4,7 +4,6 @@ const app = require("./src/app");
 const dotenv = require("dotenv");
 
 dotenv.config();
-
 const PORT = process.env.SERVER_PORT || 5001;
 // const swaggerDefinition = {
 //   openapi: "3.0.0",
