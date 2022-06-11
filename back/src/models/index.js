@@ -15,6 +15,7 @@ let sequelize = new Sequelize({
   host: config.host,
   port: config.port,
   dialect: "postgres",
+  logging: false,
 });
 
 fs.readdirSync(__dirname)
@@ -42,19 +43,5 @@ db.Sequelize = Sequelize;
 
 //model정의
 db.user = require("./schemas/user.js")(sequelize, Sequelize);
-db.recycleInfo = require("./schemas/recycleInfo.js")(sequelize, Sequelize);
-db.recycleCategory = require("./schemas/recycleCategory.js")(
-  sequelize,
-  Sequelize
-);
-
-//model간의 관계 선언
-db.recycleCategory.hasMany(db.recycleInfo, {
-  foreignKey: "code",
-  allowNull: false,
-});
-db.recycleInfo.belongsTo(db.recycleCategory, {
-  foreignKey: "code",
-});
 
 module.exports = db;
