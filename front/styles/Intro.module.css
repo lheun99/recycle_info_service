@@ -2,8 +2,8 @@
     width: 100%;
 }
 
-.intro_head, 
-.intro_recycling, 
+.intro_head,
+.intro_recycling,
 .intro_chart {
     width: 100%;
     height: 600px;
@@ -18,6 +18,23 @@
     z-index: 100;
     background-color: rgba(0, 0, 0, 0.25);
     text-align: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.row_Arrow {
+    position: absolute;
+    padding-top: 460px;
+    animation: up-down 0.4s /* 속도 */ linear 0s
+        /* 처음부터 끝까지 일정 속도로 진행 */ infinite alternate; /* 무한 반복 */
+}
+@keyframes up-down {
+    0% {
+        margin-top: 0px;
+    } /* 처음 위치 */
+    100% {
+        margin-top: 15px;
+    } /* 마지막 위치 */
 }
 
 .intro_video {
@@ -130,7 +147,7 @@
 
 .intro_waste_market_text {
     width: 770px;
-    background-color: #305E63;
+    background-color: #305e63;
     color: white;
     font-size: var(--font-title);
     padding: 50px 0 0 50px;
