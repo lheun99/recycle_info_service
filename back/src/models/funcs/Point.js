@@ -5,7 +5,7 @@ const Op = db.Sequelize.Op;
 const Point = {
     create: async ({ newPoint }) => {
         const createdNewPoint = await pointModel.create(newPoint, {
-            field: ["userId", "route", "point"],
+            field: ["user_id", "route", "point", "raised_at"],
         });
 
         return createdNewPoint;
@@ -23,3 +23,5 @@ const Point = {
         return points;
     },
 };
+
+module.exports = Point;
