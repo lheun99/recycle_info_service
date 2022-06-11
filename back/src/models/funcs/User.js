@@ -59,8 +59,8 @@ const User = {
         return count;
     },
 
-    delete: async ({ id }) => {
-        await userModel.destroy({ where: { id } });
+    delete: async ({ user_id }) => {
+        await userModel.destroy({ where: { user_id } });
     },
 };
 

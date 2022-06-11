@@ -126,8 +126,8 @@ const userService = {
         return { message: "success", data: user };
     },
 
-    deleteUser: async ({ id }) => {
-        const user = await User.findById({ id });
+    deleteUser: async ({ userId }) => {
+        const user = await User.findById({ user_id: userId });
 
         if (!user) {
             throw new Error(
@@ -135,7 +135,7 @@ const userService = {
             );
         }
 
-        await User.delete({ id });
+        await User.delete({ user_id: userId });
     },
 };
 
