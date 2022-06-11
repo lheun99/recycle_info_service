@@ -5,10 +5,10 @@ from os import path
 import os
 
 from PIL import Image
-from tqdm import tqdm
+from tqdm import trange
 
 
-def test_image(pathname: str) -> bool:
+def valid_image(pathname: str) -> bool:
     '''이미지가 제대로 된 파일인지 검사하고 정상이면 참, 아니면 거짓을 반환합니다.'''
     try:
         with Image.open(pathname) as image:
@@ -29,6 +29,16 @@ def cli():
     )
 
     args = parser.parse_args()
+
+    tasks = [
+        path.join(stem, leaf)
+        for stem, branches, leaves in os.walk(args.src)
+        for leaf in leaves
+    ]
+
+    for task in trange(tasks):
+        if not valid_image(task):
+            print(path.relpath(args.src, task))
 
 
 if __name__ == '__main__':
