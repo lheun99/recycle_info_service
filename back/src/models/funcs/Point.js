@@ -18,8 +18,8 @@ const Point = {
         return point;
     },
 
-    findAllById: async ({ userId }) => {
-        const points = await pointModel.findAll({ where: { userId } });
+    findAllById: async ({ user_id }) => {
+        const points = await pointModel.findAll({ where: { user_id } });
         return points;
     },
 };
