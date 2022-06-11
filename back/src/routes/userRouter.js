@@ -45,9 +45,9 @@ userRouter.post("/login", async (req, res, next) => {
 
 userRouter.get("/:userId/myPage", loginRequired, async (req, res, next) => {
     try {
-        const id = req.currentUserId;
+        const userId = req.currentUserId;
 
-        const userPage = await userService.getUserPage({ id });
+        const userPage = await userService.getUserPage({ userId });
 
         res.status(200).json(userPage);
     } catch (error) {
@@ -59,7 +59,7 @@ userRouter.put("/:userId/profile", loginRequired, async (req, res, next) => {
     try {
         // URI로부터 사용자 id를 추출함.
         const loginId = req.currentUserId;
-        const userId = Number(req.params.userId);
+        const userId = req.params.userId;
 
         if (loginId !== userId) {
             throw new Error("수정 권한이 없습니다. 다시 한 번 확인해 주세요.");
@@ -68,7 +68,7 @@ userRouter.put("/:userId/profile", loginRequired, async (req, res, next) => {
         const updateData = { nickname, picture };
 
         const updatedUser = await userService.updateProfile({
-            id: userId,
+            userId,
             updateData,
         });
 
@@ -92,7 +92,7 @@ userRouter.put(
             }
 
             const loginId = req.currentUserId;
-            const userId = Number(req.params.userId);
+            const userId = req.params.userId;
 
             if (loginId !== userId) {
                 throw new Error(
@@ -103,7 +103,7 @@ userRouter.put(
             const password = req.body.password;
 
             const updatedUser = await userService.updatePassword({
-                id: userId,
+                userId,
                 password,
             });
 
@@ -117,13 +117,13 @@ userRouter.put(
 userRouter.delete("/:userId", loginRequired, async (req, res, next) => {
     try {
         const loginId = req.currentUserId;
-        const userId = Number(req.params.userId);
+        const userId = req.params.userId;
 
         if (loginId !== userId) {
             throw new Error("탈퇴 권한이 없습니다. 다시 한 번 확인해 주세요.");
         }
 
-        await userService.deleteUser({ id: userId });
+        await userService.deleteUser({ userId });
 
         res.status(204).end();
     } catch (error) {

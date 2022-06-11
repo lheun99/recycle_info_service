@@ -1,7 +1,9 @@
 const User = require("../models/funcs/User");
+const Point = require("../models/funcs/Point");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const setUtil = require("../utils/setUtil");
+const { v4: uuidv4 } = require("uuid");
 
 const userService = {
     addUser: async ({ nickname, email, password }) => {
@@ -14,20 +16,23 @@ const userService = {
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
+        const userId = uuidv4();
+        const registerDate = new Date();
 
-        const newUser = { nickname, email, password: hashedPassword };
-
-        const createdNewUser = await User.create({ newUser });
-        const { id, picture, totalPoint, createdAt, updatedAt } =
-            createdNewUser;
-        const data = {
-            id,
+        const newUser = {
             nickname,
             email,
-            picture,
-            totalPoint,
-            createdAt,
-            updatedAt,
+            password: hashedPassword,
+            user_id: userId,
+            register_date: registerDate,
+        };
+
+        const createdNewUser = await User.create({ newUser });
+        const data = {
+            userId,
+            nickname,
+            email,
+            registerDate,
         };
 
         return { message: "success", data };
@@ -52,26 +57,30 @@ const userService = {
             throw new Error(
                 "비밀번호가 일치하지 않습니다. 다시 한 번 확인해 주세요."
             );
+        } else {
+            const today = new Date();
+            // 최근 로그인 날짜를 업데이트해줌
+            toUpdate = { last_login: today };
+            await User.update({ user_id: user.user_id, toUpdate });
         }
 
         const secretKey = process.env.JWT_SECRET_KEY;
-        const token = jwt.sign({ userId: user.id }, secretKey);
+        const token = jwt.sign({ userId: user.user_id }, secretKey);
 
-        const { id, nickname, picture, totalPoint } = user;
+        const { user_id, nickname, picture } = user;
 
         const loginUser = {
             token,
-            id,
+            userId: user_id,
             nickname,
             picture,
-            totalPoint,
         };
 
         return { message: "success", data: loginUser };
     },
 
-    getUserPage: async ({ id }) => {
-        const user = await User.findById({ id });
+    getUserPage: async ({ userId }) => {
+        const user = await User.findById({ user_id: userId });
 
         if (!user) {
             throw new Error(
@@ -79,32 +88,36 @@ const userService = {
             );
         }
 
-        const { nickname, picture, totalPoint } = user;
+        const { nickname, picture } = user;
 
-        const rankers = await User.findRankers();
-        // const rank = await User.findRank({ id });
+        // 랭커들의 user_id, nickname, total_point
+        const rankers = await Point.getRankers();
+        // 현 사용자의 total_point와 rank
+        const rank = await Point.getRank({ user_id: userId });
 
-        const data = { nickname, picture, totalPoint, rankers };
+        const data = { nickname, picture, rankers, rank };
 
         return { message: "success", data };
     },
 
-    updateProfile: async ({ id, updateData }) => {
-        let user = await User.findById({ id });
+    updateProfile: async ({ userId, updateData }) => {
+        let user = await User.findById({ user_id: userId });
 
         if (!user) {
             throw new Error(
                 "이미 탈퇴했거나 존재하지 않는 사용자입니다. 다시 한 번 확인해 주세요."
             );
         }
+
+        // 기존 값과 비교해서 달라진 값만 수정
         const toUpdate = setUtil.compareValues(updateData, user);
 
-        user = await User.update({ id, toUpdate });
+        user = await User.update({ user_id: userId, toUpdate });
         return { message: "success", data: user };
     },
 
-    updatePassword: async ({ id, password }) => {
-        let user = await User.findById({ id });
+    updatePassword: async ({ userId, password }) => {
+        let user = await User.findById({ user_id: userId });
 
         if (!user) {
             throw new Error(
@@ -115,12 +128,12 @@ const userService = {
         const hashedPassword = await bcrypt.hash(password, 10);
         const toUpdate = { password: hashedPassword };
 
-        user = await User.update({ id, toUpdate });
+        user = await User.update({ user_id: userId, toUpdate });
         return { message: "success", data: user };
     },
 
-    deleteUser: async ({ id }) => {
-        const user = await User.findById({ id });
+    deleteUser: async ({ userId }) => {
+        const user = await User.findById({ user_id: userId });
 
         if (!user) {
             throw new Error(
@@ -128,7 +141,7 @@ const userService = {
             );
         }
 
-        await User.delete({ id });
+        await User.delete({ user_id: userId });
     },
 };
 

@@ -6,6 +6,8 @@ const recycleInfoRouter = require("./routes/recycleInfoRouter");
 const userRouter = require("./routes/userRouter");
 const postRouter = require("./routes/postRouter");
 const imgUploadRouter = require("./routes/imgUploadRouter");
+const pointRouter = require("./routes/pointRouter");
+const quizRouter = require("./routes/quizRouter");
 
 const app = express();
 
@@ -29,6 +31,8 @@ app.use("/recycle", recycleInfoRouter);
 app.use("/post", postRouter);
 app.use("/upload", imgUploadRouter);
 app.use("/users", userRouter);
+app.use("/points", pointRouter);
+app.use("/quizs", quizRouter);
 app.use(errorMiddleware);
 
 module.exports = app;
