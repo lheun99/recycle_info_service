@@ -9,9 +9,13 @@ const pointService = {
     },
 
     getPoint: async ({ userId, route }) => {
-        // 2022-06-08 17:17:21.831 +0900
-        const today = "2022-06-08T15:00:00.000Z";
-        let point = await Point.findByFilter({ userId, route, today });
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        let point = await Point.findByFilter({
+            user_id: userId,
+            route,
+            today,
+        });
 
         if (!point) {
             point = { point: false };

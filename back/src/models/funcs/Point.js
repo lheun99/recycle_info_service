@@ -11,9 +11,9 @@ const Point = {
         return createdNewPoint;
     },
 
-    findByFilter: async ({ userId, route, today }) => {
+    findByFilter: async ({ user_id, route, today }) => {
         const point = await pointModel.findOne({
-            where: { userId, route, createdAt: { [Op.gt]: today } },
+            where: { user_id, route, raised_at: { [Op.gt]: today } },
         });
         return point;
     },
