@@ -8,6 +8,10 @@ from PIL import Image
 from tqdm import tqdm
 
 
+def test_image(pathname: str) -> bool:
+    pass
+
+
 def cli():
     parser = argparse.ArgumentParser(
         description='이미지가 제대로 된 파일인지 검사합니다.',
@@ -16,6 +20,7 @@ def cli():
         'src',
         help='원본 이미지가 들어있는 최상위 디렉터리 경로입니다.',
     )
+    parser.add_argument()
 
     args = parser.parse_args()
 
