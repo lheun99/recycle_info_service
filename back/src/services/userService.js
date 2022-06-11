@@ -59,6 +59,7 @@ const userService = {
             );
         } else {
             const today = new Date();
+            // 최근 로그인 날짜를 업데이트해줌
             toUpdate = { last_login: today };
             await User.update({ user_id: user.user_id, toUpdate });
         }
@@ -95,6 +96,7 @@ const userService = {
         // const rankers = await User.findRankers();
         // const rank = await User.findRank({ id });
 
+        // 나중에 현 사용자의 랭크와 랭커들의 포인트 및 아이디를 추가해서 반환할 예정
         const data = { nickname, picture };
 
         return { message: "success", data };
@@ -108,6 +110,8 @@ const userService = {
                 "이미 탈퇴했거나 존재하지 않는 사용자입니다. 다시 한 번 확인해 주세요."
             );
         }
+
+        // 기존 값과 비교해서 달라진 값만 수정
         const toUpdate = setUtil.compareValues(updateData, user);
 
         user = await User.update({ user_id: userId, toUpdate });

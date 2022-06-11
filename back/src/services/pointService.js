@@ -10,6 +10,7 @@ const pointService = {
 
     checkPoint: async ({ userId, route }) => {
         const today = new Date();
+        // 오늘 자정을 기준으로 필터링을 해주기 위함
         today.setHours(0, 0, 0, 0);
         let point = await Point.findByFilter({
             user_id: userId,
