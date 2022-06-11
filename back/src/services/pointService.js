@@ -8,7 +8,7 @@ const pointService = {
         return { message: "success", data: createdNewPoint };
     },
 
-    getPoint: async ({ userId, route }) => {
+    checkPoint: async ({ userId, route }) => {
         const today = new Date();
         today.setHours(0, 0, 0, 0);
         let point = await Point.findByFilter({
