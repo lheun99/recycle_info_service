@@ -11,3 +11,4 @@ platformdirs==2.5.2
 pycodestyle==2.8.0
 toml==0.10.2
 tomli==2.0.1
+tqdm==4.64.0

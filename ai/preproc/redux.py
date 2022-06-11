@@ -1,7 +1,7 @@
 #! /usr/bin/env python3
 
 import argparse
-# from collections import deque
+from collections import deque
 # from operator import itemgetter
 from os import path
 import os
@@ -10,14 +10,15 @@ import time
 import json
 import pickle
 
-from PIL import Image
-
 import asyncio
 from concurrent import futures
 import multiprocessing
 import threading
 
 from typing import Any, Callable, Iterable, Mapping, NewType
+
+from PIL import Image
+from tqdm import tqdm
 
 
 # typedef
@@ -38,7 +39,8 @@ class SerialExecutor(object):
     '''Executor 타입을 흉내내는 직렬 코드용 더미입니다.'''
 
     def __init__(self, max_workers: int | None = None) -> None:
-        self._max_workers = 0
+        self._max_workers = 1
+        self._pending = deque()
 
     def submit(self, fn: Callable, /, *args, **kwargs) -> Present:
         return Present(fn(*args, **kwargs))
@@ -46,12 +48,18 @@ class SerialExecutor(object):
     def map(
         self, func: Callable, *iterables: Iterable, chunksize: int = 1
     ) -> list:
-        '''모든 작업을 완료한 후 결과를 그대로 반환합니다.'''
-        return list(map(func, *iterables))
+        '''작업 완료된 결과물의 제너레이터를 반환합니다.'''
+        # return list(map(func, *iterables))
+        self._pending.extend([(func, args) for args in zip(*iterables)])
+        # return (func(*args) for args in self._pending)
+        while len(self._pending):
+            func, args = self._pending.popleft()
+            yield func(*args)
 
     def shutdown(self, wait=True):
-        '''``shutdown`` 메서드는 의도적으로 아무 일도 하지 않습니다.'''
-        return
+        if wait:
+            for func, args in self._pending:
+                func(*args)
 
 
 def whpair(whstr: str) -> tuple[int, int]:
@@ -90,7 +98,7 @@ async def parse_json(
     task = {
         'image': path.join(prefix, label['FILE NAME']),
         'label': rel,
-        'dim': dim,
+        'dim': dim if dim is not None else res_old,
         'boxes': []
     }
 
@@ -188,15 +196,18 @@ def resize_image(src: str, dst: str, dim: tuple[int, int]) -> None:
     try:
         if dim is None:
             return
+        if path.exists(dst):
+            print(f'{_identstr()}: FAIL: "{dst}" 이미 존재하는 파일입니다')
+            return
         os.makedirs(path.dirname(dst), exist_ok=True)
         image_in = Image.open(src)
         image_out = image_in.resize(dim)
         image_in.close()
         image_out.save(dst)
     except OSError as why:
-        print(f'{identstr()}: ERROR: "{dst}" 쓰기 실패 ({why})')
+        print(f'{_identstr()}: ERROR: "{dst}" 쓰기 실패 ({why})')
     except Exception as why:
-        print(f'{identstr()}: ERROR: "{dst}" 처리 불가 ({why})')
+        print(f'{_identstr()}: ERROR: "{dst}" 처리 불가 ({why})')
 
 
 def _getident() -> tuple[int, int]:
@@ -207,7 +218,7 @@ def _getident() -> tuple[int, int]:
     )
 
 
-def identstr() -> str:
+def _identstr() -> str:
     return '.'.join(map(str, _getident()))
 
 
@@ -300,7 +311,7 @@ async def cli():
     done_images = 0
     args = _getargs()
     # debug
-    print(args)
+    # print(args)
     executor = args.Executor()
     if not isinstance(executor, SerialExecutor):
         print(f'MAIN: 작업자 수는 최대 {executor._max_workers}개입니다.')
@@ -314,6 +325,8 @@ async def cli():
 
     tasks = []
     if do_label:
+        print(f'MAIN: 애노테이션을 처리합니다.')
+
         for stem, branches, leaves in os.walk(args.label_src):
             for leaf in leaves:
                 if path.splitext(leaf)[1].lower() == '.json':
@@ -325,7 +338,14 @@ async def cli():
                             args.label_output_type
                         )
                     )
-        tasks = await asyncio.gather(*tasks)
+        tasks_ = tasks
+        tasks = []
+        with tqdm(total=len(tasks_), desc='Read json labels') as pbar:
+            for coro in asyncio.as_completed(tasks_):
+                tasks.append(await coro)
+                pbar.update(1)
+
+        # tasks = await asyncio.gather(*tasks)
         done_labels += len(tasks)
 
         if args.label_output_type == 'yolov5':
@@ -336,13 +356,20 @@ async def cli():
                     path.splitext(task['label'])[0] + '.txt',
                 )
                 write_tasks.append(write_yolov5(dst, task['boxes']))
-            await asyncio.gather(*write_tasks)
+            # await asyncio.gather(*write_tasks)
+            with tqdm(
+                total=len(write_tasks), desc='Write yolov5 labels'
+            ) as pbar:
+                for coro in write_tasks:
+                    await coro
+                    pbar.update(1)
         elif args.label_output_type == 'yolov3':
             write_yolov3(args.label_dst, tasks)
         elif args.label_output_type == 'pickle':
             write_pickle(args.label_dst, tasks)
 
     if do_image:
+        print(f'MAIN: 이미지를 처리합니다.')
         if not do_label:
             for stem, branches, leaves in os.walk(args.image_src):
                 for leaf in leaves:
@@ -361,7 +388,7 @@ async def cli():
             [path.join(args.image_src, task['image']) for task in tasks],
             [path.join(args.image_dst, task['image']) for task in tasks],
             [task['dim'] for task in tasks],
-            chunksize=max(1, round(len(tasks) / executor._max_workers)),
+            chunksize=max(1, round(len(tasks) / executor._max_workers / 128)),
         )
         # resize_tasks = []
         # for task in tasks:
@@ -373,8 +400,10 @@ async def cli():
         #             task['dim'],
         #         )
         #     )
-        for done in pending:
-            pass
+        # executor.shutdown()
+        with tqdm(total=len(tasks), desc='Resize images') as pbar:
+            for done in pending:
+                pbar.update(1)
 
         executor.shutdown()
 
@@ -382,7 +411,10 @@ async def cli():
         print(f'MAIN: stats')
         print(f'    labels processed: {done_labels}')
         print(f'    images resized: {done_images}')
-        print(f'    time taken: {start_time - end_time:0.2} seconds')
+        print(
+            f'    parallelization: {args.parallelize if do_image else "async"}'
+        )
+        print(f'    time taken: {end_time - start_time:0.2f} seconds')
 
 
 if __name__ == '__main__':

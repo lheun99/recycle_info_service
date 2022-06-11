@@ -46,5 +46,20 @@ db.Sequelize = Sequelize;
 db.user = require("./schemas/users.js")(sequelize, Sequelize);
 db.point = require("./schemas/points.js")(sequelize, Sequelize);
 db.quiz = require("./schemas/quizs.js")(sequelize, Sequelize);
+//model정의
+db.recycleInfo = require("./schemas/recycleInfo.js")(sequelize, Sequelize);
+db.recycleCategory = require("./schemas/recycleCategory.js")(
+    sequelize,
+    Sequelize
+);
+
+//model간의 관계 선언
+db.recycleCategory.hasMany(db.recycleInfo, {
+    foreignKey: "code",
+    allowNull: false,
+});
+db.recycleInfo.belongsTo(db.recycleCategory, {
+    foreignKey: "code",
+});
 
 module.exports = db;
