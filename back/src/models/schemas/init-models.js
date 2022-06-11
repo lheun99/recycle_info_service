@@ -1,20 +1,18 @@
-var DataTypes = require("sequelize").DataTypes;
-var _points = require("./points");
-var _quizs = require("./quizs");
-var _users = require("./users");
+const DataTypes = require("sequelize").DataTypes;
+const _points = require("./points");
+const _quizs = require("./quizs");
+const _users = require("./users");
 
-function initModels(sequelize) {
-  var points = _points(sequelize, DataTypes);
-  var quizs = _quizs(sequelize, DataTypes);
-  var users = _users(sequelize, DataTypes);
+const initModels = (sequelize) => {
+    const points = _points(sequelize, DataTypes);
+    const quizs = _quizs(sequelize, DataTypes);
+    const users = _users(sequelize, DataTypes);
 
+    return {
+        points,
+        quizs,
+        users,
+    };
+};
 
-  return {
-    points,
-    quizs,
-    users,
-  };
-}
 module.exports = initModels;
-module.exports.initModels = initModels;
-module.exports.default = initModels;
