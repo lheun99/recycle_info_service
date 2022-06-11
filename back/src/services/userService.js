@@ -27,19 +27,14 @@ const userService = {
         };
 
         const createdNewUser = await User.create({ newUser });
-        // const { id, picture, totalPoint, createdAt, updatedAt } =
-        //     createdNewUser;
-        // const data = {
-        //     id,
-        //     nickname,
-        //     email,
-        //     picture,
-        //     totalPoint,
-        //     createdAt,
-        //     updatedAt,
-        // };
+        const data = {
+            userId,
+            nickname,
+            email,
+            registerDate,
+        };
 
-        return { message: "success", data: createdNewUser };
+        return { message: "success", data };
     },
 
     getUser: async ({ email, password }) => {
@@ -64,16 +59,15 @@ const userService = {
         }
 
         const secretKey = process.env.JWT_SECRET_KEY;
-        const token = jwt.sign({ userId: user.id }, secretKey);
+        const token = jwt.sign({ userId: user.user_id }, secretKey);
 
-        const { id, nickname, picture, totalPoint } = user;
+        const { user_id, nickname, picture } = user;
 
         const loginUser = {
             token,
-            id,
+            userId: user_id,
             nickname,
             picture,
-            totalPoint,
         };
 
         return { message: "success", data: loginUser };
