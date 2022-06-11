@@ -23,7 +23,7 @@ app.use(express.urlencoded({ extended: false }));
 app.get("/", (req, res) => {
   res.send("Hello, world!!!");
 });
-app.use(postRouter);
+app.use("/post", postRouter);
 app.use("/upload", imgUploadRouter);
 app.use("/users", userRouter);
 app.use(errorMiddleware);

@@ -1,27 +1,41 @@
-module.exports = (sequelize, Sequelize) => {
+const Sequelize = require("sequelize");
+module.exports = function (sequelize, DataTypes) {
   const Post = sequelize.define(
-    "post",
+    "posts",
     {
       post_id: {
-        type: Sequelize.UUID,
+        autoIncrement: true,
+        autoIncrementIdentity: true,
+        type: DataTypes.BIGINT,
         allowNull: false,
+        primaryKey: true,
       },
       title: {
-        type: Sequelize.STRING,
+        type: DataTypes.STRING(255),
         allowNull: false,
       },
       post_img: {
-        type: Sequelize.ARRAY(Sequelize.STRING),
+        type: DataTypes.ARRAY(DataTypes.STRING),
+        allowNull: true,
       },
       content: {
-        type: Sequelize.STRING,
+        type: DataTypes.STRING(255),
         allowNull: false,
       },
     },
     {
+      sequelize,
+      tableName: "posts",
+      schema: "public",
       timestamps: true,
+      indexes: [
+        {
+          name: "posts_pkey",
+          unique: true,
+          fields: [{ name: "post_id" }],
+        },
+      ],
     }
   );
-
   return Post;
 };

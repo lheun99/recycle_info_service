@@ -3,7 +3,7 @@ const upload = require("../middlewares/imgUploader.js");
 
 imgUploadRouter.post(
   "/postImg",
-  upload.single("image"),
+  upload.array("image"),
   async (req, res, next) => {
     try {
       res.status(201).json("good");

@@ -7,107 +7,61 @@ const postService = {
 
     return { message: "success", data: createdNewPost };
   },
+
+  getPost: async ({ post_id }) => {
+    const currentPost = await Post.findPostById({ post_id });
+
+    if (!currentPost) {
+      const errorMessage =
+        "게시글 존재하지 않습니다. 다시 한 번 확인해 주세요.";
+      return { errorMessage };
+    }
+
+    return { message: "success", data: currentPost };
+  },
+  // getAllPost: async () => {
+  //   const listedPost = await Post.findAllPost();
+
+  //   if (!listedPost) {
+  //     const errorMessage = "게시글 존재하지 않습니다.";
+  //     return { errorMessage };
+  //   }
+
+  //   return { message: "success", data: listedPost };
+  // },
+
+  setPost: async ({ post_id, toUpdate }) => {
+    const findedPost = await Post.findPostById({ post_id });
+
+    if (!findedPost) {
+      const errorMessage =
+        "게시글 존재하지 않습니다. 다시 한 번 확인해 주세요.";
+      return { errorMessage };
+    }
+
+    const toUpdateField = Object.keys(toUpdate);
+    toUpdateField.forEach((key) => {
+      if (!toUpdate[key]) delete toUpdate[key];
+    });
+
+    const updatedPost = await Post.update({ post_id, toUpdate });
+
+    return { message: "success", data: updatedPost };
+  },
+
+  deletePost: async ({ post_id }) => {
+    const deletedPost = await Post.delete({
+      post_id,
+    });
+
+    if (!deletedPost) {
+      const errorMessage =
+        "게시글 존재하지 않습니다. 다시 한 번 확인해 주세요.";
+      return { errorMessage };
+    }
+
+    return { message: "success", data: deletedPost };
+  },
 };
 
 module.exports = postService;
-
-// //post create 생성
-// exports.createPost = (req, res, next) => {
-//   Post.create(req.body, {
-//     fields: ["title", "content"],
-//   })
-//     .then((response) => {
-//       res.json({
-//         message: "success",
-//         data: response,
-//       });
-//     })
-//     .catch((error) => {
-//       console.log(error);
-//       const err = new Error(error);
-//       next(err);
-//     });
-// };
-
-// //post update 수정
-// exports.updatePost = (req, res, next) => {
-//   Post.update(
-//     {
-//       title: req.body.title,
-//       content: req.body.content,
-//     },
-//     {
-//       where: {
-//         id: req.params.id,
-//       },
-//     }
-//   )
-//     .then((response) => {
-//       res.json({
-//         message: "success",
-//         count: response[0], //영향을 받은 행 수
-//       });
-//     })
-//     .catch((error) => {
-//       console.log(error);
-//       const err = new Error(error);
-//       next(err);
-//     });
-// };
-
-// //post delete 삭제
-// exports.deletePost = (req, res, next) => {
-//   Post.destroy({
-//     where: {
-//       id: req.params.id,
-//     },
-//   })
-//     .then((response) => {
-//       res.json({
-//         message: "success",
-//         count: response, //영향을 받은 행 수
-//       });
-//     })
-//     .catch((error) => {
-//       console.log(error);
-//       const err = new Error(error);
-//       next(err);
-//     });
-// };
-
-// // post 한 개 불러오기
-// exports.getPost = (req, res, next) => {
-//   Post.findOne({
-//     where: {
-//       id: req.params.id,
-//     },
-//   })
-//     .then((response) => {
-//       res.json({
-//         message: "success",
-//         data: response,
-//       });
-//     })
-//     .catch((error) => {
-//       console.log(error);
-//       const err = new Error(error);
-//       next(err);
-//     });
-// };
-
-// exports.getPostAll = (req, res, next) => {
-//   Post.findAll({
-//     order: [["createdAt"]],
-//   })
-//     .then((response) => {
-//       res.json({
-//         message: "success",
-//         data_list: response,
-//       });
-//     })
-//     .catch((error) => {
-//       console.log(error);
-//       const err = new Error(error);
-//       next(err);
-//     });
-// };

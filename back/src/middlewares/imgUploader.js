@@ -27,6 +27,7 @@ const upload = multer({
     key: (req, file, cb) => {
       cb(null, `post_img/${Date.now()}_${file.originalname}`);
     },
+    limits: { fileSize: 5 * 1024 * 1024 },
   }),
 });
 
