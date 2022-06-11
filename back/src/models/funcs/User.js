@@ -28,14 +28,14 @@ const User = {
         return user;
     },
 
-    findRankers: async () => {
-        const rankers = await userModel.findAll({
-            attributes: ["nickname", "totalPoint"],
-            order: [["totalPoint", "DESC"]],
-            limit: 3,
-        });
-        return rankers;
-    },
+    // findRankers: async () => {
+    //     const rankers = await userModel.findAll({
+    //         attributes: ["nickname", "totalPoint"],
+    //         order: [["totalPoint", "DESC"]],
+    //         limit: 3,
+    //     });
+    //     return rankers;
+    // },
 
     // findRank: async ({ id }) => {
     //     const rank = await userModel.findOne({
