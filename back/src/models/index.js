@@ -42,7 +42,6 @@ Object.keys(db).forEach((modelName) => {
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
-db.post = require("./schemas/post.js")(sequelize, Sequelize);
 db.user = require("./schemas/user.js")(sequelize, Sequelize);
 db.point = require("./schemas/point.js")(sequelize, Sequelize);
 
