@@ -20,7 +20,7 @@ const Nav = () => {
                     <Link href="/recycling/aiSearcher">분리배출 하러가기</Link>
                 </li>
                 <li>
-                    <Link href="/">우리동네 대형폐기물 신고하기</Link>
+                    <Link href="/waste">우리동네 대형폐기물 신고하기</Link>
                 </li>
                 <li>
                     <Link href="/">중고마켓</Link>
