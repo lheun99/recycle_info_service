@@ -1,12 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import IntroStyles from "../../styles/Intro.module.css";
 import IntroData from "./IntroData";
-import Image from "next/image";
 import DoughnutChart from "./DoughnutChart";
+import Image from "next/image";
+import Handphone from "../../public/images/handphone.png";
 
 const Intro = () => {
-  const [text, setText] = useState<string>("aa");
-
   return (
     <div>
       <div className={IntroStyles.intro_wrapper}>
@@ -21,7 +20,7 @@ const Intro = () => {
           </video>
         </div>
         <div className={IntroStyles.intro_recycling}>
-          <Image src="/images/handphone.png" alt="handphone" width={300} height={300} />
+          <Image src={Handphone} alt="handphone" width={300} height={300} />
           <IntroData title={"분리수거 어렵다구요?\n찍어보세요!"} 
                      text={"헷갈리는 분리배출을 도와줍니다."} 
                      button={"분리배출 하러가기"}/>
