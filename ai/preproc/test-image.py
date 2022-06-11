@@ -5,7 +5,7 @@ from os import path
 import os
 
 from PIL import Image
-from tqdm import trange
+from tqdm import tqdm
 
 
 def valid_image(pathname: str) -> bool:
@@ -36,7 +36,7 @@ def cli():
         for leaf in leaves
     ]
 
-    for task in trange(tasks):
+    for task in tqdm(tasks, desc='Verifying images'):
         if not valid_image(task):
             print(path.relpath(args.src, task))
 
