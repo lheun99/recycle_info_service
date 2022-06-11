@@ -54,8 +54,8 @@ const User = {
     //     return rank;
     // },
 
-    update: async ({ id, toUpdate }) => {
-        const count = await userModel.update(toUpdate, { where: { id } });
+    update: async ({ user_id, toUpdate }) => {
+        const count = await userModel.update(toUpdate, { where: { user_id } });
         return count;
     },
 
