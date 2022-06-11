@@ -1,11 +1,18 @@
 const db = require("../index.js");
 const userModel = db.user;
 const Sequelize = db.Sequelize;
+const sequelize = db.sequelize;
 
 const User = {
     create: async ({ newUser }) => {
         const createdNewUser = await userModel.create(newUser, {
-            fields: ["nickname", "email", "password"],
+            fields: [
+                "user_id",
+                "nickname",
+                "email",
+                "password",
+                "register_date",
+            ],
         });
 
         return createdNewUser;

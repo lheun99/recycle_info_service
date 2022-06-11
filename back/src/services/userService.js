@@ -2,6 +2,7 @@ const User = require("../models/funcs/User");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const setUtil = require("../utils/setUtil");
+const { v4: uuidv4 } = require("uuid");
 
 const userService = {
     addUser: async ({ nickname, email, password }) => {
@@ -14,23 +15,31 @@ const userService = {
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
+        const userId = uuidv4();
+        const registerDate = new Date();
 
-        const newUser = { nickname, email, password: hashedPassword };
-
-        const createdNewUser = await User.create({ newUser });
-        const { id, picture, totalPoint, createdAt, updatedAt } =
-            createdNewUser;
-        const data = {
-            id,
+        const newUser = {
             nickname,
             email,
-            picture,
-            totalPoint,
-            createdAt,
-            updatedAt,
+            password: hashedPassword,
+            user_id: userId,
+            register_date: registerDate,
         };
 
-        return { message: "success", data };
+        const createdNewUser = await User.create({ newUser });
+        // const { id, picture, totalPoint, createdAt, updatedAt } =
+        //     createdNewUser;
+        // const data = {
+        //     id,
+        //     nickname,
+        //     email,
+        //     picture,
+        //     totalPoint,
+        //     createdAt,
+        //     updatedAt,
+        // };
+
+        return { message: "success", data: createdNewUser };
     },
 
     getUser: async ({ email, password }) => {

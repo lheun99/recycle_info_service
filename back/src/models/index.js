@@ -15,6 +15,7 @@ let sequelize = new Sequelize({
     host: config.host,
     port: config.port,
     dialect: "postgres",
+    logging: false,
 });
 
 fs.readdirSync(__dirname)
@@ -42,7 +43,7 @@ Object.keys(db).forEach((modelName) => {
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
-db.user = require("./schemas/user.js")(sequelize, Sequelize);
-db.point = require("./schemas/point.js")(sequelize, Sequelize);
+db.user = require("./schemas/users.js")(sequelize, Sequelize);
+db.point = require("./schemas/points.js")(sequelize, Sequelize);
 
 module.exports = db;
