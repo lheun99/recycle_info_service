@@ -11,8 +11,7 @@ const Intro = () => {
       <div className={IntroStyles.intro_wrapper}>
         <div className={IntroStyles.intro_head}>
           <IntroData title={"구해줘! 지구"} 
-                     text={"내 손안의 분리배출\n작은 실천이 지구를 지킵니다."} 
-                     button={"분리배출 하러가기"}/>
+                     text={"내 손안의 분리배출\n작은 실천이 지구를 지킵니다.\n\n\n\n"} />
         </div>
         <div className={IntroStyles.intro_video}>
           <video muted autoPlay loop>

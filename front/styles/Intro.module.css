@@ -17,6 +17,7 @@
     z-index: 1;
     z-index: 100;
     background-color: rgba(0, 0, 0, 0.25);
+    text-align: center;
 }
 
 .intro_video {
@@ -42,12 +43,11 @@
 
 .intro_title {
     font-size: var(--font-title);
-    font-family: 'Gugi', cursive;
+    font-weight: bold;
 }
 
 .intro_subtitle {
     font-size: var(--font-subtitle);
-    font-family: 'Gugi', cursive;
 }
 
 .intro_text {
@@ -63,6 +63,10 @@
 .intro_recycling {
     width: 100%;
     background-color: var(--gray);
+}
+
+.intro_chart {
+    text-align: right;
 }
 
 .intro_card {
@@ -129,7 +133,6 @@
     background-color: #305E63;
     color: white;
     font-size: var(--font-title);
-    font-family: 'Gugi', cursive;
     padding: 50px 0 0 50px;
 }
 
@@ -146,6 +149,5 @@
     height: 310px;
     background-color: white;
     font-size: var(--font-subtitle);
-    font-family: 'Gugi', cursive;
     padding: 50px 0 0 50px;
 }
