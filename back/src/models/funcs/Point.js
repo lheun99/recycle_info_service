@@ -24,11 +24,11 @@ const Point = {
         return points;
     },
 
-    getRankerIds: async () => {
-        const ids = await sequelize.query(
-            "SELECT user_id, SUM(point) OVER (PARTITION BY user_id) SUM_POINT FROM points"
+    getRankers: async () => {
+        const rankerPoints = await sequelize.query(
+            "SELECT DISTINCT points.user_id, nickname, SUM(point) OVER (PARTITION BY points.user_id) SUM_POINT FROM points INNER JOIN users ON points.user_id=users.user_id ORDER BY sum_point DESC LIMIT 3"
         );
-        return ids;
+        return rankerPoints[0];
     },
 };
 

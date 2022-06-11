@@ -90,14 +90,11 @@ const userService = {
 
         const { nickname, picture } = user;
 
-        const rankerIds = await Point.getRankerIds();
-        console.log(rankerIds);
-
-        // const rankers = await User.findRankers();
+        const rankers = await Point.getRankers();
         // const rank = await User.findRank({ id });
 
         // 나중에 현 사용자의 랭크와 랭커들의 포인트 및 아이디를 추가해서 반환할 예정
-        const data = { nickname, picture };
+        const data = { nickname, picture, rankers };
 
         return { message: "success", data };
     },
