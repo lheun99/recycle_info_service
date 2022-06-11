@@ -45,5 +45,6 @@ db.Sequelize = Sequelize;
 
 db.user = require("./schemas/users.js")(sequelize, Sequelize);
 db.point = require("./schemas/points.js")(sequelize, Sequelize);
+db.quiz = require("./schemas/quizs.js")(sequelize, Sequelize);
 
 module.exports = db;

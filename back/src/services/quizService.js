@@ -1,3 +1,6 @@
+const Quiz = require("../models/funcs/Quiz");
+const setUtil = require("../utils/setUtil.js");
+
 const quizService = {
     getQuiz: async () => {
         const count = await Quiz.getCount();
@@ -6,10 +9,10 @@ const quizService = {
 
         const quiz = await Quiz.findById(number);
 
-        const newMultiples = quiz.multiples.split("/");
+        const newMultiples = quiz.multiples.split("^");
         quiz.multiples = setUtil.shuffle(newMultiples);
 
-        return quiz;
+        return { message: "success", data: quiz };
     },
 };
 

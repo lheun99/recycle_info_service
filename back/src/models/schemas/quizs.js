@@ -3,7 +3,8 @@ module.exports = function(sequelize, DataTypes) {
   return sequelize.define('quizs', {
     quiz_id: {
       type: DataTypes.INTEGER,
-      allowNull: true
+      allowNull: false,
+      primaryKey: true
     },
     question: {
       type: DataTypes.STRING,
@@ -25,6 +26,15 @@ module.exports = function(sequelize, DataTypes) {
     sequelize,
     tableName: 'quizs',
     schema: 'public',
-    timestamps: false
+    timestamps: false,
+    indexes: [
+      {
+        name: "quizs_pk",
+        unique: true,
+        fields: [
+          { name: "quiz_id" },
+        ]
+      },
+    ]
   });
 };
