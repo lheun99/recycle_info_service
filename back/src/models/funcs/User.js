@@ -18,8 +18,8 @@ const User = {
         return createdNewUser;
     },
 
-    findById: async ({ id }) => {
-        const user = await userModel.findOne({ where: { id } });
+    findById: async ({ user_id }) => {
+        const user = await userModel.findOne({ where: { user_id } });
         return user;
     },
 

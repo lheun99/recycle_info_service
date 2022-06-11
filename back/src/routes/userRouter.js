@@ -59,7 +59,7 @@ userRouter.put("/:userId/profile", loginRequired, async (req, res, next) => {
     try {
         // URI로부터 사용자 id를 추출함.
         const loginId = req.currentUserId;
-        const userId = Number(req.params.userId);
+        const userId = req.params.userId;
 
         if (loginId !== userId) {
             throw new Error("수정 권한이 없습니다. 다시 한 번 확인해 주세요.");

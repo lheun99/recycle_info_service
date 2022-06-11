@@ -96,8 +96,8 @@ const userService = {
         return { message: "success", data };
     },
 
-    updateProfile: async ({ id, updateData }) => {
-        let user = await User.findById({ id });
+    updateProfile: async ({ userId, updateData }) => {
+        let user = await User.findById({ user_id: userId });
 
         if (!user) {
             throw new Error(
@@ -106,7 +106,7 @@ const userService = {
         }
         const toUpdate = setUtil.compareValues(updateData, user);
 
-        user = await User.update({ id, toUpdate });
+        user = await User.update({ user_id: userId, toUpdate });
         return { message: "success", data: user };
     },
 
