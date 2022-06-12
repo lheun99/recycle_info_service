@@ -4,11 +4,20 @@ import IntroData from "./IntroData";
 import DoughnutChart from "./DoughnutChart";
 import Image from "next/image";
 import Handphone from "../../public/images/handphone.png";
+import DownArrow from "../../public/images/down-arrow.png";
 
 const Intro = () => {
+    const handleScroll = () => {
+        const screenHeight = document.querySelector("#intro").clientHeight;
+        window.scrollTo({
+          top: screenHeight,
+          behavior: 'smooth'
+        })
+    }
+
     return (
-        <div>
-            <div className={IntroStyles.intro_wrapper}>
+        <main>
+            <section id="intro" className={IntroStyles.intro_wrapper}>
                 <div className={IntroStyles.intro_head}>
                     <IntroData
                         title={"구해줘! 지구"}
@@ -16,13 +25,22 @@ const Intro = () => {
                             "내 손안의 분리배출\n작은 실천이 지구를 지킵니다.\n\n\n\n"
                         }
                     />
-                    <div className={IntroStyles.row_Arrow}>🡻🡻🡻</div>
+                    <button className={IntroStyles.intro_arrow} onClick={handleScroll}>
+                        <Image
+                            src={DownArrow}
+                            alt="down-arrow"
+                            width={40}
+                            height={40}
+                        />
+                    </button>
                 </div>
                 <div className={IntroStyles.intro_video}>
                     <video muted autoPlay loop>
                         <source src="/videos/Preview.mp4" type="video/mp4" />
                     </video>
                 </div>
+            </section>
+            <section>
                 <div className={IntroStyles.intro_recycling}>
                     <Image
                         src={Handphone}
@@ -148,8 +166,8 @@ const Intro = () => {
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
+            </section>
+        </main>
     );
 };
 
