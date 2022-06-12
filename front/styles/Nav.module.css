@@ -1,5 +1,5 @@
 .nav {
-    padding: 1rem 1rem;
+    padding: 1rem 5rem;
     display: grid;
     grid-template-columns: 1fr 3fr;
 }
