@@ -1,9 +1,11 @@
 .intro_wrapper {
     width: 100%;
+    height: 100vh;
+    position: relative;
 }
 
-.intro_head, 
-.intro_recycling, 
+.intro_head,
+.intro_recycling,
 .intro_chart {
     width: 100%;
     height: 600px;
@@ -13,21 +15,46 @@
 }
 
 .intro_head {
+    height: 100%;
     position: absolute;
     z-index: 1;
-    /* right: 20vw; */
-    z-index: 100;
     background-color: rgba(0, 0, 0, 0.25);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.intro_arrow {
+    background: none;
+    border: none;
+    position: absolute;
+    top: 500px;
+}
+
+.intro_arrow {
+    animation: up-down 0.4s 0s ease infinite alternate;
+}
+@keyframes up-down {
+    0% {
+        margin-top: 0px;
+    } 
+    100% {
+        margin-top: 30px;
+    } 
 }
 
 .intro_video {
     width: 100%;
     height: 100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .intro_video video {
     width: 100%;
-    height: 600px;
+    height: 100%;
     object-fit: cover;
 }
 
@@ -43,12 +70,11 @@
 
 .intro_title {
     font-size: var(--font-title);
-    font-family: 'Gugi', cursive;
+    font-weight: bold;
 }
 
 .intro_subtitle {
     font-size: var(--font-subtitle);
-    font-family: 'Gugi', cursive;
 }
 
 .intro_text {
@@ -64,6 +90,10 @@
 .intro_recycling {
     width: 100%;
     background-color: var(--gray);
+}
+
+.intro_chart {
+    text-align: right;
 }
 
 .intro_card {
@@ -127,10 +157,9 @@
 
 .intro_waste_market_text {
     width: 770px;
-    background-color: #305E63;
+    background-color: #305e63;
     color: white;
     font-size: var(--font-title);
-    font-family: 'Gugi', cursive;
     padding: 50px 0 0 50px;
 }
 
@@ -147,6 +176,5 @@
     height: 310px;
     background-color: white;
     font-size: var(--font-subtitle);
-    font-family: 'Gugi', cursive;
     padding: 50px 0 0 50px;
 }

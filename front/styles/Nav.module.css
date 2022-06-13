@@ -1,7 +1,11 @@
 .nav {
-    padding: 1rem 1rem;
+    width: 100%;
+    height: var(--nav-height);
+    position: absolute;
+    z-index: 5;
     display: grid;
     grid-template-columns: 1fr 3fr;
+    background-color: white;
 }
 .nav ul {
     display: flex;
