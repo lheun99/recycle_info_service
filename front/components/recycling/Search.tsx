@@ -3,16 +3,12 @@ import { useRouter } from "next/router";
 import searchStyles from "../../styles/Search.module.css";
 
 const Search = () => {
-    const [inputValue, setInputValue] = useState<String>("");
+    const [inputValue, setInputValue] = useState("");
     const router = useRouter(); // 페이지 이동을 위해 useRouter 적용
 
-    const findValue = async (e: React.MouseEvent<HTMLButtonElement>) => {
-        e.preventDefault();
-        const value = (
-            document.getElementById("searchInput") as HTMLInputElement
-        ).value;
+    const findValue = async () => {
         console.log(inputValue); // input 창 value 확인
-        if (value === "") {
+        if (inputValue === "") {
             // 입력한 내용이 없을 경우, 넘어가지 못함
             return;
         } else {
@@ -29,6 +25,7 @@ const Search = () => {
                 type="text"
                 autoComplete="off"
                 placeholder="사물을 검색해보세요"
+                value={inputValue}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                     setInputValue(e.target.value)
                 }

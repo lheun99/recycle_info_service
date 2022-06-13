@@ -9,23 +9,21 @@ import carouselStyles from "../../styles/Carousel.module.css";
 const subjects = infoData.map((info) => info.subject);
 
 const InfoCarousel = () => {
-    const [slideIndex, setSlideIndex] = useState<number>(1);
+    const [slideIndex, setSlideIndex] = useState(1);
     const router = useRouter(); // 페이지 이동을 위해 useRouter 적용
 
     const nextSlide = () => {
-        if (slideIndex !== infoData.length) {
-            setSlideIndex(slideIndex + 1);
-        } else if (slideIndex === infoData.length) {
+        if (slideIndex === infoData.length) {
             return;
         }
+        setSlideIndex(slideIndex + 1);
     };
 
     const prevSlide = () => {
-        if (slideIndex !== 1) {
-            setSlideIndex(slideIndex - 1);
-        } else if (slideIndex === 1) {
+        if (slideIndex === 1) {
             return;
         }
+        setSlideIndex(slideIndex - 1);
     };
 
     const rendPage = (e: React.MouseEvent<HTMLButtonElement>) => {
