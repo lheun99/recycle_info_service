@@ -78,7 +78,7 @@ userRouter.put("/:userId/profile", loginRequired, async (req, res, next) => {
     }
 });
 
-userRouter.put(
+userRouter.patch(
     "/:userId/password",
     loginRequired,
     body("password")
