@@ -9,7 +9,7 @@ const Nav = () => {
             <ul>
                 <li>
                     <Link href="/" passHref>
-                        <a>
+                        <a className={navStyles.titleWrapper}>
                             <Image src={titleEarth} alt="title image" />
                         </a>
                     </Link>
