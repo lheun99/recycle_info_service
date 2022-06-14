@@ -21,7 +21,6 @@ const UserProfile = () => {
                 className={myPageStyles.profile_img}
                 alt="user profile"
                 src="images/default.profile.png"
-                sx={{ width: "200px", height: "200px" }}
             />
             <div>
                 <h3>jaPark</h3>
@@ -44,13 +43,15 @@ const UserProfile = () => {
                     onClose={() => setIsEditing((cur) => !cur)}
                 >
                     <DialogTitle>프로필 편집</DialogTitle>
-                    <DialogContent>
+                    <DialogContent className={myPageStyles.profile_edit}>
                         <Avatar
+                            className={myPageStyles.profile_img}
                             alt="user profile"
                             src="images/default.profile.png"
-                            sx={{ width: "200px", height: "200px" }}
                         />
-                        <ImageUpload />
+                        <div className={myPageStyles.profile_upload}>
+                            <ImageUpload />
+                        </div>
                     </DialogContent>
                     <DialogActions>
                         <button>변경하기</button>

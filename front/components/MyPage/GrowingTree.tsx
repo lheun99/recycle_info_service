@@ -8,7 +8,7 @@ import treeFive from "../../public/images/tree/tree.five.png";
 import myPageStyles from "../../styles/myPage.module.css";
 
 const GrowingTree = () => {
-    const [pagePointer, setPagePointer] = useState("one"); // point 구간에 따라 보여줘야하는 이미지 태그를 선택한다
+    const [pagePointer, setPagePointer] = useState(1); // point 구간에 따라 보여줘야하는 이미지 태그를 선택한다
 
     const searchPointer = (point: number) => {
         if (point <= 300) {
@@ -16,19 +16,19 @@ const GrowingTree = () => {
         }
 
         if (300 < point && point <= 1000) {
-            setPagePointer("two");
+            setPagePointer(2);
         } else if (1000 < point && point <= 2500) {
-            setPagePointer("three");
+            setPagePointer(3);
         } else if (2500 < point && point <= 5000) {
-            setPagePointer("four");
+            setPagePointer(4);
         } else {
-            setPagePointer("five");
+            setPagePointer(5);
         }
     };
 
     useEffect(() => {
         // user의 point를 받아 온다
-        const point: number = 15000; // 임시 포인트
+        const point: number = 1000; // 임시 포인트
         searchPointer(point);
     }, [pagePointer]);
 
@@ -36,7 +36,7 @@ const GrowingTree = () => {
         <div className={myPageStyles.treeWrapper}>
             <div
                 className={
-                    pagePointer === "one"
+                    pagePointer >= 1
                         ? myPageStyles.activeAnim
                         : myPageStyles.trees
                 }
@@ -45,7 +45,7 @@ const GrowingTree = () => {
             </div>
             <div
                 className={
-                    pagePointer === "two"
+                    pagePointer >= 2
                         ? myPageStyles.activeAnim
                         : myPageStyles.trees
                 }
@@ -55,7 +55,7 @@ const GrowingTree = () => {
 
             <div
                 className={
-                    pagePointer === "three"
+                    pagePointer >= 3
                         ? myPageStyles.activeAnim
                         : myPageStyles.trees
                 }
@@ -64,7 +64,7 @@ const GrowingTree = () => {
             </div>
             <div
                 className={
-                    pagePointer === "four"
+                    pagePointer >= 4
                         ? myPageStyles.activeAnim
                         : myPageStyles.trees
                 }
@@ -73,7 +73,7 @@ const GrowingTree = () => {
             </div>
             <div
                 className={
-                    pagePointer === "five"
+                    pagePointer >= 5
                         ? myPageStyles.activeAnim
                         : myPageStyles.trees
                 }

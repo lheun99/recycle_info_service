@@ -47,11 +47,26 @@
 
 /* userProfile */
 .profile_img {
-    border: 2px dotted #a7c4bc;
+    border: 2px dashed #a7c4bc;
+    width: 200px;
+    height: 200px;
 }
 .profile_button {
     border: none;
     cursor: pointer;
+}
+
+.profile_edit {
+    width: auto;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 30px 10px;
+}
+.profile_upload {
+    padding-top: 10px;
 }
 
 /* Rank */
@@ -78,6 +93,7 @@
 }
 
 .activeAnim {
+    position: absolute;
     transition: opacity ease-in 1.5s;
     opacity: 1;
 }
