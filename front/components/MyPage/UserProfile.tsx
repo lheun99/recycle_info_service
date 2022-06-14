@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Image from "next/image";
-import setting from "../../public/setting.png";
+import setting from "../../public/images/setting.png";
 import myPageStyles from "../../styles/myPage.module.css";
 import {
     Avatar,
@@ -18,8 +18,9 @@ const UserProfile = () => {
         <div>
             {" "}
             <Avatar
+                className={myPageStyles.profile_img}
                 alt="user profile"
-                src="logo.png"
+                src="images/default.profile.png"
                 sx={{ width: "200px", height: "200px" }}
             />
             <div>
@@ -46,7 +47,7 @@ const UserProfile = () => {
                     <DialogContent>
                         <Avatar
                             alt="user profile"
-                            src="logo.png"
+                            src="images/default.profile.png"
                             sx={{ width: "200px", height: "200px" }}
                         />
                         <ImageUpload />

@@ -26,8 +26,9 @@ const MyPage = () => {
                             </p>
                             <p>보유한 포인트 : 5300</p>
                         </div>
-                        <hr />
-                        <Rank />
+                        <div className={myPageStyles.rankInfo}>
+                            <Rank />
+                        </div>
                     </div>
                 </div>
             </div>

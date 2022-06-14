@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import titleEarth from "../public/title.earth.png";
+import titleEarth from "../public/images/title.earth.png";
 import navStyles from "../styles/Nav.module.css";
 
 const Nav = () => {

@@ -2,7 +2,7 @@
 .wrapper {
     display: grid;
     width: 100%;
-    height: 800px;
+    height: 700px;
     grid-template-columns: 1.3fr 4fr;
     background-color: var(--gray);
 }
@@ -10,7 +10,7 @@
     display: flex;
     justify-content: center;
     padding-top: 60px;
-    border-right: medium solid #a7c4bc;
+    border-right: 2px solid #a7c4bc;
     text-align: center;
 }
 .titleWrapper {
@@ -28,32 +28,56 @@
     height: 90%;
 }
 .infoWrapper {
-    border-left: thin solid #a7c4bc;
-    padding: 0 20px;
+    border-left: 1px solid #a7c4bc;
 }
 .pointInfo {
     height: 40%;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    padding: 0 25px;
+    border-bottom: 1px solid #a7c4bc;
+}
+.rankInfo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 20px 25px;
 }
 
-/* userPfrofile */
+/* userProfile */
+.profile_img {
+    border: 2px dotted #a7c4bc;
+}
 .profile_button {
     border: none;
     cursor: pointer;
 }
 
+/* Rank */
+.RankWrapper {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
+/* GrowingTree */
 .treeWrapper {
     display: flex;
     justify-content: center;
     align-items: center;
+    width: auto;
     height: 100%;
+    position: relative;
 }
 
-/* Rank */
-.RankWrapper {
-    display: flex;
-    width: 90%;
-    justify-content: space-between;
+.trees {
+    position: absolute;
+    opacity: 0;
+    transition: opacity ease-out 0.5s;
+}
+
+.activeAnim {
+    transition: opacity ease-in 1.5s;
+    opacity: 1;
 }
