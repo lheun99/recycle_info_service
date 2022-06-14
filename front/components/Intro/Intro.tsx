@@ -52,6 +52,7 @@ const Intro = () => {
                         title={"분리수거 어렵다구요?\n찍어보세요!"}
                         text={"헷갈리는 분리배출을 도와줍니다."}
                         hasButton={"분리배출 하러가기"}
+                        href={"/recycling/aiSearcher"}
                     />
                 </div>
                 <div className={IntroStyles.intro_chart}>
@@ -115,6 +116,7 @@ const Intro = () => {
                                 "열심히 모은 포인트! 얼마나 되는지 랭킹을 통해 알아보아요."
                             }
                             hasButton={"랭킹 확인하기"}
+                            href={"/myPage"}
                         />
                     </div>
                 </div>
