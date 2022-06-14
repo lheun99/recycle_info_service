@@ -51,7 +51,7 @@ const Intro = () => {
                     <IntroData
                         title={"분리수거 어렵다구요?\n찍어보세요!"}
                         text={"헷갈리는 분리배출을 도와줍니다."}
-                        button={"분리배출 하러가기"}
+                        hasButton={"분리배출 하러가기"}
                     />
                 </div>
                 <div className={IntroStyles.intro_chart}>
@@ -76,7 +76,7 @@ const Intro = () => {
                         <IntroData
                             subtitle={"게임하고 포인트 받자!"}
                             text={"올바른 분리수거 방법을 재미있게 알아보아요!"}
-                            button={"게임 하러가기"}
+                            hasButton={"게임 하러가기"}
                         />
                     </div>
                 </div>
@@ -87,7 +87,7 @@ const Intro = () => {
                             text={
                                 "분리수거에 관련된 퀴즈를 풀어보고 포인트를 얻어요!"
                             }
-                            button={"퀴즈 참여하기"}
+                            hasButton={"퀴즈 참여하기"}
                         />
                     </div>
                     <div className={IntroStyles.intro_card_item}>
@@ -114,7 +114,7 @@ const Intro = () => {
                             text={
                                 "열심히 모은 포인트! 얼마나 되는지 랭킹을 통해 알아보아요."
                             }
-                            button={"랭킹 확인하기"}
+                            hasButton={"랭킹 확인하기"}
                         />
                     </div>
                 </div>

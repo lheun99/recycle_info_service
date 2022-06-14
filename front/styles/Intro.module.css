@@ -22,6 +22,7 @@
     text-align: center;
     display: flex;
     flex-direction: column;
+    color: white;
 }
 
 .intro_arrow {
@@ -29,9 +30,7 @@
     border: none;
     position: absolute;
     top: 500px;
-}
-
-.intro_arrow {
+    cursor: pointer;
     animation: up-down 0.4s 0s ease infinite alternate;
 }
 @keyframes up-down {
