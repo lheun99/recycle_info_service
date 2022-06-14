@@ -6,9 +6,10 @@ import Login from "./modal/Login";
 import React, { useState } from "react";
 
 const Nav = () => {
-    const [open, setOpen] = useState<Boolean>(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+    // 오류 해결해야함..
+    // const [open, setOpen] = useState<Boolean>(false);
+    // const handleOpen = () => setOpen(true);
+    // const handleClose = () => setOpen(false);
 
     return (
         <nav className={navStyles.nav}>
@@ -48,11 +49,11 @@ const Nav = () => {
                     </Link>
                 </li>
                 <li>
-                    <li onClick={handleOpen} style={{ cursor: "pointer"}}>Login</li>
+                    {/* <li onClick={handleOpen} style={{ cursor: "pointer"}}>Login</li>
                     <Login
                         open={open}
                         handleClose={handleClose}
-                    />
+                    /> */}
                 </li>
             </ul>
         </nav>
