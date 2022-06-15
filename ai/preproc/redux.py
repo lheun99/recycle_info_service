@@ -132,7 +132,8 @@ async def parse_json(
             box_old['y2'] = int(box_old['y2'])
 
         # .. todo:: 분류 방식을 바꿀 경우 여기를 고칩니다.
-        class_id = box_old['CLASS']
+        # class_id = box_old['CLASS']
+        class_id = CLASS_NAME2ID_0[box_old['CLASS']]
 
         if label_output_type == 'yolov5':
             task['boxes'].append(
