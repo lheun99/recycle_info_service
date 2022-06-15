@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import IntroStyles from "../../styles/Intro.module.css";
+import styled from "styled-components";
 import Button from '@mui/material/Button';
 
 type IntroDataProps = {
@@ -17,23 +17,52 @@ const IntroData = ({ title, subtitle, text, hasButton, href } : IntroDataProps) 
     }
 
     return (
-        <div className={IntroStyles.intro_data}>
-            <div className={IntroStyles.intro_title}>{title}</div>
-            <div className={IntroStyles.intro_subtitle}>{subtitle}</div>
-            <div className={IntroStyles.intro_text}>{text}</div>
+        <Wrapper>
+            <Title>{title}</Title>
+            <SubTitle>{subtitle}</SubTitle>
+            <Contents>{text}</Contents>
             {
                 hasButton && 
-                    <Button 
-                        sx={{ borderColor: "#818479", color: "#818479"}} 
-                        className={IntroStyles.intro_button} 
+                    <NavButton
+                        sx={{ borderColor: "#818479", color: "#818479"}}
                         variant="outlined"
                         onClick={handleClick}
                     >
                         {hasButton}
-                    </Button>
+                    </NavButton>
             }
-        </div>
+        </Wrapper>
     )
 }
 
 export default IntroData;
+
+
+const Wrapper = styled.div`
+    width: 370px;
+    height: 250px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    white-space: pre-wrap;
+    margin: 0 50px;
+`;
+
+const Title = styled.div`
+    font-size: var(--font-title);
+    font-weight: bold;
+`;
+
+const SubTitle = styled.div`
+    font-size: var(--font-subtitle);
+`;
+
+const Contents = styled.div`
+    font-size: var(--font-text);
+`;
+
+const NavButton = styled(Button)`
+    width: 200px;
+    height: 60px;
+    margin-top: 50px;
+`;
