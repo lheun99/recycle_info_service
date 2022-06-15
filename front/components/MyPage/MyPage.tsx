@@ -4,6 +4,8 @@ import UserProfile from "./UserProfile";
 import GrowingTree from "./GrowingTree";
 import Rank from "./Rank";
 
+// mypage main component 에서 point를 조회하고 멘트 적용 및 props로 하위 컴포넌트에 전달
+
 const MyPage = () => {
     return (
         <Wrapper>

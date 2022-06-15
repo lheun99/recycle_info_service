@@ -9,7 +9,7 @@ import {
     DialogContent,
     DialogActions,
 } from "@mui/material";
-import ImageUpload from "../recycling/ImageUpload";
+import ImageUpload from "../shared/ImageUpload";
 
 const UserProfile = () => {
     const [isEditing, setIsEditing] = useState(false);
@@ -44,12 +44,12 @@ const UserProfile = () => {
                             src="images/default.profile.png"
                         />
                         <UploadWrapper>
-                            <ImageUpload />
+                            <ImageUpload width={450} height={300} />
                         </UploadWrapper>
                     </ProfileEdit>
                     <DialogActions>
-                        <button>변경하기</button>
-                        <button>취소하기</button>
+                        <Button>변경하기</Button>
+                        <Button>취소하기</Button>
                     </DialogActions>
                 </Dialog>
             )}
@@ -83,5 +83,15 @@ const EditTitle = styled(DialogTitle)`
     font-family: Elice Digital Baeum;
 `;
 const UploadWrapper = styled.div`
-    padding-top: 10px;
+    padding: 15px 10px 0 10px;
+`;
+const Button = styled.button`
+    font-family: Elice Digital Baeum;
+    border: none;
+    cursor: pointer;
+    background-color: #f2f2f2;
+    color: black;
+    width: 100px;
+    height: 25px;
+    border-radius: 15px;
 `;
