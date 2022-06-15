@@ -1,16 +1,23 @@
 import Link from "next/link";
 import Image from "next/image";
-import titleEarth from "../public/title.earth.png";
+import Logo from "../public/images/logo.png";
 import navStyles from "../styles/Nav.module.css";
+import Login from "./modal/Login";
+import React, { useState } from "react";
 
 const Nav = () => {
+    // 오류 해결해야함..
+    // const [open, setOpen] = useState<Boolean>(false);
+    // const handleOpen = () => setOpen(true);
+    // const handleClose = () => setOpen(false);
+
     return (
         <nav className={navStyles.nav}>
             <ul>
                 <li>
                     <Link href="/" passHref>
                         <a className={navStyles.titleWrapper}>
-                            <Image src={titleEarth} alt="title image" />
+                            <Image src={Logo} alt="logo" width={30} height={30}/>
                         </a>
                     </Link>
                 </li>
@@ -42,9 +49,11 @@ const Nav = () => {
                     </Link>
                 </li>
                 <li>
-                    <Link href="/login" passHref>
-                        <a>Login</a>
-                    </Link>
+                    {/* <li onClick={handleOpen} style={{ cursor: "pointer"}}>Login</li>
+                    <Login
+                        open={open}
+                        handleClose={handleClose}
+                    /> */}
                 </li>
             </ul>
         </nav>
