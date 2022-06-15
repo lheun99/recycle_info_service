@@ -63,3 +63,42 @@
     color: var(--green);
 }
   
+
+.register {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 950px;
+    height: 600px;
+    background-color: white;
+    border-radius: 20px;
+    display: flex;
+}
+
+.register_image {
+    border-radius: 20px 0 0 20px;
+    overflow: hidden;
+}
+
+.register_wrapper {
+    width: 520px;
+    background-color: white;
+    border-radius: 20px;
+    padding: 40px;
+}
+
+.register_title {
+    font-size: 1.7rem;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.register_form {
+    height: 260px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
