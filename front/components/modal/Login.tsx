@@ -1,14 +1,14 @@
 import React, { useState } from "react";
-import { Modal, Button, TextField } from "@mui/material";
-import LoginStyles from "../../styles/Login.module.css";
+import { Button, TextField } from "@mui/material";
 import Image from "next/image";
 import Logo from "../../public/images/logo.png";
+import styled from "styled-components";
 
-function Login({ open, handleClose }) {
+function Login({ open, handleClose, setRegister }) {
     const [email, setEmail] = useState<String>("");
     const [password, setPassword] = useState<String>("");
 
-    const validateEmail = (email) => {
+    const validateEmail = (email: String) => {
         return email
             .toLowerCase()
             .match(
@@ -25,86 +25,142 @@ function Login({ open, handleClose }) {
     }
 
     return (
-        open && (
-            <Modal
-                open={open}
-                onClose={handleClose}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
-            >
-                <div className={LoginStyles.login_wrapper}>
-                    <div style={{ textAlign: "right" }}>
-                        <Button
-                            variant="text"
-                            className={LoginStyles.close_button}
-                            onClick={handleClose}
-                        >
-                            x
-                        </Button>
-                    </div>
-                    <div className={LoginStyles.logo}>
-                        <Image
-                            src={Logo}
-                            alt="logo"
-                            width={40}
-                            height={40}
-                        />
-                    </div>
-                    <div className={LoginStyles.login_form}>
-                        <TextField
-                            type="email"
-                            style={{
-                                width: "380px",
-                                height: "40px",
-                            }}
-                            label="E-MAIL"
-                            size="small"
-                            onChange={(e) => setEmail(e.target.value)}
-                        />
-                        <TextField
-                            type="password"
-                            style={{
-                                width: "380px",
-                                height: "40px",
-                            }}
-                            label="PASSWORD"
-                            size="small"
-                            onChange={(e) =>
-                                setPassword(e.target.value)
-                            }
-                            helperText={
-                                isPasswordValid
-                                    ? ""
-                                    : "비밀번호는 4글자 이상입니다."
-                            }
-                        />
-                        <Button
-                            className={LoginStyles.login_button}
-                            onClick={handleSubmit}
-                            disabled={!isFormValid}
-                        >
-                            LOGIN
-                        </Button>
-                    </div>
-                    <div className={LoginStyles.or}>or</div>
-                        <div className={LoginStyles.login_bottom}>
-                            <Button
-                                variant="text"
-                                className=""
-                            >
-                                비밀번호 찾기
-                            </Button>
-                            <span>|</span>
-                            <Button
-                                variant="text"
-                            >
-                                회원가입  
-                            </Button>
-                    </div>
-                </div>
-            </Modal>
-        )
-    );
+        <Wrapper>
+            <div style={{ textAlign: "right" }}>
+                <Button
+                    variant="text"
+                    onClick={handleClose}
+                >
+                    x
+                </Button>
+            </div>
+            <LogoImage>
+                <Image
+                    src={Logo}
+                    alt="logo"
+                    width={40}
+                    height={40}
+                />
+            </LogoImage>
+            <SignInForm>
+                <TextField
+                    type="email"
+                    style={{
+                        width: "380px",
+                        height: "40px",
+                    }}
+                    label="E-MAIL"
+                    size="small"
+                    onChange={(e) => setEmail(e.target.value)}
+                />
+                <TextField
+                    type="password"
+                    style={{
+                        width: "380px",
+                        height: "40px",
+                    }}
+                    label="PASSWORD"
+                    size="small"
+                    onChange={(e) =>
+                        setPassword(e.target.value)
+                    }
+                    helperText={
+                        isPasswordValid
+                            ? ""
+                            : "비밀번호는 4글자 이상입니다."
+                    }
+                />
+                <SignInButton
+                    onClick={handleSubmit}
+                    disabled={!isFormValid}
+                >
+                    Sign in
+                </SignInButton>
+            </SignInForm>
+            <Or>or</Or>
+            <FindWrapper>
+                <Button
+                    variant="text"
+                    className=""
+                >
+                    비밀번호 찾기
+                </Button>
+                <span>|</span>
+                <Button
+                    variant="text"
+                    onClick={() => {
+                        handleClose
+                        setRegister(true)
+                    }}
+                >
+                    회원가입  
+                </Button>
+            </FindWrapper>
+        </Wrapper>
+    )
 }
 
 export default Login;
+
+
+const Wrapper = styled.div`
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 520px;
+    height: 550px;
+    background-color: white;
+    border-radius: 20px;
+    padding: 40px;
+`;
+
+const SignInForm = styled.div`
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+`;
+
+const LogoImage = styled.div`
+    width: 100%;
+    height: 100px;
+    text-align: center;
+`;
+
+const FindWrapper = styled.div`
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    margin: 10px auto;
+    padding-left: 110px; 
+    color: var(--green);
+`;
+
+const SignInButton = styled(Button)`
+    width: 380px;
+    height: 40px;
+    background-color: var(--green);
+    margin-top: 20px;
+    border-radius: 50px;
+`;
+
+const Or = styled.div`
+    width: 90%;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    margin: 20px auto;
+    color: var(--green);
+    ::before,
+    ::after {
+        content: "";
+        width: 40%;
+        background-color: var(--green);
+        height: 0.5px;
+        font-size: 0px;
+        line-height: 0px;
+        margin: auto;
+    }
+`;
