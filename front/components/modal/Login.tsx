@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Button, TextField } from "@mui/material";
-import LoginStyles from "../../styles/Login.module.css";
 import Image from "next/image";
 import Logo from "../../public/images/logo.png";
+import styled from "styled-components";
 
 function Login({ open, handleClose, setRegister }) {
     const [email, setEmail] = useState<String>("");
@@ -25,25 +25,24 @@ function Login({ open, handleClose, setRegister }) {
     }
 
     return (
-        <div className={LoginStyles.login_wrapper}>
+        <Wrapper>
             <div style={{ textAlign: "right" }}>
                 <Button
                     variant="text"
-                    className={LoginStyles.close_button}
                     onClick={handleClose}
                 >
                     x
                 </Button>
             </div>
-            <div className={LoginStyles.logo}>
+            <LogoImage>
                 <Image
                     src={Logo}
                     alt="logo"
                     width={40}
                     height={40}
                 />
-            </div>
-            <div className={LoginStyles.login_form}>
+            </LogoImage>
+            <SignInForm>
                 <TextField
                     type="email"
                     style={{
@@ -71,16 +70,15 @@ function Login({ open, handleClose, setRegister }) {
                             : "비밀번호는 4글자 이상입니다."
                     }
                 />
-                <Button
-                    className={LoginStyles.login_button}
+                <SignInButton
                     onClick={handleSubmit}
                     disabled={!isFormValid}
                 >
                     Sign in
-                </Button>
-            </div>
-            <div className={LoginStyles.or}>or</div>
-            <div className={LoginStyles.login_bottom}>
+                </SignInButton>
+            </SignInForm>
+            <Or>or</Or>
+            <FindWrapper>
                 <Button
                     variant="text"
                     className=""
@@ -97,9 +95,72 @@ function Login({ open, handleClose, setRegister }) {
                 >
                     회원가입  
                 </Button>
-            </div>
-        </div>
+            </FindWrapper>
+        </Wrapper>
     )
 }
 
 export default Login;
+
+
+const Wrapper = styled.div`
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 520px;
+    height: 550px;
+    background-color: white;
+    border-radius: 20px;
+    padding: 40px;
+`;
+
+const SignInForm = styled.div`
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+`;
+
+const LogoImage = styled.div`
+    width: 100%;
+    height: 100px;
+    text-align: center;
+`;
+
+const FindWrapper = styled.div`
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    margin: 10px auto;
+    padding-left: 110px; 
+    color: var(--green);
+`;
+
+const SignInButton = styled(Button)`
+    width: 380px;
+    height: 40px;
+    background-color: var(--green);
+    margin-top: 20px;
+    border-radius: 50px;
+`;
+
+const Or = styled.div`
+    width: 90%;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    margin: 20px auto;
+    color: var(--green);
+    ::before,
+    ::after {
+        content: "";
+        width: 40%;
+        background-color: var(--green);
+        height: 0.5px;
+        font-size: 0px;
+        line-height: 0px;
+        margin: auto;
+    }
+`;

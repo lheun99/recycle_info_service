@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { Modal, Button, TextField } from "@mui/material";
-import LoginStyles from "../../styles/Login.module.css";
+import { Button, TextField } from "@mui/material";
 import Image from "next/image";
 import Background from "../../public/images/background.jpg";
+import styled from "styled-components";
 
 const Register = ({ open, handleClose, setRegister }) => {
     const [email, setEmail] = useState<String>("");
@@ -27,8 +27,8 @@ const Register = ({ open, handleClose, setRegister }) => {
     };
 
     return (
-        <div className={LoginStyles.register}>
-            <section className={LoginStyles.register_image}>
+        <Wrapper>
+            <SideImage>
                 <Image
                     src={Background}
                     alt="background"
@@ -36,12 +36,11 @@ const Register = ({ open, handleClose, setRegister }) => {
                     height={600}
                     objectFit="cover"
                 />
-            </section>
-            <section className={LoginStyles.register_wrapper}>
+            </SideImage>
+            <SideWrapper>
                 <div style={{ textAlign: "right" }}>
                     <Button
                         variant="text"
-                        className={LoginStyles.close_button}
                         onClick={() => {
                             setRegister(false)
                             handleClose()
@@ -50,8 +49,8 @@ const Register = ({ open, handleClose, setRegister }) => {
                         x
                     </Button>
                 </div>
-                <div className={LoginStyles.register_title}>Create Account</div>
-                <div className={LoginStyles.register_form}>
+                <Title>Create Account</Title>
+                <SignUpForm>
                     <TextField
                         type="email"
                         style={{
@@ -90,10 +89,9 @@ const Register = ({ open, handleClose, setRegister }) => {
                             isPasswordSame ? "비밀번호는 4글자 이상입니다." : "비밀번호가 일치하지 않습니다."
                         }
                     />
-                    <Button
+                    <SignUpButton
                         variant="text"
                         type="submit"
-                        className={LoginStyles.login_button}
                         onClick={() => {
                             handleSubmit
                             setRegister(false)
@@ -101,12 +99,82 @@ const Register = ({ open, handleClose, setRegister }) => {
                         disabled={!isFormValid}
                     >
                         Sign up
-                    </Button>
-                </div>
-                <div className={LoginStyles.or}>or</div>
-            </section>
-        </div>
+                    </SignUpButton>
+                </SignUpForm>
+                <Or>or</Or>
+            </SideWrapper>
+        </Wrapper>
     )
 } 
 
 export default Register;
+
+
+const Wrapper = styled.div`
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 950px;
+    height: 600px;
+    background-color: white;
+    border-radius: 20px;
+    display: flex;
+`;
+
+const SideImage = styled.div`
+    border-radius: 20px 0 0 20px;
+    overflow: hidden;
+`;
+
+const SideWrapper = styled.div`
+    width: 520px;
+    background-color: white;
+    border-radius: 20px;
+    padding: 40px;
+`;
+
+const Title = styled.div`
+    font-size: 1.7rem;
+    font-weight: bold;
+    width: 100%;
+    height: 100px;
+    text-align: center;
+`;
+
+const SignUpForm = styled.div`
+    height: 270px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+`;
+
+const SignUpButton = styled(Button)`
+    width: 380px;
+    height: 40px;
+    background-color: var(--green);
+    margin-top: 20px;
+    border-radius: 50px;
+`;
+
+const Or = styled.div`
+    width: 90%;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    margin: 20px auto;
+    color: var(--green);
+    ::before,
+    ::after {
+        content: "";
+        width: 40%;
+        background-color: var(--green);
+        height: 0.5px;
+        font-size: 0px;
+        line-height: 0px;
+        margin: auto;
+    }
+`;
+
+  
