@@ -33,10 +33,7 @@ const UserProfile = () => {
                 </EditButton>
             </div>
             {isEditing && (
-                <Dialog
-                    open={isEditing}
-                    onClose={() => setIsEditing((cur) => !cur)}
-                >
+                <Dialog open={isEditing}>
                     <EditTitle>프로필 편집</EditTitle>
                     <ProfileEdit>
                         <ProfileImg
@@ -49,7 +46,9 @@ const UserProfile = () => {
                     </ProfileEdit>
                     <DialogActions>
                         <Button>변경하기</Button>
-                        <Button>취소하기</Button>
+                        <Button onClick={() => setIsEditing((cur) => !cur)}>
+                            취소하기
+                        </Button>
                     </DialogActions>
                 </Dialog>
             )}
