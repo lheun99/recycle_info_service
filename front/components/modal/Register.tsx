@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Modal, Button, TextField } from "@mui/material";
 import LoginStyles from "../../styles/Login.module.css";
 import Image from "next/image";
-import Forest from "../../public/images/forest.jpeg";
+import Background from "../../public/images/background.jpg";
 
 const Register = ({ open, handleClose, setRegister }) => {
     const [email, setEmail] = useState<String>("");
@@ -30,8 +30,8 @@ const Register = ({ open, handleClose, setRegister }) => {
         <div className={LoginStyles.register}>
             <section className={LoginStyles.register_image}>
                 <Image
-                    src={Forest}
-                    alt="forest"
+                    src={Background}
+                    alt="background"
                     width={430}
                     height={600}
                     objectFit="cover"
