@@ -6,7 +6,7 @@ const recycleInfoService = {
     const code = await RecycleInfo.findRecycleCode({ encoded });
     //분석 결과에 따른 분리배출 정보 결과
     const info = await RecycleInfo.findInfoByCode({ code });
-    return { message: "success", info };
+    return { message: "success", data: info };
   },
 };
 
