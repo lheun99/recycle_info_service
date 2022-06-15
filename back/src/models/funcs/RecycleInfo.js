@@ -8,7 +8,11 @@ const RecycleInfo = {
   //이미지를 인공지능에 전달한다
   findRecycleCode: async ({ encoded }) => {
     //인공지능 분석 결과를 return
-    // const code = Math.floor(Math.random() * 15);
+
+    //인공지능 연결 전, tests용 결과 return 랜덤
+    //const code = Math.floor(Math.random() * 15);
+
+    //tests용 결과 return -> 0:종이류
     const code = 1;
     return code;
   },
