@@ -15,7 +15,7 @@ from concurrent import futures
 import multiprocessing
 import threading
 
-from typing import Any, Callable, Iterable, Mapping, NewType
+from typing import Any, Callable, Iterable, Mapping, NewType, Optional
 
 from PIL import Image
 from tqdm import tqdm
@@ -57,7 +57,7 @@ class Present(object):
 class SerialExecutor(object):
     '''Executor 타입을 흉내내는 직렬 코드용 더미입니다.'''
 
-    def __init__(self, max_workers: int | None = None) -> None:
+    def __init__(self, max_workers: Optional[int] = None) -> None:
         self._max_workers = 1
         self._pending = deque()
 
