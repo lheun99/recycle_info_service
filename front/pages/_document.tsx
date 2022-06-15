@@ -42,7 +42,7 @@ export default class MyDocument extends Document {
                     />
                     <meta charSet="utf-8" />
                     <link
-                        href="//font.elice.io/EliceDigitalBaeum.css"
+                        href="https://font.elice.io/EliceDigitalBaeum.css"
                         rel="stylesheet"
                     ></link>
                 </Head>
