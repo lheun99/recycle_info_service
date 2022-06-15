@@ -1,7 +1,7 @@
 import React from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
-import uploadingImage from "../../public/image.upload.png";
+import uploadingImage from "../../public/images/image.upload.png";
 import imgUploadStyles from "../../styles/ImgUpload.module.css";
 
 const ImageUpload = () => {

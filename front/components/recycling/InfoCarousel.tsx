@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
-import nextArrow from "../../public/next.arrow.png";
-import pointCoin from "../../public/point.coin.png";
+import nextArrow from "../../public/images/next.arrow.png";
+import pointCoin from "../../public/images/point.coin.png";
 import infoData from "./infoData.json";
 import carouselStyles from "../../styles/Carousel.module.css";
 
