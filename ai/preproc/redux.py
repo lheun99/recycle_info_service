@@ -16,7 +16,9 @@ import multiprocessing
 import threading
 
 from typing import (
-    Any, Dict, Tuple, Callable, Iterable, Mapping, NewType, Optional
+    Any, Dict, Tuple,
+    Callable, Iterable, Mapping,
+    NewType, Optional, Union
 )
 
 from PIL import Image
@@ -104,7 +106,7 @@ def polygon_to_box(verts: Iterable[Mapping[str, str]]) -> Mapping[str, int]:
 
 async def parse_json(
     top: str, pathname: str, dim: Tuple[int, int], label_output_type: str
-) -> Dict[str, int | str]:
+) -> Dict[str, Union[int, str]]:
     '''json annotation 파일을 읽어 태스크를 생성합니다.'''
     with open(pathname, 'r', encoding='utf-8') as json_in:
         label = json.load(json_in)
