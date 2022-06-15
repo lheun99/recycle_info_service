@@ -4,6 +4,7 @@ import Image from "next/image";
 import nextArrow from "../../public/images/next.arrow.png";
 import pointCoin from "../../public/images/point.coin.png";
 import infoData from "./infoData.json";
+import styled from "styled-components";
 import carouselStyles from "../../styles/Carousel.module.css";
 
 const subjects = infoData.map((info) => info.subject);
@@ -35,93 +36,70 @@ const InfoCarousel = () => {
     };
 
     return (
-        <div className={carouselStyles.wrapper}>
-            <div className={carouselStyles.mainTitle}>
+        <Wrapper>
+            <MainTitle>
                 <h1>&apos;{infoData[0].type}&apos;</h1>
                 <h2> (으)로 분리수거 해주세요!</h2>
-            </div>
+            </MainTitle>
             <p>
                 &apos;{infoData[0].type}&apos;는{" "}
                 {subjects.map((sub) => sub + " / ")}가 포함됩니다.
             </p>
-            <div className={carouselStyles.carouselWrapper}>
-                <button
-                    className={carouselStyles.arrowButton}
-                    type="button"
-                    onClick={prevSlide}
-                >
-                    <Image
-                        className={carouselStyles.prevArrow}
+            <CarouselWrapper>
+                <ArrowButton type="button" onClick={prevSlide}>
+                    <PrevArrow
                         src={nextArrow}
                         alt="prev arrow"
                         width={35}
                         height={35}
                     />
-                </button>
-                <div className={carouselStyles.carouselAll}>
+                </ArrowButton>
+                <CarouselAll>
                     {infoData.map((info, idx) => {
                         return (
-                            <div
+                            <Slider
                                 key={`page-${idx}`}
                                 className={
                                     slideIndex === idx + 1
-                                        ? carouselStyles.activeAnim
-                                        : carouselStyles.slide
+                                        ? "is_active"
+                                        : "is_pass"
                                 }
                             >
-                                <div className={carouselStyles.infoBox}>
+                                <InfoBox>
                                     <h3>{info.subject}</h3>
                                     <div>{info.img}</div>
                                     <div>{info.method}</div>
                                     <div>{info.kind}</div>
                                     <div>{info.notKind}</div>
                                     <div>{info.tip}</div>
-                                </div>
+                                </InfoBox>
                                 <div>
                                     <span>
                                         {idx + 1} / {infoData.length}
                                     </span>
                                 </div>
-                            </div>
+                            </Slider>
                         );
                     })}
-                </div>
+                </CarouselAll>
 
-                <button
-                    className={carouselStyles.arrowButton}
-                    type="button"
-                    onClick={nextSlide}
-                >
+                <ArrowButton type="button" onClick={nextSlide}>
                     <Image
                         src={nextArrow}
                         alt="next arrow"
                         width={35}
                         height={35}
                     />
-                </button>
-            </div>
-            <div className={carouselStyles.buttonWrapper}>
-                <button
-                    className={carouselStyles.button}
-                    type="button"
-                    name="waste"
-                    onClick={rendPage}
-                >
+                </ArrowButton>
+            </CarouselWrapper>
+            <ButtonWrapper>
+                <Button type="button" name="waste" onClick={rendPage}>
                     대형폐기물 신고하기
-                </button>
-                <button
-                    className={carouselStyles.button}
-                    type="button"
-                    name="market"
-                    onClick={rendPage}
-                >
+                </Button>
+                <Button type="button" name="market" onClick={rendPage}>
                     중고마켓으로 가기
-                </button>
-                <button
-                    className={carouselStyles.pointButton}
-                    type="button"
-                    onClick={getPoint}
-                >
+                </Button>
+                <PointButton type="button" onClick={getPoint}>
                     <Image
                         src={pointCoin}
                         alt="point coin"
@@ -129,10 +107,92 @@ const InfoCarousel = () => {
                         height={35}
                     />
                     <p>포인트 적립하기</p>
-                </button>
-            </div>
-        </div>
+                </PointButton>
+            </ButtonWrapper>
+        </Wrapper>
     );
 };
 
 export default InfoCarousel;
+
+const Wrapper = styled.div`
+    background: #f2f2f2;
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 80px 0;
+`;
+
+const MainTitle = styled.div`
+    display: flex;
+    align-items: flex-end;
+`;
+const CarouselWrapper = styled.div`
+    display: flex;
+    align-items: center;
+`;
+const CarouselAll = styled.div`
+    width: 600px;
+    height: 500px;
+    border-radius: 15px;
+    margin: 8px 8px;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    background-color: #a7c4bc;
+    word-break: keep-all;
+`;
+const Slider = styled.div`
+    width: 550px;
+    height: 500px;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    &.is_pass {
+        opacity: 0;
+        transition: opacity ease-in-out 0.01s;
+    }
+    &.is_active {
+        opacity: 1;
+    }
+`;
+const InfoBox = styled.div`
+    height: 80%;
+`;
+const ArrowButton = styled.button`
+    border: none;
+    height: 50px;
+    cursor: pointer;
+`;
+const PrevArrow = styled(Image)`
+    transform: scaleX(-1);
+`;
+const ButtonWrapper = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`;
+const Button = styled.button`
+    border: none;
+    cursor: pointer;
+    width: 190px;
+    height: 50px;
+    margin: 18px 6px;
+    background-color: #dedede;
+    border-radius: 15px;
+`;
+const PointButton = styled.button`
+    display: flex;
+    border: none;
+    cursor: pointer;
+    width: 190px;
+    height: 50px;
+    margin: 18px 6px;
+    background-color: #dedede;
+    border-radius: 15px;
+    justify-content: center;
+    align-items: center;
+`;

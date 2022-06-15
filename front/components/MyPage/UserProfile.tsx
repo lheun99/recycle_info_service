@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import setting from "../../public/images/setting.png";
-import myPageStyles from "../../styles/myPage.module.css";
+import styled from "styled-components";
 import {
     Avatar,
     Dialog,
@@ -9,7 +9,7 @@ import {
     DialogContent,
     DialogActions,
 } from "@mui/material";
-import ImageUpload from "../recycling/ImageUpload";
+import ImageUpload from "../shared/ImageUpload";
 
 const UserProfile = () => {
     const [isEditing, setIsEditing] = useState(false);
@@ -17,11 +17,7 @@ const UserProfile = () => {
     return (
         <div>
             {" "}
-            <Avatar
-                className={myPageStyles.profile_img}
-                alt="user profile"
-                src="images/default.profile.png"
-            />
+            <ProfileImg alt="user profile" src="images/default.profile.png" />
             <div>
                 <h3>jaPark</h3>
             </div>
@@ -29,33 +25,31 @@ const UserProfile = () => {
                 <h5>jaPark@naver.com</h5>
             </div>
             <div>
-                <button
+                <EditButton
                     type="button"
-                    className={myPageStyles.profile_button}
                     onClick={() => setIsEditing(!isEditing)}
                 >
                     <Image src={setting} alt="setting button" />
-                </button>
+                </EditButton>
             </div>
             {isEditing && (
                 <Dialog
                     open={isEditing}
                     onClose={() => setIsEditing((cur) => !cur)}
                 >
-                    <DialogTitle>프로필 편집</DialogTitle>
-                    <DialogContent className={myPageStyles.profile_edit}>
-                        <Avatar
-                            className={myPageStyles.profile_img}
+                    <EditTitle>프로필 편집</EditTitle>
+                    <ProfileEdit>
+                        <ProfileImg
                             alt="user profile"
                             src="images/default.profile.png"
                         />
-                        <div className={myPageStyles.profile_upload}>
-                            <ImageUpload />
-                        </div>
-                    </DialogContent>
+                        <UploadWrapper>
+                            <ImageUpload width={450} height={300} />
+                        </UploadWrapper>
+                    </ProfileEdit>
                     <DialogActions>
-                        <button>변경하기</button>
-                        <button>취소하기</button>
+                        <Button>변경하기</Button>
+                        <Button>취소하기</Button>
                     </DialogActions>
                 </Dialog>
             )}
@@ -64,3 +58,40 @@ const UserProfile = () => {
 };
 
 export default UserProfile;
+
+const ProfileImg = styled(Avatar)`
+    border: 2px dashed #a7c4bc;
+    width: 200px;
+    height: 200px;
+`;
+const EditButton = styled.button`
+    border: none;
+    cursor: pointer;
+`;
+
+const ProfileEdit = styled(DialogContent)`
+    width: auto;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 30px 10px;
+`;
+
+const EditTitle = styled(DialogTitle)`
+    font-family: Elice Digital Baeum;
+`;
+const UploadWrapper = styled.div`
+    padding: 15px 10px 0 10px;
+`;
+const Button = styled.button`
+    font-family: Elice Digital Baeum;
+    border: none;
+    cursor: pointer;
+    background-color: #f2f2f2;
+    color: black;
+    width: 100px;
+    height: 25px;
+    border-radius: 15px;
+`;

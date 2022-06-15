@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useRouter } from "next/router";
-import searchStyles from "../../styles/Search.module.css";
+import styled from "styled-components";
 
 const Search = () => {
     const [inputValue, setInputValue] = useState("");
@@ -18,10 +18,9 @@ const Search = () => {
     };
 
     return (
-        <div className={searchStyles.form}>
-            <input
+        <Wrapper>
+            <Input
                 id="searchInput"
-                className={searchStyles.input}
                 type="text"
                 autoComplete="off"
                 placeholder="사물을 검색해보세요"
@@ -30,15 +29,33 @@ const Search = () => {
                     setInputValue(e.target.value)
                 }
             />
-            <button
-                className={searchStyles.button}
-                type="button"
-                onClick={findValue}
-            >
+            <Button type="button" onClick={findValue}>
                 🔍
-            </button>
-        </div>
+            </Button>
+        </Wrapper>
     );
 };
 
 export default Search;
+
+const Wrapper = styled.div`
+    display: flex;
+    justify-content: center;
+`;
+const Input = styled.input`
+    width: 530px;
+    height: 40px;
+    border: none;
+    padding: 0;
+    outline: none;
+    border-radius: 15px;
+    text-align: center;
+`;
+
+const Button = styled.button`
+    width: 65px;
+    margin-left: 5px;
+    height: 40px;
+    border: none;
+    border-radius: 15px;
+`;
