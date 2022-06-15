@@ -4,7 +4,12 @@ const searchService = {
   getInfoByText: async ({ text }) => {
     const searchedData = await RecycleInfo.searchData({ text });
 
-    return { message: "success", data: searchedData };
+    const category = searchedData[0].category;
+    const recycleInfo = [];
+    searchedData.map((info) =>
+      recycleInfo.push({ details: info.details, info_img: info.info_img })
+    );
+    return { message: "success", data: { category, recycleInfo } };
   },
 };
 
