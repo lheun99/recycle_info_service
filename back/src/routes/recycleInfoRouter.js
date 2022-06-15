@@ -11,11 +11,13 @@ const upload = multer({ storage });
 recycleInfoRouter.post("/", upload.single("image"), async (req, res, next) => {
   try {
     const buffer = req.file.buffer;
-    const encode = Buffer.from(buffer).toString("base64");
+    const encoded = Buffer.from(buffer).toString("base64");
+
+    const info = await recycleInfoService.analysisImg({ encoded });
     //인공지능 영역에서 디코딩 후, 분석
     // const decode = Buffer.from(encode, "base64");
 
-    res.status(201).json(recycleInfo);
+    res.status(201).json(info);
   } catch (error) {
     next(error);
   }
