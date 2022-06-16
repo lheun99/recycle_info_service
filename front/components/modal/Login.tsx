@@ -27,12 +27,12 @@ function Login({ open, handleClose, setRegister }) {
     return (
         <Wrapper>
             <div style={{ textAlign: "right" }}>
-                <Button
+                <CloseButton
                     variant="text"
                     onClick={handleClose}
                 >
                     x
-                </Button>
+                </CloseButton>
             </div>
             <LogoImage>
                 <Image
@@ -115,6 +115,13 @@ const Wrapper = styled.div`
     padding: 40px;
 `;
 
+const CloseButton = styled(Button)`
+    color: black;
+    :hover {
+        background-color: white;
+    }
+`;
+
 const SignInForm = styled.div`
     height: 200px;
     display: flex;
@@ -144,6 +151,11 @@ const SignInButton = styled(Button)`
     background-color: var(--green);
     margin-top: 20px;
     border-radius: 50px;
+    color: var(--deepgreen);
+    :hover {
+        background-color: var(--deepgreen);
+        color: white;
+    }
 `;
 
 const Or = styled.div`

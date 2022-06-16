@@ -39,7 +39,7 @@ const Register = ({ open, handleClose, setRegister }) => {
             </SideImage>
             <SideWrapper>
                 <div style={{ textAlign: "right" }}>
-                    <Button
+                    <CloseButton
                         variant="text"
                         onClick={() => {
                             setRegister(false)
@@ -47,7 +47,7 @@ const Register = ({ open, handleClose, setRegister }) => {
                         }}
                     >
                         x
-                    </Button>
+                    </CloseButton>
                 </div>
                 <Title>Create Account</Title>
                 <SignUpForm>
@@ -134,6 +134,13 @@ const SideWrapper = styled.div`
     padding: 40px;
 `;
 
+const CloseButton = styled(Button)`
+    color: black;
+    :hover {
+        background-color: white;
+    }
+`;
+
 const Title = styled.div`
     font-size: 1.7rem;
     font-weight: bold;
@@ -156,6 +163,11 @@ const SignUpButton = styled(Button)`
     background-color: var(--green);
     margin-top: 20px;
     border-radius: 50px;
+    color: var(--deepgreen);
+    :hover {
+        background-color: var(--deepgreen);
+        color: white;
+    }
 `;
 
 const Or = styled.div`
