@@ -59,20 +59,25 @@ class Box(object):
 
     @classmethod
     def from_centerbox(
-        cls, classid: int, center: Tuple[float, float], size: Tuple[float, float]
+        cls,
+        classid: int,
+        centerx: float,
+        centery: float,
+        width: float,
+        height: float,
     ):
-        center_ = Coord(*center)
-        size_ = ImageSize(*size)
+        center = Coord(centerx, centery)
+        size = ImageSize(width, height)
 
-        halfw = size_.width / 2.0
-        halfh = size_.height / 2.0
-        xmin = center_.x - halfw
-        xmax = center_.x + halfw
-        ymin = center_.y - halfh
-        ymax = center_.y + halfh
-        rect_ = Rect(Coord(xmin, ymin), Coord(xmax, ymax))
+        halfw = width / 2.0
+        halfh = height / 2.0
+        xmin = centerx - halfw
+        xmax = centerx + halfw
+        ymin = centery - halfh
+        ymax = centery + halfh
+        rect = Rect(Coord(xmin, ymin), Coord(xmax, ymax))
 
-        box = cls(classid, center_, size_, rect_)
+        box = cls(classid, center, size, rect)
         return box
 
     @classmethod
