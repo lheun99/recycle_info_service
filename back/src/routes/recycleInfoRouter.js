@@ -19,7 +19,7 @@ recycleInfoRouter.post("/", upload.single("image"), async (req, res, next) => {
     const info = await recycleInfoService.analysisImg({ encoded });
     //인공지능 영역에서 디코딩 후, 분석
     // const decode = Buffer.from(encode, "base64");
-
+    //
     res.status(201).json(info);
   } catch (error) {
     next(error);
