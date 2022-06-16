@@ -25,9 +25,18 @@ class Rect(NamedTuple):
     min: Coord
     max: Coord
 
-    def tuple(self):
+    def tuple(self, resolution: Optional[Tuple[int, int]] = None):
         '''``pillow`` 형식 박스 튜플로 변환합니다.'''
-        return (*self.min, *self.max)
+        if resolution is None:
+            return (*self.min, *self.max)
+        else:
+            res = ImageSize(*resolution)
+            return (
+                round(res.x * self.min.x),
+                round(res.y * self.min.y),
+                round(res.x * self.max.x),
+                round(res.y * self.max.y),
+            )
 
 
 class ImageSize(NamedTuple):
