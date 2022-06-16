@@ -30,11 +30,11 @@ class ImageSize(NamedTuple):
     width: float
     height: float
 
-    @property.getter
+    @property
     def w(self):
         return self.width
 
-    @property.getter
+    @property
     def h(self):
         return self.height
 
