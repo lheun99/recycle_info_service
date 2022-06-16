@@ -1,9 +1,12 @@
 #! /usr/bin/env python3
 
+from collections import UserList
+from pathlib import Path
 from typing import (
     NamedTuple,
     NewType,
     Optional,
+    Sequence,
     Tuple,
     Union,
 )
@@ -75,3 +78,12 @@ class Box(object):
     @classmethod
     def from_rect(cls, rect: Tuple[float, float, float, float]):
         raise NotImplementedError('Not needed yet, so not implemented yet')
+
+
+class Label(UserList):
+    '''``Box``의 컨테이너입니다. 상대 경로 정보를 추가로 저장합니다.'''
+    path: Path
+
+    def __init__(self, path: Union[Path, str], *boxes: Sequence[Box]) -> None:
+        self.path = Path(str)
+        self.data.extend(boxes)
