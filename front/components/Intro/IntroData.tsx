@@ -57,7 +57,7 @@ const SubTitle = styled.div`
     font-size: var(--font-subtitle);
 `;
 
-const Contents = styled.div`
+const Contents = styled.p`
     font-size: var(--font-text);
 `;
 
@@ -65,4 +65,12 @@ const NavButton = styled(Button)`
     width: 200px;
     height: 60px;
     margin-top: 50px;
+    border-radius: 10px;
+    background-color: var(--gray);
+    color: black;
+    :hover {
+        background-color: var(--deepgray);
+        color: white;
+        border: none;
+    }
 `;
