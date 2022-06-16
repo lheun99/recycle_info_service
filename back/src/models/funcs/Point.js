@@ -21,7 +21,10 @@ const Point = {
     },
 
     findAllById: async ({ user_id }) => {
-        const points = await pointModel.findAll({ where: { user_id } });
+        const points = await pointModel.findAll({
+            attributes: ["route", "point", ["raised_at", "raisedAt"]],
+            where: { user_id },
+        });
         return points;
     },
 
