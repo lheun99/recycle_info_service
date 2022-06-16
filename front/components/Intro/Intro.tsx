@@ -172,7 +172,7 @@ const Arrow = styled.button`
     background: none;
     border: none;
     position: absolute;
-    top: 500px;
+    top: 80%;
     cursor: pointer;
     animation: up-down 0.4s 0s ease infinite alternate;
     @keyframes up-down {
