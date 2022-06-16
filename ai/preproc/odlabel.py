@@ -90,5 +90,5 @@ class Label(UserList):
     path: Path
 
     def __init__(self, path: Union[Path, str], *boxes: Sequence[Box]) -> None:
-        self.path = Path(str)
+        self.path = Path(path)
         self.data.extend(boxes)
