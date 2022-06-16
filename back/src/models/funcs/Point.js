@@ -30,12 +30,12 @@ const Point = {
 
     getRankers: async () => {
         const rankerPoints = await sequelize.query(
-            `SELECT p.user_id, u.nickname, SUM(point) TOTAL_POINT 
+            `SELECT u.nickname, SUM(point) TOTAL
             FROM points AS p
             INNER JOIN users AS u
             ON p.user_id=u.user_id 
             GROUP BY p.user_id, u.user_id 
-            ORDER BY total_point DESC 
+            ORDER BY total DESC 
             LIMIT 3`
         );
         return rankerPoints[0];
@@ -43,11 +43,11 @@ const Point = {
 
     getRank: async ({ user_id }) => {
         const rank = await sequelize.query(
-            `SELECT total_point, rank 
+            `SELECT total, rank 
             FROM (
-                SELECT user_id, total_point, RANK() OVER (ORDER BY total_point DESC) RANK 
+                SELECT user_id, total, RANK() OVER (ORDER BY total DESC) RANK 
                 FROM (
-                    SELECT user_id, SUM(point) AS total_point 
+                    SELECT user_id, SUM(point) AS total 
                     FROM points 
                     GROUP BY user_id) AS new_points
                 ) AS final_points 

@@ -27,7 +27,7 @@ const userService = {
             register_date: registerDate,
         };
 
-        const createdNewUser = await User.create({ newUser });
+        await User.create({ newUser });
         const data = {
             userId,
             nickname,
