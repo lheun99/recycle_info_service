@@ -1531,7 +1531,7 @@
     "postgres-date" "~1.0.4"
     "postgres-interval" "^1.1.0"
 
-"pg@^8.7.3", "pg@>=8.0":
+"pg@^8.7.3":
   "integrity" "sha512-HPmH4GH4H3AOprDJOazoIcpI49XFsHCe8xlrjHkWiapdbHK+HLtbm/GQzXYAZwmPju/kzKhjaSfMACG+8cgJcw=="
   "resolved" "https://registry.npmjs.org/pg/-/pg-8.7.3.tgz"
   "version" "8.7.3"
@@ -1877,7 +1877,7 @@
   "resolved" "https://registry.npmjs.org/sequelize-pool/-/sequelize-pool-7.1.0.tgz"
   "version" "7.1.0"
 
-"sequelize@^6.20.1", "sequelize@>3.30.0":
+"sequelize@^6.20.1":
   "integrity" "sha512-1YBMv++Yy1JBFFiac1Xoa+Km5qV6YI1ckdkW0xyD7IpLMtE5JmjgZdZXGfwgRUNjhaKMxdzT+nkvJgeXO0rv/g=="
   "resolved" "https://registry.npmjs.org/sequelize/-/sequelize-6.20.1.tgz"
   "version" "6.20.1"
