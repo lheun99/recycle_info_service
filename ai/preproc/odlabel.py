@@ -99,3 +99,6 @@ class Label(object):
         self.path = Path(path)
         self.boxes = []
         self.boxes.extend(boxes)
+
+    def __repr__(self):
+        return f'Label({self.path})'
