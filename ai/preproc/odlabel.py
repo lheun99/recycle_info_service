@@ -1,8 +1,9 @@
 #! /usr/bin/env python3
 
-from collections import UserList
+# from collections import UserList
 from pathlib import Path
 from typing import (
+    Iterable,
     NamedTuple,
     NewType,
     Optional,
@@ -85,10 +86,13 @@ class Box(object):
         raise NotImplementedError('Not needed yet, so not implemented yet')
 
 
-class Label(UserList):
+class Label(object):
     '''``Box``의 컨테이너입니다. 상대 경로 정보를 추가로 저장합니다.'''
     path: Path
 
-    def __init__(self, path: Union[Path, str], *boxes: Sequence[Box]) -> None:
+    def __init__(
+        self, path: Union[Path, str], boxes: Iterable[Box] = []
+    ) -> None:
         self.path = Path(path)
-        self.data.extend(boxes)
+        self.boxes = []
+        self.boxes.extend(boxes)
