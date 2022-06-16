@@ -32,10 +32,10 @@ class Rect(NamedTuple):
         else:
             res = ImageSize(*resolution)
             return (
-                round(res.x * self.min.x),
-                round(res.y * self.min.y),
-                round(res.x * self.max.x),
-                round(res.y * self.max.y),
+                round(res.width * self.min.x),
+                round(res.height * self.min.y),
+                round(res.width * self.max.x),
+                round(res.height * self.max.y),
             )
 
 
