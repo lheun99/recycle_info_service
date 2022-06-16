@@ -44,7 +44,7 @@ const Nav = () => {
                     </Link>
                 </li>
                 <li>
-                    <Link href="/" passHref>
+                    <Link href="/quiz" passHref>
                         <a>퀴즈 / 게임 하러가기</a>
                     </Link>
                 </li>
