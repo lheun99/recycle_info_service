@@ -58,6 +58,9 @@ class Box(object):
         self.size = size
         self.rect = rect
 
+    def __repr__(self):
+        return f'Box({self.classid}, {self.center}, {self.size}, {self.rect})'
+
     @classmethod
     def from_centerbox(
         cls,
