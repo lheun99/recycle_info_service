@@ -13,14 +13,15 @@ postRouter.post("/", async (req, res, next) => {
     const { title, post_img, content } = req.body;
 
     //추가할 게시글
-    const newPost = await postService.createPost({
-      userId,
+    const newPost = {
+      user_id: userId,
       title,
       post_img,
       content,
-    });
+    };
 
-    res.status(201).json(newPost);
+    const createdPost = await postService.createPost({ newPost });
+    res.status(201).json(createdPost);
   } catch (error) {
     next(error);
   }
@@ -71,11 +72,11 @@ postRouter.get("/user", async (req, res, next) => {
 postRouter.get("/:id", async (req, res, next) => {
   try {
     //특정 게시글 id
-    const post_id = req.params.id;
+    const postId = req.params.id;
 
     //특정 게시글 정보
-    const currentPost = await postService.getPost({
-      post_id,
+    const currentPost = await postService.getPostByPostId({
+      post_id: postId,
     });
     res.status(201).json(currentPost);
   } catch (error) {
@@ -87,7 +88,7 @@ postRouter.get("/:id", async (req, res, next) => {
 postRouter.put("/:id", async (req, res, next) => {
   try {
     //특정 게시글 id
-    const post_id = req.params.id;
+    const postId = req.params.id;
     const { title, post_img, content } = req.body;
 
     //수정할 게시글 정보
@@ -95,7 +96,7 @@ postRouter.put("/:id", async (req, res, next) => {
 
     //수정된 게시글
     const updatedPost = await postService.setPost({
-      post_id,
+      post_id: postId,
       toUpdate,
     });
 
@@ -109,18 +110,18 @@ postRouter.put("/:id", async (req, res, next) => {
 postRouter.delete("/:id", async (req, res, next) => {
   try {
     //특정 게시글 id
-    const post_id = req.params.id;
+    const postId = req.params.id;
 
     //삭제된 게시글
     const deletedPost = await postService.deletePost({
-      post_id,
+      post_id: postId,
     });
 
     if (deletedPost.errorMessage) {
       throw new Error(deletedPost.errorMessage);
     }
 
-    res.status(201).json("삭제가 완료되었습니다.");
+    res.status(201).json(deletedPost);
   } catch (error) {
     next(error);
   }

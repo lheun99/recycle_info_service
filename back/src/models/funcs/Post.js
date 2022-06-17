@@ -19,13 +19,17 @@ const Post = {
     return totalPage;
   },
   findAllPostPaged: async ({ page, perPage }) => {
-    const postlist = await postModel.findAll({
-      limit: perPage,
-      offset: perPage * (page - 1),
-      order: [["createdAt", "ASC"]],
-    });
+    const postlist = await sequelize.query(
+      `SELECT posts.post_id, posts.title, posts.content, users.nickname, posts."createdAt", posts.post_img
+      FROM posts 
+      INNER JOIN users 
+      ON posts.user_id=users.user_id 
+      ORDER BY posts."createdAt"
+      LIMIT '${perPage}'
+      OFFSET '${(page - 1) * perPage}'`
+    );
 
-    return postlist;
+    return postlist[0];
   },
   findAllPost: async () => {
     const postlist = await sequelize.query(
@@ -35,15 +39,28 @@ const Post = {
       ON posts.user_id=users.user_id 
       ORDER BY posts."createdAt"`
     );
+    console.log(postlist[0]);
     return postlist[0];
   },
   findPostByUserId: async ({ user_id }) => {
-    const posts = await postModel.findAll({ where: { user_id } });
-    return posts;
+    const post = await sequelize.query(
+      `SELECT posts.post_id, users.user_id, posts.title, users.nickname, posts."createdAt", posts.content, posts.post_img
+      FROM posts 
+      INNER JOIN users 
+      ON posts.user_id=users.user_id 
+      WHERE users.user_id='${user_id}'`
+    );
+    return post[0][0];
   },
   findPostById: async ({ post_id }) => {
-    const post = await postModel.findOne({ where: { post_id } });
-    return post;
+    const post = await sequelize.query(
+      `SELECT posts.post_id, users.user_id, posts.title, users.nickname, posts."createdAt", posts.content, posts.post_img
+      FROM posts 
+      INNER JOIN users 
+      ON posts.user_id=users.user_id 
+      WHERE posts.post_id='${post_id}'`
+    );
+    return post[0][0];
   },
 
   update: async ({ post_id, toUpdate }) => {
@@ -52,7 +69,7 @@ const Post = {
       returning: true,
       plain: true,
     });
-    return updatedPost;
+    return updatedPost[1];
   },
 
   delete: async ({ post_id }) => {
