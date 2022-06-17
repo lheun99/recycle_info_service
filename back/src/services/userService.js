@@ -45,6 +45,8 @@ const userService = {
         const user = {
             email,
             password,
+            picture:
+                "https://images.unsplash.com/photo-1556713304-e5ac0f02e516?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80",
             user_id: "fa544c68-65e6-41aa-a380-d0da4f3770aa",
         };
 
