@@ -10,7 +10,7 @@ const recycleInfoService = {
     const category = infos[0].category;
     const recycleInfo = [];
     infos.map((info) =>
-      recycleInfo.push({ details: info.details, info_img: info.info_img })
+      recycleInfo.push({ details: info.details, infoImg: info.info_img })
     );
     return { message: "success", data: { category, recycleInfo } };
   },
