@@ -8,7 +8,7 @@ DST="$HOME/train"
 python "$YOLOREPO/train.py" \
     --weights '' \
     --cfg "$YOLOREPO/models/yolov5m.yaml" \
-    --data "$REPO/ai/train/data.yaml" \
+    --data "$REPO/ai/train/data-train.yaml" \
     --epochs 3 \
     --batch-size -1 \
     --project "$DST/exp.oneepoch" \
