@@ -2,6 +2,7 @@
 
 # epoch 하나에 걸리는 시간을 측정합니다.
 
+REPO="$HOME/project-cyberdyne"
 YOLOREPO="$HOME/yolov5"
 DST="$HOME/train"
 
