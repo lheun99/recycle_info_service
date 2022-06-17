@@ -10,13 +10,23 @@ const postService = {
 
   getAllPost: async () => {
     const listedPost = await Post.findAllPost();
-
     if (!listedPost) {
       const errorMessage = "게시글 존재하지 않습니다.";
       return { errorMessage };
     }
 
     return { message: "success", data: listedPost };
+  },
+  getAllPostPaged: async ({ page, perPage }) => {
+    const totalPage = await Post.findAllPostTotalPage({ perPage });
+    const listedPost = await Post.findAllPostPaged({ page, perPage });
+
+    if (!listedPost) {
+      const errorMessage = "게시글 존재하지 않습니다.";
+      return { errorMessage };
+    }
+
+    return { message: "success", data: { totalPage, listedPost } };
   },
 
   getPostById: async ({ userId }) => {

@@ -27,10 +27,24 @@ postRouter.post("/", async (req, res, next) => {
 });
 
 //게시글 리스트 찾기
-postRouter.get("/list", async (req, res, next) => {
+postRouter.get("/all-list", async (req, res, next) => {
   try {
     //전체 게시글 리스트
-    const listedPost = await postService.getAllPost();
+    const listedPost = await postService.getAllPost({});
+
+    res.status(201).json(listedPost);
+  } catch (error) {
+    next(error);
+  }
+});
+//게시글 리스트 찾기
+postRouter.get("/list", async (req, res, next) => {
+  try {
+    const page = req.query.page || 1;
+    const perPage = req.query.perPage || 10;
+
+    //전체 게시글 리스트
+    const listedPost = await postService.getAllPostPaged({ page, perPage });
 
     res.status(201).json(listedPost);
   } catch (error) {

@@ -12,9 +12,24 @@ const Post = {
     return createdNewPost;
   },
 
+  findAllPostTotalPage: async ({ perPage }) => {
+    const countPost = await postModel.count();
+    const totalPage = Math.ceil(countPost / perPage);
+
+    return totalPage;
+  },
+  findAllPostPaged: async ({ page, perPage }) => {
+    const postlist = await postModel.findAll({
+      limit: perPage,
+      offset: perPage * (page - 1),
+      order: [["createdAt", "ASC"]],
+    });
+
+    return postlist;
+  },
   findAllPost: async () => {
     const postlist = await sequelize.query(
-      `SELECT posts.title, posts."createdAt", users.nickname, posts.post_img
+      `SELECT posts.post_id, posts.title, posts."createdAt", users.nickname, posts.post_img
       FROM posts 
       INNER JOIN users 
       ON posts.user_id=users.user_id 
