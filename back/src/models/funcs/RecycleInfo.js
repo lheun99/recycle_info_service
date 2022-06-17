@@ -13,7 +13,7 @@ const RecycleInfo = {
     //const code = Math.floor(Math.random() * 15);
 
     //tests용 결과 return -> 0:종이류
-    const code = 0;
+    const code = 1;
     return code;
   },
 
