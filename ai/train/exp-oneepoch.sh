@@ -12,3 +12,4 @@ python "$YOLOREPO/train.py" \
     --epochs 3 \
     --batch-size -1 \
     --project "$DST/exp.oneepoch" \
+    --cache
