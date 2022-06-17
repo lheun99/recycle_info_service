@@ -1,12 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Button, TextField } from "@mui/material";
 import Image from "next/image";
 import Logo from "../../public/images/logo.png";
 import styled from "styled-components";
+import { DispatchContext } from "../../pages/_app";
+import * as Api from "../../api";
 
 function Login({ open, handleClose, setRegister }) {
     const [email, setEmail] = useState<String>("");
     const [password, setPassword] = useState<String>("");
+    const dispatch = useContext(DispatchContext);
 
     const validateEmail = (email: String) => {
         return email
@@ -22,6 +25,25 @@ function Login({ open, handleClose, setRegister }) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        try {
+            const res = await Api.post("users/login", {
+                email,
+                password,
+            });
+
+            const user = res.data;
+            const jwtToken = user.token;
+            sessionStorage.setItem("userToken", jwtToken);
+
+            dispatch({
+                type: "LOGIN_SUCCESS",
+                payload: user,
+            });
+
+        } catch (err) {
+            console.error("이메일 또는 비밀번호가 유효하지 않습니다.");
+        }
     }
 
     return (
@@ -52,6 +74,7 @@ function Login({ open, handleClose, setRegister }) {
                     label="E-MAIL"
                     size="small"
                     onChange={(e) => setEmail(e.target.value)}
+                    helperText={!isEmailValid && "이메일 형식이 올바르지 않습니다."}
                 />
                 <TextField
                     type="password"
@@ -64,13 +87,10 @@ function Login({ open, handleClose, setRegister }) {
                     onChange={(e) =>
                         setPassword(e.target.value)
                     }
-                    helperText={
-                        isPasswordValid
-                            ? ""
-                            : "비밀번호는 4글자 이상입니다."
-                    }
+                    helperText={!isPasswordValid && "비밀번호는 4글자 이상입니다."}
                 />
                 <SignInButton
+                    type="submit"
                     onClick={handleSubmit}
                     disabled={!isFormValid}
                 >

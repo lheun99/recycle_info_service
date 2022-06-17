@@ -3,11 +3,12 @@ import { Button, TextField } from "@mui/material";
 import Image from "next/image";
 import Background from "../../public/images/background.jpg";
 import styled from "styled-components";
+import * as Api from "../../api";
 
 const Register = ({ open, handleClose, setRegister }) => {
+    const [nickname, setNickname] = useState<String>("");
     const [email, setEmail] = useState<String>("");
     const [password, setPassword] = useState<String>("");
-    const [confirmPassword, setConfirmPassword] = useState<String>("");
 
     const validateEmail = (email: String) => {
         return email
@@ -17,13 +18,26 @@ const Register = ({ open, handleClose, setRegister }) => {
             )
     }
 
+    const isNicknameValid = nickname.length >= 2
     const isEmailValid = validateEmail(email)
     const isPasswordValid = password.length >= 4
-    const isPasswordSame = password === confirmPassword
-    const isFormValid = isEmailValid && isPasswordValid && isPasswordSame
+    const isFormValid = isNicknameValid && isEmailValid && isPasswordValid
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+
+        try {
+            await Api.post("users/register", {
+                nickname,
+                email,
+                password,
+            });
+
+            // 회원가입 마침
+            setRegister(false)
+        } catch (err) {
+            console.error("회원가입에 실패하였습니다.", err);
+        }
     };
 
     return (
@@ -52,6 +66,16 @@ const Register = ({ open, handleClose, setRegister }) => {
                 <Title>Create Account</Title>
                 <SignUpForm>
                     <TextField
+                        type="nickname"
+                        style={{
+                            width: "380px",
+                            height: "40px",
+                        }}
+                        label="NICKNAME"
+                        size="small"
+                        onChange={(e) => setNickname(e.target.value)}
+                    />
+                    <TextField
                         type="email"
                         style={{
                             width: "380px",
@@ -70,32 +94,12 @@ const Register = ({ open, handleClose, setRegister }) => {
                         label="PASSWORD"
                         size="small"
                         onChange={(e) => setPassword(e.target.value)}
-                        helperText={
-                            isPasswordValid
-                                ? ""
-                                : "비밀번호는 4글자 이상입니다."
-                        }
-                    />
-                    <TextField
-                        type="password"
-                        style={{
-                            width: "380px",
-                            height: "40px",
-                        }}
-                        label="CONFIRM PASSWORD"
-                        size="small"
-                        onChange={(e) => setConfirmPassword(e.target.value)}
-                        helperText={
-                            isPasswordSame ? "비밀번호는 4글자 이상입니다." : "비밀번호가 일치하지 않습니다."
-                        }
+                        helperText={!isPasswordValid && "비밀번호는 4글자 이상입니다."}
                     />
                     <SignUpButton
                         variant="text"
                         type="submit"
-                        onClick={() => {
-                            handleSubmit
-                            setRegister(false)
-                        }}
+                        onClick={handleSubmit}
                         disabled={!isFormValid}
                     >
                         Sign up
