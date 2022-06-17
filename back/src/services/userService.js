@@ -90,6 +90,7 @@ const userService = {
     getUserPage: async ({ userId }) => {
         // const user = await User.findById({ user_id: userId });
         const user = {
+            email: "test@test.com",
             nickname: "임시닉네임",
             picture:
                 "https://images.unsplash.com/photo-1556713304-e5ac0f02e516?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80",
@@ -101,7 +102,7 @@ const userService = {
             );
         }
 
-        const { nickname, picture } = user;
+        const { email, nickname, picture } = user;
 
         // 랭커들의 user_id, nickname, total_point
         // const rankers = await Point.getRankers();
@@ -126,7 +127,7 @@ const userService = {
             rank: "3",
         };
 
-        const data = { nickname, picture, rankers, rank };
+        const data = { email, nickname, picture, rankers, rank };
 
         return { message: "success", data };
     },
