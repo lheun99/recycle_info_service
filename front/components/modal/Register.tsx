@@ -20,7 +20,7 @@ const Register = ({ open, handleClose, setRegister }) => {
 
     const isNicknameValid = nickname.length >= 2
     const isEmailValid = validateEmail(email)
-    const isPasswordValid = password.length >= 4
+    const isPasswordValid = password.length >= 8
     const isFormValid = isNicknameValid && isEmailValid && isPasswordValid
 
     const handleSubmit = async (event) => {
@@ -38,6 +38,7 @@ const Register = ({ open, handleClose, setRegister }) => {
         } catch (err) {
             console.error("회원가입에 실패하였습니다.", err);
         }
+        console.log("회원가입 성공!", email, password)
     };
 
     return (
@@ -94,7 +95,7 @@ const Register = ({ open, handleClose, setRegister }) => {
                         label="PASSWORD"
                         size="small"
                         onChange={(e) => setPassword(e.target.value)}
-                        helperText={!isPasswordValid && "비밀번호는 4글자 이상입니다."}
+                        helperText={!isPasswordValid && "비밀번호는 8글자 이상입니다."}
                     />
                     <SignUpButton
                         variant="text"

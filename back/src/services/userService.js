@@ -10,11 +10,12 @@ const userService = {
         // const user = await User.findByEmail({ email });
         const user = { nickname, email, password };
 
-        if (user) {
-            throw new Error(
-                "이 이메일은 현재 사용중입니다. 다른 이메일을 입력해 주세요."
-            );
-        }
+        // 물어보기...
+        // if (user) {
+        //     throw new Error(
+        //         "이 이메일은 현재 사용중입니다. 다른 이메일을 입력해 주세요."
+        //     );
+        // }
 
         // const hashedPassword = await bcrypt.hash(password, 10);
         // const userId = uuidv4();
