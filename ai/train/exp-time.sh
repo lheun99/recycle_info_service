@@ -18,6 +18,17 @@ python "$YOLOREPO/train.py" \
     --project "$DST/exp.time" \
     --name 'imgsz=320,e=4'
 
+# --img-size 160, 16에포크 정확도 비교
+python "$YOLOREPO/train.py" \
+    --weights '' \
+    --cfg "$YOLOREPO/models/yolov5n.yaml" \
+    --data "$REPO/ai/train/data-exp.yaml" \
+    --img-size 160 \
+    --epochs 16 \
+    --batch-size -1 \
+    --project "$DST/exp.time" \
+    --name 'imgsz=160,e=16'
+
 # --img-size 640, 1에포크로 정확도 비교
 # python "$YOLOREPO/train.py" \
 #     --weights '' \
