@@ -2,7 +2,6 @@ const Post = require("../models/funcs/Post");
 
 const postService = {
   createPost: async ({ newPost }) => {
-    console.log(newPost);
     const { post_id, user_id, title, content, createdAt, post_img } =
       await Post.create({ newPost });
 
@@ -62,47 +61,53 @@ const postService = {
   },
 
   getPostById: async ({ userId }) => {
-    const currentPost = await Post.findPostByUserId({ user_id: userId });
+    const listedPost = await Post.findPostByUserId({ user_id: userId });
 
-    if (!currentPost) {
+    if (!listedPost) {
       const errorMessage =
         "게시글 존재하지 않습니다. 다시 한 번 확인해 주세요.";
       return { errorMessage };
     }
 
-    const searchedPost = {
-      postId: currentPost.post_id,
-      userId: currentPost.user_id,
-      title: currentPost.title,
-      nickname: currentPost.nickname,
-      createdAt: currentPost.createdAt,
-      content: currentPost.content,
-      postImg: currentPost.post_img,
-    };
-    return { message: "success", data: searchedPost };
-  },
-  getPostByPostId: async ({ post_id }) => {
-    const currentPost = await Post.findPostById({ post_id });
+    const searchedPostById = [];
+    listedPost.map((post) =>
+      searchedPostById.push({
+        postId: post.post_id,
+        userId: post.user_id,
+        title: post.title,
+        nickname: post.nickname,
+        createdAt: post.createdAt,
+        postImg: post.post_img,
+      })
+    );
 
-    if (!currentPost) {
+    return { message: "success", data: searchedPostById };
+  },
+  getPostByPostId: async ({ postId }) => {
+    const listedPost = await Post.findPostByPostId({ post_id: postId });
+
+    if (!listedPost) {
       const errorMessage =
         "게시글 존재하지 않습니다. 다시 한 번 확인해 주세요.";
       return { errorMessage };
     }
-    const searchedPost = {
-      postId: currentPost.post_id,
-      userId: currentPost.user_id,
-      title: currentPost.title,
-      nickname: currentPost.nickname,
-      createdAt: currentPost.createdAt,
-      content: currentPost.content,
-      postImg: currentPost.post_img,
-    };
-    return { message: "success", data: searchedPost };
+
+    const searchedPostByPostId = [];
+    listedPost.map((post) =>
+      searchedPostByPostId.push({
+        postId: post.post_id,
+        userId: post.user_id,
+        title: post.title,
+        nickname: post.nickname,
+        createdAt: post.createdAt,
+        postImg: post.post_img,
+      })
+    );
+    return { message: "success", data: searchedPostByPostId };
   },
 
-  setPost: async ({ post_id, toUpdate }) => {
-    const findedPost = await Post.findPostById({ post_id });
+  setPost: async ({ postId, toUpdate }) => {
+    const findedPost = await Post.findPostByPostId({ post_id: postId });
     if (!findedPost) {
       const errorMessage =
         "게시글이 존재하지 않습니다. 다시 한 번 확인해 주세요.";
@@ -116,7 +121,7 @@ const postService = {
 
     const { title, content, createdAt, updatedAt, post_img } =
       await Post.update({
-        post_id,
+        post_id: postId,
         toUpdate,
       });
 
@@ -130,9 +135,9 @@ const postService = {
     return { message: "success", data: updatedPost };
   },
 
-  deletePost: async ({ post_id }) => {
+  deletePost: async ({ postId }) => {
     const deletedPost = await Post.delete({
-      post_id,
+      post_id: postId,
     });
 
     if (!deletedPost) {

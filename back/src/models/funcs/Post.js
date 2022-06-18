@@ -5,9 +5,7 @@ const sequelize = db.sequelize;
 
 const Post = {
   create: async ({ newPost }) => {
-    const createdNewPost = await postModel.create(newPost, {
-      fields: ["user_id", "title", "post_img", "content"],
-    });
+    const createdNewPost = await postModel.create(newPost);
 
     return createdNewPost;
   },
@@ -39,7 +37,6 @@ const Post = {
       ON posts.user_id=users.user_id 
       ORDER BY posts."createdAt"`
     );
-    console.log(postlist[0]);
     return postlist[0];
   },
   findPostByUserId: async ({ user_id }) => {
@@ -48,11 +45,12 @@ const Post = {
       FROM posts 
       INNER JOIN users 
       ON posts.user_id=users.user_id 
-      WHERE users.user_id='${user_id}'`
+      WHERE users.user_id='${user_id}'
+      ORDER BY posts."createdAt"`
     );
-    return post[0][0];
+    return post[0];
   },
-  findPostById: async ({ post_id }) => {
+  findPostByPostId: async ({ post_id }) => {
     const post = await sequelize.query(
       `SELECT posts.post_id, users.user_id, posts.title, users.nickname, posts."createdAt", posts.content, posts.post_img
       FROM posts 
@@ -60,7 +58,7 @@ const Post = {
       ON posts.user_id=users.user_id 
       WHERE posts.post_id='${post_id}'`
     );
-    return post[0][0];
+    return post[0];
   },
 
   update: async ({ post_id, toUpdate }) => {

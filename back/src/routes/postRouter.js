@@ -76,7 +76,7 @@ postRouter.get("/:id", async (req, res, next) => {
 
     //특정 게시글 정보
     const currentPost = await postService.getPostByPostId({
-      post_id: postId,
+      postId,
     });
     res.status(201).json(currentPost);
   } catch (error) {
@@ -96,7 +96,7 @@ postRouter.put("/:id", async (req, res, next) => {
 
     //수정된 게시글
     const updatedPost = await postService.setPost({
-      post_id: postId,
+      postId,
       toUpdate,
     });
 
@@ -114,7 +114,7 @@ postRouter.delete("/:id", async (req, res, next) => {
 
     //삭제된 게시글
     const deletedPost = await postService.deletePost({
-      post_id: postId,
+      postId,
     });
 
     if (deletedPost.errorMessage) {
