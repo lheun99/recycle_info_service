@@ -4,6 +4,7 @@
 # yolov5m 모델은 epoch 당 5시간이 걸렸기 때문에 시간을 줄이기 위해
 # 모델 크기를 줄여봅니다.
 # 추가로, --cache (RAM) 옵션으로 실패했기 때문에 DISK 옵션을 주고 해봅니다.
+#   --> 여전히 안좋은 생각이었습니다.
 
 REPO="$HOME/project-cyberdyne"
 YOLOREPO="$HOME/yolov5"
@@ -13,6 +14,6 @@ python "$YOLOREPO/train.py" \
     --weights '' \
     --cfg "$YOLOREPO/models/yolov5n.yaml" \
     --data "$REPO/ai/train/data-train.yaml" \
-    --epochs 3 \
+    --epochs 2 \
     --batch-size -1 \
     --project "$DST/exp.oneepoch.n"
