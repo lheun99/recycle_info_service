@@ -42,11 +42,13 @@ const ImageUpload = ({ width, height }: ImageUploadProps) => {
         // console.log(file);
         const formData = new FormData();
         formData.append("image", file);
+        console.log(formData.getAll('image'))
         // console.log(formData.getAll("image")); // formData에 잘 들어가는지 확인
         // const res = await --> 이 후 서버에 post로 해당 formData와 같이 보낼 예정
         // 로딩 중 모션 적용 필요!!!!
         const res = await sendImageFile("recycle-info", formData);
         const info = res.data.data;
+        console.log(info)
         localStorage.setItem(
             `${info.category}`,
             JSON.stringify(info.recycleInfo)

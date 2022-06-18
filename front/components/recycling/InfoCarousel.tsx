@@ -9,7 +9,7 @@ const InfoCarousel = () => {
     const [slideIndex, setSlideIndex] = useState(1);
     const router = useRouter(); // 페이지 이동을 위해 useRouter 적용
     const type = router.query.category;
-    const receivedInfo = localStorage.getItem("종이류");
+    const receivedInfo = localStorage.getItem(`${type}`);
     const listInfo = JSON.parse(receivedInfo);
 
     const nextSlide = () => {
@@ -66,7 +66,7 @@ const InfoCarousel = () => {
                             >
                                 <InfoBox>
                                     <Image
-                                        src={info.info_img}
+                                        src={info.infoImg}
                                         alt="recycle-information"
                                         width={450}
                                         height={630}
