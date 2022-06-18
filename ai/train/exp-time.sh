@@ -7,23 +7,23 @@ REPO="$HOME/project-cyberdyne"
 YOLOREPO="$HOME/yolov5"
 DST="$HOME/train"
 
-# --image-size 320, 4에포크 시간 측정
+# --img-size 320, 4에포크 시간 측정
 python "$YOLOREPO/train.py" \
     --weights '' \
     --cfg "$YOLOREPO/models/yolov5n.yaml" \
     --data "$REPO/ai/train/data-exp.yaml" \
-    --image-size 320 \
+    --img-size 320 \
     --epochs 4 \
     --batch-size -1 \
     --project "$DST/exp.time" \
     --name 'imgsz=320,e=4'
 
-# --image-size 640, 1에포크로 정확도 비교
+# --img-size 640, 1에포크로 정확도 비교
 # python "$YOLOREPO/train.py" \
 #     --weights '' \
 #     --cfg "$YOLOREPO/models/yolov5n.yaml" \
 #     --data "$REPO/ai/train/data-exp.yaml" \
-#     --image-size 640 \
+#     --img-size 640 \
 #     --epochs 1 \
 #     --batch-size -1 \
 #     --project "$DST/exp.time"
