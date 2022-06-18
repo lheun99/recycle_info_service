@@ -1,35 +1,63 @@
-import React from "react";
+import React, { useEffect, useContext, useState } from "react";
 import styled from "styled-components";
 import UserProfile from "./UserProfile";
 import GrowingTree from "./GrowingTree";
 import Rank from "./Rank";
+import { UserStateContext } from "../../pages/_app";
+import { get } from "../../api";
 
 // mypage main component 에서 point를 조회하고 멘트 적용 및 props로 하위 컴포넌트에 전달
 
 const MyPage = () => {
+    const [user, setUser] = useState({
+        nickname: "",
+        picture: "",
+        point: "",
+        rank: "",
+        rankers: [],
+    });
+    const userInfo = useContext(UserStateContext);
+    const id = userInfo.user.userId;
+
+    const getUserInfo = async () => {
+        const res = await get(`users/${id}/myPage`);
+        const userAll = res.data.data;
+        setUser({
+            nickname: userAll.nickname,
+            picture: userAll.picture,
+            point: userAll.rank.total,
+            rank: userAll.rank.rank,
+            rankers: userAll.rankers,
+        });
+    };
+
+    useEffect(() => {
+        getUserInfo();
+    }, []);
+
     return (
         <Wrapper>
             <ProfileWrapper>
-                <UserProfile />
+                <UserProfile user={user} />
             </ProfileWrapper>
             <div>
                 <TitleWrapper>
                     <Title>마이 페이지</Title>
                 </TitleWrapper>
                 <ItemWrapper>
-                    <GrowingTree />
+                    <GrowingTree point={user?.point} />
                     <InfoWrapper>
                         <PointInfo>
-                            <h2>jaPark 님의 나무</h2>
+                            <h2>{user?.nickname} 님의 나무</h2>
                             <p>
                                 풍성한 열매가 달린 나무가 완성되었어요! <br />
                                 지속된 환경에 대한 관심으로 새 생명을 만나게
                                 되었습니다!
                             </p>
-                            <p>보유한 포인트 : 5300</p>
+                            <p>보유한 포인트 : {user?.point}</p>
                         </PointInfo>
                         <RankInfo>
-                            <Rank />
+                            <Rank user={user} />
                         </RankInfo>
                     </InfoWrapper>
                 </ItemWrapper>

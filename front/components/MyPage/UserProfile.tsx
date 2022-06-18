@@ -12,18 +12,18 @@ import {
 } from "@mui/material";
 import ImageUpload from "../shared/ImageUpload";
 
-const UserProfile = () => {
+const UserProfile = ({ user }) => {
     const [isEditing, setIsEditing] = useState(false);
 
     return (
         <div>
             {" "}
-            <ProfileImg alt="user profile" src="images/default.profile.png" />
+            <ProfileImg alt="user profile" src={user?.picture} />
             <div>
-                <h3>jaPark</h3>
+                <h3>{user?.nickname}</h3>
             </div>
             <div>
-                <h5>jaPark@naver.com</h5>
+                <h5>{user?.email}</h5>
             </div>
             <div>
                 <EditButton
@@ -37,10 +37,7 @@ const UserProfile = () => {
                 <Dialog open={isEditing}>
                     <EditTitle>프로필 편집</EditTitle>
                     <ProfileEdit>
-                        <ProfileImg
-                            alt="user profile"
-                            src="images/default.profile.png"
-                        />
+                        <ProfileImg alt="user profile" src={user?.picture} />
                         <UploadWrapper>
                             <ImageUpload width={450} height={300} />
                         </UploadWrapper>
