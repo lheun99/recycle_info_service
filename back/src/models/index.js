@@ -46,10 +46,10 @@ db.point = require("./schemas/points.js")(sequelize, Sequelize);
 db.quiz = require("./schemas/quizs.js")(sequelize, Sequelize);
 //model정의
 db.post = require("./schemas/posts.js")(sequelize, Sequelize);
-db.recycleInfo = require("./schemas/recycle_infos.js")(sequelize, Sequelize);
 db.recycleCategory = require("./schemas/recycle_categories.js")(
   sequelize,
   Sequelize
 );
+db.recycleInfo = require("./schemas/recycle_infos.js")(sequelize, Sequelize);
 
 module.exports = db;
