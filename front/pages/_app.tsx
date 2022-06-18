@@ -3,9 +3,13 @@ import "../styles/globals.css";
 import Layout from "../components/Layout";
 import GlobalStyle from "../styles/GlobalStyle";
 import * as Api from "../api";
+import CssBaseline from "@mui/material/CssBaseline";
+
 import { loginReducer } from "./reducer";
 import React, { useState, useEffect, useReducer, createContext } from "react";
+import wrapper from '../Providers/createCtx'
 
+export const UserStateContext = createContext(null);
 export const DispatchContext = createContext(null);
 
 function MyApp({ Component, pageProps }: AppProps) {
@@ -47,10 +51,15 @@ function MyApp({ Component, pageProps }: AppProps) {
 
     return (
         <>
-            <GlobalStyle />
-            <Layout>
-                <Component {...pageProps} />
-            </Layout>
+            <DispatchContext.Provider value={dispatch}>
+                <UserStateContext.Provider value={userState}>
+                    <GlobalStyle />
+                    <CssBaseline />
+                    <Layout>
+                        <Component {...pageProps} />
+                    </Layout>
+                </UserStateContext.Provider>
+            </DispatchContext.Provider>
         </>
     );
 }

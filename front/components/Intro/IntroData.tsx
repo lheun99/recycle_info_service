@@ -1,6 +1,7 @@
-import { useRouter } from "next/router";
-import styled from "styled-components";
+import { useRouter } from 'next/router';
 import Button from '@mui/material/Button';
+import { styled as materialStyled } from '@mui/material/styles';
+import styled from "styled-components";
 
 type IntroDataProps = {
     title?: string;
@@ -61,16 +62,20 @@ const Contents = styled.p`
     font-size: var(--font-text);
 `;
 
-const NavButton = styled(Button)`
-    width: 200px;
-    height: 60px;
-    margin-top: 50px;
-    border-radius: 10px;
-    background-color: var(--gray);
-    color: black;
-    :hover {
-        background-color: var(--deepgray);
-        color: white;
-        border: none;
-    }
-`;
+const NavButton = materialStyled(Button)(
+    () => (
+        {
+            width: '200px',
+            height: '100px',
+            marginTop: '50px',
+            borderRadius: '10px',
+            backgroundColor: 'var(--gray)',
+            color: 'black',
+            '&:hover': {
+                backgroundColor: 'var(--deepgray)',
+                color: 'white',
+                border: 'none',
+            }
+        }
+    ));
+    
