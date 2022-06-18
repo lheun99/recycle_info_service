@@ -28,3 +28,4 @@ python "$YOLOREPO/train.py" \
 #     --batch-size -1 \
 #     --project "$DST/exp.time"
 #     --name 'imgsz=640,e=1'
+
