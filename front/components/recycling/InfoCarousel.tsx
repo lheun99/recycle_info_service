@@ -3,18 +3,17 @@ import { useRouter } from "next/router";
 import Image from "next/image";
 import nextArrow from "../../public/images/next.arrow.png";
 import pointCoin from "../../public/images/point.coin.png";
-import infoData from "./infoData.json";
 import styled from "styled-components";
-import carouselStyles from "../../styles/Carousel.module.css";
-
-const subjects = infoData.map((info) => info.subject);
 
 const InfoCarousel = () => {
     const [slideIndex, setSlideIndex] = useState(1);
     const router = useRouter(); // 페이지 이동을 위해 useRouter 적용
+    const type = router.query.category;
+    const receivedInfo = localStorage.getItem("종이류");
+    const listInfo = JSON.parse(receivedInfo);
 
     const nextSlide = () => {
-        if (slideIndex === infoData.length) {
+        if (slideIndex === listInfo.length) {
             return;
         }
         setSlideIndex(slideIndex + 1);
@@ -38,12 +37,12 @@ const InfoCarousel = () => {
     return (
         <Wrapper>
             <MainTitle>
-                <h1>&apos;{infoData[0].type}&apos;</h1>
+                <h1>&apos;{type}&apos;</h1>
                 <h2> (으)로 분리수거 해주세요!</h2>
             </MainTitle>
             <p>
-                &apos;{infoData[0].type}&apos;는{" "}
-                {subjects.map((sub) => sub + " / ")}가 포함됩니다.
+                &apos;{type}&apos;(은)는{" "}
+                {listInfo.map((sub) => sub.details + " / ")}(이)가 있습니다.
             </p>
             <CarouselWrapper>
                 <ArrowButton type="button" onClick={prevSlide}>
@@ -55,7 +54,7 @@ const InfoCarousel = () => {
                     />
                 </ArrowButton>
                 <CarouselAll>
-                    {infoData.map((info, idx) => {
+                    {listInfo.map((info, idx) => {
                         return (
                             <Slider
                                 key={`page-${idx}`}
@@ -66,16 +65,16 @@ const InfoCarousel = () => {
                                 }
                             >
                                 <InfoBox>
-                                    <h3>{info.subject}</h3>
-                                    <div>{info.img}</div>
-                                    <div>{info.method}</div>
-                                    <div>{info.kind}</div>
-                                    <div>{info.notKind}</div>
-                                    <div>{info.tip}</div>
+                                    <Image
+                                        src={info.info_img}
+                                        alt="recycle-information"
+                                        width={450}
+                                        height={630}
+                                    />
                                 </InfoBox>
                                 <div>
                                     <span>
-                                        {idx + 1} / {infoData.length}
+                                        {idx + 1} / {listInfo.length}
                                     </span>
                                 </div>
                             </Slider>
@@ -135,7 +134,7 @@ const CarouselWrapper = styled.div`
 `;
 const CarouselAll = styled.div`
     width: 600px;
-    height: 500px;
+    height: 730px;
     border-radius: 15px;
     margin: 8px 8px;
     display: flex;
@@ -145,8 +144,8 @@ const CarouselAll = styled.div`
     word-break: keep-all;
 `;
 const Slider = styled.div`
-    width: 550px;
-    height: 500px;
+    width: 520px;
+    height: 720px;
     position: absolute;
     display: flex;
     flex-direction: column;
