@@ -24,8 +24,8 @@ python "$YOLOREPO/train.py" \
     --cfg "$YOLOREPO/models/yolov5n.yaml" \
     --data "$REPO/ai/train/data-exp.yaml" \
     --img-size 160 \
-    --epochs 16 \
-    --batch-size -1 \
+    --epochs 8 \
+    --batch-size 1600 \
     --project "$DST/exp.time" \
     --name 'imgsz=160,e=16'
 
