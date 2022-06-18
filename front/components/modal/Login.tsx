@@ -7,10 +7,10 @@ import { Button, TextField } from "@mui/material";
 import * as Api from "../../api";
 
 import { useRecoilState } from "recoil";
-import { LoginState } from '../../states/LoginState';
+import { UserState } from '../../states/UserState';
 
 function Login({ handleClose, setRegister }) {
-    const [isLoggedIn, setIsLoggedIn] = useRecoilState(LoginState);
+    const [userId, setUserId] = useRecoilState(UserState);
     const [email, setEmail] = useState<String>("");
     const [password, setPassword] = useState<String>("");
 
@@ -38,7 +38,8 @@ function Login({ handleClose, setRegister }) {
             const user = res.data.data;
             const jwtToken = user.token;
             sessionStorage.setItem("userToken", jwtToken);
-            setIsLoggedIn(true)
+            
+            setUserId(user.userId)
             handleClose()
 
         } catch (err) {
