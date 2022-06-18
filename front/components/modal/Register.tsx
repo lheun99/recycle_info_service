@@ -38,7 +38,6 @@ const Register = ({ open, handleClose, setRegister }) => {
         } catch (err) {
             console.error("회원가입에 실패하였습니다.", err);
         }
-        console.log("회원가입 성공!", email, password)
     };
 
     return (
@@ -58,7 +57,7 @@ const Register = ({ open, handleClose, setRegister }) => {
                         variant="text"
                         onClick={() => {
                             setRegister(false)
-                            handleClose()
+                            handleClose
                         }}
                     >
                         x

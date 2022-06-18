@@ -7,9 +7,10 @@ import { DispatchContext } from "../../pages/_app";
 import * as Api from "../../api";
 
 function Login({ open, handleClose, setRegister }) {
+    const dispatch = useContext(DispatchContext);
+
     const [email, setEmail] = useState<String>("");
     const [password, setPassword] = useState<String>("");
-    const dispatch = useContext(DispatchContext);
 
     const validateEmail = (email: String) => {
         return email
@@ -20,18 +21,18 @@ function Login({ open, handleClose, setRegister }) {
     };
 
     const isEmailValid = validateEmail(email);
-    const isPasswordValid = password.length >= 4;
+    const isPasswordValid = password.length >= 8;
     const isFormValid = isEmailValid && isPasswordValid;
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        
         try {
             const res = await Api.post("users/login", {
                 email,
                 password,
             });
-
+            
             const user = res.data;
             const jwtToken = user.token;
             sessionStorage.setItem("userToken", jwtToken);
@@ -41,8 +42,11 @@ function Login({ open, handleClose, setRegister }) {
                 payload: user,
             });
 
+            handleClose()
+
         } catch (err) {
             console.error("이메일 또는 비밀번호가 유효하지 않습니다.");
+            console.log(err);
         }
     }
 
@@ -87,7 +91,7 @@ function Login({ open, handleClose, setRegister }) {
                     onChange={(e) =>
                         setPassword(e.target.value)
                     }
-                    helperText={!isPasswordValid && "비밀번호는 4글자 이상입니다."}
+                    helperText={!isPasswordValid && "비밀번호는 8글자 이상입니다."}
                 />
                 <SignInButton
                     type="submit"
