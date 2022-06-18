@@ -3,14 +3,52 @@ import Image from "next/image";
 import Logo from "../public/images/logo.png";
 import navStyles from "../styles/Nav.module.css";
 import LoginOrRegisterModal from "./modal/LoginOrRegisterModal";
-import React, { useState } from "react";
+import styled from "styled-components";
+import React, { useState, useEffect } from "react";
+import { useRecoilState } from "recoil";
+import { LoginState } from '../states/LoginState';
+import * as Api from "../api";
 
 const Nav = () => {
-    // 오류 해결해야함..
+    const [isLoggedIn, setIsLoggedIn] = useRecoilState(LoginState);
+    const [loginText, setLoginText] = useState<String>('');
     const [open, setOpen] = useState<Boolean>(false);
+
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
     
+    const clickHandler= () => {
+        if (isLoggedIn) {
+            sessionStorage.removeItem("userToken");
+            setIsLoggedIn(false)
+        } else {
+            handleOpen();
+        }
+    }
+
+    useEffect(() => {
+        if (isLoggedIn) {
+            setLoginText("Sign out");
+            console.log("로그인!")
+        } else {
+            setLoginText("Sign in");
+            console.log("로그아웃!")
+        }
+
+        const fetchCurrentUser = async () => {
+            try {
+                // 이전에 발급받은 토큰이 있다면, 이를 가지고 유저 정보를 받아옴.
+                // const res = await Api.get("users/current");
+                // const currentUser = res.data;
+                // setCurrentUser(res.data);
+
+                console.log("%c sessionStorage에 토큰 있음.", "color: #d93d1a;");
+            } catch {
+                console.log("%c SessionStorage에 토큰 없음.", "color: #d93d1a;");
+            }
+        };
+    }, [isLoggedIn]);
+
     return (
         <nav className={navStyles.nav}>
             <ul>
@@ -54,11 +92,15 @@ const Nav = () => {
                     </Link>
                 </li>
                 <li>
-                    <li onClick={handleOpen} style={{ cursor: "pointer"}}>Sign in</li>
-                    <LoginOrRegisterModal
-                        open={open}
-                        handleClose={handleClose}
-                    />
+                    <LoginLi onClick={clickHandler}>{loginText}</LoginLi>
+                    {
+                        !isLoggedIn && (
+                            <LoginOrRegisterModal
+                                open={open}
+                                handleClose={handleClose}
+                            />
+                        )
+                    }
                 </li>
             </ul>
         </nav>
@@ -66,3 +108,8 @@ const Nav = () => {
 };
 
 export default Nav;
+
+
+const LoginLi = styled.div`
+    cursor: pointer;
+`;

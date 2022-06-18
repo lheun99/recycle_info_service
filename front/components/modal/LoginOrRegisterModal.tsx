@@ -6,6 +6,12 @@ import Modal from '@mui/material/Modal';
 const LoginOrRegisterModal = ({ open, handleClose }) => {
     const [register, setRegister] = useState<Boolean>(false);
 
+    const Wrapper = React.forwardRef((props: any, ref: any) => (
+        <span {...props} ref={ref}>
+            {props.children}
+        </span>
+    ));
+
     return (
         open && (
             <Modal
@@ -16,17 +22,19 @@ const LoginOrRegisterModal = ({ open, handleClose }) => {
             >
                 {
                     register ? (
-                        <Register
-                            open={open}
-                            setRegister={setRegister}
-                            handleClose={handleClose}
-                        />
+                        <Wrapper>
+                            <Register
+                                handleClose={handleClose}
+                                setRegister={setRegister}
+                            />
+                        </Wrapper>
                     ) : (
-                        <Login
-                            open={open}
-                            setRegister={setRegister}
-                            handleClose={handleClose}
-                        />
+                        <Wrapper>
+                            <Login
+                                handleClose={handleClose}
+                                setRegister={setRegister}
+                            />
+                        </Wrapper>
                     )
                 }
             </Modal>
@@ -35,4 +43,3 @@ const LoginOrRegisterModal = ({ open, handleClose }) => {
 }
 
 export default LoginOrRegisterModal;
-

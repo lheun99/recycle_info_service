@@ -1,15 +1,16 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import Logo from "../../public/images/logo.png";
 import styled from "styled-components";
 import { styled as materialStyled } from '@mui/material/styles';
 import { Button, TextField } from "@mui/material";
-import { DispatchContext } from "../../pages/_app";
 import * as Api from "../../api";
 
-function Login({ open, handleClose, setRegister }) {
-    const dispatch = useContext(DispatchContext);
+import { useRecoilState } from "recoil";
+import { LoginState } from '../../states/LoginState';
 
+function Login({ handleClose, setRegister }) {
+    const [isLoggedIn, setIsLoggedIn] = useRecoilState(LoginState);
     const [email, setEmail] = useState<String>("");
     const [password, setPassword] = useState<String>("");
 
@@ -34,15 +35,10 @@ function Login({ open, handleClose, setRegister }) {
                 password,
             });
             
-            const user = res.data;
+            const user = res.data.data;
             const jwtToken = user.token;
             sessionStorage.setItem("userToken", jwtToken);
-
-            dispatch({
-                type: "LOGIN_SUCCESS",
-                payload: user,
-            });
-
+            setIsLoggedIn(true)
             handleClose()
 
         } catch (err) {
@@ -114,7 +110,7 @@ function Login({ open, handleClose, setRegister }) {
                 <Button
                     variant="text"
                     onClick={() => {
-                        handleClose
+                        handleClose()
                         setRegister(true)
                     }}
                 >
