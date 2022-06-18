@@ -18,7 +18,7 @@ const Nav = () => {
     const handleClose = () => setOpen(false);
     
     const clickHandler= () => {
-        if (userId !== '') { //유저 정보가 있으면
+        if (userId !== '') { //유저 정보가 있으면 (다른 방법 생각해보기)
             sessionStorage.removeItem("userToken");
             setUserId('')
         } else {
@@ -27,27 +27,13 @@ const Nav = () => {
     }
 
     useEffect(() => {
-        console.log(userId)
         if (userId !== '') { 
             setLoginText("Sign out");
-            console.log("로그인!")
+            console.log("%c sessionStorage에 토큰 있음.", "color: #d93d1a;");
         } else {
             setLoginText("Sign in");
-            console.log("로그아웃!")
+            console.log("%c SessionStorage에 토큰 없음.", "color: #d93d1a;");
         }
-
-        const fetchCurrentUser = async () => {
-            try {
-                // 이전에 발급받은 토큰이 있다면, 이를 가지고 유저 정보를 받아옴.
-                // const res = await Api.get("users/current");
-                // const currentUser = res.data;
-                // setCurrentUser(res.data);
-
-                console.log("%c sessionStorage에 토큰 있음.", "color: #d93d1a;");
-            } catch {
-                console.log("%c SessionStorage에 토큰 없음.", "color: #d93d1a;");
-            }
-        };
     }, [userId]);
 
     return (
