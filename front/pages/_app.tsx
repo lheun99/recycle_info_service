@@ -8,9 +8,11 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { loginReducer } from "./reducer";
 import React, { useState, useEffect, useReducer, createContext } from "react";
 import wrapper from '../Providers/createCtx'
-
 export const UserStateContext = createContext(null);
 export const DispatchContext = createContext(null);
+
+import { RecoilRoot } from "recoil";
+
 
 function MyApp({ Component, pageProps }: AppProps) {
     const [userState, dispatch] = useReducer(loginReducer, {
@@ -52,13 +54,13 @@ function MyApp({ Component, pageProps }: AppProps) {
     return (
         <>
             <DispatchContext.Provider value={dispatch}>
-                <UserStateContext.Provider value={userState}>
+                <RecoilRoot>
                     <GlobalStyle />
                     <CssBaseline />
                     <Layout>
                         <Component {...pageProps} />
                     </Layout>
-                </UserStateContext.Provider>
+                </RecoilRoot>
             </DispatchContext.Provider>
         </>
     );
