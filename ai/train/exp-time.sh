@@ -8,15 +8,15 @@ YOLOREPO="$HOME/yolov5"
 DST="$HOME/train"
 
 # --img-size 320, 4에포크 시간 측정
-python "$YOLOREPO/train.py" \
-    --weights '' \
-    --cfg "$YOLOREPO/models/yolov5n.yaml" \
-    --data "$REPO/ai/train/data-exp.yaml" \
-    --img-size 320 \
-    --epochs 4 \
-    --batch-size -1 \
-    --project "$DST/exp.time" \
-    --name 'imgsz=320,e=4'
+# python "$YOLOREPO/train.py" \
+#     --weights '' \
+#     --cfg "$YOLOREPO/models/yolov5n.yaml" \
+#     --data "$REPO/ai/train/data-exp.yaml" \
+#     --img-size 320 \
+#     --epochs 4 \
+#     --batch-size -1 \
+#     --project "$DST/exp.time" \
+#     --name 'imgsz=320,e=4'
 
 # --img-size 160, 16에포크 정확도 비교
 python "$YOLOREPO/train.py" \
