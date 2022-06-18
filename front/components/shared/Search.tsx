@@ -43,6 +43,7 @@ const Wrapper = styled.div`
     justify-content: center;
 `;
 const Input = styled.input`
+    font-family: Elice Digital Baeum;
     width: 530px;
     height: 40px;
     border: none;
@@ -58,4 +59,5 @@ const Button = styled.button`
     height: 40px;
     border: none;
     border-radius: 15px;
+    cursor: pointer;
 `;

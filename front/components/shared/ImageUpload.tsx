@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import Image from "next/image";
 import styled from "styled-components";
 import uploadingImage from "../../public/images/image.upload.png";
+import { sendImageFile } from "../../api";
 
 type ImageUploadProps = {
     width?: number;
@@ -38,13 +39,23 @@ const ImageUpload = ({ width, height }: ImageUploadProps) => {
 
     // 서버에 이미지를 보내는 함수
     const sendImage = async (file: Blob) => {
-        console.log(file);
+        // console.log(file);
         const formData = new FormData();
-        formData.append("file", file);
-        console.log(formData.getAll("file")); // formData에 잘 들어가는지 확인
+        formData.append("image", file);
+        // console.log(formData.getAll("image")); // formData에 잘 들어가는지 확인
         // const res = await --> 이 후 서버에 post로 해당 formData와 같이 보낼 예정
         // 로딩 중 모션 적용 필요!!!!
-        await router.push("/recycling/recycleInfo"); // 정보 페이지로 routing
+        const res = await sendImageFile("recycle-info", formData);
+        const info = res.data.data;
+        localStorage.setItem(
+            `${info.category}`,
+            JSON.stringify(info.recycleInfo)
+        );
+
+        await router.push(
+            `/recycling/recycleInfo/?category=${info.category}`,
+            "/recycling/recycleInfo/"
+        ); // 정보 페이지로 routing
     };
 
     return (
