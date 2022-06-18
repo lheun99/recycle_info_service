@@ -15,5 +15,4 @@ python "$YOLOREPO/train.py" \
     --data "$REPO/ai/train/data-train.yaml" \
     --epochs 3 \
     --batch-size -1 \
-    --project "$DST/exp.oneepoch.n" \
-    --cache disk
+    --project "$DST/exp.oneepoch.n"
