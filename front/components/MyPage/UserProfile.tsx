@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import setting from "../../public/images/setting.png";
 import styled from "styled-components";
+import { styled as materialStyled } from "@mui/material/styles";
 import {
     Avatar,
     Dialog,
@@ -58,27 +59,28 @@ const UserProfile = () => {
 
 export default UserProfile;
 
-const ProfileImg = styled(Avatar)`
-    border: 2px dashed #a7c4bc;
-    width: 200px;
-    height: 200px;
-`;
+const ProfileImg = materialStyled(Avatar)(() => ({
+    border: "2px dashed #a7c4bc",
+    width: "200px",
+    height: "200px",
+}));
+
 const EditButton = styled.button`
     border: none;
     cursor: pointer;
 `;
 
-const ProfileEdit = styled(DialogContent)`
-    width: auto;
-    height: auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 30px 10px;
-`;
+const ProfileEdit = materialStyled(DialogContent)(() => ({
+    width: "auto",
+    height: "auto",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: "30px 10px",
+}));
 
-const EditTitle = styled(DialogTitle)`
+const EditTitle = materialStyled(DialogTitle)`
     font-family: Elice Digital Baeum;
 `;
 const UploadWrapper = styled.div`
