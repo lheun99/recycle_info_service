@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { Button, TextField } from "@mui/material";
 import Image from "next/image";
 import Background from "../../public/images/background.jpg";
 import styled from "styled-components";
+import { styled as materialStyled } from '@mui/material/styles';
+import { Button, TextField } from "@mui/material";
 import * as Api from "../../api";
 
 const Register = ({ open, handleClose, setRegister }) => {
@@ -138,13 +139,6 @@ const SideWrapper = styled.div`
     padding: 40px;
 `;
 
-const CloseButton = styled(Button)`
-    color: black;
-    :hover {
-        background-color: white;
-    }
-`;
-
 const Title = styled.div`
     font-size: 1.7rem;
     font-weight: bold;
@@ -159,19 +153,6 @@ const SignUpForm = styled.div`
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-`;
-
-const SignUpButton = styled(Button)`
-    width: 380px;
-    height: 40px;
-    background-color: var(--green);
-    margin-top: 20px;
-    border-radius: 50px;
-    color: var(--deepgreen);
-    :hover {
-        background-color: var(--deepgreen);
-        color: white;
-    }
 `;
 
 const Or = styled.div`
@@ -193,4 +174,29 @@ const Or = styled.div`
     }
 `;
 
-  
+const CloseButton = materialStyled(Button)(
+    () => (
+        {
+            color: 'black',
+            '&:hover': {
+                backgroundColor: 'white',
+            }
+        }
+        
+    ));
+
+const SignUpButton = materialStyled(Button)(
+    () => (
+        {
+            width: '380px',
+            height: '40px',
+            backgroundColor: 'var(--green)',
+            marginTop: '20px',
+            borderRadius: '50px',
+            color: 'var(--deepgreen)',
+            '&:hover': {
+                backgroundColor: 'var(--deepgreen)',
+                color: 'white',
+            }
+        }
+    ));

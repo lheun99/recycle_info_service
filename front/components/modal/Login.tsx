@@ -1,8 +1,9 @@
 import React, { useState, useContext } from "react";
-import { Button, TextField } from "@mui/material";
 import Image from "next/image";
 import Logo from "../../public/images/logo.png";
 import styled from "styled-components";
+import { styled as materialStyled } from '@mui/material/styles';
+import { Button, TextField } from "@mui/material";
 import { DispatchContext } from "../../pages/_app";
 import * as Api from "../../api";
 
@@ -139,13 +140,6 @@ const Wrapper = styled.div`
     padding: 40px;
 `;
 
-const CloseButton = styled(Button)`
-    color: black;
-    :hover {
-        background-color: white;
-    }
-`;
-
 const SignInForm = styled.div`
     height: 200px;
     display: flex;
@@ -169,19 +163,6 @@ const FindWrapper = styled.div`
     color: var(--green);
 `;
 
-const SignInButton = styled(Button)`
-    width: 380px;
-    height: 40px;
-    background-color: var(--green);
-    margin-top: 20px;
-    border-radius: 50px;
-    color: var(--deepgreen);
-    :hover {
-        background-color: var(--deepgreen);
-        color: white;
-    }
-`;
-
 const Or = styled.div`
     width: 90%;
     display: flex;
@@ -200,3 +181,29 @@ const Or = styled.div`
         margin: auto;
     }
 `;
+
+const CloseButton = materialStyled(Button) (
+    () => (
+        {
+            color: 'black',
+            '&:hover': {
+                backgroundColor: 'white',
+            }
+        }
+    ));
+
+const SignInButton = materialStyled(Button)(
+    () => (
+        {
+            width: '380px',
+            height: '40px',
+            backgroundColor: 'var(--green)',
+            marginTop: '20px',
+            borderRadius: '50px',
+            color: 'var(--deepgreen)',
+            '&:hover': {
+                backgroundColor: 'var(--deepgreen)',
+                color: 'white',
+            }
+        }
+    ));

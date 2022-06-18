@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { useRouter } from "next/router";
-import styled from "styled-components";
-import Button from '@mui/material/Button';
 import Image from "next/image";
 import QuestionMark from "../../public/images/question_mark.png";
 import PointCoin from "../../public/images/point.coin.png";
+import styled from "styled-components";
+import { styled as materialStyled } from '@mui/material/styles';
+import Button from '@mui/material/Button';
 
 // test
 type AnswerProps = {
@@ -139,15 +140,6 @@ const Container = styled.div`
     align-items: center;
 `;
 
-const ChallengeButton = styled(Button)`
-    width: 90%;
-    height: 90%;
-    background-color: white;
-    :hover {
-        background-color: var(--deepgray);
-    }
-`;
-
 const InnerForm = styled.div`
     width: 100%;
     height: 100%;
@@ -180,20 +172,6 @@ const Answer = styled.div`
     align-items: center;
 `;
 
-const AnswerButton = styled(Button)`
-    width: 500px;
-    height: 40px;
-    background-color: var(--green);
-    margin: 6px 0;
-    padding: 14px;
-    border-radius: 10px;
-    color: black;
-    :hover {
-        background-color: var(--deepgreen);
-        color: white;
-    }
-`;
-
 const ResultWrapper = styled.div`
     width: 80%;
     height: 70%;
@@ -203,15 +181,47 @@ const ResultWrapper = styled.div`
     align-items: center;
 `;
 
-const NavButton = styled(Button)`
-    width: 150px;
-    height: 50px;
-    border-radius: 10px;
-    margin: 0 20px;
-    background-color: var(--gray);
-    color: black;
-    :hover {
-        background-color: var(--deepgray);
-        color: white;
-    }
-`;
+const ChallengeButton = materialStyled(Button)(
+    () => (
+        {
+            width: '90%',
+            height: '90%',
+            backgroundColor: 'white',
+            '&:hover': {
+                backgroundColor: 'var(--deepgray)',
+            }
+        }
+    ));
+
+const AnswerButton = materialStyled(Button)(
+    () => (
+        {
+            width: '500px',
+            height: '40px',
+            backgroundColor: 'var(--green)',
+            margin: '6px 0',
+            padding: '14px',
+            borderRadius: '10px',
+            color: 'black',
+            '&:hover': {
+                backgroundColor: 'var(--deepgreen)',
+                color: 'white',
+            }
+        }
+    ));
+
+const NavButton = materialStyled(Button)(
+    () => (
+        {
+            width: '150px',
+            height: '50px',
+            borderRadius: '10px',
+            margin: '0 20px',
+            backgroundColor: 'var(--gray)',
+            color: 'black',
+            '&:hover': {
+                backgroundColor: 'var(--deepgray)',
+                color: 'white',
+            }
+        }
+    ));
