@@ -6,11 +6,10 @@ import LoginOrRegisterModal from "./modal/LoginOrRegisterModal";
 import styled from "styled-components";
 import React, { useState, useEffect } from "react";
 import { useRecoilState } from "recoil";
-import { UserState } from '../states/UserState';
-import * as Api from "../api";
+import { LoginState } from "../states/atom";
 
 const Nav = () => {
-    const [userId, setUserId] = useRecoilState(UserState);
+    const [login, setLogin] = useRecoilState(LoginState);
     const [loginText, setLoginText] = useState<String>('');
     const [open, setOpen] = useState<Boolean>(false);
 
@@ -18,23 +17,21 @@ const Nav = () => {
     const handleClose = () => setOpen(false);
     
     const clickHandler= () => {
-        if (userId !== '') { //유저 정보가 있으면 (다른 방법 생각해보기)
+        if (login) {
             sessionStorage.removeItem("userToken");
-            setUserId('')
+            setLogin(false)
         } else {
             handleOpen();
         }
     }
 
     useEffect(() => {
-        if (userId !== '') { 
-            setLoginText("Sign out");
-            console.log("%c sessionStorage에 토큰 있음.", "color: #d93d1a;");
+        if (login) {
+            setLoginText("Sign out")
         } else {
-            setLoginText("Sign in");
-            console.log("%c SessionStorage에 토큰 없음.", "color: #d93d1a;");
+            setLoginText("Sing in")
         }
-    }, [userId]);
+    }, [login]);
 
     return (
         <nav className={navStyles.nav}>
@@ -81,7 +78,7 @@ const Nav = () => {
                 <li>
                     <LoginLi onClick={clickHandler}>{loginText}</LoginLi>
                     {
-                        userId === '' && ( 
+                        open && ( 
                             <LoginOrRegisterModal
                                 open={open}
                                 handleClose={handleClose}

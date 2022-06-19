@@ -7,10 +7,11 @@ import { Button, TextField } from "@mui/material";
 import * as Api from "../../api";
 
 import { useRecoilState } from "recoil";
-import { UserState } from '../../states/UserState';
+import { UserInfoState, LoginState } from "../../states/atom";
 
 function Login({ handleClose, setRegister }) {
-    const [userId, setUserId] = useRecoilState(UserState);
+    const [userInfo, setUserInfo] = useRecoilState(UserInfoState);
+    const [userLogin, setUserLogin] = useRecoilState(LoginState);
     const [email, setEmail] = useState<String>("");
     const [password, setPassword] = useState<String>("");
 
@@ -39,7 +40,8 @@ function Login({ handleClose, setRegister }) {
             const jwtToken = user.token;
             sessionStorage.setItem("userToken", jwtToken);
             
-            setUserId(user.userId)
+            setUserLogin(true)
+            setUserInfo(user)
             handleClose()
 
         } catch (err) {
@@ -110,10 +112,7 @@ function Login({ handleClose, setRegister }) {
                 <span>|</span>
                 <Button
                     variant="text"
-                    onClick={() => {
-                        handleClose()
-                        setRegister(true)
-                    }}
+                    onClick={() => setRegister(true)}
                 >
                     회원가입  
                 </Button>

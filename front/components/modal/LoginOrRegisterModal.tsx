@@ -13,32 +13,30 @@ const LoginOrRegisterModal = ({ open, handleClose }) => {
     ));
 
     return (
-        open && (
-            <Modal
-                open={open}
-                onClose={handleClose}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
-            >
-                {
-                    register ? (
-                        <Wrapper>
-                            <Register
-                                handleClose={handleClose}
-                                setRegister={setRegister}
-                            />
-                        </Wrapper>
-                    ) : (
-                        <Wrapper>
-                            <Login
-                                handleClose={handleClose}
-                                setRegister={setRegister}
-                            />
-                        </Wrapper>
-                    )
-                }
-            </Modal>
-        )
+        <Modal
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+        >
+            {
+                register ? (
+                    <Wrapper>
+                        <Register
+                            handleClose={handleClose}
+                            setRegister={setRegister}
+                        />
+                    </Wrapper>
+                ) : (
+                    <Wrapper>
+                        <Login
+                            handleClose={handleClose}
+                            setRegister={setRegister}
+                        />
+                    </Wrapper>
+                )
+            }
+        </Modal>
     )
 }
 
