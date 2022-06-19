@@ -12,6 +12,9 @@ const subjects = infoData.map((info) => info.subject);
 const InfoCarousel = () => {
     const [slideIndex, setSlideIndex] = useState(1);
     const router = useRouter(); // 페이지 이동을 위해 useRouter 적용
+    const info = localStorage.getItem("recycleInfo");
+    const changeInfo = JSON.parse(info);
+    console.info(changeInfo);
 
     const nextSlide = () => {
         if (slideIndex === infoData.length) {

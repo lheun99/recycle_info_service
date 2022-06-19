@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import styled from "styled-components";
 import uploadingImage from "../../public/images/image.upload.png";
 import { sendImageFile } from "../../api";
+import Loading from "./Loading";
 
 type ImageUploadProps = {
     width?: number;
@@ -11,6 +12,8 @@ type ImageUploadProps = {
 };
 
 const ImageUpload = ({ width, height }: ImageUploadProps) => {
+    const [isUploaded, setIsUploaded] = useState("standBy");
+    // img upload 상태 : ["standBy"] "대기, 아직 아무것도 일어나지 않음" / ["loading"] "서버에 img를 보내고 결과를 기다림" / ["complete"] "결과를 저장하고 라우팅할 것"
     const router = useRouter(); // 페이지 이동을 위해 useRouter 적용
     const dragOver = (e: React.DragEvent<HTMLDivElement>) => {
         e.preventDefault();
@@ -39,35 +42,70 @@ const ImageUpload = ({ width, height }: ImageUploadProps) => {
 
     // 서버에 이미지를 보내는 함수
     const sendImage = async (file: Blob) => {
-        // console.log(file);
+        setIsUploaded("loading");
         const formData = new FormData();
         formData.append("image", file);
         // console.log(formData.getAll("image")); // formData에 잘 들어가는지 확인
-        // const res = await --> 이 후 서버에 post로 해당 formData와 같이 보낼 예정
-        // 로딩 중 모션 적용 필요!!!!
         const res = await sendImageFile("recycle-info", formData);
-        console.log(res.data);
-        // await router.push("/recycling/recycleInfo"); // 정보 페이지로 routing
+        const info = await res?.data?.data;
+        // if (info) {
+        //     localStorage.setItem(
+        //         "recycleInfo",
+        //         JSON.stringify(info.recycleInfo)
+        //     );
+        //     setIsUploaded("complete");
+        // }
+
+        if (info) {
+            localStorage.setItem(
+                "recycleInfo",
+                JSON.stringify(info.recycleInfo)
+            ); // 페이지 라우팅 전, localStorage에 저장하여 넘어간 페이지에서 꺼내올 예정
+            // 용량 제한이 된다면, sessionStorage를 이용해야하는가...
+            setTimeout(async () => {
+                console.log("로딩중이 되나");
+                setIsUploaded("complete");
+            }, 5000); // 임시로 약 5초가 걸린다고 생각하고, loading component가 실행되도록 한다
+        }
     };
+
+    useEffect(() => {
+        if (isUploaded === "standBy") {
+            return;
+        } else if (isUploaded === "loading") {
+            return (
+                // <div>
+                //     <h1>loading...분석 중입니다. 조금만 기다려주세요</h1>
+                // </div>
+                console.log("loading...분석 중입니다. 조금만 기다려주세요")
+            );
+        } else if (isUploaded === "complete") {
+            router.push("/recycling/recycleInfo"); // 정보 페이지로 routing
+        }
+    }, [isUploaded]);
 
     return (
         <Wrapper>
-            <DragImage
-                width={width}
-                height={height}
-                onDragOver={dragOver}
-                onDragEnter={dragEnter}
-                onDragLeave={dragLeave}
-                onDrop={fileDrop}
-            >
-                <Image
-                    src={uploadingImage}
-                    alt="uploading image"
-                    width={30}
-                    height={40}
-                />
-                <p>이미지를 넣어주세요!</p>
-            </DragImage>
+            {isUploaded === "loading" ? (
+                <Loading />
+            ) : (
+                <DragImage
+                    width={width}
+                    height={height}
+                    onDragOver={dragOver}
+                    onDragEnter={dragEnter}
+                    onDragLeave={dragLeave}
+                    onDrop={fileDrop}
+                >
+                    <Image
+                        src={uploadingImage}
+                        alt="uploading image"
+                        width={30}
+                        height={40}
+                    />
+                    <p>이미지를 넣어주세요!</p>
+                </DragImage>
+            )}
             <div>
                 <InputLabel htmlFor="input-file">사진 업로드</InputLabel>
                 <input
