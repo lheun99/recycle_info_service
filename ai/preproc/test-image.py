@@ -30,6 +30,12 @@ def cli():
         'src',
         help='원본 이미지가 들어있는 최상위 디렉터리 경로입니다.',
     )
+    parser.add_argument(
+        '--multiprocessing',
+        '-mp',
+        help='프로세스 여러 개로 작업합니다.',
+        action='store_true',
+    )
 
     args = parser.parse_args()
 
@@ -39,24 +45,25 @@ def cli():
         for leaf in leaves
     ]
 
-    executor = ProcessPoolExecutor()
-    with tqdm(
-        total=len(tasks),
-        desc=f'Verifying images ({executor._max_workers} workers)',
-    ) as pbar:
-        for valid, pathname in executor.map(
-            valid_image,
-            tasks,
-            chunksize=max(1, round(len(tasks) / 100 / cpu_count())),
-        ):
-            if not valid:
-                print(path.abspath(pathname))
-            pbar.update(1)
-    executor.shutdown()
-
-    # for task in tqdm(tasks, desc='Verifying images'):
-    #     if not valid_image(task)[0]:
-    #         print(path.relpath(args.src, task))
+    if args.multiprocessing:
+        executor = ProcessPoolExecutor()
+        with tqdm(
+            total=len(tasks),
+            desc=f'Verifying images ({executor._max_workers} workers)',
+        ) as pbar:
+            for valid, pathname in executor.map(
+                valid_image,
+                tasks,
+                chunksize=max(1, round(len(tasks) / 100 / cpu_count())),
+            ):
+                if not valid:
+                    print(path.abspath(pathname))
+                pbar.update(1)
+        executor.shutdown()
+    else:
+        for task in tqdm(tasks, desc='Verifying images'):
+            if not valid_image(task)[0]:
+                print(path.abspath(task))
 
 
 if __name__ == '__main__':
