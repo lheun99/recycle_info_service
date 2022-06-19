@@ -50,7 +50,7 @@ def cli():
             chunksize=max(1, round(len(tasks) / 100 / cpu_count())),
         ):
             if not valid:
-                print(path.relpath(args.src, pathname))
+                print(path.abspath(pathname))
             pbar.update(1)
     executor.shutdown()
 
