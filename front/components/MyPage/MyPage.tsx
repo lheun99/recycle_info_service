@@ -11,19 +11,21 @@ import { get } from "../../api";
 const MyPage = () => {
     const [user, setUser] = useState({
         nickname: "",
+        email: "",
         picture: "",
         point: "",
         rank: "",
         rankers: [],
     });
     const userInfo = useContext(UserStateContext);
-    const id = userInfo.user.userId;
+    const id = userInfo.user?.userId;
 
     const getUserInfo = async () => {
         const res = await get(`users/${id}/myPage`);
         const userAll = res.data.data;
         setUser({
             nickname: userAll.nickname,
+            email: userAll.email,
             picture: userAll.picture,
             point: userAll.rank.total,
             rank: userAll.rank.rank,
@@ -33,12 +35,12 @@ const MyPage = () => {
 
     useEffect(() => {
         getUserInfo();
-    }, [user]);
+    }, [setUser]);
 
     return (
         <Wrapper>
             <ProfileWrapper>
-                <UserProfile user={user} setUser={setUser} />
+                <UserProfile user={user} setUser={setUser} userId={id} />
             </ProfileWrapper>
             <div>
                 <TitleWrapper>
