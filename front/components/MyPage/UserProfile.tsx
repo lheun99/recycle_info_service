@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import setting from "../../public/images/setting.png";
 import styled from "styled-components";
@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import ImageUpload from "../shared/ImageUpload";
 
-const UserProfile = ({ user }) => {
+const UserProfile = ({ user, setUser }) => {
     const [isEditing, setIsEditing] = useState(false);
 
     return (

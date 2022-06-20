@@ -30,7 +30,7 @@ const GrowingTree = ({ point }) => {
     useEffect(() => {
         // user의 point를 받아 온다
         searchPointer(point);
-    }, []);
+    }, [point]);
 
     return (
         <TreeWrapper>

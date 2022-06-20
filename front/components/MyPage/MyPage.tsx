@@ -33,12 +33,12 @@ const MyPage = () => {
 
     useEffect(() => {
         getUserInfo();
-    }, []);
+    }, [user]);
 
     return (
         <Wrapper>
             <ProfileWrapper>
-                <UserProfile user={user} />
+                <UserProfile user={user} setUser={setUser} />
             </ProfileWrapper>
             <div>
                 <TitleWrapper>
