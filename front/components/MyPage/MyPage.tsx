@@ -23,19 +23,20 @@ const MyPage = () => {
     const getUserInfo = async () => {
         const res = await get(`users/${id}/myPage`);
         const userAll = res.data.data;
+        console.log(userAll);
         setUser({
             email: userAll.email,
             nickname: userAll.nickname,
             picture: userAll.picture,
-            point: userAll.rank.total,
-            rank: userAll.rank.rank,
-            rankers: userAll.rankers,
+            point: userAll.rank?.total ?? "",
+            rank: userAll.rank?.rank ?? "",
+            rankers: userAll.rankers ?? "",
         });
     };
 
     useEffect(() => {
         getUserInfo();
-    }, [user]);
+    }, []);
 
     return (
         <Wrapper>
