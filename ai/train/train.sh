@@ -21,4 +21,5 @@ python "$YOLOREPO/train.py" \
     --image-weights \
     --patience 4 \
     --epochs 300 \
-    --workers 3
+    --workers 3 \
+    --save-period 1
