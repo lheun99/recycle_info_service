@@ -1,9 +1,16 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Search from "./Search"
 import Map from "./Map"
 
 const ReportWaste = () => {
+    const [mapData, setMapData] = useState<String[] | null>(null);
+    const handleSetMapData = (data: String[] | null) => setMapData(data);
+
+    useEffect(() => {
+        console.log(mapData);
+    }, [mapData])
+
     return (
         <Wrapper>
             <h1>우리동네 대형폐기물 신고하기</h1>
@@ -13,10 +20,10 @@ const ReportWaste = () => {
             <Form>
                 <Title>우리동네 사이트 찾기</Title>
                 <div>
-                    <Search />
+                    <Search handleSetMapData={handleSetMapData} />
                 </div>
                 <MapContainer id="map">
-                    <Map latitude={33.450701} longitude={126.570667} />
+                    <Map latitude={33.450701} longitude={126.570667} mapData={mapData} />
                 </MapContainer>
             </Form>
             <p>Tip! 대형폐기물은 무료로  수거가 가능하기도 해요!</p>
@@ -52,6 +59,7 @@ const Form = styled.div`
     justify-content: space-between;
     align-items: center;
     padding-bottom: 40px;
+    border-radius: 20px;
 `;
 
 const Title = styled.h2`
@@ -61,9 +69,10 @@ const Title = styled.h2`
     padding-top: 15px;
     background-color: var(--green);
     text-align: center;
+    border-radius: 20px 20px 0 0;
 `;
 
 const MapContainer = styled.div`
-    width: 720px;
-    height: 420px;
+    width: 650px;
+    height: 400px;
 `;
