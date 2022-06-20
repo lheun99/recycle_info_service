@@ -1,21 +1,37 @@
-import React, { useState } from "react";
+import React, { useState, useReducer, useEffect } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import nextArrow from "../../public/images/next.arrow.png";
 import pointCoin from "../../public/images/point.coin.png";
 import styled from "styled-components";
+import { findList } from "./findList";
+import Loading from "../shared/Loading";
 
 const InfoCarousel = () => {
     const [slideIndex, setSlideIndex] = useState(1);
     const router = useRouter(); // 페이지 이동을 위해 useRouter 적용
-    const info = JSON.parse(localStorage.getItem("recycleInfo"));
-    const type = info?.category;
-    const infoList = info?.recycleInfo;
 
-    console.info(infoList);
+    const [totalInfo, dispatch] = useReducer(findList, {
+        type: null,
+        infoList: null,
+    });
+
+    const uploadData = () => {
+        if (router.query.route) {
+            dispatch({
+                route: "SEARCH",
+                infos: JSON.parse(localStorage.getItem("searchInfo")),
+            });
+        } else {
+            dispatch({
+                route: "IMAGE",
+                infos: JSON.parse(localStorage.getItem("recycleInfo")),
+            });
+        }
+    };
 
     const nextSlide = () => {
-        if (slideIndex === infoList.length) {
+        if (slideIndex === totalInfo.infoList.length) {
             return;
         }
         setSlideIndex(slideIndex + 1);
@@ -35,16 +51,20 @@ const InfoCarousel = () => {
     const getPoint = () => {
         // get 기존 포인트 -> put 추가한 포인트
     };
+    useEffect(() => {
+        uploadData();
+    }, []); // 페이지 오면 바로 데이터 가져옴. 그러나 변환 시간에 따라서, 그 사이는 Loading 으로 보여준다
 
-    return (
+    return totalInfo.type !== null ? (
         <Wrapper>
             <MainTitle>
-                <h1>&apos;{type}&apos;</h1>
+                <h1>&apos;{totalInfo.type}&apos;</h1>
                 <h2> (으)로 분리수거 해주세요!</h2>
             </MainTitle>
             <p>
-                &apos;{type}&apos;(은)는{" "}
-                {infoList.map((sub) => sub.details + " / ")}(이)가 있습니다.
+                &apos;{totalInfo.type}&apos;(은)는{" "}
+                {totalInfo.infoList.map((sub) => sub.details + " / ")}(이)가
+                있습니다.
             </p>
             <CarouselWrapper>
                 <ArrowButton type="button" onClick={prevSlide}>
@@ -56,7 +76,7 @@ const InfoCarousel = () => {
                     />
                 </ArrowButton>
                 <CarouselAll>
-                    {infoList.map((info, idx) => {
+                    {totalInfo.infoList.map((info, idx) => {
                         return (
                             <Slider
                                 key={`page-${idx}`}
@@ -68,7 +88,7 @@ const InfoCarousel = () => {
                             >
                                 <InfoBox>
                                     <Image
-                                        src={info.infoImg}
+                                        src={info.info_img}
                                         alt="recycle-information"
                                         width={450}
                                         height={630}
@@ -76,7 +96,7 @@ const InfoCarousel = () => {
                                 </InfoBox>
                                 <div>
                                     <span>
-                                        {idx + 1} / {infoList.length}
+                                        {idx + 1} / {totalInfo.infoList.length}
                                     </span>
                                 </div>
                             </Slider>
@@ -111,6 +131,8 @@ const InfoCarousel = () => {
                 </PointButton>
             </ButtonWrapper>
         </Wrapper>
+    ) : (
+        <Loading />
     );
 };
 

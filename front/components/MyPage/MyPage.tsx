@@ -18,7 +18,7 @@ const MyPage = () => {
         rankers: [],
     });
     const userInfo = useContext(UserStateContext);
-    const id = userInfo?.user?.userId;
+    const id = userInfo.user?.userId;
 
     const getUserInfo = async () => {
         const res = await get(`users/${id}/myPage`);
@@ -41,7 +41,7 @@ const MyPage = () => {
     return (
         <Wrapper>
             <ProfileWrapper>
-                <UserProfile user={user} setUser={setUser} />
+                <UserProfile user={user} setUser={setUser} userId={id} />
             </ProfileWrapper>
             <div>
                 <TitleWrapper>
