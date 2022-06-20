@@ -14,7 +14,6 @@ import ImageUpload from "../shared/ImageUpload";
 
 const UserProfile = ({ user, setUser }) => {
     const [isEditing, setIsEditing] = useState(false);
-
     return (
         <div>
             {" "}

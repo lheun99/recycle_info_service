@@ -10,6 +10,7 @@ import { get } from "../../api";
 
 const MyPage = () => {
     const [user, setUser] = useState({
+        email: "",
         nickname: "",
         picture: "",
         point: "",
@@ -23,6 +24,7 @@ const MyPage = () => {
         const res = await get(`users/${id}/myPage`);
         const userAll = res.data.data;
         setUser({
+            email: userAll.email,
             nickname: userAll.nickname,
             picture: userAll.picture,
             point: userAll.rank.total,
