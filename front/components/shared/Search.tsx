@@ -15,14 +15,18 @@ const Search = () => {
         } else {
             // 서버로 검색어 넘긴다
             const res = await get(`search?text=${inputValue}`);
-            const info = await res.data.data;
+            const info = await res?.data?.data;
             console.log(info);
-            localStorage.setItem("searchInfo", JSON.stringify(info));
-            // image 검색과 받은 데이터 형식이 다름에 따라 추가 분기 처리를 위한 쿼리를 추가하여 전달
-            await router.push(
-                `/recycling/recycleInfo?route=${info[0].category}`,
-                "/recycling/recycleInfo"
-            );
+            if (info.length === 0) {
+                alert("검색 결과가 없습니다!");
+            } else {
+                localStorage.setItem("searchInfo", JSON.stringify(info));
+                // image 검색과 받은 데이터 형식이 다름에 따라 추가 분기 처리를 위한 쿼리를 추가하여 전달
+                await router.push(
+                    `/recycling/recycleInfo?route=${info[0]?.category}`,
+                    "/recycling/recycleInfo"
+                );
+            }
         }
     };
 

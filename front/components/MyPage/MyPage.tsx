@@ -23,7 +23,7 @@ const MyPage = () => {
     const getUserInfo = async () => {
         const res = await get(`users/${id}/myPage`);
         const userAll = res.data.data;
-        console.log(userAll);
+
         setUser({
             email: userAll.email,
             nickname: userAll.nickname,

@@ -88,7 +88,7 @@ const InfoCarousel = () => {
                             >
                                 <InfoBox>
                                     <Image
-                                        src={info.info_img}
+                                        src={info.infoImg}
                                         alt="recycle-information"
                                         width={450}
                                         height={630}
