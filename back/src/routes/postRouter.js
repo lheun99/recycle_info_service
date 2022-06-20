@@ -31,7 +31,7 @@ postRouter.post("/", async (req, res, next) => {
 postRouter.get("/all-list", async (req, res, next) => {
   try {
     //전체 게시글 리스트
-    const listedPost = await postService.getAllPost({});
+    const listedPost = await postService.getAllPost();
 
     res.status(201).json(listedPost);
   } catch (error) {

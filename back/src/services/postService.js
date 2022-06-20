@@ -17,98 +17,85 @@ const postService = {
   },
 
   getAllPost: async () => {
+    //count 넘겨주는 것 추가하고 if를 제거?
     const listedPost = await Post.findAllPost();
-    if (!listedPost) {
+    if (listedPost.length === 0) {
       const errorMessage = "게시글 존재하지 않습니다.";
       return { errorMessage };
     }
 
-    const postLists = [];
-    listedPost.map((post) =>
-      postLists.push({
-        postId: post.post_id,
-        title: post.title,
-        nickname: post.nickname,
-        createdAt: post.createdAt,
-        postImg: post.post_img,
-      })
-    );
+    const postList = listedPost.map((post) => ({
+      postId: post.post_id,
+      title: post.title,
+      nickname: post.nickname,
+      createdAt: post.createdAt,
+      postImg: post.post_img,
+    }));
 
-    return { message: "success", data: postLists };
+    return { message: "success", data: postList };
   },
   getAllPostPaged: async ({ page, perPage }) => {
-    const totalPage = await Post.findAllPostTotalPage({ perPage });
     const listedPost = await Post.findAllPostPaged({ page, perPage });
-
-    if (!listedPost) {
+    if (listedPost.length === 0) {
       const errorMessage = "게시글 존재하지 않습니다.";
       return { errorMessage };
     }
-
-    const postLists = [];
-    listedPost.map((post) =>
-      postLists.push({
-        postId: post.post_id,
-        title: post.title,
-        content: post.content,
-        nickname: post.nickname,
-        createdAt: post.createdAt,
-        postImg: post.post_img,
-      })
-    );
-
-    return { message: "success", data: { totalPage, postLists } };
+    const totalPage = await Post.findAllPostTotalPage({ perPage });
+    const postList = listedPost.map((post) => ({
+      postId: post.post_id,
+      title: post.title,
+      content: post.content,
+      nickname: post.nickname,
+      createdAt: post.createdAt,
+      postImg: post.post_img,
+    }));
+    return { message: "success", data: { totalPage, postList } };
   },
 
   getPostById: async ({ userId }) => {
-    const listedPost = await Post.findPostByUserId({ user_id: userId });
+    const listedPost = await Post.findPostByUserId({
+      user_id: userId,
+    });
 
-    if (!listedPost) {
+    if (listedPost.length === 0) {
       const errorMessage =
         "게시글 존재하지 않습니다. 다시 한 번 확인해 주세요.";
       return { errorMessage };
     }
 
-    const searchedPostById = [];
-    listedPost.map((post) =>
-      searchedPostById.push({
-        postId: post.post_id,
-        userId: post.user_id,
-        title: post.title,
-        nickname: post.nickname,
-        createdAt: post.createdAt,
-        postImg: post.post_img,
-      })
-    );
-
+    const searchedPostById = listedPost.map((post) => ({
+      postId: post.post_id,
+      userId: post.user_id,
+      title: post.title,
+      nickname: post.nickname,
+      createdAt: post.createdAt,
+      postImg: post.post_img,
+    }));
     return { message: "success", data: searchedPostById };
   },
   getPostByPostId: async ({ postId }) => {
     const listedPost = await Post.findPostByPostId({ post_id: postId });
 
-    if (!listedPost) {
+    if (listedPost.length === 0) {
       const errorMessage =
         "게시글 존재하지 않습니다. 다시 한 번 확인해 주세요.";
       return { errorMessage };
     }
 
-    const searchedPostByPostId = [];
-    listedPost.map((post) =>
-      searchedPostByPostId.push({
-        postId: post.post_id,
-        userId: post.user_id,
-        title: post.title,
-        nickname: post.nickname,
-        createdAt: post.createdAt,
-        postImg: post.post_img,
-      })
-    );
+    const searchedPostByPostId = listedPost.map((post) => ({
+      postId: post.post_id,
+      userId: post.user_id,
+      title: post.title,
+      nickname: post.nickname,
+      createdAt: post.createdAt,
+      postImg: post.post_img,
+    }));
     return { message: "success", data: searchedPostByPostId };
   },
 
   setPost: async ({ postId, toUpdate }) => {
     const findedPost = await Post.findPostByPostId({ post_id: postId });
-    if (!findedPost) {
+    if (findedPost.length === 0) {
       const errorMessage =
         "게시글이 존재하지 않습니다. 다시 한 번 확인해 주세요.";
       return { errorMessage };

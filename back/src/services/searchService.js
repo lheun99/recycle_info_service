@@ -9,17 +9,15 @@ const searchService = {
     }
     text = text.replace(" ", "");
 
-    const searchedDataList = await RecycleInfo.searchData({ text });
-    const searchedDatas = [];
-    searchedDataList.map((searchedData) =>
-      searchedDatas.push({
-        category: searchedData.category,
-        details: searchedData.details,
-        infoImg: searchedData.info_img,
-      })
-    );
+    const searchedInfo = await RecycleInfo.searchData({ text });
 
-    return { message: "success", data: searchedDatas };
+    const searchedData = searchedInfo.map((info) => ({
+      category: info.category,
+      details: info.details,
+      infoImg: info.info_img,
+    }));
+
+    return { message: "success", data: searchedData };
   },
 };
 
