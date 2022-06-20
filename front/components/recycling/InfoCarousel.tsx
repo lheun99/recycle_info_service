@@ -8,12 +8,14 @@ import styled from "styled-components";
 const InfoCarousel = () => {
     const [slideIndex, setSlideIndex] = useState(1);
     const router = useRouter(); // 페이지 이동을 위해 useRouter 적용
-    const type = router.query.category;
-    const receivedInfo = localStorage.getItem("종이류");
-    const listInfo = JSON.parse(receivedInfo);
+    const info = JSON.parse(localStorage.getItem("recycleInfo"));
+    const type = info?.category
+    const infoList = info?.recycleInfo;
+
+    console.info(infoList);
 
     const nextSlide = () => {
-        if (slideIndex === listInfo.length) {
+        if (slideIndex === infoList.length) {
             return;
         }
         setSlideIndex(slideIndex + 1);
@@ -42,7 +44,7 @@ const InfoCarousel = () => {
             </MainTitle>
             <p>
                 &apos;{type}&apos;(은)는{" "}
-                {listInfo.map((sub) => sub.details + " / ")}(이)가 있습니다.
+                {infoList.map((sub) => sub.details + " / ")}(이)가 있습니다.
             </p>
             <CarouselWrapper>
                 <ArrowButton type="button" onClick={prevSlide}>
@@ -54,7 +56,7 @@ const InfoCarousel = () => {
                     />
                 </ArrowButton>
                 <CarouselAll>
-                    {listInfo.map((info, idx) => {
+                    {infoList.map((info, idx) => {
                         return (
                             <Slider
                                 key={`page-${idx}`}
@@ -74,7 +76,7 @@ const InfoCarousel = () => {
                                 </InfoBox>
                                 <div>
                                     <span>
-                                        {idx + 1} / {listInfo.length}
+                                        {idx + 1} / {infoList.length}
                                     </span>
                                 </div>
                             </Slider>
