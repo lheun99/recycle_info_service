@@ -321,10 +321,13 @@ def _getargs() -> argparse.Namespace:
             )
     if args.parallelize in ('mt', 'multithreading'):
         args.Executor = futures.ThreadPoolExecutor
+        args.max_workers = multiprocessing.cpu_count()
     elif args.parallelize in ('mp', 'multiprocessing'):
         args.Executor = futures.ProcessPoolExecutor
+        args.max_workers = round(multiprocessing.cpu_count() / 2)
     else:
         args.Executor = SerialExecutor
+        args.max_workers = 1
 
     return args
 
@@ -336,9 +339,6 @@ async def cli():
     args = _getargs()
     # debug
     # print(args)
-    executor = args.Executor()
-    if not isinstance(executor, SerialExecutor):
-        print(f'MAIN: 작업자 수는 최대 {executor._max_workers}개입니다.')
 
     do_label = args.label_src is not None and args.label_dst is not None
     do_image = (
@@ -393,6 +393,10 @@ async def cli():
             write_pickle(args.label_dst, tasks)
 
     if do_image:
+        executor = args.Executor(max_workers=args.max_workers)
+        if not isinstance(executor, SerialExecutor):
+            print(f'MAIN: 작업자 수는 최대 {executor._max_workers}개입니다.')
+
         print(f'MAIN: 이미지를 처리합니다.')
         if not do_label:
             for stem, branches, leaves in os.walk(args.image_src):
