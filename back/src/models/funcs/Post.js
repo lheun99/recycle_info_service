@@ -1,4 +1,5 @@
 const db = require("../index.js");
+const QueryTypes = require("sequelize");
 const postModel = db.post;
 const Sequelize = db.Sequelize;
 const sequelize = db.sequelize;
@@ -23,8 +24,12 @@ const Post = {
       INNER JOIN users 
       ON posts.user_id=users.user_id 
       ORDER BY posts."createdAt"
-      LIMIT '${perPage}'
-      OFFSET '${(page - 1) * perPage}'`
+      LIMIT $perPage
+      OFFSET (($page - 1) * $perPage)`,
+      {
+        bind: { perPage: perPage, page: page },
+        type: QueryTypes.SELECT,
+      }
     );
 
     return postlist[0];

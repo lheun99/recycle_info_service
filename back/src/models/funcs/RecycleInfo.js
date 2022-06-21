@@ -1,4 +1,5 @@
 const db = require("../index.js");
+const QueryTypes = require("sequelize");
 const recycleInfoModel = db.recycleInfo;
 const recycleCategoryModel = db.recycleCategory;
 const Sequelize = db.Sequelize;
@@ -23,7 +24,11 @@ const RecycleInfo = {
       FROM recycle_infos
       INNER JOIN recycle_categories
       ON recycle_infos.code=recycle_categories.code
-      WHERE recycle_infos.code='${code}'`
+      WHERE recycle_infos.code=$code`,
+      {
+        bind: { code: code },
+        type: QueryTypes.SELECT,
+      }
     );
 
     return infos[0];
