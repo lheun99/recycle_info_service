@@ -5,19 +5,15 @@ YOLOREPO="$HOME/yolov5"
 DST="$HOME/train"
 
 
-# epoch 0:8 DONE
-#     --cfg "$YOLOREPO/models/yolov5s.yaml" \
-# epoch 8:14 DONE
-# epoch 14: ...
 python "$YOLOREPO/train.py" \
     --weights '' \
     --cfg "$YOLOREPO/models/yolov5s.yaml" \
     --data "$REPO/ai/train/data-train.yaml" \
-    --hyp "$REPO/ai/train/hyp.adamw-.yaml" \
+    --hyp "$REPO/ai/train/hyp.adamw.evolve.yaml" \
     --img-size 320 \
     --batch-size -1 \
     --project "$DST/main" \
-    --name 'exp.adam2-' \
+    --name 'exp.adamw.evolve' \
     --optimizer 'AdamW' \
     --image-weights \
     --patience 4 \
