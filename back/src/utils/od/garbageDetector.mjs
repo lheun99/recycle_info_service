@@ -45,7 +45,36 @@ const CLASSES_EN = [
 
 const CLASSNAMES = { en: CLASSES_EN, ko: CLASSES_KO };
 
-/** 인공지능이 찾은 물건 하나를 표현하는 자료형입니다. */
+/** 인공지능이 찾은 물건 하나를 표현하는 자료형입니다.
+ *
+ * ## 예제
+ * ```js
+ * const d = new Detection(11, 0.8, [0.2, 0.4, 0.6, 0.8], [640, 480])
+ *
+ * d.classId      // 11
+ * d.confidence   // 0.8
+ * d.imageWidth   // 640
+ * d.imageHeight  // 480
+ * d.name('ko')   // '자전거'
+ * d.name('en')   // 'bicycle'
+ * d.xyxy()       // [128, 256, 288, 384]
+ * d.xywh()       // [208, 320, 160, 128]
+ * ```
+ *
+ * ## 프로퍼티
+ *
+ * - `Detection.classId`
+ * - `Detection.confidence`
+ * - `Detection.imageWidth`, `Detection.imageHeight`
+ *
+ * ## 메서드
+ *
+ * - `Detection.name(lang)` - 물체의 분류 이름을 반환합니다.
+ * - `Detection.xyxy(dim = [this.imageWidth, this.imageHeight])` -
+ *   `xyxy` 형식으로 바운딩 박스 좌표를 반환합니다.
+ * - `Detection.xywh(dim = [this.imageWidth, this.imageHeight])` -
+ *   `xywh` 형식으로 바운딩 박스 좌표를 반환합니다.
+ */
 class Detection {
   /**
    * @arg {number} classId - 물체가 속한 클래스의 인덱스 값입니다.
@@ -57,7 +86,8 @@ class Detection {
   constructor(classId, confidence, xyxy, dim = [1.0, 1.0]) {
     this.classId = classId;
     this.confidence = confidence;
-    [this.width, this.height] = dim;
+    this.imageWidth = dim[0];
+    this.imageHeight = dim[1];
     this._xyxy = xyxy;
   }
 
@@ -90,7 +120,7 @@ class Detection {
    *  - `dim` 값에 맞춰 계산한 `[ x1, y1, x2, y2]` 형식을 반환합니다.
    *  - 좌표값은 가까운 정수로 반올림합니다.
    */
-  xyxy(dim = [this.width, this.height]) {
+  xyxy(dim = [this.imageWidth, this.imageHeight]) {
     const [width, height] = dim;
     return [
       Math.round(this._xyxy[0] * width),
@@ -109,7 +139,7 @@ class Detection {
    *    `xc`, `yc`는 각각 바운딩 박스 중앙 지점의 좌표입니다.
    *  - 좌표값은 가까운 정수로 반올림합니다.
    */
-  xywh(dim = [this.width, this.height]) {
+  xywh(dim = [this.imageWidth, this.imageHeight]) {
     if (!this._xywh) {
       this._xywh = [
         (this._xyxy[0] + this._xyxy[2]) / 2.0,
