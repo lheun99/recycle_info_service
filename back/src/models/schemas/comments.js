@@ -9,7 +9,6 @@ module.exports = function(sequelize, DataTypes) {
       primaryKey: true
     },
     post_id: {
-      autoIncrement: true,
       type: DataTypes.BIGINT,
       allowNull: false,
       references: {
@@ -18,12 +17,12 @@ module.exports = function(sequelize, DataTypes) {
       }
     },
     content: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(255),
       allowNull: false
     },
     user_id: {
       type: DataTypes.UUID,
-      allowNull: true,
+      allowNull: false,
       references: {
         model: 'users',
         key: 'user_id'
