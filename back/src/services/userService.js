@@ -57,12 +57,12 @@ const userService = {
             throw new Error(
                 "비밀번호가 일치하지 않습니다. 다시 한 번 확인해 주세요."
             );
-        } else {
-            const today = new Date();
-            // 최근 로그인 날짜를 업데이트해줌
-            const toUpdate = { last_login: today };
-            await User.update({ user_id: user.user_id, toUpdate });
         }
+
+        const today = new Date();
+        // 최근 로그인 날짜를 업데이트해줌
+        const toUpdate = { last_login: today };
+        await User.update({ user_id: user.user_id, toUpdate });
 
         const secretKey = process.env.JWT_SECRET_KEY;
         const token = jwt.sign({ userId: user.user_id }, secretKey);
