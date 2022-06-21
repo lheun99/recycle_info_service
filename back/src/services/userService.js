@@ -91,11 +91,12 @@ const userService = {
 
         const { email, nickname, picture } = user;
 
-        // 랭커들의 user_id, nickname, total_point
-        const rankers = await Point.getRankers();
-
-        // 현 사용자의 total_point와 rank
-        const rank = await Point.getRank({ user_id: userId });
+        const [rankers, rank] = await Promise.all([
+            // 랭커들의 nickname과 total_point
+            Point.getRankers(),
+            // 현 사용자의 total_point와 rank
+            Point.getRank({ user_id: userId }),
+        ]);
 
         const data = { email, nickname, picture, rankers, rank };
 
