@@ -47,6 +47,8 @@ const CLASSNAMES = { en: CLASSES_EN, ko: CLASSES_KO };
 
 /** 인공지능이 찾은 물건 하나를 표현하는 자료형입니다.
  *
+ * > (주의) `Detection` 오브젝트는 사용자가 직접 만들 일이 없습니다!
+ *
  * ## 예제
  * ```js
  * const d = new Detection(11, 0.8, [0.2, 0.4, 0.6, 0.8], [640, 480])
