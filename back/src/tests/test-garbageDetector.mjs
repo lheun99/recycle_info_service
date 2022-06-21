@@ -22,7 +22,7 @@ console.log(`\n\n`);
 const modelPath = path.resolve(
   path.dirname(url.fileURLToPath(import.meta.url)),
   `..`,
-  `utils/od/gdmodel/weights/last_web_model`
+  `utils/od/gdmodel/weights/last_web_model/model.json`
 );
 console.info(`model's absolute path is "${modelPath}"`);
 const gd = new GarbageDetector(modelPath);
