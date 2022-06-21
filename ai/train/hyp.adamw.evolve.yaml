@@ -32,4 +32,4 @@ fliplr: 0.5
 mosaic: 1.0
 mixup: 0.09381
 copy_paste: 0.0
-anchors: 2.8111
+# anchors: 2.8111
