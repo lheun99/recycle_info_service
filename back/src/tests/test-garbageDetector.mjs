@@ -5,7 +5,12 @@ import url from "url";
 import { AppError } from "../utils/errors.js";
 import { GarbageDetector } from "../utils/od/garbageDetector.mjs";
 
+const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
+
+/** 테스트를 수행하고 성공 여부를 객체로 반환합니다. */
 const main = async () => {
+  const result = [];
+
   // 1. 말도 안되는 경로를 집어넣고 에러를 제대로 내는지 봅니다.
   console.info(`Testing sanity check functionality\n\n`);
   try {
@@ -21,7 +26,7 @@ const main = async () => {
 
   // 2. 모델을 만듭니다.
   const modelPath = path.resolve(
-    path.dirname(url.fileURLToPath(import.meta.url)),
+    __dirname,
     `..`,
     //   `utils/od/gdmodel/weights/last_web_model/model.json`,
     `utils/od/gdmodel/weights/last_saved_model`
@@ -29,8 +34,8 @@ const main = async () => {
   console.info(`model's absolute path is "${modelPath}"`);
   const gd = new GarbageDetector(modelPath);
   await gd.init();
-  console.log(gd);
-  console.log(gd.modelPath);
+  console.info(gd);
+  console.log(`\n\n`);
 };
 
 main().then(() => console.info(`DONE`));
