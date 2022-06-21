@@ -43,7 +43,18 @@ const CLASSES_EN = [
   "wood",
 ];
 
-class Inference {}
+/** 인공지능이 찾은 물건 하나를 표현하는 자료형입니다. */
+class Detection {
+  /**
+   * @arg {[number, number, number, number]} xyxy -
+   *  바운딩 박스의 왼쪽 위, 오른쪽 아래 상대 좌표값의 배열입니다.
+   * @arg {[number, number]} dim - 이미지의 가로, 세로 치수의 배열입니다.
+   */
+  constructor(xyxy, dim = [1.0, 1.0]) {
+    [this.width, this.height] = dim;
+    this._xyxy = xyxy;
+  }
+}
 
 /** 쓰레기 분류 인공지능의 사용 인터페이스입니다. */
 class GarbageDetector {
@@ -102,8 +113,8 @@ class GarbageDetector {
         `Image format is unknown`
       );
     }
+    const [height, width] = image_.shape;
 
-    console.log(`image shape: ${image_.shape}`);
     const input = tf.image
       .resizeBilinear(image_, [320, 320])
       .div(255.0)
