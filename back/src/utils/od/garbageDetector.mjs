@@ -54,6 +54,24 @@ class Detection {
     [this.width, this.height] = dim;
     this._xyxy = xyxy;
   }
+
+  /** `xyxy` 형식으로 바운딩 박스 좌표를 반환합니다.
+   *
+   * @arg {[number, number]} dim - 이미지의 가로, 세로 치수의 배열입니다.
+   *  - 기본값은 원본 이미지의 치수입니다.
+   * @return {[number, number, number, number]} xyxy
+   *  - `dim` 값에 맞춰 계산한 `[ x1, y1, x2, y2]` 형식을 반환합니다.
+   *  - 좌표값은 가까운 정수로 반올림합니다.
+   */
+  xyxy(dim = [this.width, this.height]) {
+    const [width, height] = dim;
+    return [
+      Math.round(this._xyxy[0] * width),
+      Math.round(this._xyxy[1] * height),
+      Math.round(this._xyxy[2] * width),
+      Math.round(this._xyxy[3] * height),
+    ];
+  }
 }
 
 /** 쓰레기 분류 인공지능의 사용 인터페이스입니다. */
