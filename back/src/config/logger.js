@@ -9,3 +9,13 @@ const level = () => {
     const isDevelopment = env === "development";
     return isDevelopment ? "debug" : "warn";
 };
+
+const colors = {
+    error: "red",
+    warn: "yellow",
+    info: "green",
+    http: "magenta",
+    debug: "blue",
+};
+
+winston.addColors(colors);
