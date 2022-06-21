@@ -1,4 +1,5 @@
 import assert from "assert/strict";
+import path from "path";
 
 import { AppError } from "../utils/errors.js";
 import { GarbageDetector } from "../utils/od/garbageDetector.mjs";
@@ -14,3 +15,7 @@ try {
   }
   console.info(error);
 }
+console.log(`\n\n`);
+
+const modelPath = path.resolve(__dirname, `..`, `utils/od/gdmodel/weights`);
+console.info(`model's absolute path is "${modelPath}"`);
