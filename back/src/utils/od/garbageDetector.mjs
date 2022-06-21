@@ -104,7 +104,7 @@ class GarbageDetector {
     }
 
     const input = tf.image
-      .resizeBilinear(image, [320, 320])
+      .resizeBilinear(image_, [320, 320])
       .div(255.0)
       .expandDims(0);
 
