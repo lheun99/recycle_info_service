@@ -44,7 +44,9 @@ class Inference {}
 /** 쓰레기 분류 인공지능의 사용 인터페이스입니다. */
 class GarbageDetector {
   constructor(modelPath) {
-    if (!fs.accessSync(modelPath, fs.constants.R_OK)) {
+    try {
+      fs.accessSync(modelPath, fs.constants.R_OK);
+    } catch {
       const stat = fs.statSync(modelPath, { throwIfNoEntry: false });
       throw new AppError(
         {
@@ -55,6 +57,7 @@ class GarbageDetector {
         `"${path.resolve(modelPath)}" file not readable`
       );
     }
+
     this.modelPath = modelPath;
     this.model = tf.loadGraphModelSync(modelPath);
   }
