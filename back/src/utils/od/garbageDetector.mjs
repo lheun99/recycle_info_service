@@ -108,7 +108,7 @@ class GarbageDetector {
       .div(255.0)
       .expandDims(0);
 
-    const resultRaw = this.model.predict(input);
+    const resultRaw = this.model.predict([input]);
     const result = await Promise.all(resultRaw.map((v) => v.data()));
     console.log(result);
   }
