@@ -1,3 +1,4 @@
+const { default: ModelManager } = require("sequelize/types/model-manager");
 const winston = require("winston");
 require("winston-daily-rotate-file");
 const logDir = `${__dirname}/log`;
@@ -27,3 +28,32 @@ const format = winston.format.combine(
         (info) => `${info.timestamp} [ ${info.level} ] ▶ ${info.message}`
     )
 );
+
+const logger = winston.createLogger({
+    format,
+    level: level(),
+    transports: [
+        new winston.transports.DailyRotateFile({
+            level: "info",
+            datePattern: "YYYY-MM-DD",
+            dirname: logDir,
+            filename: `%DATE%.log`,
+            zippedArchive: true,
+            handleExceptions: true,
+            maxFiles: 30,
+        }),
+        new winston.transports.DailyRotateFile({
+            level: "error",
+            datePattern: "YYYY-MM-DD",
+            dirname: logDir + "/error",
+            filename: `%DATE%.error.log`,
+            zippedArchive: true,
+            maxFiles: 30,
+        }),
+        new winston.transports.Console({
+            handleExceptions: true,
+        }),
+    ],
+});
+
+module.exports = logger;
