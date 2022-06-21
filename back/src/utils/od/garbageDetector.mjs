@@ -1,6 +1,8 @@
 import * as fs from "fs";
 import path from "path";
 
+import tf from "@tensorflow/tfjs-node";
+
 import { AppError } from "../errors.js";
 
 const CLASSES_KO = [
