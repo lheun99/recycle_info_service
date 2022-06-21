@@ -1,9 +1,11 @@
+// import { Buffer } from "buffer";
 import * as fs from "fs";
 import path from "path";
 
 import tf, { mod } from "@tensorflow/tfjs-node";
 
-import { AppError } from "../errors.js";
+import { AppError, RequestError } from "../errors.js";
+import * as status from "../status.js";
 
 const CLASSES_KO = [
   "종이류",
@@ -53,30 +55,62 @@ class GarbageDetector {
     try {
       fs.accessSync(modelPath, fs.constants.R_OK);
     } catch {
-      const stat = fs.statSync(modelPath, { throwIfNoEntry: false });
+      const stats = fs.statSync(modelPath, { throwIfNoEntry: false });
       throw new AppError(
         {
           name: "OSError",
           operational: true,
-          detail: stat ?? {},
+          detail: stats ?? {},
         },
         `"${path.resolve(modelPath)}" file not readable`
       );
     }
 
     this.modelPath = modelPath;
-    // const handler = tf.io.fileSystem(modelPath);
-    // this.model = tf.loadGraphModelSync(handler);
     this.model = null;
   }
 
   /** 모델을 준비합니다. */
   async init() {
-    this.model = await tf.node.loadSavedModel(this.modelPath);
+    const stats = fs.statSync(this.modelPath);
+    if (stats.isFile()) {
+      // web model 포맷입니다.
+      const handler = tf.io.fileSystem(modelPath);
+      this.model = await tf.loadGraphModel(handler);
+    } else {
+      // saved model 포맷입니다.
+      this.model = await tf.node.loadSavedModel(this.modelPath);
+    }
   }
 
-  /** 이미지에서 쓰레기를 찾아 분류합니다. */
-  guess(image) {}
+  /** 이미지에서 쓰레기를 찾아 분류합니다.
+   *
+   * @arg {Buffer} image - 해독되지 않은 이미지 버퍼입니다.
+   *  - bmp, gif, jpeg, png 포맷을 해독 가능합니다.
+   *    다른 포맷은 해독해서 넣으면 가능합니다.
+   */
+  async guess(image) {
+    let image_;
+    try {
+      image_ = tf.node.decodeImage(image);
+    } catch (error) {
+      throw new RequestError(
+        {
+          name: `ImageDecodeError`,
+          detail: { message: error.message },
+        },
+        `Image format is unknown`
+      );
+    }
+
+    const input = tf.image
+      .resizeBilinear(image, [320, 320])
+      .div(255.0)
+      .expandDims(0);
+
+    const result = this.model.execute(input);
+    console.log(result);
+  }
 
   /** 이미지에서 쓰레기를 찾아 가장 자신있는 분류의 목록을 반환합니다. */
   guessBest(image) {}

@@ -1,4 +1,5 @@
 import assert from "assert/strict";
+import * as fsp from "fs/promises";
 import path from "path";
 import url from "url";
 
@@ -46,6 +47,12 @@ const main = async () => {
     result[`Model loading test`] = false;
     return result;
   }
+
+  // 이미지를 하나 넣어 봅니다.
+  const image = await fsp.readFile(
+    path.join(__dirname, `test-images`, `11-bicycle.jpg`)
+  );
+  const res = await gd.guess(image);
 };
 
 main().then((res) => console.info(res));
