@@ -51,16 +51,16 @@ const CLASSNAMES = { en: CLASSES_EN, ko: CLASSES_KO };
  *
  * ## 예제
  * ```js
- * const d = new Detection(11, 0.8, [0.2, 0.4, 0.6, 0.8], [640, 480])
+ * const obj = new Detection(11, 0.8, [0.2, 0.4, 0.6, 0.8], [640, 480])
  *
- * d.classId      // 11
- * d.confidence   // 0.8
- * d.imageWidth   // 640
- * d.imageHeight  // 480
- * d.name('ko')   // '자전거'
- * d.name('en')   // 'bicycle'
- * d.xyxy()       // [128, 256, 288, 384]
- * d.xywh()       // [208, 320, 160, 128]
+ * obj.classId      // 11
+ * obj.confidence   // 0.8
+ * obj.imageWidth   // 640
+ * obj.imageHeight  // 480
+ * obj.name('ko')   // '자전거'
+ * obj.name('en')   // 'bicycle'
+ * obj.xyxy()       // [128, 256, 288, 384]
+ * obj.xywh()       // [208, 320, 160, 128]
  * ```
  *
  * ## 프로퍼티
@@ -164,6 +164,36 @@ class Detection {
  *
  * 인스턴스를 생성한 후에는 반드시 `init()` 메소드를 호출해야 합니다.
  * 초기화되지 않은 상태에서 사용할 경우 `AppError[DetectionError]`를 던집니다.
+ *
+ * ## 예제
+ *
+ * - `tests/test-garbageDetector.mjs` 파일에도 예제가 있습니다.
+ *
+ * ```js
+ * const detector = new GarbageDetector(
+ *   `path/to/model/dir/or.json`
+ * )
+ * await detector.init()
+ *
+ * const inferences = await model.guess(
+ *    Buffer.from(image_b64, `base64`)
+ * )
+ * // 반환값은 Detection 인스턴스의 배열입니다.
+ * for (const obj of inferences) {
+ *    console.log(obj.name('ko'))   // '전자제품', etc.
+ * }
+ * ```
+ *
+ * ## 프로퍼티
+ *
+ * - `GarbageDetector.model`: `tf.node.TFSavedModel`
+ * - `GarbageDetector.modelPath`: `string`
+ *
+ * ## 메소드
+ *
+ * - `async GarbageDetector.init()` - 모델을 준비합니다.
+ * - `async GarbageDetector.guess(image: Buffer)` -
+ *  이미지에서 쓰레기를 찾아 분류합니다.
  */
 class GarbageDetector {
   /**
