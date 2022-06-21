@@ -108,7 +108,7 @@ class GarbageDetector {
       .div(255.0)
       .expandDims(0);
 
-    const result = this.model.execute(input);
+    const result = this.model.predict(input);
     console.log(result);
   }
 
