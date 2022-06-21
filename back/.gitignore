@@ -1,7 +1,5 @@
 # dependencies
 node_modules
-
-gdmodel
 .env
 orm.js
 log
