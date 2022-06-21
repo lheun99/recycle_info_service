@@ -67,7 +67,7 @@ const CLASSNAMES = { en: CLASSES_EN, ko: CLASSES_KO };
  * - `Detection.confidence`
  * - `Detection.imageWidth`, `Detection.imageHeight`
  *
- * ## 메서드
+ * ## 메소드
  *
  * - `Detection.name(lang)` - 물체의 분류 이름을 반환합니다.
  * - `Detection.xyxy(dim = [this.imageWidth, this.imageHeight])` -
