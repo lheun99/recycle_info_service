@@ -9,6 +9,7 @@ const searchRouter = require("./routes/searchRouter");
 const imgUploadRouter = require("./routes/imgUploadRouter");
 const pointRouter = require("./routes/pointRouter");
 const quizRouter = require("./routes/quizRouter");
+const authRouter = require("./routes/authRouter");
 
 const app = express();
 
@@ -35,6 +36,7 @@ app.use("/search", searchRouter);
 app.use("/users", userRouter);
 app.use("/points", pointRouter);
 app.use("/quizs", quizRouter);
+app.use("/auth", authRouter);
 app.use(errorMiddleware);
 
 module.exports = app;

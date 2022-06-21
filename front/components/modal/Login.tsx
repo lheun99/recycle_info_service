@@ -6,9 +6,11 @@ import { styled as materialStyled } from "@mui/material/styles";
 import { Button, TextField } from "@mui/material";
 import { DispatchContext } from "../../pages/_app";
 import * as Api from "../../api";
+import {kakaoUrl} from "../socialLogin/SocialLoginUrl"
 
 function Login({ open, handleClose, setRegister }) {
     const dispatch = useContext(DispatchContext);
+    // const kakaourl = kakaoUrl();
 
     const [email, setEmail] = useState<String>("");
     const [password, setPassword] = useState<String>("");
@@ -110,6 +112,8 @@ function Login({ open, handleClose, setRegister }) {
                 >
                     회원가입
                 </Button>
+                <span>|</span>
+                <a href={kakaoUrl()}>카카오</a>
             </FindWrapper>
         </Wrapper>
     );
