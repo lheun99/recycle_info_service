@@ -160,7 +160,11 @@ class Detection {
   }
 }
 
-/** 쓰레기 분류 인공지능의 추론 인터페이스입니다. */
+/** 쓰레기 분류 인공지능의 추론 인터페이스입니다.
+ *
+ * 인스턴스를 생성한 후에는 반드시 `init()` 메소드를 호출해야 합니다.
+ * 초기화되지 않은 상태에서 사용할 경우 `AppError[DetectionError]`를 던집니다.
+ */
 class GarbageDetector {
   /**
    * @arg {string} modelPath - 모델 경로입니다.
@@ -201,17 +205,24 @@ class GarbageDetector {
   /** 이미지에서 쓰레기를 찾아 분류합니다.
    *
    * @arg {Buffer} image - 해독되지 않은 이미지 버퍼입니다.
-   *  - bmp, gif, jpeg, png 포맷을 해독 가능합니다.
-   *    다른 포맷은 해독해서 넣으면 가능합니다.
+   *  bmp, gif, jpeg, png 포맷을 해독 가능합니다.
+   * - 이미지 디코딩에 실패하면 `AppError[ImageDecodeError]`를 던집니다.
    */
   async guess(image) {
+    if (this.model === null) {
+      throw new AppError(
+        { name: `DetectionError`, operational: true },
+        `Model is not ready`
+      );
+    }
     let image_;
     try {
       image_ = tf.node.decodeImage(image);
     } catch (error) {
-      throw new RequestError(
+      throw new AppError(
         {
           name: `ImageDecodeError`,
+          operational: true,
           detail: { message: error.message },
         },
         `Image format is unknown`
