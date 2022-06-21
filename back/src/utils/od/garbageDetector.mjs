@@ -45,6 +45,11 @@ class Inference {}
 
 /** 쓰레기 분류 인공지능의 사용 인터페이스입니다. */
 class GarbageDetector {
+  /** 모델을 불러옵니다. 시간이 좀 걸릴 수 있습니다.
+   *
+   * @arg {string} modelPath - 모델 경로입니다.
+   *  - 경로가 잘못되는 등 읽을 수 없으면 `AppError[OSError]`를 던집니다.
+   */
   constructor(modelPath) {
     try {
       fs.accessSync(modelPath, fs.constants.R_OK);
