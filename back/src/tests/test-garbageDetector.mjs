@@ -17,6 +17,7 @@ const main = async () => {
   try {
     new GarbageDetector(`ham/jam/spam.eggs`);
     console.warn(`FAIL: didn't error out`);
+    result[`Bailout test`] = false;
   } catch (error) {
     if (error instanceof AppError) {
       console.info(`Don't panic, everything is under control`);
