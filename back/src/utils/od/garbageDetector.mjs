@@ -10,7 +10,8 @@ import * as status from "../status.js";
 /** 모듈 사용법
  *
  * ```js
- * const { GarbageDetector } = require("path/to/garbageDetector.mjs")
+ * const { GarbageDetector } = require("path/to/garbageDetector.mjs");
+ * import { GarbageDetector } from "path/to/garbageDetector.mjs";
  * ```
  *
  * 메소드별 자세한 사용법은 `vscode`의 인텔리센스를 활용해 주세요.
