@@ -158,7 +158,7 @@ class Detection {
   }
 }
 
-/** 쓰레기 분류 인공지능의 사용 인터페이스입니다. */
+/** 쓰레기 분류 인공지능의 추론 인터페이스입니다. */
 class GarbageDetector {
   /**
    * @arg {string} modelPath - 모델 경로입니다.
