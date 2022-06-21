@@ -12,6 +12,8 @@ import * as status from "../status.js";
  * ```js
  * const { GarbageDetector } = require("path/to/garbageDetector.mjs")
  * ```
+ *
+ * 메소드별 자세한 사용법은 `vscode`의 인텔리센스를 활용해 주세요.
  */
 
 const CLASSES_KO = [
