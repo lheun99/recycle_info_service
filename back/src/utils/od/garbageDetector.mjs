@@ -103,14 +103,25 @@ class GarbageDetector {
       );
     }
 
+    console.log(`image shape: ${image_.shape}`);
     const input = tf.image
       .resizeBilinear(image_, [320, 320])
       .div(255.0)
       .expandDims(0);
 
-    const resultRaw = this.model.predict(input);
-    const result = await Promise.all(resultRaw.map((v) => v.data()));
-    console.log(result);
+    const result = [];
+    const raw = this.model.predict(input);
+    let [boxes, confidences, classIds, numDetections] = raw;
+    numDetections = numDetections.dataSync();
+    classIds = classIds.dataSync().slice(0, numDetections);
+    confidences = confidences.dataSync().slice(0, numDetections);
+    boxes = boxes.dataSync().slice(0, numDetections * 4);
+    console.log(`
+      numDetections: ${numDetections},
+      classIds: ${classIds},
+      confidences: ${confidences},
+      boxes: ${boxes}
+    `);
   }
 
   /** 이미지에서 쓰레기를 찾아 가장 자신있는 분류의 목록을 반환합니다. */
