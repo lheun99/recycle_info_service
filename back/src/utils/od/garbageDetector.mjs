@@ -1,7 +1,7 @@
 import * as fs from "fs";
 import path from "path";
 
-import { AppError } from "../errors";
+import { AppError } from "../errors.js";
 
 CLASSES_KO = [
   "종이류",
