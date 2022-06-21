@@ -18,9 +18,14 @@ try {
 }
 console.log(`\n\n`);
 
+// 2. 모델을 만듭니다.
 const modelPath = path.resolve(
   path.dirname(url.fileURLToPath(import.meta.url)),
   `..`,
-  `utils/od/gdmodel/weights`
+  `utils/od/gdmodel/weights/last.pb`
 );
 console.info(`model's absolute path is "${modelPath}"`);
+const gd = new GarbageDetector(modelPath);
+console.log(gd);
+console.log(gd.modelPath);
+console.log(gd.model);
