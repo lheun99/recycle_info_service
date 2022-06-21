@@ -68,7 +68,11 @@ class GarbageDetector {
     this.modelPath = modelPath;
     // const handler = tf.io.fileSystem(modelPath);
     // this.model = tf.loadGraphModelSync(handler);
-    this.model = tf.node.loadSavedModel(modelPath);
+    this.model = null;
+  }
+
+  async init() {
+    this.model = await tf.node.loadSavedModel(this.modelPath);
   }
 
   /** 이미지에서 쓰레기를 찾아 분류합니다. */
