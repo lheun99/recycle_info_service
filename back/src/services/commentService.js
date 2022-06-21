@@ -32,6 +32,7 @@ const commentService = {
       commentId: comment.comment_id,
       userId: comment.user_id,
       nickname: comment.nickname,
+      content: comment.content,
       createdAt: comment.createdAt,
     }));
     return { message: "success", data: searchedCommentByPostId };
