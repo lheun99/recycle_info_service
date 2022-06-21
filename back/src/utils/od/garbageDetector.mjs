@@ -43,6 +43,8 @@ const CLASSES_EN = [
   "wood",
 ];
 
+const CLASSNAMES = { en: CLASSES_EN, ko: CLASSES_KO };
+
 /** 인공지능이 찾은 물건 하나를 표현하는 자료형입니다. */
 class Detection {
   /**
@@ -55,8 +57,29 @@ class Detection {
   constructor(classId, confidence, xyxy, dim = [1.0, 1.0]) {
     this.classId = classId;
     this.confidence = confidence;
-    [(this.width, this.height)] = dim;
+    [this.width, this.height] = dim;
     this._xyxy = xyxy;
+  }
+
+  /** 물체의 분류 이름을 반환합니다.
+   *
+   * @arg {string} lang - `'en'`, `'ko'` 둘 중 하나입니다.
+   *  둘 중 하나가 아닌 값이면 `AppError[ValueError]`를 던집니다.
+   * @return {string} name - 분류 이름을 반환합니다.
+   */
+  name(lang) {
+    if (lang in CLASSNAMES) {
+      return CLASSNAMES[lang][this.classId];
+    } else {
+      throw new AppError(
+        {
+          name: `ValueError`,
+          operational: true,
+          detail: {},
+        },
+        `Unknown language "${lang}"`
+      );
+    }
   }
 
   /** `xyxy` 형식으로 바운딩 박스 좌표를 반환합니다.
