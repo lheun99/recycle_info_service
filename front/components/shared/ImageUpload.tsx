@@ -61,7 +61,7 @@ const ImageUpload = ({ width, height, route }: ImageUploadProps) => {
         } else {
         }
         setTimeout(async () => {
-            console.log("로딩중이 되나");
+            // console.log("로딩중이 되나");
             setIsUploaded("complete");
         }, 5000); // 임시로 약 5초가 걸린다고 생각하고, loading component가 실행되도록 한다
     };
