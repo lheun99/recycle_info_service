@@ -1,7 +1,7 @@
 import * as fs from "fs";
 import path from "path";
 
-import tf from "@tensorflow/tfjs-node";
+import tf, { mod } from "@tensorflow/tfjs-node";
 
 import { AppError } from "../errors.js";
 
@@ -66,8 +66,9 @@ class GarbageDetector {
     }
 
     this.modelPath = modelPath;
-    const handler = tf.io.fileSystem(modelPath);
-    this.model = tf.loadGraphModelSync(handler);
+    // const handler = tf.io.fileSystem(modelPath);
+    // this.model = tf.loadGraphModelSync(handler);
+    this.model = tf.node.loadSavedModel(modelPath);
   }
 
   /** 이미지에서 쓰레기를 찾아 분류합니다. */
