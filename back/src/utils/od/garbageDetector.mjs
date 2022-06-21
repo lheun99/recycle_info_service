@@ -46,12 +46,16 @@ const CLASSES_EN = [
 /** 인공지능이 찾은 물건 하나를 표현하는 자료형입니다. */
 class Detection {
   /**
+   * @arg {number} classId - 물체가 속한 클래스의 인덱스 값입니다.
+   * @arg {number} confidence - 인공지능이 정답을 확신하는 정도입니다.
    * @arg {[number, number, number, number]} xyxy -
    *  바운딩 박스의 왼쪽 위, 오른쪽 아래 상대 좌표값의 배열입니다.
    * @arg {[number, number]} dim - 이미지의 가로, 세로 치수의 배열입니다.
    */
-  constructor(xyxy, dim = [1.0, 1.0]) {
-    [this.width, this.height] = dim;
+  constructor(classId, confidence, xyxy, dim = [1.0, 1.0]) {
+    this.classId = classId;
+    this.confidence = confidence;
+    [(this.width, this.height)] = dim;
     this._xyxy = xyxy;
   }
 
