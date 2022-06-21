@@ -4,13 +4,14 @@
   "description": "\"cyberdyne backend\"",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "concurrently \"node tunnel-ssh.js\" \"nodemon index.js\""
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "aws-sdk": "^2.1152.0",
     "bcrypt": "^5.0.1",
+    "concurrently": "^7.2.2",
     "cors": "^2.8.5",
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
@@ -25,7 +26,8 @@
     "sequelize-cli": "^6.4.1",
     "uuid": "^8.3.2",
     "winston": "^3.7.2",
-    "winston-daily-rotate-file": "^4.7.1"
+    "winston-daily-rotate-file": "^4.7.1",
+    "tunnel-ssh": "^4.1.6"
   },
   "devDependencies": {
     "nodemon": "^2.0.16"
