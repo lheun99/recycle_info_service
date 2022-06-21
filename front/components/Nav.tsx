@@ -3,35 +3,13 @@ import Image from "next/image";
 import Logo from "../public/images/logo.png";
 import navStyles from "../styles/Nav.module.css";
 import LoginOrRegisterModal from "./modal/LoginOrRegisterModal";
-import styled from "styled-components";
-import React, { useState, useEffect } from "react";
-import { useRecoilState } from "recoil";
-import { LoginState } from "../states/atom";
+import React, { useState } from "react";
 
 const Nav = () => {
-    const [login, setLogin] = useRecoilState(LoginState);
-    const [loginText, setLoginText] = useState<String>('');
+    // 오류 해결해야함..
     const [open, setOpen] = useState<Boolean>(false);
-
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-    
-    const clickHandler= () => {
-        if (login) {
-            sessionStorage.removeItem("userToken");
-            setLogin(false)
-        } else {
-            handleOpen();
-        }
-    }
-
-    useEffect(() => {
-        if (login) {
-            setLoginText("Sign out")
-        } else {
-            setLoginText("Sing in")
-        }
-    }, [login]);
 
     return (
         <nav className={navStyles.nav}>
@@ -61,7 +39,7 @@ const Nav = () => {
                     </Link>
                 </li>
                 <li>
-                    <Link href="/" passHref>
+                    <Link href="/market" passHref>
                         <a>중고마켓</a>
                     </Link>
                 </li>
@@ -76,15 +54,13 @@ const Nav = () => {
                     </Link>
                 </li>
                 <li>
-                    <LoginLi onClick={clickHandler}>{loginText}</LoginLi>
-                    {
-                        open && ( 
-                            <LoginOrRegisterModal
-                                open={open}
-                                handleClose={handleClose}
-                            />
-                        )
-                    }
+                    <li onClick={handleOpen} style={{ cursor: "pointer" }}>
+                        Sign in
+                    </li>
+                    <LoginOrRegisterModal
+                        open={open}
+                        handleClose={handleClose}
+                    />
                 </li>
             </ul>
         </nav>
@@ -92,8 +68,3 @@ const Nav = () => {
 };
 
 export default Nav;
-
-
-const LoginLi = styled.div`
-    cursor: pointer;
-`;

@@ -1,17 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Image from "next/image";
 import Logo from "../../public/images/logo.png";
 import styled from "styled-components";
-import { styled as materialStyled } from '@mui/material/styles';
+import { styled as materialStyled } from "@mui/material/styles";
 import { Button, TextField } from "@mui/material";
+import { DispatchContext } from "../../pages/_app";
 import * as Api from "../../api";
 
-import { useRecoilState } from "recoil";
-import { UserInfoState, LoginState } from "../../states/atom";
+function Login({ open, handleClose, setRegister }) {
+    const dispatch = useContext(DispatchContext);
 
-function Login({ handleClose, setRegister }) {
-    const [userInfo, setUserInfo] = useRecoilState(UserInfoState);
-    const [userLogin, setUserLogin] = useRecoilState(LoginState);
     const [email, setEmail] = useState<String>("");
     const [password, setPassword] = useState<String>("");
 
@@ -29,44 +27,38 @@ function Login({ handleClose, setRegister }) {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        
+
         try {
             const res = await Api.post("users/login", {
                 email,
                 password,
             });
-            
+
             const user = res.data.data;
             const jwtToken = user.token;
             sessionStorage.setItem("userToken", jwtToken);
-            
-            setUserLogin(true)
-            setUserInfo(user)
-            handleClose()
 
+            dispatch({
+                type: "LOGIN_SUCCESS",
+                payload: user,
+            });
+
+            handleClose();
         } catch (err) {
             console.error("이메일 또는 비밀번호가 유효하지 않습니다.");
             console.log(err);
         }
-    }
+    };
 
     return (
         <Wrapper>
             <div style={{ textAlign: "right" }}>
-                <CloseButton
-                    variant="text"
-                    onClick={handleClose}
-                >
+                <CloseButton variant="text" onClick={handleClose}>
                     x
                 </CloseButton>
             </div>
             <LogoImage>
-                <Image
-                    src={Logo}
-                    alt="logo"
-                    width={40}
-                    height={40}
-                />
+                <Image src={Logo} alt="logo" width={40} height={40} />
             </LogoImage>
             <SignInForm>
                 <TextField
@@ -78,7 +70,9 @@ function Login({ handleClose, setRegister }) {
                     label="E-MAIL"
                     size="small"
                     onChange={(e) => setEmail(e.target.value)}
-                    helperText={!isEmailValid && "이메일 형식이 올바르지 않습니다."}
+                    helperText={
+                        !isEmailValid && "이메일 형식이 올바르지 않습니다."
+                    }
                 />
                 <TextField
                     type="password"
@@ -88,10 +82,10 @@ function Login({ handleClose, setRegister }) {
                     }}
                     label="PASSWORD"
                     size="small"
-                    onChange={(e) =>
-                        setPassword(e.target.value)
+                    onChange={(e) => setPassword(e.target.value)}
+                    helperText={
+                        !isPasswordValid && "비밀번호는 8글자 이상입니다."
                     }
-                    helperText={!isPasswordValid && "비밀번호는 8글자 이상입니다."}
                 />
                 <SignInButton
                     type="submit"
@@ -103,26 +97,25 @@ function Login({ handleClose, setRegister }) {
             </SignInForm>
             <Or>or</Or>
             <FindWrapper>
-                <Button
-                    variant="text"
-                    className=""
-                >
+                <Button variant="text" className="">
                     비밀번호 찾기
                 </Button>
                 <span>|</span>
                 <Button
                     variant="text"
-                    onClick={() => setRegister(true)}
+                    onClick={() => {
+                        handleClose;
+                        setRegister(true);
+                    }}
                 >
-                    회원가입  
+                    회원가입
                 </Button>
             </FindWrapper>
         </Wrapper>
-    )
+    );
 }
 
 export default Login;
-
 
 const Wrapper = styled.div`
     position: absolute;
@@ -155,7 +148,7 @@ const FindWrapper = styled.div`
     align-items: center;
     font-size: 14px;
     margin: 10px auto;
-    padding-left: 110px; 
+    padding-left: 110px;
     color: var(--green);
 `;
 
@@ -178,28 +171,22 @@ const Or = styled.div`
     }
 `;
 
-const CloseButton = materialStyled(Button) (
-    () => (
-        {
-            color: 'black',
-            '&:hover': {
-                backgroundColor: 'white',
-            }
-        }
-    ));
+const CloseButton = materialStyled(Button)(() => ({
+    color: "black",
+    "&:hover": {
+        backgroundColor: "white",
+    },
+}));
 
-const SignInButton = materialStyled(Button)(
-    () => (
-        {
-            width: '380px',
-            height: '40px',
-            backgroundColor: 'var(--green)',
-            marginTop: '20px',
-            borderRadius: '50px',
-            color: 'var(--deepgreen)',
-            '&:hover': {
-                backgroundColor: 'var(--deepgreen)',
-                color: 'white',
-            }
-        }
-    ));
+const SignInButton = materialStyled(Button)(() => ({
+    width: "380px",
+    height: "40px",
+    backgroundColor: "var(--green)",
+    marginTop: "20px",
+    borderRadius: "50px",
+    color: "var(--deepgreen)",
+    "&:hover": {
+        backgroundColor: "var(--deepgreen)",
+        color: "white",
+    },
+}));

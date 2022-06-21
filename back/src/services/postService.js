@@ -1,96 +1,153 @@
 const Post = require("../models/funcs/Post");
 
 const postService = {
-    createPost: async ({ title, post_img, content }) => {
-        const newPost = { title, post_img, content };
-        // const createdNewPost = await Post.create({ newPost });
-        const createdNewPost = {
-            post_id: "21",
-            user_id: "6da56e43-f9b1-4e19-9e4a-58257b189c06",
-            title: "post를 test합니다.",
-            content: "post test를 위해 post를 작성합니다.",
-            updatedAt: "2022-06-15T16:02:27.239Z",
-            createdAt: "2022-06-15T16:02:27.239Z",
-            post_img: null,
-        };
+  createPost: async ({ newPost }) => {
+    const { post_id, user_id, title, content, createdAt, post_img } =
+      await Post.create({ newPost });
 
-        return { message: "success", data: createdNewPost };
-    },
+    const createdPost = {
+      postId: post_id,
+      userId: user_id,
+      title,
+      content,
+      createdAt,
+      postImg: post_img,
+    };
+    return { message: "success", data: createdPost };
+  },
 
-    getPost: async ({ post_id }) => {
-        // const currentPost = await Post.findPostById({ post_id });
-        const currentPost = {
-            post_id: "19",
-            title: "post를 수정하는 기능을 test합니다.",
-            post_img: null,
-            content: "post test를 위해 첫번째 post를 수정합니다.",
-            user_id: "6da56e43-f9b1-4e19-9e4a-58257b189c06",
-            createdAt: "2022-06-15T15:59:37.313Z",
-            updatedAt: "2022-06-15T16:01:51.163Z",
-        };
+  getAllPost: async () => {
+    const listedPost = await Post.findAllPost();
+    if (!listedPost) {
+      const errorMessage = "게시글 존재하지 않습니다.";
+      return { errorMessage };
+    }
 
-        if (!currentPost) {
-            const errorMessage =
-                "게시글 존재하지 않습니다. 다시 한 번 확인해 주세요.";
-            return { errorMessage };
-        }
+    const postLists = [];
+    listedPost.map((post) =>
+      postLists.push({
+        postId: post.post_id,
+        title: post.title,
+        nickname: post.nickname,
+        createdAt: post.createdAt,
+        postImg: post.post_img,
+      })
+    );
 
-        return { message: "success", data: currentPost };
-    },
-    // getAllPost: async () => {
-    //   const listedPost = await Post.findAllPost();
+    return { message: "success", data: postLists };
+  },
+  getAllPostPaged: async ({ page, perPage }) => {
+    const totalPage = await Post.findAllPostTotalPage({ perPage });
+    const listedPost = await Post.findAllPostPaged({ page, perPage });
 
-    //   if (!listedPost) {
-    //     const errorMessage = "게시글 존재하지 않습니다.";
-    //     return { errorMessage };
-    //   }
+    if (!listedPost) {
+      const errorMessage = "게시글 존재하지 않습니다.";
+      return { errorMessage };
+    }
 
-    //   return { message: "success", data: listedPost };
-    // },
+    const postLists = [];
+    listedPost.map((post) =>
+      postLists.push({
+        postId: post.post_id,
+        title: post.title,
+        content: post.content,
+        nickname: post.nickname,
+        createdAt: post.createdAt,
+        postImg: post.post_img,
+      })
+    );
 
-    setPost: async ({ post_id, toUpdate }) => {
-        // const findedPost = await Post.findPostById({ post_id });
-        const findedPost = {
-            post_id: "19",
-            title: "post를 수정하는 기능을 test합니다.",
-            post_img: null,
-            content: "post test를 위해 첫번째 post를 수정합니다.",
-            user_id: "6da56e43-f9b1-4e19-9e4a-58257b189c06",
-            createdAt: "2022-06-15T15:59:37.313Z",
-            updatedAt: "2022-06-15T16:01:51.163Z",
-        };
+    return { message: "success", data: { totalPage, postLists } };
+  },
 
-        if (!findedPost) {
-            const errorMessage =
-                "게시글 존재하지 않습니다. 다시 한 번 확인해 주세요.";
-            return { errorMessage };
-        }
+  getPostById: async ({ userId }) => {
+    const listedPost = await Post.findPostByUserId({ user_id: userId });
 
-        // const toUpdateField = Object.keys(toUpdate);
-        // toUpdateField.forEach((key) => {
-        //     if (!toUpdate[key]) delete toUpdate[key];
-        // });
+    if (!listedPost) {
+      const errorMessage =
+        "게시글 존재하지 않습니다. 다시 한 번 확인해 주세요.";
+      return { errorMessage };
+    }
 
-        // const updatedPost = await Post.update({ post_id, toUpdate });
-        const updatedPost = findedPost;
+    const searchedPostById = [];
+    listedPost.map((post) =>
+      searchedPostById.push({
+        postId: post.post_id,
+        userId: post.user_id,
+        title: post.title,
+        nickname: post.nickname,
+        createdAt: post.createdAt,
+        postImg: post.post_img,
+      })
+    );
 
-        return { message: "success", data: updatedPost };
-    },
+    return { message: "success", data: searchedPostById };
+  },
+  getPostByPostId: async ({ postId }) => {
+    const listedPost = await Post.findPostByPostId({ post_id: postId });
 
-    deletePost: async ({ post_id }) => {
-        // const deletedPost = await Post.delete({
-        //     post_id,
-        // });
-        const deletedPost = "삭제가 완료되었습니다.";
+    if (!listedPost) {
+      const errorMessage =
+        "게시글 존재하지 않습니다. 다시 한 번 확인해 주세요.";
+      return { errorMessage };
+    }
 
-        if (!deletedPost) {
-            const errorMessage =
-                "게시글 존재하지 않습니다. 다시 한 번 확인해 주세요.";
-            return { errorMessage };
-        }
+    const searchedPostByPostId = [];
+    listedPost.map((post) =>
+      searchedPostByPostId.push({
+        postId: post.post_id,
+        userId: post.user_id,
+        title: post.title,
+        nickname: post.nickname,
+        createdAt: post.createdAt,
+        postImg: post.post_img,
+      })
+    );
+    return { message: "success", data: searchedPostByPostId };
+  },
 
-        return { message: "success", data: deletedPost };
-    },
+  setPost: async ({ postId, toUpdate }) => {
+    const findedPost = await Post.findPostByPostId({ post_id: postId });
+    if (!findedPost) {
+      const errorMessage =
+        "게시글이 존재하지 않습니다. 다시 한 번 확인해 주세요.";
+      return { errorMessage };
+    }
+
+    const toUpdateField = Object.keys(toUpdate);
+    toUpdateField.forEach((key) => {
+      if (!toUpdate[key]) delete toUpdate[key];
+    });
+
+    const { title, content, createdAt, updatedAt, post_img } =
+      await Post.update({
+        post_id: postId,
+        toUpdate,
+      });
+
+    const updatedPost = {
+      title,
+      content,
+      createdAt,
+      updatedAt,
+      postImg: post_img,
+    };
+    return { message: "success", data: updatedPost };
+  },
+
+  deletePost: async ({ postId }) => {
+    const deletedPost = await Post.delete({
+      post_id: postId,
+    });
+
+    if (!deletedPost) {
+      const errorMessage =
+        "게시글 존재하지 않습니다. 다시 한 번 확인해 주세요.";
+      return { errorMessage };
+    }
+
+    return { message: "success", data: "삭제가 완료되었습니다." };
+  },
 };
 
 module.exports = postService;

@@ -8,7 +8,7 @@ import treeFive from "../../public/images/tree/tree.five.png";
 
 import styled, { keyframes } from "styled-components";
 
-const GrowingTree = () => {
+const GrowingTree = ({ point }) => {
     const [pagePointer, setPagePointer] = useState("1"); // point 구간에 따라 보여줘야하는 이미지 태그를 선택한다
 
     const searchPointer = (point: number) => {
@@ -27,11 +27,11 @@ const GrowingTree = () => {
         }
     };
 
+
     useEffect(() => {
         // user의 point를 받아 온다
-        const point: number = 15000; // 임시 포인트
         searchPointer(point);
-    }, [pagePointer]);
+    }, [point]);
 
     return (
         <TreeWrapper>
