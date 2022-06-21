@@ -7,6 +7,13 @@ import tf, { mod } from "@tensorflow/tfjs-node";
 import { AppError, RequestError } from "../errors.js";
 import * as status from "../status.js";
 
+/** 모듈 사용법
+ *
+ * ```js
+ * const { GarbageDetector } = require("path/to/garbageDetector.mjs")
+ * ```
+ */
+
 const CLASSES_KO = [
   "종이류",
   "플라스틱류",
@@ -49,7 +56,7 @@ const CLASSNAMES = { en: CLASSES_EN, ko: CLASSES_KO };
  *
  * > (주의) `Detection` 오브젝트는 사용자가 직접 만들 일이 없습니다!
  *
- * ## 예제
+ * ### 예제
  * ```js
  * const obj = new Detection(11, 0.8, [0.2, 0.4, 0.6, 0.8], [640, 480])
  *
@@ -63,13 +70,13 @@ const CLASSNAMES = { en: CLASSES_EN, ko: CLASSES_KO };
  * obj.xywh()       // [208, 320, 160, 128]
  * ```
  *
- * ## 프로퍼티
+ * ### 프로퍼티
  *
  * - `Detection.classId`
  * - `Detection.confidence`
  * - `Detection.imageWidth`, `Detection.imageHeight`
  *
- * ## 메소드
+ * ### 메소드
  *
  * - `Detection.name(lang)` - 물체의 분류 이름을 반환합니다.
  * - `Detection.xyxy(dim = [this.imageWidth, this.imageHeight])` -
@@ -165,7 +172,10 @@ class Detection {
  * 인스턴스를 생성한 후에는 반드시 `init()` 메소드를 호출해야 합니다.
  * 초기화되지 않은 상태에서 사용할 경우 `AppError[DetectionError]`를 던집니다.
  *
- * ## 예제
+ * `guess` 메소드의 반환 형식은 `Detection` 인스턴스의 배열입니다.
+ * `Detection` 자료형에 대한 문서를 참조해 주세요.
+ *
+ * ### 예제
  *
  * - `tests/test-garbageDetector.mjs` 파일에도 예제가 있습니다.
  *
@@ -184,12 +194,12 @@ class Detection {
  * }
  * ```
  *
- * ## 프로퍼티
+ * ### 프로퍼티
  *
  * - `GarbageDetector.model`: `tf.node.TFSavedModel`
  * - `GarbageDetector.modelPath`: `string`
  *
- * ## 메소드
+ * ### 메소드
  *
  * - `async GarbageDetector.init()` - 모델을 준비합니다.
  * - `async GarbageDetector.guess(image: Buffer)` -
