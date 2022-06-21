@@ -114,6 +114,6 @@ const MapInfoData = styled.div`
 `;
 
 const ImageWrapper = styled.div`
-    width: 110px;
+    width: 120px;
     height: 70px;
 `;
