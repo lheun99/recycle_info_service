@@ -1,11 +1,11 @@
-const fs = require("fs");
-const path = require("path");
+import * as fs from "fs";
+import path from "path";
 
-const tf = require("@tensorflow/tfjs-node");
+import tf from "@tensorflow/tfjs-node";
 
-const { AppError } = require("../errors");
+import { AppError } from "../errors";
 
-CLASSES_KO = [
+NAMES_KO = [
   "종이류",
   "플라스틱류",
   "유리병류",
@@ -23,7 +23,7 @@ CLASSES_KO = [
   "나무류",
 ];
 
-CLASSES_EN = [
+NAMES_EN = [
   "paper",
   "plastic goods",
   "glass bottle",
@@ -68,4 +68,4 @@ class GarbageDetector {
   guessBest(image) {}
 }
 
-module.exports = { GarbageDetector };
+export { GarbageDetector };
