@@ -13,22 +13,23 @@ const main = async () => {
   const result = {};
 
   // 1. 말도 안되는 경로를 집어넣고 에러를 제대로 내는지 봅니다.
-  console.info(`Testing sanity check functionality\n\n`);
+  console.info(`** Testing bailout functionality **\n\n`);
   try {
     new GarbageDetector(`ham/jam/spam.eggs`);
     console.warn(`FAIL: didn't error out`);
   } catch (error) {
     if (error instanceof AppError) {
       console.info(`Don't panic, everything is under control`);
-      result[`Sanity check test`] = true;
+      result[`Bailout test`] = true;
     } else {
-      result[`Sanity check test`] = false;
+      result[`Bailout test`] = false;
     }
     console.info(error);
   }
   console.log(`\n\n`);
 
   // 2. 모델을 만듭니다.
+  console.info(`** Trying to load a valid model **\n\n`);
   let gd;
   try {
     const modelPath = path.resolve(
@@ -49,6 +50,7 @@ const main = async () => {
   }
 
   // 이미지를 하나 넣어 봅니다.
+  console.info(`** Inference i/o format test ** \n\n`);
   const image = await fsp.readFile(
     path.join(__dirname, `test-images`, `11-bicycle.jpg`)
   );
