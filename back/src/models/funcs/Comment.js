@@ -17,7 +17,11 @@ const Comment = {
       	ON users.user_id=comments.user_id 
       INNER JOIN posts
       	ON posts.post_id=comments.post_id 
-      WHERE comments.comment_id='${comment_id}'`
+      WHERE comments.comment_id=$comment_id`,
+      {
+        bind: { comment_id: comment_id },
+        type: QueryTypes.SELECT,
+      }
     );
     return comment[0];
   },
@@ -29,8 +33,12 @@ const Comment = {
       	ON users.user_id=comments.user_id 
       INNER JOIN posts
       	ON posts.post_id=comments.post_id 
-      WHERE comments.post_id='${post_id}'
-      ORDER BY comments."createdAt" desc`
+      WHERE comments.post_id=$post_id
+      ORDER BY comments."createdAt" desc`,
+      {
+        bind: { post_id: post_id },
+        type: QueryTypes.SELECT,
+      }
     );
     return comment[0];
   },

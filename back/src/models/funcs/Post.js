@@ -23,7 +23,7 @@ const Post = {
       FROM posts 
       INNER JOIN users 
       ON posts.user_id=users.user_id 
-      ORDER BY posts."createdAt"
+      ORDER BY posts."createdAt" desc
       LIMIT $perPage
       OFFSET (($page - 1) * $perPage)`,
       {
@@ -40,7 +40,7 @@ const Post = {
       FROM posts 
       INNER JOIN users 
       ON posts.user_id=users.user_id 
-      ORDER BY posts."createdAt"`
+      ORDER BY posts."createdAt" desc`
     );
     return postlist[0];
   },
@@ -50,8 +50,12 @@ const Post = {
       FROM posts 
       INNER JOIN users 
       ON posts.user_id=users.user_id 
-      WHERE users.user_id='${user_id}'
-      ORDER BY posts."createdAt"`
+      WHERE users.user_id=$user_id
+      ORDER BY posts."createdAt" desc`,
+      {
+        bind: { user_id: user_id },
+        type: QueryTypes.SELECT,
+      }
     );
     return post[0];
   },
@@ -61,7 +65,11 @@ const Post = {
       FROM posts 
       INNER JOIN users 
       ON posts.user_id=users.user_id 
-      WHERE posts.post_id='${post_id}'`
+      WHERE posts.post_id=$post_id`,
+      {
+        bind: { post_id: post_id },
+        type: QueryTypes.SELECT,
+      }
     );
     return post[0];
   },

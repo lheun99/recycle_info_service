@@ -40,8 +40,11 @@ const RecycleInfo = {
       FROM recycle_infos
       INNER JOIN recycle_categories 
       ON recycle_infos.code=recycle_categories.code
-      WHERE (details like '%${text}%') OR (related_item like '%${text}%')
-      `
+      WHERE (details LIKE '%'||$text||'%') OR (related_item LIKE '%'||$text||'%')`,
+      {
+        bind: { text: text },
+        type: QueryTypes.SELECT,
+      }
     );
 
     return searchedData[0];
