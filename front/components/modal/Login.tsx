@@ -1,16 +1,18 @@
 import React, { useState, useContext } from "react";
 import Image from "next/image";
+import { useRouter } from "next/router";
 import Logo from "../../public/images/logo.png";
 import styled from "styled-components";
 import { styled as materialStyled } from "@mui/material/styles";
 import { Button, TextField } from "@mui/material";
 import { DispatchContext } from "../../pages/_app";
 import * as Api from "../../api";
-import {kakaoUrl} from "../socialLogin/SocialLoginUrl"
+import { kakaoUrl } from "../socialLogin/SocialLoginUrl";
 
 function Login({ open, handleClose, setRegister }) {
     const dispatch = useContext(DispatchContext);
-    // const kakaourl = kakaoUrl();
+    const kakaourl = kakaoUrl();
+    const router = useRouter();
 
     const [email, setEmail] = useState<String>("");
     const [password, setPassword] = useState<String>("");
@@ -113,7 +115,15 @@ function Login({ open, handleClose, setRegister }) {
                     회원가입
                 </Button>
                 <span>|</span>
-                <a href={kakaoUrl()}>카카오</a>
+                <Button
+                    variant="text"
+                    className=""
+                    onClick={() => {
+                        router.push(kakaoUrl());
+                    }}
+                >
+                    카카오
+                </Button>
             </FindWrapper>
         </Wrapper>
     );
@@ -149,10 +159,10 @@ const LogoImage = styled.div`
 
 const FindWrapper = styled.div`
     display: flex;
+    justify-content: center;
     align-items: center;
     font-size: 14px;
     margin: 10px auto;
-    padding-left: 110px;
     color: var(--green);
 `;
 
