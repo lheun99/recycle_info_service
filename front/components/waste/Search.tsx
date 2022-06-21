@@ -12,20 +12,27 @@ interface WasteInfo {
 const regionData = Array.from(new Set(WasteInfo.map((data) => data.region)));
 const nameData = Array.from(new Set(WasteInfo.map((data) => data.name)));
 
-export default function Search({handleSetMapData}) {
+const Search = ({ handleSetMapData }) => {
     const [region, setRegion] = useState<String | null>(null);
     const [name, setName] = useState<String | null>(null);
     const [inputRegion, setInputRegion] = useState('');
     const [inputName, setInputName] = useState('');
+    const [newNameData, setNewNameData] = useState<String[]>(nameData);
+    const isRegionValid = (region === null)
+
+    useEffect(() => {
+        const newData = WasteInfo.filter((data) => data.region === region).map((data) => data.name)
+        setNewNameData(newData)
+        setName(null);
+    }, [region])
 
     useEffect(() => {
         if (name) {
-            handleSetMapData(WasteInfo.filter((data) => data.region === region && data.name === name))
-        } else {
-            handleSetMapData(WasteInfo.filter((data) => data.region === region))
+            const map = WasteInfo.filter((data) => data.region === region && data.name === name)
+            // console.log("WasteInfo region, name, map: ", region, name, map)
+            handleSetMapData(map)
         }
-        
-    },[region, name])
+    }, [name])
     
     return (
         <Wrapper>
@@ -53,14 +60,16 @@ export default function Search({handleSetMapData}) {
                     setInputName(newInputValue);
                 }}
                 id="controllable-states-demo"
-                options={nameData}
+                options={newNameData}
                 sx={{ width: 300 }}
                 renderInput={(params) => <TextField {...params} label="시/군/구" />}
+                disabled={isRegionValid}
             />
         </Wrapper>
     );
 }
 
+export default Search;
 
 const Wrapper = styled.div`
     width: 650px;
