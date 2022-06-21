@@ -4,8 +4,7 @@ import path from "path";
 
 import tf, { mod } from "@tensorflow/tfjs-node";
 
-import { AppError, RequestError } from "../errors.js";
-import * as status from "../status.js";
+import { AppError } from "../errors.js";
 
 /** 모듈 사용법
  *
