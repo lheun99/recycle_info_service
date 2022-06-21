@@ -66,4 +66,4 @@ class GarbageDetector {
   guessBest(image) {}
 }
 
-module.exports = { GarbageDetector };
+export { GarbageDetector };
