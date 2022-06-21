@@ -31,7 +31,7 @@ const main = async () => {
 
   // 2. 모델을 만듭니다.
   console.info(`** Trying to load a valid model **\n\n`);
-  let gd;
+  let detector;
   try {
     const modelPath = path.resolve(
       __dirname,
@@ -40,9 +40,9 @@ const main = async () => {
       `utils/od/gdmodel/weights/last_saved_model`
     );
     console.info(`model's absolute path is "${modelPath}"`);
-    gd = new GarbageDetector(modelPath);
-    await gd.init();
-    console.info(gd);
+    detector = new GarbageDetector(modelPath);
+    await detector.init();
+    console.info(detector);
     console.log(`\n\n`);
     result[`Model loading test`] = true;
   } catch (error) {
@@ -55,7 +55,7 @@ const main = async () => {
   const image = await fsp.readFile(
     path.join(__dirname, `test-images`, `11-bicycle.jpg`)
   );
-  const res = await gd.guess(image);
+  const res = await detector.guess(image);
 
   return result;
 };
