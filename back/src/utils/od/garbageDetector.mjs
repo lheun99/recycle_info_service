@@ -3,7 +3,7 @@ import path from "path";
 
 import { AppError } from "../errors.js";
 
-CLASSES_KO = [
+const CLASSES_KO = [
   "종이류",
   "플라스틱류",
   "유리병류",
@@ -21,7 +21,7 @@ CLASSES_KO = [
   "나무류",
 ];
 
-CLASSES_EN = [
+const CLASSES_EN = [
   "paper",
   "plastic goods",
   "glass bottle",
