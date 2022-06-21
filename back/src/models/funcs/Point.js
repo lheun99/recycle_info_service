@@ -51,17 +51,12 @@ const Point = {
                     SELECT user_id, SUM(point) AS total
                     FROM points
                     GROUP BY user_id) AS new_points
-<<<<<<< HEAD
                 ) AS final_points 
             WHERE user_id=$user_id`,
             {
                 bind: { user_id },
                 type: QueryTypes.SELECT,
             }
-=======
-                ) AS final_points
-            WHERE user_id='${user_id}'`
->>>>>>> 0ed4a9d8d58dc088405ae37e5f337fc711026527
         );
         return rank[0][0];
     },
