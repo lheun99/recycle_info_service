@@ -53,6 +53,8 @@ const main = async () => {
     path.join(__dirname, `test-images`, `11-bicycle.jpg`)
   );
   const res = await gd.guess(image);
+
+  return result;
 };
 
 main().then((res) => console.info(res));
