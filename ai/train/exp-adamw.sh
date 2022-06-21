@@ -13,11 +13,11 @@ python "$YOLOREPO/train.py" \
     --weights '' \
     --cfg "$YOLOREPO/models/yolov5s.yaml" \
     --data "$REPO/ai/train/data-train.yaml" \
-    --hyp "$REPO/ai/train/hyp.adamw+.yaml" \
+    --hyp "$REPO/ai/train/hyp.adamw-.yaml" \
     --img-size 320 \
     --batch-size -1 \
     --project "$DST/main" \
-    --name 'exp.adam2+' \
+    --name 'exp.adam2-' \
     --optimizer 'AdamW' \
     --image-weights \
     --patience 4 \
