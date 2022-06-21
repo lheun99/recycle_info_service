@@ -17,6 +17,7 @@ const userService = {
 
         const hashedPassword = await bcrypt.hash(password, 10);
         const userId = uuidv4();
+
         const registerDate = new Date();
 
         const newUser = {
@@ -92,6 +93,7 @@ const userService = {
 
         // 랭커들의 user_id, nickname, total_point
         const rankers = await Point.getRankers();
+
         // 현 사용자의 total_point와 rank
         const rank = await Point.getRank({ user_id: userId });
 

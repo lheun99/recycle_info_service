@@ -29,6 +29,7 @@ const pointService = {
 
     getPoints: async ({ userId }) => {
         const points = await Point.findAllById({ user_id: userId });
+
         return { message: "success", data: points };
     },
 };

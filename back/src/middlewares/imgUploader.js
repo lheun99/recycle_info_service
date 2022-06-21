@@ -9,9 +9,10 @@ const {
   REGION: region,
   AWS_ACCESS_KEY: accessKey,
   AWS_SECRET_KEY: secretKey,
+  BUCKET_NAME: bucketName,
 } = process.env;
 
-const bucket = "team9-cyberdyne";
+const bucket = bucketName;
 const s3 = new AWS.S3({
   region: region,
   credentials: {

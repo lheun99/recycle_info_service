@@ -1,53 +1,103 @@
 const Post = require("../models/funcs/Post");
 
 const postService = {
-  createPost: async ({ userId, title, post_img, content }) => {
-    const newPost = { user_id: userId, title, post_img, content };
-    const createdNewPost = await Post.create({ newPost });
+  createPost: async ({ newPost }) => {
+    const { post_id, user_id, title, content, createdAt, post_img } =
+      await Post.create({ newPost });
 
-    return { message: "success", data: createdNewPost };
+    const createdPost = {
+      postId: post_id,
+      userId: user_id,
+      title,
+      content,
+      createdAt,
+      postImg: post_img,
+    };
+    return { message: "success", data: createdPost };
   },
 
   getAllPost: async () => {
+    //count 넘겨주는 것 추가하고 if를 제거?
     const listedPost = await Post.findAllPost();
-
-    if (!listedPost) {
+    if (listedPost.length === 0) {
       const errorMessage = "게시글 존재하지 않습니다.";
       return { errorMessage };
     }
 
-    return { message: "success", data: listedPost };
+    const postList = listedPost.map((post) => ({
+      postId: post.post_id,
+      title: post.title,
+      nickname: post.nickname,
+      createdAt: post.createdAt,
+      postImg: post.post_img,
+    }));
+
+    return { message: "success", data: postList };
+  },
+  getAllPostPaged: async ({ page, perPage }) => {
+    const listedPost = await Post.findAllPostPaged({ page, perPage });
+    if (listedPost.length === 0) {
+      const errorMessage = "게시글 존재하지 않습니다.";
+      return { errorMessage };
+    }
+    const totalPage = await Post.findAllPostTotalPage({ perPage });
+    const postList = listedPost.map((post) => ({
+      postId: post.post_id,
+      title: post.title,
+      content: post.content,
+      nickname: post.nickname,
+      createdAt: post.createdAt,
+      postImg: post.post_img,
+    }));
+    return { message: "success", data: { totalPage, postList } };
   },
 
   getPostById: async ({ userId }) => {
-    const currentPost = await Post.findPostByUserId({ user_id: userId });
+    const listedPost = await Post.findPostByUserId({
+      user_id: userId,
+    });
 
-    if (!currentPost) {
+    if (listedPost.length === 0) {
       const errorMessage =
         "게시글 존재하지 않습니다. 다시 한 번 확인해 주세요.";
       return { errorMessage };
     }
 
-    return { message: "success", data: currentPost };
+    const searchedPostById = listedPost.map((post) => ({
+      postId: post.post_id,
+      userId: post.user_id,
+      title: post.title,
+      nickname: post.nickname,
+      createdAt: post.createdAt,
+      postImg: post.post_img,
+    }));
+    return { message: "success", data: searchedPostById };
   },
-  getPost: async ({ post_id }) => {
-    const currentPost = await Post.findPostById({ post_id });
+  getPostByPostId: async ({ postId }) => {
+    const listedPost = await Post.findPostByPostId({ post_id: postId });
 
-    if (!currentPost) {
+    if (listedPost.length === 0) {
       const errorMessage =
         "게시글 존재하지 않습니다. 다시 한 번 확인해 주세요.";
       return { errorMessage };
     }
 
-    return { message: "success", data: currentPost };
+    const searchedPostByPostId = listedPost.map((post) => ({
+      postId: post.post_id,
+      userId: post.user_id,
+      title: post.title,
+      nickname: post.nickname,
+      createdAt: post.createdAt,
+      postImg: post.post_img,
+    }));
+    return { message: "success", data: searchedPostByPostId };
   },
 
-  setPost: async ({ post_id, toUpdate }) => {
-    const findedPost = await Post.findPostById({ post_id });
-
-    if (!findedPost) {
+  setPost: async ({ postId, toUpdate }) => {
+    const findedPost = await Post.findPostByPostId({ post_id: postId });
+    if (findedPost.length === 0) {
       const errorMessage =
-        "게시글 존재하지 않습니다. 다시 한 번 확인해 주세요.";
+        "게시글이 존재하지 않습니다. 다시 한 번 확인해 주세요.";
       return { errorMessage };
     }
 
@@ -56,14 +106,25 @@ const postService = {
       if (!toUpdate[key]) delete toUpdate[key];
     });
 
-    const updatedPost = await Post.update({ post_id, toUpdate });
+    const { title, content, createdAt, updatedAt, post_img } =
+      await Post.update({
+        post_id: postId,
+        toUpdate,
+      });
 
-    return { message: "success", data: updatedPost[1] };
+    const updatedPost = {
+      title,
+      content,
+      createdAt,
+      updatedAt,
+      postImg: post_img,
+    };
+    return { message: "success", data: updatedPost };
   },
 
-  deletePost: async ({ post_id }) => {
+  deletePost: async ({ postId }) => {
     const deletedPost = await Post.delete({
-      post_id,
+      post_id: postId,
     });
 
     if (!deletedPost) {
@@ -72,7 +133,7 @@ const postService = {
       return { errorMessage };
     }
 
-    return { message: "success", data: deletedPost };
+    return { message: "success", data: "삭제가 완료되었습니다." };
   },
 };
 
