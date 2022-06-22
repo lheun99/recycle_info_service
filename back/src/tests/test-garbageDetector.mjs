@@ -56,6 +56,7 @@ const main = async () => {
     path.join(__dirname, `test-images`, `11-bicycle.jpg`)
   );
   const res = await detector.guess(image);
+  console.info(res);
 
   return result;
 };
