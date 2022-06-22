@@ -1,21 +1,33 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import Search from "../shared/Search";
 import SingleBoard from "./SingleBoard";
 import Write from "./Write";
 
 const MainBoard = () => {
-    const isWrite = true;
+    const [isWrite, setIsWrite] = useState(false);
+    const [htmlStr, setHtmlStr] = useState("");
+    const [title, setTitle] = useState("");
     return (
         <Wrapper>
             <Container>
                 <Title>중고마켓🥕</Title>
                 <Menu>
                     <Search />
-                    <Button>글쓰러 가기 ✏️</Button>
+                    <Button onClick={() => setIsWrite((cur) => !cur)}>
+                        {isWrite ? "🏠 메인으로" : "글쓰러 가기 ✏️"}
+                    </Button>
                 </Menu>
                 <BoardWrapper>
-                    {isWrite ? <Write /> : <SingleBoard />}
+                    {isWrite ? (
+                        <Write
+                            title={title}
+                            setTitle={setTitle}
+                            setHtmlStr={setHtmlStr}
+                        />
+                    ) : (
+                        <SingleBoard htmlStr={htmlStr} />
+                    )}
                 </BoardWrapper>
             </Container>
         </Wrapper>

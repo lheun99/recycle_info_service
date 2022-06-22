@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useRef, useEffect } from "react";
 import { UserStateContext } from "../../pages/_app";
 import Comment from "./Comment";
 
@@ -39,9 +39,11 @@ const ExpandMore = muiStyled((props: ExpandMoreProps) => {
 }));
 
 // data map 할 예정, 게시글과 댓글 연동은 postId (게시글 번호) 로 연동 !
-const SingleBoard = () => {
+const SingleBoard = ({ htmlStr }) => {
     const [expanded, setExpanded] = useState(false);
     const userInfo = useContext(UserStateContext);
+    const viewContainerRef = useRef<HTMLDivElement>(null);
+
     const profileImg = userInfo?.user?.picture ?? "";
     const nickname = userInfo?.user?.nickname ?? "";
     const theme = useTheme();
@@ -58,9 +60,14 @@ const SingleBoard = () => {
     const handleBack = () => {
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
     };
+    useEffect(() => {
+        if (viewContainerRef.current) {
+            viewContainerRef.current.innerHTML = htmlStr;
+        }
+    }, [htmlStr]);
 
     return (
-        <Card sx={{ maxWidth: "auto" }}>
+        <Card sx={{ maxWidth: "500px" }}>
             {/* {images.map((step, index) => (
           <div key={step.label}>
             {Math.abs(activeStep - index) <= 2 ? (
@@ -120,10 +127,8 @@ const SingleBoard = () => {
                 <Typography gutterBottom variant="h5" component="div">
                     중고피아노 팝니다!
                 </Typography>
-                <Typography variant="body2" color="text.secondary">
-                    거의 새거에요~ 이사하면서 둘 곳이 없어서요! 필요하신 분은
-                    댓글 남겨주세요~^^!
-                </Typography>
+                fffffffffffffffffffffffffffffffffffffffffffffffffff
+                <div ref={viewContainerRef} />
             </CardContent>
             <CardHeader
                 avatar={<Avatar alt="userProfile" src={profileImg} />}
