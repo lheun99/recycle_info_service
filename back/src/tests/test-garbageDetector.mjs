@@ -1,4 +1,5 @@
 import assert from "assert/strict";
+import * as fs from "fs";
 import * as fsp from "fs/promises";
 import path from "path";
 import { performance, PerformanceObserver } from "perf_hooks";
@@ -69,9 +70,14 @@ const main = async () => {
   console.info(`** Inference i/o format test **\n`);
   performance.mark(`3.start`);
 
-  const image = await fsp.readFile(
-    path.join(__dirname, `test-images`, `11-bicycle.jpg`)
-  );
+  const imagePath = path.join(__dirname, `test-images`, `11-bicycle.jpg`);
+  try {
+    fsp.access(imagePath, fs.constants.R_OK);
+  } catch (error) {
+    console.info(`FAIL: "${imagePath}" file not found, aborting`);
+    return result;
+  }
+  const image = await fsp.readFile(imagePath);
   const res = await detector.guess(image);
   console.info(res);
   try {
