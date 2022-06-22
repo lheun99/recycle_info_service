@@ -11,7 +11,7 @@ const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
 const obs = new PerformanceObserver((items) => {
   items.getEntries().forEach((entry) => console.log(entry));
 });
-obs.observe({ entryTypes: ["measure"] });
+obs.observe({ entryTypes: ["measure"], buffer: true });
 
 /** 테스트를 수행하고 성공 여부를 객체로 반환합니다. */
 const main = async () => {
@@ -96,13 +96,12 @@ const main = async () => {
   console.info(`** Batch inference time measure **\n`);
   performance.mark(`4.start`);
 
-  const detections = await fsp
-    .readdir(path.join(__dirname, `test-images`))
-    .map(async (fileName) => {
-      const pathName = path.join(__dirname, `test-images`, fileName);
-      const res = await detector.guess(await fsp.readFile(pathName));
-      return { input: fileName, ouput: res };
-    });
+  const fileNames = await fsp.readdir(path.join(__dirname, `test-images`));
+  const detections = fileNames.map(async (fileName) => {
+    const pathName = path.join(__dirname, `test-images`, fileName);
+    const res = await detector.guess(await fsp.readFile(pathName));
+    return { input: fileName, ouput: res };
+  });
   console.info(detections);
 
   performance.mark(`4.end`);
