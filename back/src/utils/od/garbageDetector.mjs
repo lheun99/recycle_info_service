@@ -55,6 +55,7 @@ const CLASSES_EN = [
 const CLASSNAMES = { en: CLASSES_EN, ko: CLASSES_KO };
 
 /** 인공지능이 찾은 물건 하나를 표현하는 자료형입니다.
+ * `GarbageDetector.guess` 메소드는 `Detection`의 배열을 반환합니다.
  *
  * > (주의) `Detection` 오브젝트는 사용자가 직접 만들 일이 없습니다!
  *
@@ -74,16 +75,16 @@ const CLASSNAMES = { en: CLASSES_EN, ko: CLASSES_KO };
  *
  * ### 프로퍼티
  *
- * - `Detection.classId`
- * - `Detection.confidence`
- * - `Detection.imageWidth`, `Detection.imageHeight`
+ * - `Detection.classId: int`
+ * - `Detection.confidence: float`
+ * - `Detection.imageWidth: number`, `Detection.imageHeight: number`
  *
  * ### 메소드
  *
- * - `Detection.name(lang)` - 물체의 분류 이름을 반환합니다.
- * - `Detection.xyxy(dim = [this.imageWidth, this.imageHeight])` -
+ * - `Detection.name(lang: string)` - 물체의 분류 이름을 반환합니다.
+ * - `Detection.xyxy(dim: number[] = [this.imageWidth, this.imageHeight])` -
  *   `xyxy` 형식으로 바운딩 박스 좌표를 반환합니다.
- * - `Detection.xywh(dim = [this.imageWidth, this.imageHeight])` -
+ * - `Detection.xywh(dim: number[] = [this.imageWidth, this.imageHeight])` -
  *   `xywh` 형식으로 바운딩 박스 좌표를 반환합니다.
  */
 class Detection {
@@ -125,9 +126,9 @@ class Detection {
 
   /** `xyxy` 형식으로 바운딩 박스 좌표를 반환합니다.
    *
-   * @arg {[number, number]} dim - 이미지의 가로, 세로 치수의 배열입니다.
-   *  - 기본값은 원본 이미지의 치수입니다.
-   * @return {[number, number, number, number]} xyxy
+   * @arg {number[]} dim - 이미지의 가로, 세로 치수의 배열입니다.
+   *  기본값은 원본 이미지의 치수입니다.
+   * @return {number[]} xyxy
    *  - `dim` 값에 맞춰 계산한 `[ x1, y1, x2, y2]` 형식을 반환합니다.
    *  - 좌표값은 가까운 정수로 반올림합니다.
    */
@@ -143,9 +144,9 @@ class Detection {
 
   /** `xywh` 형식으로 바운딩 박스 좌표를 반환합니다.
    *
-   * @arg {[number, number]} dim - 이미지의 가로, 세로 치수의 배열입니다.
+   * @arg {number[]} dim - 이미지의 가로, 세로 치수의 배열입니다.
    *  - 기본값은 원본 이미지의 치수입니다.
-   * @return {[number, number, number, number]} xyxy
+   * @return {number[]} xyxy
    *  - `dim` 값에 맞춰 계산한 `[ xc, yc, w, h]` 형식을 반환합니다.
    *    `xc`, `yc`는 각각 바운딩 박스 중앙 지점의 좌표입니다.
    *  - 좌표값은 가까운 정수로 반올림합니다.
