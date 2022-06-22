@@ -1,6 +1,7 @@
 // import { Buffer } from "buffer";
 import * as fs from "fs";
 import path from "path";
+import url from "url";
 
 import tf from "@tensorflow/tfjs-node";
 
@@ -9,8 +10,8 @@ import { AppError } from "../errors.js";
 /** 모듈 사용법
  *
  * ```js
- * const { GarbageDetector } = require("path/to/garbageDetector.mjs");
- * import { GarbageDetector } from "path/to/garbageDetector.mjs";
+ * const { GarbageDetector, MODELDIR } = require("path/to/garbageDetector.mjs");
+ * import { GarbageDetector, MODELDIR } from "path/to/garbageDetector.mjs";
  * ```
  *
  * 메소드별 자세한 사용법은 `vscode`의 인텔리센스를 활용해 주세요.
@@ -33,7 +34,6 @@ const CLASSES_KO = [
   "페트병류",
   "나무류",
 ];
-
 const CLASSES_EN = [
   "paper",
   "plastic goods",
@@ -51,8 +51,23 @@ const CLASSES_EN = [
   "PET bottle",
   "wood",
 ];
-
 const CLASSNAMES = { en: CLASSES_EN, ko: CLASSES_KO };
+
+/** @const {string} MODELDIR - `back/src/utils/od/gdmodel`의 절대 경로입니다.
+ *
+ * `gdmodel` 경로는 git이 무시하는 위치이기 때문에 크기가 큰 인공지능 모델을 두기 좋습니다.
+ * `MODELDIR`의 사용 여부는 자유이지만, 편의성을 위해 추가된 상수입니다.
+ *
+ * ## 예제
+ * ```js
+ * // (예시 경로)
+ * // /home/elice/project-cyberdyne/back/src/utils/od/gdmodel/myAwesomeModel
+ * const modelPath = path.join(MODELDIR, "myAwesomeModel");
+ * ```
+ */
+const MODELDIR = path.resolve(
+  path.join(path.dirname(url.fileURLToPath(import.meta.url)), "gdmodel")
+);
 
 /** 인공지능이 찾은 물건 하나를 표현하는 자료형입니다.
  * `GarbageDetector.guess` 메소드는 `Detection`의 배열을 반환합니다.
@@ -316,4 +331,4 @@ class GarbageDetector {
   }
 }
 
-export { GarbageDetector };
+export { GarbageDetector, MODELDIR };
