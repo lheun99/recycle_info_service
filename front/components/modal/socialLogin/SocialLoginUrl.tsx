@@ -9,6 +9,7 @@ function kakaoUrl() {
     const params = new URLSearchParams(config).toString();
 
     const finalUrl = `${baseUrl}?${params}`;
+    console.log(finalUrl);
 
     return finalUrl;
 }
