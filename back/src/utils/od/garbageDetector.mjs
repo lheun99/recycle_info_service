@@ -298,12 +298,6 @@ class GarbageDetector {
     classIds = classIds.dataSync().slice(0, numDetections);
     confidences = confidences.dataSync().slice(0, numDetections);
     boxes = boxes.dataSync().slice(0, numDetections * 4);
-    console.log(`
-      numDetections: ${numDetections},
-      classIds: ${classIds},
-      confidences: ${confidences},
-      boxes: ${boxes}
-    `);
 
     // 반환값은 Detection의 배열입니다.
     const result = [];

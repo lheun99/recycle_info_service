@@ -97,7 +97,7 @@ const main = async () => {
   performance.mark(`4.start`);
 
   const fileNames = await fsp.readdir(path.join(__dirname, `test-images`));
-  const detections = fileNames.map(async (fileName) => {
+  const detections = await fileNames.map(async (fileName) => {
     const pathName = path.join(__dirname, `test-images`, fileName);
     const res = await detector.guess(await fsp.readFile(pathName));
     return { input: fileName, ouput: res };
