@@ -37,7 +37,8 @@ class AppError extends Error {
     this.name = name ?? this.constructor.name;
     this.status = status ?? this.constructor.status;
     this.operational = operational ?? Boolean(this.constructor.operational);
-    this.logas = logas; // ?? this.constructor.logas;
+    // logas가 아예 없으면 기본값을 쓰고, 그 외 거짓값이면 받아들입니다.
+    this.logas = logas === undefined ? this.constructor.logas : logas;
     this.detail = detail;
   }
 }
