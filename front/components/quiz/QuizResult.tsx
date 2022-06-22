@@ -10,10 +10,10 @@ import animationData from "../../public/trueEffect.json";
 import { get, post } from "../../api";
 
 type QuizType = {
-    question: String,
-    multiples : [],
-    answer: string,
-    image: Boolean,
+    question: string;
+    multiples : [];
+    answer: string;
+    image: Boolean;
 }
 
 type QuizResultProps = {
@@ -21,15 +21,42 @@ type QuizResultProps = {
     quiz: QuizType;
 }
 
+type Point = {
+    route: string;
+}
+
 const QuizResult = ({ result, quiz } : QuizResultProps) => {
     const container = useRef();
     const router = useRouter();
 
-    const pointClickHandler = () => {
-
+    const pointClickHandler = async () => {
+        try {
+            await post("points", {
+                "route": "quiz",
+                "point": 100
+            }).then(() => {
+                // console.log("포인트 적립")
+            })
+        } catch (err) {
+            console.log("errer message: ", err);
+        }
     }
 
-    // points?route=route
+    // 어케 쓰는 걸까 하놔
+    // const pointCheck = async () => {
+    //     try {
+    //         await get<Point>("points", {
+    //             params: { 
+    //                 route : "quiz",
+    //             }
+    //         }).then((res : any) => {
+    //             console.log(res.data)
+    //         })
+    //     } catch (err) {
+
+    //     }
+    // }
+
     useEffect(() => {
         lottie.loadAnimation({
             container: container.current, 
@@ -71,6 +98,7 @@ const QuizResult = ({ result, quiz } : QuizResultProps) => {
                     />
                     <p>포인트 적립</p>
                 </NavButton>
+                {/* <button onClick={pointCheck}>포인트 확인</button> */}
             </div>
         </ResultWrapper>
     )
