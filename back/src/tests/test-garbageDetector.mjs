@@ -15,16 +15,16 @@ const main = async () => {
   // 1. 말도 안되는 경로를 집어넣고 에러를 제대로 내는지 봅니다.
   console.info(`** Testing bailout functionality **\n\n`);
   try {
-    new GarbageDetector(`ham/jam/spam.eggs`);
-    console.warn(`FAIL: didn't error out`);
-    result[`Bailout test`] = false;
+    assert.throws(
+      () => {
+        new GarbageDetector(`ham/jam/spam.eggs`);
+      },
+      AppError,
+      `Failed to ignore ridiculous path`
+    );
+    result[`Bailout test`] = true;
   } catch (error) {
-    if (error instanceof AppError) {
-      console.info(`Don't panic, everything is under control`);
-      result[`Bailout test`] = true;
-    } else {
-      result[`Bailout test`] = false;
-    }
+    result[`Bailout test`] = false;
     console.info(error);
   }
   console.log(`\n\n`);
@@ -57,6 +57,14 @@ const main = async () => {
   );
   const res = await detector.guess(image);
   console.info(res);
+  assert(
+    res[0].classId === 11 &&
+      res[0].imageWidth === 320 &&
+      res[0].imageHeight === 320 &&
+      res[0].name("en") === "bicycle" &&
+      res[0].name("ko") === "자전거" &&
+      res[0]._xywh.length === 4
+  );
 
   return result;
 };
