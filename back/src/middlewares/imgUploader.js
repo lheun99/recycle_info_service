@@ -5,6 +5,7 @@ const path = require("path");
 const dotenv = require("dotenv");
 dotenv.config();
 
+//s3 관련 정보
 const {
   REGION: region,
   AWS_ACCESS_KEY: accessKey,
@@ -21,6 +22,21 @@ const s3 = new AWS.S3({
   },
 });
 
+//POST /upload/profile-img
+const uploadProfileImage = multer({
+  storage: multerS3({
+    s3: s3,
+    bucket: bucket,
+    contentType: multerS3.AUTO_CONTENT_TYPE,
+    acl: "public-read",
+    key: (req, file, cb) => {
+      cb(null, `profile_img/${Date.now()}_${file.originalname}`);
+    },
+    limits: { fileSize: 5 * 1024 * 1024 },
+  }),
+});
+
+//POST /upload/post-img
 const uploadPostImage = multer({
   storage: multerS3({
     s3: s3,
@@ -34,16 +50,4 @@ const uploadPostImage = multer({
   }),
 });
 
-const uploadProfileImage = multer({
-  storage: multerS3({
-    s3: s3,
-    bucket: bucket,
-    contentType: multerS3.AUTO_CONTENT_TYPE,
-    acl: "public-read",
-    key: (req, file, cb) => {
-      cb(null, `profile_img/${Date.now()}_${file.originalname}`);
-    },
-    limits: { fileSize: 5 * 1024 * 1024 },
-  }),
-});
 module.exports = { uploadPostImage, uploadProfileImage };

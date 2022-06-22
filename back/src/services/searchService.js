@@ -1,16 +1,20 @@
 const RecycleInfo = require("../models/funcs/RecycleInfo");
 
 const searchService = {
+  //GET /search
   getInfoByText: async ({ text }) => {
+    //검색어에서 특수 문자 제거
     const regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-+<>@\#$%&\\\=\(\'\"]/gi;
-    // test() ㅡ 찾는 문자열이 들어있는지 확인
     if (regExp.test(text)) {
-      text = text.replace(regExp, ""); // 찾은 특수 문자를 제거
+      text = text.replace(regExp, "");
     }
+    //검색어에서 공백 제거
     text = text.replace(" ", "");
 
+    //검색 결과
     const searchedInfo = await RecycleInfo.searchData({ text });
 
+    //전달 데이터 형태 변경
     const searchedData = searchedInfo.map((info) => ({
       category: info.category,
       details: info.details,

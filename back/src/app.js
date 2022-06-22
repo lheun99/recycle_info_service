@@ -28,12 +28,12 @@ app.use(express.urlencoded({ extended: false }));
 app.get("/", (req, res) => {
   res.send("Hello, world!!!");
 });
-//recycle : 분리배출 방법 관련
+
 app.use("/recycle-info", recycleInfoRouter);
+app.use("/search", searchRouter);
+app.use("/upload", imgUploadRouter);
 app.use("/post", postRouter);
 app.use("/comment", commentRouter);
-app.use("/upload", imgUploadRouter);
-app.use("/search", searchRouter);
 app.use("/users", userRouter);
 app.use("/points", pointRouter);
 app.use("/quizs", quizRouter);
