@@ -1,38 +1,57 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
+import QuizResult from "./QuizResult";
 import Image from "next/image";
 import QuestionMark from "../../public/images/question_mark.png";
 import PointCoin from "../../public/images/point.coin.png";
 import styled from "styled-components";
 import { styled as materialStyled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
+import { get } from "../../api";
 
-// test
-type AnswerProps = {
-    1: String,
-    2: String,
-    3: String,
-    4: String,
-}
-
-const data: AnswerProps = {
-    1: "비운다",
-    2: "헹군다",
-    3: "분리한다",
-    4: "정리한다",
+type QuizType = {
+    question: string,
+    multiples : [],
+    answer: string,
+    image: Boolean,
 }
 
 const Quiz = () => {
+    const router = useRouter();
+    const [quiz, setQuiz] = useState<QuizType>({
+        question: "",
+        multiples: [],
+        answer: "",
+        image: false,
+    });
     const [open, setOpen] = useState<Boolean>(false);
     const [answer, setAnswer] = useState<Boolean>(false);
-    const router = useRouter();
-
-    const openClickHandler = () => {
-        setOpen(!open);
-    }
-    const answerClickHandler = () => {
+    const [userAnswer, setUserAnswer] = useState<string>("");
+    const openClickHandler = () => setOpen(!open)
+    
+    const answerClickHandler = (userAnswer : string) : void => {
         setAnswer(!answer);
+        setUserAnswer(userAnswer);
     }
+
+    const getQuizData = async () => {
+        try {
+            await get("quizs").then((res) => {
+                // console.log(res.data)
+                setQuiz(res.data.data)
+            })
+        } catch (err) {
+            console.log("errer message: ", err);
+        }
+    };
+
+    const pointClickHandler = () => {
+        
+    }
+
+    useEffect(() => {
+        getQuizData();
+    }, [])
 
     return (
         <Wrapper>
@@ -47,10 +66,14 @@ const Quiz = () => {
                         open ? (
                             answer ? (
                                 <ResultWrapper>
-                                    <p>결과!!!!!!!!!!</p>
+                                    {
+                                    quiz.answer === userAnswer ? 
+                                        <QuizResult result={"정답입니다!"} quiz={quiz}/>
+                                        : <QuizResult result={"틀렸습니다!"} quiz={quiz}/>
+                                    }
                                     <div>
                                         <NavButton onClick={() => router.push('/')}>홈으로</NavButton>
-                                        <NavButton >
+                                        <NavButton onClick={pointClickHandler}>
                                             <Image
                                                 src={PointCoin}
                                                 alt="point-coin"
@@ -71,13 +94,27 @@ const Quiz = () => {
                                             height={40}
                                         />
                                     </ImageWrapper>
-                                    <Question>분리배출의 핵심 4가지가 아닌것은?</Question>
+                                    <Question>{quiz.question}</Question>
                                     <AnswerWrapper>
                                         <Answer>
                                         { 
-                                            Object.values(data).map((value, index) => (
-                                                <AnswerButton key={index} onClick={answerClickHandler}>{value}</AnswerButton>
-                                            ))
+                                            quiz.image ? (
+                                                <AnswerImageWrapper> 
+                                                {
+                                                    quiz.multiples.map((value, index) => (
+                                                        <AnswerImageButton 
+                                                            key={index} 
+                                                            src={value}
+                                                            alt="image"
+                                                            onClick={() => answerClickHandler(value)} />
+                                                    ))
+                                                }
+                                                </AnswerImageWrapper>
+                                            ) : (
+                                                quiz.multiples.map((value, index) => (
+                                                    <AnswerButton key={index} onClick={() => answerClickHandler(value)}>{value}</AnswerButton>
+                                                ))
+                                            )
                                         }
                                         </Answer>
                                     </AnswerWrapper>
@@ -134,7 +171,7 @@ const Title = styled.h2`
 
 const Container = styled.div`
     width: 100%;
-    height: 400px;
+    height: 450px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -181,6 +218,22 @@ const ResultWrapper = styled.div`
     align-items: center;
 `;
 
+const AnswerImageWrapper = styled.div`
+    width: 100%;
+    display: flex;
+    justify-content: center;
+`;
+
+const AnswerImageButton = styled.img`
+    width: 100px;
+    height: 100px;
+    margin: 6px;
+    padding: 14px;
+    border-radius: 10px;
+    background-color: var(--green);
+    cursor: pointer;
+`;
+
 const ChallengeButton = materialStyled(Button)(
     () => (
         {
@@ -197,7 +250,7 @@ const AnswerButton = materialStyled(Button)(
     () => (
         {
             width: '500px',
-            height: '40px',
+            height: '45px',
             backgroundColor: 'var(--green)',
             margin: '6px 0',
             padding: '14px',
