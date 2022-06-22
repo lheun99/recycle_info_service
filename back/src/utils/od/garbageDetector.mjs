@@ -58,7 +58,7 @@ const CLASSNAMES = { en: CLASSES_EN, ko: CLASSES_KO };
  * `gdmodel` 경로는 git이 무시하는 위치이기 때문에 크기가 큰 인공지능 모델을 두기 좋습니다.
  * `MODELDIR`의 사용 여부는 자유이지만, 편의성을 위해 추가된 상수입니다.
  *
- * ## 예제
+ * ### 예제
  * ```js
  * // (예시 경로)
  * // /home/elice/project-cyberdyne/back/src/utils/od/gdmodel/myAwesomeModel
@@ -199,7 +199,7 @@ class Detection {
  *
  * ```js
  * const detector = new GarbageDetector(
- *   `path/to/model/dir/or.json`
+ *   path.join(MODELDIR, `path/to/model/dir/or.json`)
  * )
  * await detector.init()
  *
