@@ -18,18 +18,19 @@ const MyPage = () => {
         rankers: [],
     });
     const userInfo = useContext(UserStateContext);
-    const id = userInfo?.user?.userId;
+    const id = userInfo.user?.userId;
 
     const getUserInfo = async () => {
         const res = await get(`users/${id}/myPage`);
         const userAll = res.data.data;
+
         setUser({
             email: userAll.email,
             nickname: userAll.nickname,
             picture: userAll.picture,
-            point: userAll.rank.total,
-            rank: userAll.rank.rank,
-            rankers: userAll.rankers,
+            point: userAll.rank?.total ?? "",
+            rank: userAll.rank?.rank ?? "",
+            rankers: userAll.rankers ?? "",
         });
     };
 
@@ -40,7 +41,7 @@ const MyPage = () => {
     return (
         <Wrapper>
             <ProfileWrapper>
-                <UserProfile user={user} />
+                <UserProfile user={user} setUser={setUser} userId={id} />
             </ProfileWrapper>
             <div>
                 <TitleWrapper>
