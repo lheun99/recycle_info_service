@@ -46,7 +46,7 @@ const CLASSES_EN = [
   "ceramic",
   "plastic bag",
   "furniture",
-  "bycycle",
+  "bicycle",
   "lamp",
   "PET bottle",
   "wood",
