@@ -20,7 +20,8 @@ const s3 = new AWS.S3({
     secretAccessKey: secretKey,
   },
 });
-const upload = multer({
+
+const uploadPostImage = multer({
   storage: multerS3({
     s3: s3,
     bucket: bucket,
@@ -33,4 +34,16 @@ const upload = multer({
   }),
 });
 
-module.exports = upload;
+const uploadProfileImage = multer({
+  storage: multerS3({
+    s3: s3,
+    bucket: bucket,
+    contentType: multerS3.AUTO_CONTENT_TYPE,
+    acl: "public-read",
+    key: (req, file, cb) => {
+      cb(null, `profile_img/${Date.now()}_${file.originalname}`);
+    },
+    limits: { fileSize: 5 * 1024 * 1024 },
+  }),
+});
+module.exports = { uploadPostImage, uploadProfileImage };
