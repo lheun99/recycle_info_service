@@ -20,6 +20,7 @@ const main = async () => {
   // 1. 말도 안되는 경로를 집어넣고 에러를 제대로 내는지 봅니다.
   console.info(`** Testing bailout functionality **\n`);
   performance.mark(`1.start`);
+
   try {
     assert.throws(
       () => {
@@ -33,6 +34,7 @@ const main = async () => {
     result[`Bailout test`] = false;
     console.info(error);
   }
+
   performance.mark(`1.end`);
   performance.measure(`1`, `1.start`, `1.end`);
   console.log(`\n`);
@@ -40,6 +42,7 @@ const main = async () => {
   // 2. 모델을 만듭니다.
   console.info(`** Trying to load a valid model **\n`);
   performance.mark(`2.start`);
+
   let detector;
   try {
     const modelPath = path.resolve(
@@ -65,6 +68,7 @@ const main = async () => {
   // 이미지를 하나 넣어 봅니다.
   console.info(`** Inference i/o format test **\n`);
   performance.mark(`3.start`);
+
   const image = await fsp.readFile(
     path.join(__dirname, `test-images`, `11-bicycle.jpg`)
   );
@@ -83,6 +87,7 @@ const main = async () => {
   } catch (error) {
     result[`Inference io format test`] = false;
   }
+
   performance.mark(`3.end`);
   performance.measure(`3`, `3.start`, `3.end`);
   console.log(`\n`);
@@ -90,6 +95,16 @@ const main = async () => {
   // 이미지를 많이 넣어 봅니다!
   console.info(`** Batch inference time measure **\n`);
   performance.mark(`4.start`);
+
+  const detections = await fsp
+    .readdir(path.join(__dirname, `test-images`))
+    .map(async (fileName) => {
+      const pathName = path.join(__dirname, `test-images`, fileName);
+      const res = await detector.guess(await fsp.readFile(pathName));
+      return { input: fileName, ouput: res };
+    });
+  console.info(detections);
+
   performance.mark(`4.end`);
   performance.measure(`4`, `4.start`, `4.end`);
 
