@@ -247,6 +247,12 @@ class GarbageDetector {
 
   /** 이미지에서 쓰레기를 찾아 분류합니다.
    *
+   * 이미지 한 장에 물체가 여러 개 있을 수도 있기 때문에,
+   * 이 메소드는 찾아낸 물체 정보를 배열 형태로 반환합니다.
+   *
+   * `GarbageDetector` 인스턴스를 초기화하지 않고 이 메소드를 사용할 경우
+   * `AppError[DetectionError]`를 던집니다.
+   *
    * @arg {Buffer} image - 해독되지 않은 이미지 버퍼입니다.
    *  bmp, gif, jpeg, png 포맷을 해독 가능합니다.
    * - 이미지 디코딩에 실패하면 `AppError[ImageDecodeError]`를 던집니다.
