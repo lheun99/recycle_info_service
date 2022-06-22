@@ -97,12 +97,14 @@ const main = async () => {
   performance.mark(`4.start`);
 
   const fileNames = await fsp.readdir(path.join(__dirname, `test-images`));
-  const detections = await fileNames.map(async (fileName) => {
-    const pathName = path.join(__dirname, `test-images`, fileName);
-    const res = await detector.guess(await fsp.readFile(pathName));
-    return { input: fileName, ouput: res };
-  });
-  console.info(detections);
+  const detections = await Promise.all(
+    fileNames.map(async (fileName) => {
+      const pathName = path.join(__dirname, `test-images`, fileName);
+      const res = await detector.guess(await fsp.readFile(pathName));
+      return { input: fileName, ouput: res };
+    })
+  );
+  console.info(`detections: `, detections);
 
   performance.mark(`4.end`);
   performance.measure(`4`, `4.start`, `4.end`);
