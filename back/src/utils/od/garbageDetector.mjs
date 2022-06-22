@@ -232,7 +232,7 @@ class GarbageDetector {
     this.model = null;
   }
 
-  /** 모델을 준비합니다. */
+  /** 모델을 준비합니다. 인스턴스 생성 후 반드시 이 메소드를 호출하세요. */
   async init() {
     const stats = fs.statSync(this.modelPath);
     if (stats.isFile()) {
