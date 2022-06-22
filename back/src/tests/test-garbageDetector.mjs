@@ -63,7 +63,7 @@ const main = async () => {
     res[0].imageHeight,
     res[0].name("en"),
     res[0].name("ko"),
-    res[0]._xywh.length
+    res[0]._xyxy.length
   );
   assert(
     res[0].classId === 11 &&
@@ -71,7 +71,7 @@ const main = async () => {
       res[0].imageHeight === 320 &&
       res[0].name("en") === "bicycle" &&
       res[0].name("ko") === "자전거" &&
-      res[0]._xywh.length === 4
+      res[0]._xyxy.length === 4
   );
 
   return result;
