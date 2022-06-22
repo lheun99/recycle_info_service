@@ -256,6 +256,8 @@ class GarbageDetector {
    * @arg {Buffer} image - 해독되지 않은 이미지 버퍼입니다.
    *  bmp, gif, jpeg, png 포맷을 해독 가능합니다.
    * - 이미지 디코딩에 실패하면 `AppError[ImageDecodeError]`를 던집니다.
+   *   에러 인스턴스는 `AppError.detail.message` 프로퍼티에 디코딩 중에 나온
+   *   원래 에러 메시지를 담고 있습니다.
    * @return {Detection[]} detections -
    *  `Detection` 인스턴스의 배열을 반환합니다.
    *  각각의 `Detection`은 인공지능이 발견한 물체 하나에 대한 정보를 담고 있습니다.
@@ -263,7 +265,7 @@ class GarbageDetector {
   async guess(image) {
     if (this.model === null) {
       throw new AppError(
-        { name: `DetectionError`, operational: true },
+        { name: `DetectionError`, operational: true, detail: {} },
         `Model is not ready`
       );
     }
