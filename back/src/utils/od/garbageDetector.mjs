@@ -307,7 +307,7 @@ class GarbageDetector {
 
     // 반환값은 Detection의 배열입니다.
     const result = [];
-    for (const idx = 0; idx < numDetections; idx++) {
+    for (let idx = 0; idx < numDetections; idx++) {
       result.push(
         new Detection(
           classIds[idx],
