@@ -249,6 +249,9 @@ class GarbageDetector {
    * @arg {Buffer} image - 해독되지 않은 이미지 버퍼입니다.
    *  bmp, gif, jpeg, png 포맷을 해독 가능합니다.
    * - 이미지 디코딩에 실패하면 `AppError[ImageDecodeError]`를 던집니다.
+   * @return {Detection[]} detections -
+   *  `Detection` 인스턴스의 배열을 반환합니다.
+   *  각각의 `Detection`은 인공지능이 발견한 물체 하나에 대한 정보를 담고 있습니다.
    */
   async guess(image) {
     if (this.model === null) {
@@ -271,13 +274,13 @@ class GarbageDetector {
       );
     }
     const [height, width] = image_.shape;
+    const dim = [width, height];
 
     const input = tf.image
       .resizeBilinear(image_, [320, 320])
       .div(255.0)
       .expandDims(0);
 
-    const result = [];
     const raw = this.model.predict(input);
     let [boxes, confidences, classIds, numDetections] = raw;
     numDetections = numDetections.dataSync();
@@ -290,10 +293,22 @@ class GarbageDetector {
       confidences: ${confidences},
       boxes: ${boxes}
     `);
-  }
 
-  /** 이미지에서 쓰레기를 찾아 가장 자신있는 분류의 목록을 반환합니다. */
-  guessBest(image) {}
+    // 반환값은 Detection의 배열입니다.
+    const result = [];
+    for (const idx = 0; idx < numDetections; idx++) {
+      result.push(
+        new Detection(
+          classIds[idx],
+          confidences[idx],
+          boxes.slice(idx * 4, (idx + 1) * 4),
+          dim
+        )
+      );
+    }
+
+    return result;
+  }
 }
 
 export { GarbageDetector };
