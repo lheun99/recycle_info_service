@@ -57,6 +57,14 @@ const main = async () => {
   );
   const res = await detector.guess(image);
   console.info(res);
+  console.log(
+    res[0].classId,
+    res[0].imageWidth,
+    res[0].imageHeight,
+    res[0].name("en"),
+    res[0].name("ko"),
+    res[0]._xywh.length
+  );
   assert(
     res[0].classId === 11 &&
       res[0].imageWidth === 320 &&
