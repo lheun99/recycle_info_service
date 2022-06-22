@@ -1,8 +1,10 @@
 # dependencies
 node_modules
 
+# tests
 gdmodel
-tests/test-images
+src/tests/*.jpg
+
 .env
 orm.js
 log
