@@ -77,6 +77,7 @@ class kakaoService {
             grant_type: "authorization_code",
             code,
         };
+
         const params = new URLSearchParams(config);
         const finalUrl = `${baseUrl}?${params}`;
 

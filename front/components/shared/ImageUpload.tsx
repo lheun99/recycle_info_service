@@ -43,7 +43,7 @@ const ImageUpload = ({ width, height, route }: ImageUploadProps) => {
         console.log(formData.getAll("image"));
         // console.log(formData.getAll("image")); // formData에 잘 들어가는지 확인
         if (route === "recycleInfo") {
-            const res = await sendImageFile("image", formData);
+            const res = await sendImageFile("recycle-info", formData);
             console.log(res);
             const info = await res?.data?.data;
             // if (info) {
