@@ -13,7 +13,7 @@ const main = async () => {
   const result = {};
 
   // 1. 말도 안되는 경로를 집어넣고 에러를 제대로 내는지 봅니다.
-  console.info(`** Testing bailout functionality **\n\n`);
+  console.info(`** Testing bailout functionality **\n`);
   try {
     assert.throws(
       () => {
@@ -27,10 +27,10 @@ const main = async () => {
     result[`Bailout test`] = false;
     console.info(error);
   }
-  console.log(`\n\n`);
+  console.log(`\n`);
 
   // 2. 모델을 만듭니다.
-  console.info(`** Trying to load a valid model **\n\n`);
+  console.info(`** Trying to load a valid model **\n`);
   let detector;
   try {
     const modelPath = path.resolve(
@@ -43,7 +43,7 @@ const main = async () => {
     detector = new GarbageDetector(modelPath);
     await detector.init();
     console.info(detector);
-    console.log(`\n\n`);
+    console.log(`\n`);
     result[`Model loading test`] = true;
   } catch (error) {
     result[`Model loading test`] = false;
@@ -51,7 +51,7 @@ const main = async () => {
   }
 
   // 이미지를 하나 넣어 봅니다.
-  console.info(`** Inference i/o format test ** \n\n`);
+  console.info(`** Inference i/o format test ** \n`);
   const image = await fsp.readFile(
     path.join(__dirname, `test-images`, `11-bicycle.jpg`)
   );
