@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import styled from "styled-components";
 import { useRouter } from "next/router";
 import { get } from "../../../api";
@@ -27,7 +27,9 @@ const SocialLogin = () => {
         }
     };
 
-    kakaoLogin(code);
+    useEffect(() => {
+        code !== undefined ? kakaoLogin(code) : console.log("hi")
+    }, [code])
 
     return (
         <Wrapper>
