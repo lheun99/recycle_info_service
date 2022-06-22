@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from "react";
-import { useRouter } from "next/router";
+import React, { useState, useEffect, useRef } from "react";
 import QuizResult from "./QuizResult";
 import Image from "next/image";
 import QuestionMark from "../../public/images/question_mark.png";
-import PointCoin from "../../public/images/point.coin.png";
+import messageOpen from "../../public/images/message-open.png";
 import styled from "styled-components";
 import { styled as materialStyled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
@@ -17,7 +16,6 @@ type QuizType = {
 }
 
 const Quiz = () => {
-    const router = useRouter();
     const [quiz, setQuiz] = useState<QuizType>({
         question: "",
         multiples: [],
@@ -45,10 +43,6 @@ const Quiz = () => {
         }
     };
 
-    const pointClickHandler = () => {
-        
-    }
-
     useEffect(() => {
         getQuizData();
     }, [])
@@ -65,25 +59,7 @@ const Quiz = () => {
                     {
                         open ? (
                             answer ? (
-                                <ResultWrapper>
-                                    {
-                                    quiz.answer === userAnswer ? 
-                                        <QuizResult result={"정답입니다!"} quiz={quiz}/>
-                                        : <QuizResult result={"틀렸습니다!"} quiz={quiz}/>
-                                    }
-                                    <div>
-                                        <NavButton onClick={() => router.push('/')}>홈으로</NavButton>
-                                        <NavButton onClick={pointClickHandler}>
-                                            <Image
-                                                src={PointCoin}
-                                                alt="point-coin"
-                                                width={35}
-                                                height={35}
-                                            />
-                                            <p>포인트 적립</p>
-                                        </NavButton>
-                                    </div>
-                                </ResultWrapper>
+                                <QuizResult result={quiz.answer === userAnswer} quiz={quiz}/>
                             ) : (
                                 <InnerForm>
                                     <ImageWrapper>
@@ -121,7 +97,15 @@ const Quiz = () => {
                                 </InnerForm>
                             )
                         ) : (
-                            <ChallengeButton onClick={openClickHandler}>도전하기</ChallengeButton>
+                            <ChallengeButton onClick={openClickHandler}>
+                                <Image
+                                    src={messageOpen}
+                                    alt="message-open"
+                                    width={200}
+                                    height={200}
+                                />
+                                <ImageText>도전하기</ImageText>
+                            </ChallengeButton>
                         )
                     }
                 </Container>
@@ -190,6 +174,13 @@ const ImageWrapper = styled.div`
     margin: 20px 0;
 `;
 
+const ImageText = styled.div`
+    position: absolute;
+    top: 70px;
+    font-size: 1.2rem;
+    font-weight: bold;
+`;
+
 const Question = styled.div`
     width: 100%;
     text-align: center;
@@ -206,15 +197,6 @@ const Answer = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
-`;
-
-const ResultWrapper = styled.div`
-    width: 80%;
-    height: 70%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
     align-items: center;
 `;
 
@@ -237,11 +219,10 @@ const AnswerImageButton = styled.img`
 const ChallengeButton = materialStyled(Button)(
     () => (
         {
-            width: '90%',
-            height: '90%',
-            backgroundColor: 'white',
+            width: '50%',
+            height: '50%',
             '&:hover': {
-                backgroundColor: 'var(--deepgray)',
+                backgroundColor: 'white',
             }
         }
     ));
@@ -258,22 +239,6 @@ const AnswerButton = materialStyled(Button)(
             color: 'black',
             '&:hover': {
                 backgroundColor: 'var(--deepgreen)',
-                color: 'white',
-            }
-        }
-    ));
-
-const NavButton = materialStyled(Button)(
-    () => (
-        {
-            width: '150px',
-            height: '50px',
-            borderRadius: '10px',
-            margin: '0 20px',
-            backgroundColor: 'var(--gray)',
-            color: 'black',
-            '&:hover': {
-                backgroundColor: 'var(--deepgray)',
                 color: 'white',
             }
         }
