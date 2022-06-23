@@ -4,7 +4,7 @@ const naverService = require("../services/naverService");
 
 authRouter.get("/kakao", async (req, res, next) => {
     try {
-        const code = req.query.code.slice(0, -1);
+        const code = req.query.code;
 
         const user = await kakaoService.getToken({ code });
         res.status(200).json(user);
@@ -15,7 +15,7 @@ authRouter.get("/kakao", async (req, res, next) => {
 
 authRouter.get("/naver", async (req, res, next) => {
     try {
-        const code = req.query.code.slice(0, -1);
+        const code = req.query.code;
 
         const user = await naverService.getToken({ code });
         res.status(200).json(user);
