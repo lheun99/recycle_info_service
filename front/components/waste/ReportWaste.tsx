@@ -5,7 +5,7 @@ import Search from "./Search"
 import Map from "./Map"
 
 const ReportWaste = () => {
-    const [mapData, setMapData] = useState<String[] | null>(null);
+    const [mapData, setMapData] = useState<String[] | null>(null);  
     const handleSetMapData = (data: String[]) => {
         setMapData(data);
     }
@@ -22,7 +22,7 @@ const ReportWaste = () => {
                     <Search handleSetMapData={handleSetMapData} />
                 </div>
                 <MapContainer id="map">
-                    <Map mapData={mapData} />
+                    <Map mapData={mapData} handleSetMapData={handleSetMapData} />
                 </MapContainer>
                 <MapInfo>
                     <p>

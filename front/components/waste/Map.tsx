@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import WasteInfo from "../../public/wasteInfo.json";
 
 declare global {
   interface Window {
@@ -8,9 +9,12 @@ declare global {
 
 interface MapProps {
   mapData: String[] | null;
+  handleSetMapData: any;
 }
 
-function Map({ mapData }: MapProps) {
+const addressData = Array.from(new Set(WasteInfo.map((data) => data.address)));
+
+function Map({ mapData, handleSetMapData }: MapProps) {
     useEffect(() => {
         const mapScript = document.createElement("script");
         mapScript.async = true;
@@ -19,36 +23,24 @@ function Map({ mapData }: MapProps) {
 
         const onLoadKakaoMap = () => {
             window.kakao.maps.load(() => {
-
-                // 주소로 좌표를 검색
-                const geocoder = new window.kakao.maps.services.Geocoder();
+                // 지도 생성
                 const mapContainer = document.getElementById('map'), // 지도를 표시할 div  
                     mapOption = { 
                         center: new window.kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
                         level: 3        // 지도의 확대 레벨
                     };
                 const map = new window.kakao.maps.Map(mapContainer, mapOption)
+                const geocoder = new window.kakao.maps.services.Geocoder(); // 주소로 좌표를 검색
 
-                // function makeOverListener(map, marker, infowindow) {
-                //     return function() {
-                //         infowindow.open(map, marker);
-                //     };
-                // }
-                // function makeOutListener(infowindow) {
-                //     return function() {
-                //         infowindow.close();
-                //     };
-                // }
-
-                console.log("mapData: ", mapData)
+                // 조건 좌표 출력
                 if (mapData !== null) {
                     geocoder.addressSearch(mapData[0]["address"], function (result, status) {
                         if (status === window.kakao.maps.services.Status.OK) {
                             const coords  = new window.kakao.maps.LatLng(result[0].y, result[0].x);
                             const mapContainer = document.getElementById('map'), // 지도를 표시할 div  
                                 mapOption = { 
-                                    center: coords, // 지도의 중심좌표
-                                    level: 3        // 지도의 확대 레벨
+                                    center: coords,
+                                    level: 3   
                                 };
                             ;
                             const map = new window.kakao.maps.Map(mapContainer, mapOption)
@@ -60,23 +52,46 @@ function Map({ mapData }: MapProps) {
                             });
                             // 지도의 중심을 결과값으로 받은 위치로 이동
                             marker.setMap(map);
-
-                            // const infowindow = new window.kakao.maps.InfoWindow({
-                            //     content: `<div style={{padding: "5px"}}>${mapData[0]["address"]}</div>` // 인포윈도우에 표시할 내용
-                            // });
-                            // window.kakao.maps.event.addListener(marker, 'mouseover', makeOverListener(map, marker, infowindow))
-                            // window.kakao.maps.event.addListener(marker, 'mouseout', makeOutListener(infowindow));;
                         }
                     })
+                } else { 
+                    // 현재 위치 받아오는 함수
+                    navigator.geolocation.getCurrentPosition((pos) => {
+                        const currentPos = new window.kakao.maps.LatLng(pos.coords.latitude,pos.coords.longitude);
+                        let nearesetDistance = 10000;
+                        // 모든 좌표 출력
+                        for (var i=0; i < addressData.length; i++) {
+                            geocoder.addressSearch(addressData[i], function (result, status) {
+                                if (status === window.kakao.maps.services.Status.OK) {
+                                    const coords  = new window.kakao.maps.LatLng(result[0].y, result[0].x);
+                                    
+                                    // 결과값을 마커로 표시
+                                    const marker = new window.kakao.maps.Marker({
+                                        map: map,
+                                        position: coords,
+                                    });
+
+                                    // 현재 위치와 가장 가까운 마커로
+                                    const distance = new window.kakao.maps.Polyline({
+                                        path: [currentPos, coords]
+                                    });
+                                    const dist = distance.getLength(); // m 단위로 리턴
+
+                                    if (dist < nearesetDistance) {
+                                        nearesetDistance = dist;
+                                        map.panTo(coords); // 지도 이동
+                                    }
+
+                                    window.kakao.maps.event.addListener(marker, 'click', function() {
+                                        const map = WasteInfo.filter((data) => data.address === result[0].address_name)
+                                        handleSetMapData(map)
+                                  });
+                                }
+                            })
+                        }
+                        
+                    })
                 }
-                
-                
-
-                // for (var i = 0; i < mapData.length; i++) {
-                //     console.log(mapData[i]["address"]);
-
-                // }
-
             });
         };
         mapScript.addEventListener("load", onLoadKakaoMap);
