@@ -79,11 +79,7 @@ const main = async () => {
   }
   const image = await fsp.readFile(imagePath);
   const res = await detector.guess(image);
-  console.info(`short version:`, res);
-  //   console.info(
-  //     `long version:`,
-  //     res.map((v) => v.toString(true))
-  //   );
+  console.info(res);
   try {
     assert(
       res[0].classId === 11 &&
@@ -111,8 +107,8 @@ const main = async () => {
     fileNames.map(async (fileName) => {
       const pathName = path.join(__dirname, `test-images`, fileName);
       const res = await detector.guess(await fsp.readFile(pathName));
-      //   return { input: fileName, ouput: res.map((d) => d.classId) };
-      return { input: fileName, ouput: res };
+      return { input: fileName, ouput: res.map((d) => d.classId) };
+      //   return { input: fileName, ouput: res };
     })
   );
   console.info(`detections: `, detections);
