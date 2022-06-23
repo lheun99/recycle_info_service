@@ -201,19 +201,24 @@ class Detection {
  * const detector = new GarbageDetector(
  *   path.join(MODELDIR, `path/to/model/dir/or.json`)
  * )
- * await detector.init()
- *
- * const inferences = await detector.guess(
- *    Buffer.from(image_b64, `base64`)
+ * detector.init().then(
+ *    () => console.log(`AI model initialized`)
  * )
- * // 반환값은 Detection 인스턴스의 배열입니다.
- * for (const obj of inferences) {
- *    console.log(obj.name('ko'))   // '전자제품', etc.
+ *
+ * if (detector.initDone) {
+ *    const inferences = await detector.guess(
+ *      Buffer.from(image_b64, `base64`)
+ *    )
+ *    // 반환값은 Detection 인스턴스의 배열입니다.
+ *    for (const obj of inferences) {
+ *      console.log(obj.name('ko'))   // '전자제품', etc.
+ *    }
  * }
  * ```
  *
  * ### 프로퍼티
  *
+ * - `GarbageDetector.initDone`: `boolean`
  * - `GarbageDetector.model`: `tf.node.TFSavedModel`
  * - `GarbageDetector.modelPath`: `string`
  *
