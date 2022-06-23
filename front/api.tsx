@@ -2,9 +2,19 @@ import axios from "axios";
 
 const backendPortNumber = "5000";
 const serverUrl = "http://" + "localhost" + ":" + backendPortNumber + "/";
-//window.location.hostname
+// window.location.hostname
 async function get(endpoint, params = "") {
     return axios.get(serverUrl + endpoint + "/" + params, {
+        // JWT 토큰을 헤더에 담아 백엔드 서버에 보냄.
+        headers: {
+            Authorization: `Bearer ${sessionStorage.getItem("userToken")}`,
+        },
+    });
+}
+
+async function getQuary(endpoint, { params = {} }) {
+    return axios.get(serverUrl + endpoint, {
+        params,
         // JWT 토큰을 헤더에 담아 백엔드 서버에 보냄.
         headers: {
             Authorization: `Bearer ${sessionStorage.getItem("userToken")}`,
@@ -68,4 +78,4 @@ async function del(endpoint, params = "") {
 
 // 아래처럼 export한 후, import * as A 방식으로 가져오면,
 // A.get, A.post 로 쓸 수 있음.
-export { get, patch, post, sendImageFile, put, del as delete };
+export { get, getQuary, patch, post, sendImageFile, put, del as delete };

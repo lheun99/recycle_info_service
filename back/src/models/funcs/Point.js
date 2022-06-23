@@ -1,3 +1,4 @@
+const QueryTypes = require("sequelize");
 const db = require("../index.js");
 const pointModel = db.point;
 const Op = db.Sequelize.Op;
@@ -13,7 +14,7 @@ const Point = {
     },
 
     findByFilter: async ({ user_id, route, today }) => {
-        const point = await pointModel.findOne({
+        const point = await pointModel.findAll({
             attributes: ["point"],
             where: { user_id, route, raised_at: { [Op.gt]: today } },
         });
@@ -50,8 +51,12 @@ const Point = {
                     SELECT user_id, SUM(point) AS total
                     FROM points
                     GROUP BY user_id) AS new_points
-                ) AS final_points
-            WHERE user_id='${user_id}'`
+                ) AS final_points 
+            WHERE user_id=$user_id`,
+            {
+                bind: { user_id },
+                type: QueryTypes.SELECT,
+            }
         );
         return rank[0][0];
     },

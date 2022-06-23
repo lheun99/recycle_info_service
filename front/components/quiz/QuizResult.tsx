@@ -7,7 +7,7 @@ import { styled as materialStyled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import lottie from "lottie-web";
 import animationData from "../../public/trueEffect.json";
-import { get, post } from "../../api";
+import { get, getQuary, post } from "../../api";
 
 type QuizType = {
     question: string;
@@ -21,10 +21,6 @@ type QuizResultProps = {
     quiz: QuizType;
 }
 
-type Point = {
-    route: string;
-}
-
 const QuizResult = ({ result, quiz } : QuizResultProps) => {
     const container = useRef();
     const router = useRouter();
@@ -32,30 +28,40 @@ const QuizResult = ({ result, quiz } : QuizResultProps) => {
     const pointClickHandler = async () => {
         try {
             await post("points", {
-                "route": "quiz",
-                "point": 100
+                route: "quiz",
+                point: 100
             }).then(() => {
-                // console.log("포인트 적립")
+                console.log("포인트 적립")
             })
         } catch (err) {
             console.log("errer message: ", err);
         }
     }
 
-    // 어케 쓰는 걸까 하놔
-    // const pointCheck = async () => {
-    //     try {
-    //         await get<Point>("points", {
-    //             params: { 
-    //                 route : "quiz",
-    //             }
-    //         }).then((res : any) => {
-    //             console.log(res.data)
-    //         })
-    //     } catch (err) {
+    const pointCheck = async () => {
+        try {
+            await getQuary(
+                "points",
+                {
+                    params: {
+                        route: "quiz",
+                    },
+                },
+            ).then((res : any) => {
+                console.log("points: ", res.data)
+            })
+        } catch (err) {
+            console.log("errer message: ", err);
+        }
 
-    //     }
-    // }
+        try {
+            await get("points/list").then((res : any) => {
+                console.log("points/list: ", res.data)
+            })
+        } catch (err) {
+            console.log("errer message: ", err);
+        }
+    }
 
     useEffect(() => {
         lottie.loadAnimation({
@@ -98,7 +104,7 @@ const QuizResult = ({ result, quiz } : QuizResultProps) => {
                     />
                     <p>포인트 적립</p>
                 </NavButton>
-                {/* <button onClick={pointCheck}>포인트 확인</button> */}
+                <button onClick={pointCheck}>포인트 확인</button>
             </div>
         </ResultWrapper>
     )

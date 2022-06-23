@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken");
+const { development, JWT_SECRET_KEY } = process.env;
 
 const loginRequired = (req, res, next) => {
     // request 헤더로부터 authorization bearer 토큰을 받음.
@@ -7,7 +8,7 @@ const loginRequired = (req, res, next) => {
     // 이 토큰은 jwt 토큰 문자열이거나, 혹은 "null" 문자열임.
     // 토큰이 "null" 일 경우, loginRequired 가 필요한 서비스 사용을 제한함.
     if (!userToken) {
-        if (!process.env.development) {
+        if (!development) {
             console.log(
                 "서비스 사용 요청이 있습니다.하지만, Authorization 토큰: 없음"
             );
@@ -18,11 +19,10 @@ const loginRequired = (req, res, next) => {
 
     // 해당 token 이 정상적인 token인지 확인 -> 토큰에 담긴 user_id 정보 추출
     try {
-        if (!process.env.JWT_SECRET_KEY) {
+        if (!JWT_SECRET_KEY) {
             throw new Error("JWT_SECRET_KEY가 존재하지 않습니다.");
         }
-        const secretKey = process.env.JWT_SECRET_KEY;
-        const jwtDecoded = jwt.verify(userToken, secretKey);
+        const jwtDecoded = jwt.verify(userToken, JWT_SECRET_KEY);
         const userId = jwtDecoded.userId;
         req.currentUserId = userId;
         next();

@@ -7,22 +7,22 @@ const multer = require("multer");
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
-recycleInfoRouter.use(loginRequired);
-
-//post_recycle/info: 사용자의 이미지를 분석해 분리배출 방법을 안내한다.
+//POST /recycleInfo : 사용자가 등록한 이미지 분석, 분리배출 방법 안내
 recycleInfoRouter.post("/", upload.single("image"), async (req, res, next) => {
-    try {
-        const buffer = req.file.buffer;
-        //인코딩 타입 인공지능 데이터 타입따라 변경
-        const encoded = Buffer.from(buffer).toString("base64");
+  try {
+    //사용자가 등록한 이미지 정보
+    const buffer = req.file.buffer;
+    //이미지 정보를 인코딩
+    const encoded = Buffer.from(buffer).toString("base64");
+    //이미지 정보 전달, 분석 결과
+    const info = await recycleInfoService.analysisImg({ encoded });
 
-        const info = await recycleInfoService.analysisImg({ encoded });
-        //인공지능 영역에서 디코딩 후, 분석
-        // const decode = Buffer.from(encode, "base64");
+    //인공지능 영역에서 디코딩 후, 분석
+    // const decode = Buffer.from(encode, "base64");
 
-        res.status(201).json(info);
-    } catch (error) {
-        next(error);
-    }
+    res.status(201).json(info);
+  } catch (error) {
+    next(error);
+  }
 });
 module.exports = recycleInfoRouter;
