@@ -30,9 +30,9 @@ const commentService = {
       comment_id: commentId,
     });
     //if: 수정할 댓글 존재X
-    if (findedComment.length === 0) {
+    if (!findedComment) {
       const errorMessage =
-        "게시글이 존재하지 않습니다. 다시 한 번 확인해 주세요.";
+        "댓글이 존재하지 않습니다. 다시 한 번 확인해 주세요.";
       return { errorMessage };
     }
 
@@ -65,9 +65,9 @@ const commentService = {
     });
 
     //if: 삭제할 댓글 존재X
-    if (findedComment.length === 0) {
+    if (!findedComment) {
       const errorMessage =
-        "게시글 존재하지 않습니다. 다시 한 번 확인해 주세요.";
+        "댓글이 존재하지 않습니다. 다시 한 번 확인해 주세요.";
       return { errorMessage };
     }
 
@@ -85,7 +85,7 @@ const commentService = {
     //if: 게시글 존재X
     if (!findedPost) {
       const errorMessage =
-        "게시글 존재하지 않습니다. 다시 한 번 확인해 주세요.";
+        "게시글이 존재하지 않습니다. 다시 한 번 확인해 주세요.";
       return { errorMessage };
     }
 

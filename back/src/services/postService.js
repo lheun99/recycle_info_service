@@ -26,7 +26,7 @@ const postService = {
     //수정할 게시글 찾기
     const findedPost = await Post.findPostByPostId({ post_id: postId });
     //if: 수정할 게시글 존재X
-    if (findedPost.length === 0) {
+    if (!findedPost) {
       const errorMessage =
         "게시글이 존재하지 않습니다. 다시 한 번 확인해 주세요.";
       return { errorMessage };
@@ -61,9 +61,9 @@ const postService = {
     //삭제할 게시글 찾기
     const findedPost = await Post.findPostByPostId({ post_id: postId });
     //if: 삭제할 게시글 존재X
-    if (findedPost.length === 0) {
+    if (!findedPost) {
       const errorMessage =
-        "게시글 존재하지 않습니다. 다시 한 번 확인해 주세요.";
+        "게시글이 존재하지 않습니다. 다시 한 번 확인해 주세요.";
       return { errorMessage };
     }
 
@@ -172,7 +172,7 @@ const postService = {
     //if: 게시글 존재X
     if (!findedPost) {
       const errorMessage =
-        "게시글 존재하지 않습니다. 다시 한 번 확인해 주세요.";
+        "게시글이 존재하지 않습니다. 다시 한 번 확인해 주세요.";
       return { errorMessage };
     }
 

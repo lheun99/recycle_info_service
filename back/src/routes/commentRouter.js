@@ -1,61 +1,75 @@
 const commentRouter = require("express").Router();
 const commentService = require("../services/commentService");
 const loginRequired = require("../middlewares/loginRequired");
+const {
+  validationErrorCatcher,
+  commentMiddleware,
+} = require("../middlewares/validationMiddleware");
 
 //로그인 필요
 commentRouter.use(loginRequired);
 
 //POST /comment: 댓글 추가
-commentRouter.post("/", async (req, res, next) => {
-  try {
-    //댓글 작성자 정보
-    const userId = req.currentUserId;
-    //추가할 댓글 관련 정보
-    const { postId, content } = req.body;
+commentRouter.post(
+  "/",
+  commentMiddleware.postBodyValidator,
+  validationErrorCatcher,
+  async (req, res, next) => {
+    try {
+      //댓글 작성자 정보
+      const userId = req.currentUserId;
+      //추가할 댓글 관련 정보
+      const { postId, content } = req.body;
 
-    //추가할 댓글
-    const newComment = {
-      user_id: userId,
-      post_id: postId,
-      content,
-    };
+      //추가할 댓글
+      const newComment = {
+        user_id: userId,
+        post_id: postId,
+        content,
+      };
 
-    //댓글 추가
-    const createdComment = await commentService.createComment({
-      newComment,
-    });
+      //댓글 추가
+      const createdComment = await commentService.createComment({
+        newComment,
+      });
 
-    res.status(201).json(createdComment);
-  } catch (error) {
-    next(error);
+      res.status(201).json(createdComment);
+    } catch (error) {
+      next(error);
+    }
   }
-});
+);
 
 //PUT /comment/:id: 댓글 수정
-commentRouter.put("/:id", async (req, res, next) => {
-  try {
-    //수정할 댓글 id
-    const commentId = req.params.id;
-    const { content } = req.body;
+commentRouter.put(
+  "/:id",
+  commentMiddleware.putBodyValidator,
+  validationErrorCatcher,
+  async (req, res, next) => {
+    try {
+      //수정할 댓글 id
+      const commentId = req.params.id;
+      const { content } = req.body;
 
-    //수정할 내용
-    const toUpdate = { content };
+      //수정할 내용
+      const toUpdate = { content };
 
-    //댓글 수정
-    const updatedComment = await commentService.setComment({
-      commentId,
-      toUpdate,
-    });
+      //댓글 수정
+      const updatedComment = await commentService.setComment({
+        commentId,
+        toUpdate,
+      });
 
-    if (updatedComment.errorMessage) {
-      throw new Error(updatedComment.errorMessage);
+      if (updatedComment.errorMessage) {
+        throw new Error(updatedComment.errorMessage);
+      }
+
+      res.status(201).json(updatedComment);
+    } catch (error) {
+      next(error);
     }
-
-    res.status(201).json(updatedComment);
-  } catch (error) {
-    next(error);
   }
-});
+);
 
 //DELETE /comment/:id: 댓글 삭제
 commentRouter.delete("/:id", async (req, res, next) => {

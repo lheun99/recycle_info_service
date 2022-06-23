@@ -50,7 +50,7 @@ const Comment = {
         type: QueryTypes.SELECT,
       }
     );
-    return comment[0];
+    return comment[0][0];
   },
   //GET /comment/:id
   //특정 게시글 관련 댓글 정보
