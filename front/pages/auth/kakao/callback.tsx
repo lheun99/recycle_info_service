@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import SocialLogin from "../../../components/modal/socialLogin/SocialLogin";
+import KakaoLogin from "../../../components/modal/socialLogin/KakaoLogin";
 
 const callback = () => {
-    return <SocialLogin />;
+    return <KakaoLogin />;
 };
 
 export default callback;

@@ -6,7 +6,7 @@ import { DispatchContext } from "../../../pages/_app";
 import Loading from "../../shared/Loading";
 import Alert from "@mui/material/Alert";
 
-const SocialLogin = () => {
+const KakaoLogin = () => {
     const [open, setOpen] = useState(false);
     const router = useRouter();
     const dispatch = useContext(DispatchContext);
@@ -50,7 +50,7 @@ const SocialLogin = () => {
     );
 };
 
-export default SocialLogin;
+export default KakaoLogin;
 
 const Wrapper = styled.div`
     height: 100%;
