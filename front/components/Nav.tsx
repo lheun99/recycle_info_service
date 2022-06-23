@@ -54,9 +54,9 @@ const Nav = () => {
                     </Link>
                 </li>
                 <li>
-                    <li onClick={handleOpen} style={{ cursor: "pointer" }}>
+                    <div onClick={handleOpen} style={{ cursor: "pointer" }}>
                         Sign in
-                    </li>
+                    </div>
                     <LoginOrRegisterModal
                         open={open}
                         handleClose={handleClose}
