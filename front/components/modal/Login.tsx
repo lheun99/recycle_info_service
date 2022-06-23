@@ -8,7 +8,7 @@ import { styled as materialStyled } from "@mui/material/styles";
 import { Button, TextField } from "@mui/material";
 import { DispatchContext } from "../../pages/_app";
 import * as Api from "../../api";
-import { kakaoUrl } from "./socialLogin/SocialLoginUrl";
+import { kakaoUrl, naverUrl } from "./socialLogin/SocialLoginUrl";
 
 function Login({ open, handleClose, setRegister }) {
     const dispatch = useContext(DispatchContext);
@@ -114,6 +114,15 @@ function Login({ open, handleClose, setRegister }) {
                         }}
                     >
                         회원가입
+                    </Button>
+                    <span>|</span>
+                    <Button
+                        variant="text"
+                        onClick={() => {
+                            router.push(naverUrl());
+                        }}
+                    >
+                        네이버
                     </Button>
                 </LoginWrapper>
                 <SocialLoginWrapper>
