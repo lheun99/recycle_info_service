@@ -1,6 +1,7 @@
 import React, { useContext, useState, useRef, useEffect } from "react";
 import { UserStateContext } from "../../pages/_app";
 import Comment from "./Comment";
+import { get } from "../../api";
 
 import styled from "styled-components";
 import { styled as muiStyled } from "@mui/material/styles";
@@ -15,6 +16,7 @@ import {
     Collapse,
     Avatar,
     MobileStepper,
+    Box,
 } from "@mui/material";
 import IconButton, { IconButtonProps } from "@mui/material/IconButton";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -22,6 +24,7 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import { useTheme } from "@mui/material/styles";
+import { SignalCellularNullTwoTone } from "@mui/icons-material";
 
 interface ExpandMoreProps extends IconButtonProps {
     expand: boolean;
@@ -41,6 +44,7 @@ const ExpandMore = muiStyled((props: ExpandMoreProps) => {
 // data map 할 예정, 게시글과 댓글 연동은 postId (게시글 번호) 로 연동 !
 const SingleBoard = ({ htmlStr }) => {
     const [expanded, setExpanded] = useState(false);
+    const [board, setBoard] = useState([]);
     const userInfo = useContext(UserStateContext);
     const viewContainerRef = useRef<HTMLDivElement>(null);
 
@@ -60,36 +64,42 @@ const SingleBoard = ({ htmlStr }) => {
     const handleBack = () => {
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
     };
-    useEffect(() => {
-        if (viewContainerRef.current) {
-            viewContainerRef.current.innerHTML = htmlStr;
-        }
-    }, [htmlStr]);
 
-    return (
+    const getBoardsList = async () => {
+        const page = 1;
+        const zz = 10;
+        const res = await get(`post/list?page=${page}&perPage=${zz}`);
+        const boardsList = [...res.data.data.postLists];
+        setBoard(boardsList);
+    };
+    useEffect(() => {
+        getBoardsList();
+
+        // if (viewContainerRef.current) {
+        //     viewContainerRef.current.innerHTML = htmlStr;
+        // }
+    }, []);
+    console.log(board.map((item, idx) => console.log(item.title)));
+
+    return board.map((item, idx) => {
         <Card sx={{ maxWidth: "500px" }}>
-            {/* {images.map((step, index) => (
-          <div key={step.label}>
-            {Math.abs(activeStep - index) <= 2 ? (
-              <Box
-                component="img"
-                sx={{
-                  height: 255,
-                  display: 'block',
-                  maxWidth: 400,
-                  overflow: 'hidden',
-                  width: '100%',
-                }}
-                src={step.imgPath}
-                alt={step.label}
-              />
-            ) : null} */}
-            <CardMedia
-                component="img"
-                height="250"
-                image="/images/piano.png"
-                alt="market-img"
-            />
+            {/* {board.map((item, index) => (
+                <div key={item.postId} style={{ position: "relative" }}>
+                    {item.postImg
+                        ? item.postImg.map((url, idx) => (
+                              <div key={idx}>
+                                  <CardMedia
+                                      component="img"
+                                      height="250"
+                                      image={url}
+                                      alt={`postImage-${idx}`}
+                                      style={{ position: "absolute" }}
+                                  />
+                              </div>
+                          ))
+                        : null}
+                </div>
+            ))} */}
             <MobileStepper
                 steps={maxSteps}
                 position="static"
@@ -125,9 +135,8 @@ const SingleBoard = ({ htmlStr }) => {
             />
             <CardContent>
                 <Typography gutterBottom variant="h5" component="div">
-                    중고피아노 팝니다!
+                    {item.title}
                 </Typography>
-                fffffffffffffffffffffffffffffffffffffffffffffffffff
                 <div ref={viewContainerRef} />
             </CardContent>
             <CardHeader
@@ -158,8 +167,8 @@ const SingleBoard = ({ htmlStr }) => {
                     <Comment expand={expanded} />
                 </CardContent>
             </Collapse>
-        </Card>
-    );
+        </Card>;
+    });
 };
 export default SingleBoard;
 // const SingleBoard = () => {

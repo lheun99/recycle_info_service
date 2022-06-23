@@ -3,7 +3,7 @@ import dynamic from "next/dynamic";
 import "react-quill/dist/quill.snow.css";
 import styled from "styled-components";
 import Image from "next/image";
-import { post } from "../../api";
+import { post, sendImageFile } from "../../api";
 
 const QuillNoSSR = dynamic(import("react-quill"), {
     ssr: false,
@@ -49,7 +49,13 @@ const formats = [
     "link",
 ];
 
-export default function Write({ title, setTitle, setHtmlStr }) {
+export default function Write({
+    title,
+    setTitle,
+    setHtmlStr,
+    htmlStr,
+    setIsWrite,
+}) {
     const [imgList, setImgList] = useState([]);
 
     // 바로 이미지를 서버로 보내 저장하지 않고, 해당 목록에서 자유자재로 삭제와 추가를 한 후, 최종 완성 시 form 파일을 만들어 보낼 예정
@@ -68,6 +74,7 @@ export default function Write({ title, setTitle, setHtmlStr }) {
             alert("이미지는 최대 5장까지 업로드 가능합니다.");
         }
         setImgList(imageUrlLists);
+        console.log();
     };
     // 다중 이미지 List에서 특정 이미지 제거 함수
     const handleDeleteImage = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -77,6 +84,22 @@ export default function Write({ title, setTitle, setHtmlStr }) {
             return item !== imageUrlLists[deleteIndex];
         });
         setImgList(imageUrlLists);
+    };
+
+    const uploadPost = async (imgList) => {
+        // 이미지 업로드 먼저 한다 -> s3 주소 받아오기
+        const formData = new FormData();
+        imgList.map((item) => formData.append("image", item.file));
+        const res = await sendImageFile("upload/post-img", formData);
+        const postS3Image = await res.data?.data; // s3 주소 받음
+
+        const newUpload = await post("post", {
+            title,
+            post_img: postS3Image,
+            content: htmlStr,
+        });
+        console.log(newUpload);
+        setIsWrite((cur) => !cur);
     };
 
     return (
@@ -142,6 +165,12 @@ export default function Write({ title, setTitle, setHtmlStr }) {
                     />
                 </QuillNoSSRWrapper>
             </WriteWrapper>
+            <ButtonWrapper>
+                <Button color="success" onClick={() => uploadPost(imgList)}>
+                    완료
+                </Button>
+                <Button color="cancle">취소</Button>
+            </ButtonWrapper>
         </Wrapper>
     );
 }
@@ -236,4 +265,23 @@ const QuillNoSSRWrapper = styled.div`
     position: absolute;
     width: 100%;
     height: 100%;
+`;
+
+const ButtonWrapper = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`;
+
+const Button = styled.button`
+    font-family: Elice Digital Baeum;
+    font-size: 15px;
+    width: 100px;
+    margin: 30px 0;
+    height: 40px;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    background-color: ${(props) =>
+        props.color === "success" ? "#a7c4bc" : "#f2f2f2"};
 `;

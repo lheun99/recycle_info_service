@@ -23,7 +23,9 @@ const MainBoard = () => {
                         <Write
                             title={title}
                             setTitle={setTitle}
+                            htmlStr={htmlStr}
                             setHtmlStr={setHtmlStr}
+                            setIsWrite={setIsWrite}
                         />
                     ) : (
                         <SingleBoard htmlStr={htmlStr} />
@@ -45,7 +47,7 @@ const Wrapper = styled.div`
 const Container = styled.div`
     width: 80%;
     background-color: var(--deepgray);
-    height: 1000px;
+    height: auto;
     display: flex;
     flex-direction: column;
     align-items: center;
