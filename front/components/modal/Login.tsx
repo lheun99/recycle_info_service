@@ -116,15 +116,6 @@ function Login({ open, handleClose, setRegister }) {
                     >
                         회원가입
                     </Button>
-                    <span>|</span>
-                    <Button
-                        variant="text"
-                        onClick={() => {
-                            router.push(naverUrl());
-                        }}
-                    >
-                        네이버
-                    </Button>
                 </LoginWrapper>
                 <SocialLoginWrapper>
                     <Button
