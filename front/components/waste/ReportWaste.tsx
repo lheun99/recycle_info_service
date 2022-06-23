@@ -54,8 +54,8 @@ const ReportWaste = () => {
                                 <div>
                                     <div>주소 : {clickData[0]["address"]}</div>
                                     <div>전화번호 : {clickData[0]["tel"]}</div>
-                                    <div><a href={clickData[0]["url1"]}>우리동네 공식 홈페이지 바로가기 </a></div>
-                                    <div><a href={clickData[0]["url2"]}>대형폐기물 배출신고 안내 바로가기 </a></div>
+                                    <div><a href={clickData[0]["url1"]} target='_blank'>우리동네 공식 홈페이지 바로가기 </a></div>
+                                    <div><a href={clickData[0]["url2"]} target='_blank'>대형폐기물 배출신고 안내 바로가기 </a></div>
                                 </div>
                             </MapInfoData>
                         ) : "검색 결과를 확인하세요!" }
@@ -134,7 +134,7 @@ const ImageWrapper = styled.div`
 
 const SearchWrapper  = styled.div`
     display: flex;
-    width: 615px;
+    width: 650px;
     justify-content: space-between;
 `;
 

@@ -51,7 +51,7 @@ const Search = ({ mapData, handleSetMapData }) => {
                 }}
                 id="controllable-states-demo"
                 options={regionData}
-                sx={{ width: 270 }}
+                sx={{ width: 280 }}
                 renderInput={(params) => <TextField {...params} label="시/도" />}
             />
             <Autocomplete
@@ -65,7 +65,7 @@ const Search = ({ mapData, handleSetMapData }) => {
                 }}
                 id="controllable-states-demo"
                 options={newNameData}
-                sx={{ width: 270 }}
+                sx={{ width: 280 }}
                 renderInput={(params) => <TextField {...params} label="시/군/구" />}
                 disabled={isRegionValid}
             />
@@ -76,7 +76,7 @@ const Search = ({ mapData, handleSetMapData }) => {
 export default Search;
 
 const Wrapper = styled.div`
-    width: 550px;
+    width: 580px;
     display: flex;
     justify-content: space-between;
 `;
