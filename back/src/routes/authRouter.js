@@ -1,5 +1,6 @@
 const authRouter = require("express").Router();
 const kakaoService = require("../services/kakaoService");
+const naverService = require("../services/naverService");
 
 authRouter.get("/kakao", async (req, res, next) => {
     try {
@@ -15,8 +16,9 @@ authRouter.get("/kakao", async (req, res, next) => {
 authRouter.get("/naver", async (req, res, next) => {
     try {
         const code = req.query.code.slice(0, -1);
-        console.log(code);
-        res.status(204).end();
+
+        const user = await naverService.getToken({ code });
+        res.status(200).json(user);
     } catch (error) {
         next(error);
     }
