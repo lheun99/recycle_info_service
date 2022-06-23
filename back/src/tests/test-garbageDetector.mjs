@@ -111,7 +111,8 @@ const main = async () => {
     fileNames.map(async (fileName) => {
       const pathName = path.join(__dirname, `test-images`, fileName);
       const res = await detector.guess(await fsp.readFile(pathName));
-      return { input: fileName, ouput: res.map((d) => d.classId) };
+      //   return { input: fileName, ouput: res.map((d) => d.classId) };
+      return { input: fileName, ouput: res };
     })
   );
   console.info(`detections: `, detections);
