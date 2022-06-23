@@ -1,16 +1,16 @@
-const cors = require("cors");
-const express = require("express");
-const db = require("./models/index.js");
-const errorMiddleware = require("./middlewares/errorMiddleware.js");
-const recycleInfoRouter = require("./routes/recycleInfoRouter");
-const userRouter = require("./routes/userRouter");
-const postRouter = require("./routes/postRouter");
-const commentRouter = require("./routes/commentRouter");
-const searchRouter = require("./routes/searchRouter");
-const imgUploadRouter = require("./routes/imgUploadRouter");
-const pointRouter = require("./routes/pointRouter");
-const quizRouter = require("./routes/quizRouter");
-const authRouter = require("./routes/authRouter");
+import cors from "cors";
+import express from "express";
+import db from "./models/index.js";
+import errorMiddleware from "./middlewares/errorMiddleware.js";
+import recycleInfoRouter from "./routes/recycleInfoRouter";
+import userRouter from "./routes/userRouter";
+import postRouter from "./routes/postRouter";
+import commentRouter from "./routes/commentRouter";
+import searchRouter from "./routes/searchRouter";
+import imgUploadRouter from "./routes/imgUploadRouter";
+import pointRouter from "./routes/pointRouter";
+import quizRouter from "./routes/quizRouter";
+import authRouter from "./routes/authRouter";
 
 const app = express();
 
@@ -41,4 +41,4 @@ app.use("/quizs", quizRouter);
 app.use("/auth", authRouter);
 app.use(errorMiddleware);
 
-module.exports = app;
+export default app;

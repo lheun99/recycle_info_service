@@ -11,4 +11,4 @@ const development = {
   dialect: "postgres",
 };
 
-module.exports = { development };
+export { development };

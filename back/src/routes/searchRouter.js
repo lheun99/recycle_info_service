@@ -1,7 +1,8 @@
-const searchRouter = require("express").Router();
-const searchService = require("../services/searchService");
-const loginRequired = require("../middlewares/loginRequired");
+import searchRouter from "express";
+import searchService from "../services/searchService";
+import loginRequired from "../middlewares/loginRequired";
 
+searchRouter.Router();
 //GET /search : 분리배출 방법 검색
 searchRouter.get("/", async (req, res, next) => {
   try {
@@ -23,4 +24,4 @@ searchRouter.get("/", async (req, res, next) => {
   }
 });
 
-module.exports = searchRouter;
+export default searchRouter;
