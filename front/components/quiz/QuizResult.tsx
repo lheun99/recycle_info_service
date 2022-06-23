@@ -7,17 +7,17 @@ import { styled as materialStyled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import lottie from "lottie-web";
 import animationData from "../../public/trueEffect.json";
-import { get, getQuary, post } from "../../api";
+import { post } from "../../api";
 
 type QuizType = {
     question: string;
     multiples : [];
     answer: string;
-    image: Boolean;
+    image: boolean;
 }
 
 type QuizResultProps = {
-    result: Boolean;
+    result: boolean;
     quiz: QuizType;
 }
 
@@ -32,31 +32,6 @@ const QuizResult = ({ result, quiz } : QuizResultProps) => {
                 point: 100
             }).then(() => {
                 console.log("포인트 적립")
-            })
-        } catch (err) {
-            console.log("errer message: ", err);
-        }
-    }
-
-    const pointCheck = async () => {
-        try {
-            await getQuary(
-                "points",
-                {
-                    params: {
-                        route: "quiz",
-                    },
-                },
-            ).then((res : any) => {
-                console.log("points: ", res.data)
-            })
-        } catch (err) {
-            console.log("errer message: ", err);
-        }
-
-        try {
-            await get("points/list").then((res : any) => {
-                console.log("points/list: ", res.data)
             })
         } catch (err) {
             console.log("errer message: ", err);
@@ -95,7 +70,7 @@ const QuizResult = ({ result, quiz } : QuizResultProps) => {
             </ResultForm>   
             <div>
                 <NavButton onClick={() => router.push('/')}>홈으로</NavButton>
-                <NavButton onClick={pointClickHandler}>
+                <NavButton onClick={pointClickHandler} disabled={!result}>
                     <Image
                         src={PointCoin}
                         alt="point-coin"
@@ -104,7 +79,6 @@ const QuizResult = ({ result, quiz } : QuizResultProps) => {
                     />
                     <p>포인트 적립</p>
                 </NavButton>
-                <button onClick={pointCheck}>포인트 확인</button>
             </div>
         </ResultWrapper>
     )
