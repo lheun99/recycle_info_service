@@ -3,6 +3,7 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import Logo from "../../public/images/logo.png";
 import kakao from "../../public/images/kakao.login.png";
+import naver from "../../public/images/naver.login.png"
 import styled from "styled-components";
 import { styled as materialStyled } from "@mui/material/styles";
 import { Button, TextField } from "@mui/material";
@@ -136,6 +137,16 @@ function Login({ open, handleClose, setRegister }) {
                     >
                         <Image alt="kakao_Login" src={kakao} />
                     </Button>
+                    <Button
+                        variant="text"
+                        className=""
+                        onClick={() => {
+                            router.push(naverUrl());
+                        }}
+                        style={{ borderRadius: "12px", width: "200px" }}
+                    >
+                        <Image alt="naver_Login" src={naver} />
+                    </Button>
                 </SocialLoginWrapper>
             </FindWrapper>
         </Wrapper>
@@ -231,6 +242,6 @@ const SocialLoginWrapper = styled.div`
     align-items: center;
 `;
 
-const kakaoButton = styled.button`
+const KakaoButton = styled.button`
     border-radius: 12px;
 `;
