@@ -80,10 +80,10 @@ const main = async () => {
   const image = await fsp.readFile(imagePath);
   const res = await detector.guess(image);
   console.info(`short version:`, res);
-  console.info(
-    `long version:`,
-    res.map((v) => v.toString(true))
-  );
+  //   console.info(
+  //     `long version:`,
+  //     res.map((v) => v.toString(true))
+  //   );
   try {
     assert(
       res[0].classId === 11 &&

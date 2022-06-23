@@ -193,7 +193,8 @@ class Detection {
    * @arg {boolean} verbose - 기본값 `false`. `true`이면 모든 프로퍼티를 보여줍니다.
    * @return {string}
    */
-  toString(verbose = false) {
+  [Symbol.toStringTag](verbose = false) {
+    return `Detection(${this.classId})`;
     if (verbose) {
       return Object.prototype.toString(this);
     } else {
