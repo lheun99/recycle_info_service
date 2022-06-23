@@ -12,13 +12,18 @@ interface WasteInfo {
 const regionData = Array.from(new Set(WasteInfo.map((data) => data.region)));
 const nameData = Array.from(new Set(WasteInfo.map((data) => data.name)));
 
-const Search = ({ handleSetMapData }) => {
+const Search = ({ mapData, handleSetMapData }) => {
     const [region, setRegion] = useState<String | null>(null);
     const [name, setName] = useState<String | null>(null);
     const [inputRegion, setInputRegion] = useState('');
     const [inputName, setInputName] = useState('');
     const [newNameData, setNewNameData] = useState<String[]>(nameData);
     const isRegionValid = (region === null)
+
+    useEffect(() => {
+        setRegion(null);
+        setName(null);
+    }, [mapData])
 
     useEffect(() => {
         const newData = WasteInfo.filter((data) => data.region === region).map((data) => data.name)
@@ -29,7 +34,6 @@ const Search = ({ handleSetMapData }) => {
     useEffect(() => {
         if (name) {
             const map = WasteInfo.filter((data) => data.region === region && data.name === name)
-            // console.log("WasteInfo region, name, map: ", region, name, map)
             handleSetMapData(map)
         }
     }, [name])
@@ -47,7 +51,7 @@ const Search = ({ handleSetMapData }) => {
                 }}
                 id="controllable-states-demo"
                 options={regionData}
-                sx={{ width: 300 }}
+                sx={{ width: 270 }}
                 renderInput={(params) => <TextField {...params} label="시/도" />}
             />
             <Autocomplete
@@ -61,7 +65,7 @@ const Search = ({ handleSetMapData }) => {
                 }}
                 id="controllable-states-demo"
                 options={newNameData}
-                sx={{ width: 300 }}
+                sx={{ width: 270 }}
                 renderInput={(params) => <TextField {...params} label="시/군/구" />}
                 disabled={isRegionValid}
             />
@@ -72,7 +76,7 @@ const Search = ({ handleSetMapData }) => {
 export default Search;
 
 const Wrapper = styled.div`
-    width: 650px;
+    width: 550px;
     display: flex;
     justify-content: space-between;
 `;

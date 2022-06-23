@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Image from "next/image";
+import Gps from "../../public/images/gps.png"
 import styled from "styled-components";
 import Search from "./Search"
 import Map from "./Map"
@@ -10,6 +11,11 @@ const ReportWaste = () => {
         setMapData(data);
     }
 
+    const [clickData, setClickData] = useState<String[] | null>(null);  
+    const handleSetClickMapData = (data: String[]) => {
+        setClickData(data);
+    }
+
     return (
         <Wrapper>
             <h1>우리동네 대형폐기물 신고하기</h1>
@@ -18,19 +24,27 @@ const ReportWaste = () => {
             </Contents>
             <Form>
                 <Title>우리동네 사이트 찾기</Title>
-                <div>
-                    <Search handleSetMapData={handleSetMapData} />
-                </div>
+                <SearchWrapper>
+                    <ImageButton onClick={()=> handleSetMapData(null)}>
+                        <Image
+                            src={Gps}
+                            alt="gps"
+                            width={40}
+                            height={40}
+                        />
+                    </ImageButton>
+                    <Search mapData={clickData} handleSetMapData={handleSetMapData} />
+                </SearchWrapper>
                 <MapContainer id="map">
-                    <Map mapData={mapData} handleSetMapData={handleSetMapData} />
+                    <Map mapData={mapData} handleSetClickMapData={handleSetClickMapData}/>
                 </MapContainer>
                 <MapInfo>
                     <p>
-                        { mapData ? (
+                        { clickData ? (
                             <MapInfoData>
                                 <ImageWrapper>
                                     <Image
-                                        src={mapData[0]["banner_image"]}
+                                        src={clickData[0]["banner_image"]}
                                         alt="banner_image"
                                         width={100}
                                         height={40}
@@ -38,10 +52,10 @@ const ReportWaste = () => {
                                     />
                                 </ImageWrapper>
                                 <div>
-                                    <div>주소 : {mapData[0]["address"]}</div>
-                                    <div>전화번호 : {mapData[0]["tel"]}</div>
-                                    <div><a href={mapData[0]["url1"]}>우리동네 공식 홈페이지 바로가기 </a></div>
-                                    <div><a href={mapData[0]["url2"]}>대형폐기물 배출신고 안내 바로가기 </a></div>
+                                    <div>주소 : {clickData[0]["address"]}</div>
+                                    <div>전화번호 : {clickData[0]["tel"]}</div>
+                                    <div><a href={clickData[0]["url1"]}>우리동네 공식 홈페이지 바로가기 </a></div>
+                                    <div><a href={clickData[0]["url2"]}>대형폐기물 배출신고 안내 바로가기 </a></div>
                                 </div>
                             </MapInfoData>
                         ) : "검색 결과를 확인하세요!" }
@@ -116,4 +130,24 @@ const MapInfoData = styled.div`
 const ImageWrapper = styled.div`
     width: 120px;
     height: 70px;
+`;
+
+const SearchWrapper  = styled.div`
+    display: flex;
+    width: 615px;
+    justify-content: space-between;
+`;
+
+const ImageButton = styled.div`
+    width: 55px;
+    height: 55px;
+    border: 1px solid #c1c1c1;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    :hover {
+        background-color: var(--gray);
+        cursor: pointer;
+    }
 `;

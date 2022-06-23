@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { AnyStyledComponent } from "styled-components";
 import WasteInfo from "../../public/wasteInfo.json";
 
 declare global {
@@ -9,18 +10,19 @@ declare global {
 
 interface MapProps {
   mapData: String[] | null;
-  handleSetMapData: any;
+  handleSetClickMapData: any;
 }
 
 const addressData = Array.from(new Set(WasteInfo.map((data) => data.address)));
 
-function Map({ mapData, handleSetMapData }: MapProps) {
-    useEffect(() => {
-        const mapScript = document.createElement("script");
-        mapScript.async = true;
-        mapScript.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAOMAP_APPKEY}&autoload=false&libraries=services,clusterer,drawing`;
-        document.head.appendChild(mapScript);
+function Map({ mapData, handleSetClickMapData }: MapProps) {
+    const mapScript = document.createElement("script");
+    mapScript.async = true;
+    mapScript.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAOMAP_APPKEY}&autoload=false&libraries=services,clusterer,drawing`;
+    document.head.appendChild(mapScript);
 
+    useEffect(() => {
+        handleSetClickMapData(null);
         const onLoadKakaoMap = () => {
             window.kakao.maps.load(() => {
                 // 지도 생성
@@ -52,6 +54,11 @@ function Map({ mapData, handleSetMapData }: MapProps) {
                             });
                             // 지도의 중심을 결과값으로 받은 위치로 이동
                             marker.setMap(map);
+
+                            window.kakao.maps.event.addListener(marker, 'click', function() {
+                                const map = WasteInfo.filter((data) => data.address === result[0].address_name)
+                                handleSetClickMapData(map)
+                            });
                         }
                     })
                 } else { 
@@ -84,8 +91,8 @@ function Map({ mapData, handleSetMapData }: MapProps) {
 
                                     window.kakao.maps.event.addListener(marker, 'click', function() {
                                         const map = WasteInfo.filter((data) => data.address === result[0].address_name)
-                                        handleSetMapData(map)
-                                  });
+                                        handleSetClickMapData(map)
+                                    });
                                 }
                             })
                         }
