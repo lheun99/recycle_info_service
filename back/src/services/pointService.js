@@ -19,11 +19,8 @@ const pointService = {
             today,
         });
 
-        if (!point) {
-            point = { point: false };
-        } else {
-            point = { point: point.point };
-        }
+        point = point.length;
+
         return { message: "success", data: point };
     },
 
