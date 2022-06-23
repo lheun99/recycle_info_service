@@ -12,4 +12,14 @@ authRouter.get("/kakao", async (req, res, next) => {
     }
 });
 
+authRouter.get("/naver", async (req, res, next) => {
+    try {
+        const code = req.query.code.slice(0, -1);
+        console.log(code);
+        res.status(204).end();
+    } catch (error) {
+        next(error);
+    }
+});
+
 module.exports = authRouter;
