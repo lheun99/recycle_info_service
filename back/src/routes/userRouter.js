@@ -1,8 +1,10 @@
-import userRouter from "express";
-import userService from "../services/userService";
+import { Router } from "express";
+import userService from "../services/userService.js";
 import { body, validationResult } from "express-validator";
-import loginRequired from "../middlewares/loginRequired";
-userRouter.Router();
+import loginRequired from "../middlewares/loginRequired.js";
+
+const userRouter = Router();
+
 userRouter.post(
   "/register",
   body("email").isEmail().withMessage("이메일 형식이 올바르지 않습니다."),

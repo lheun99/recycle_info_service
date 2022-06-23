@@ -1,4 +1,4 @@
-import app from "./src/app";
+import app from "./src/app.js";
 // import swaggerJSDoc from "swagger-jsdoc";
 // import swaggerUi from "swagger-ui-express";
 import dotenv from "dotenv";

@@ -2,15 +2,15 @@ import cors from "cors";
 import express from "express";
 import db from "./models/index.js";
 import errorMiddleware from "./middlewares/errorMiddleware.js";
-import recycleInfoRouter from "./routes/recycleInfoRouter";
-import userRouter from "./routes/userRouter";
-import postRouter from "./routes/postRouter";
-import commentRouter from "./routes/commentRouter";
-import searchRouter from "./routes/searchRouter";
-import imgUploadRouter from "./routes/imgUploadRouter";
-import pointRouter from "./routes/pointRouter";
-import quizRouter from "./routes/quizRouter";
-import authRouter from "./routes/authRouter";
+import recycleInfoRouter from "./routes/recycleInfoRouter.js";
+import userRouter from "./routes/userRouter.js";
+import postRouter from "./routes/postRouter.js";
+import commentRouter from "./routes/commentRouter.js";
+import searchRouter from "./routes/searchRouter.js";
+import imgUploadRouter from "./routes/imgUploadRouter.js";
+import pointRouter from "./routes/pointRouter.js";
+import quizRouter from "./routes/quizRouter.js";
+import authRouter from "./routes/authRouter.js";
 
 const app = express();
 

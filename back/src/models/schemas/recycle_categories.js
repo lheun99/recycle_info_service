@@ -1,5 +1,5 @@
 import Sequelize from "sequelize";
-export function (sequelize, DataTypes) {
+export default function (sequelize, DataTypes) {
   return sequelize.define(
     "recycle_categories",
     {
@@ -27,4 +27,4 @@ export function (sequelize, DataTypes) {
       ],
     }
   );
-};
+}

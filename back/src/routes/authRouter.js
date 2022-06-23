@@ -1,8 +1,9 @@
-import authRouter from "express";
-import kakaoService from "../services/kakaoService";
-import naverService from "../services/naverService";
+import { Router } from "express";
+import kakaoService from "../services/kakaoService.js";
+import naverService from "../services/naverService.js";
 
-authRouter.Router();
+const authRouter = Router();
+
 authRouter.get("/kakao", async (req, res, next) => {
   try {
     const code = req.query.code;

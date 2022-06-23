@@ -1,5 +1,9 @@
-const winston = require("winston");
-require("winston-daily-rotate-file");
+import winston from "winston";
+import "winston-daily-rotate-file";
+import { fileURLToPath } from "url";
+import { dirname } from "path";
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 const logDir = `${__dirname}/log`;
 
 const levels = { error: 0, warn: 1, info: 2, http: 3, debug: 4 };

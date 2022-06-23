@@ -1,4 +1,4 @@
-import Post from "../models/funcs/Post";
+import Post from "../models/funcs/Post.js";
 
 const postService = {
   //POST /post

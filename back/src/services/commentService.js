@@ -1,5 +1,5 @@
-import Comment from "../models/funcs/Comment";
-import Post from "../models/funcs/Post";
+import Comment from "../models/funcs/Comment.js";
+import Post from "../models/funcs/Post.js";
 
 const commentService = {
   //POST /comment

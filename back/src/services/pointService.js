@@ -1,4 +1,4 @@
-import Point from "../models/funcs/Point";
+import Point from "../models/funcs/Point.js";
 
 const pointService = {
   addPoint: async ({ userId, route, point }) => {

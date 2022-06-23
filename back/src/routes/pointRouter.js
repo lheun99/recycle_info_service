@@ -1,8 +1,9 @@
-import pointRouter from "express";
-import pointService from "../services/pointService";
-import loginRequired from "../middlewares/loginRequired";
+import { Router } from "express";
+import pointService from "../services/pointService.js";
+import loginRequired from "../middlewares/loginRequired.js";
 
-pointRouter.Router();
+const pointRouter = Router();
+
 pointRouter.post("/", loginRequired, async (req, res, next) => {
   try {
     const userId = req.currentUserId;

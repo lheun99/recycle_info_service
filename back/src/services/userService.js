@@ -1,8 +1,8 @@
-import User from "../models/funcs/User";
-import Point from "../models/funcs/Point";
+import User from "../models/funcs/User.js";
+import Point from "../models/funcs/Point.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import setUtil from "../utils/setUtil";
+import setUtil from "../utils/setUtil.js";
 import { v4 as uuidv4 } from "uuid";
 
 const userService = {

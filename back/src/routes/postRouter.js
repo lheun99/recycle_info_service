@@ -1,12 +1,13 @@
-import postRouter from "express";
-import postService from "../services/postService";
-import loginRequired from "../middlewares/loginRequired";
-const {
+import { Router } from "express";
+import postService from "../services/postService.js";
+import loginRequired from "../middlewares/loginRequired.js";
+import {
   validationErrorCatcher,
   postMiddleware,
-} = require("../middlewares/validationMiddleware");
+} from "../middlewares/validationMiddleware.js";
 
-postRouter.Router();
+const postRouter = Router();
+
 //로그인 필요
 postRouter.use(loginRequired);
 

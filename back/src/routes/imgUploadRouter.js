@@ -1,11 +1,12 @@
-import imgUploadRouter from "express";
-import loginRequired from "../middlewares/loginRequired";
-const {
+import { Router } from "express";
+import loginRequired from "../middlewares/loginRequired.js";
+import {
   uploadPostImage,
   uploadProfileImage,
-} = require("../middlewares/imgUploader.js");
+} from "../middlewares/imgUploader.js";
 
-imgUploadRouter.Router();
+const imgUploadRouter = Router();
+
 //로그인 필요
 imgUploadRouter.use(loginRequired);
 

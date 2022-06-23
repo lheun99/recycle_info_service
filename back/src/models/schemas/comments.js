@@ -1,5 +1,5 @@
 import Sequelize from "sequelize";
-export function (sequelize, DataTypes) {
+export default function (sequelize, DataTypes) {
   return sequelize.define(
     "comments",
     {
@@ -45,4 +45,4 @@ export function (sequelize, DataTypes) {
       ],
     }
   );
-};
+}

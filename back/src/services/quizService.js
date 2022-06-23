@@ -1,4 +1,4 @@
-import Quiz from "../models/funcs/Quiz";
+import Quiz from "../models/funcs/Quiz.js";
 import setUtil from "../utils/setUtil.js";
 
 const quizService = {

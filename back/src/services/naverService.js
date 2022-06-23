@@ -1,4 +1,4 @@
-import User from "../models/funcs/User";
+import User from "../models/funcs/User.js";
 import jwt from "jsonwebtoken";
 import axios from "axios";
 import { v4 as uuidv4 } from "uuid";

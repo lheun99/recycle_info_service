@@ -1,13 +1,11 @@
-import recycleInfoRouter from "express";
-import recycleInfoService from "../services/recycleInfoService";
-// const { body, validationResult } = require("express-validator");
-import loginRequired from "../middlewares/loginRequired";
+import { Router } from "express";
+import recycleInfoService from "../services/recycleInfoService.js";
 
 import multer from "multer";
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
-recycleInfoRouter.Router();
+const recycleInfoRouter = Router();
 
 //POST /recycleInfo : 사용자가 등록한 이미지 분석, 분리배출 방법 안내
 recycleInfoRouter.post("/", upload.single("image"), async (req, res, next) => {

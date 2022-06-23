@@ -1,4 +1,4 @@
-import RecycleInfo from "../models/funcs/RecycleInfo";
+import RecycleInfo from "../models/funcs/RecycleInfo.js";
 
 const recycleInfoService = {
   //POST /recycleInfo

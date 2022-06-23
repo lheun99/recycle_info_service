@@ -1,7 +1,8 @@
-import quizRouter from "express";
+import { Router } from "express";
 import quizService from "../services/quizService.js";
 
-quizRouter.Router();
+const quizRouter = Router();
+
 quizRouter.get("/", async (req, res, next) => {
   try {
     const quiz = await quizService.getQuiz();
