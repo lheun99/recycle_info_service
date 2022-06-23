@@ -53,21 +53,20 @@ class naverService {
     //     }
     // };
 
-    // static getUserData = async ({ accessToken }) => {
-    //     const apiUrl = "https://kapi.kakao.com/v2/user/me";
-    //     const userData = await axios.get(`${apiUrl}`, {
-    //         headers: { Authorization: `Bearer ${accessToken}` },
-    //     });
+    static getUserData = async ({ accessToken }) => {
+        const apiUrl = "https://openapi.naver.com/v1/nid/me";
+        const userData = await axios.get(`${apiUrl}`, {
+            headers: { Authorization: `Bearer ${accessToken}` },
+        });
 
-    //     const { nickname, profile_image } = userData.data.properties;
-    //     const { email } = userData.data.kakao_account;
+        const { name, email, profile_image } = userData.data.response;
 
-    //     return this.checkUser({
-    //         nickname,
-    //         email,
-    //         picture: profile_image,
-    //     });
-    // };
+        return this.checkUser({
+            nickname: name,
+            email,
+            picture: profile_image,
+        });
+    };
 
     static getToken = async ({ code }) => {
         const baseUrl = "https://nid.naver.com/oauth2.0/token";
@@ -83,12 +82,9 @@ class naverService {
         const finalUrl = `${baseUrl}?${params}`;
 
         const tokenRequest = await axios.post(finalUrl, config);
-        console.log("tokenRequest :", tokenRequest);
 
         const accessToken = tokenRequest.data.access_token;
-        console.log("accessToken :", accessToken);
-        // return this.getUserData({ accessToken });
-        return;
+        return this.getUserData({ accessToken });
     };
 }
 
