@@ -38,7 +38,6 @@ const Comment = ({ expand }) => {
                     multiline
                     rows={3}
                     placeholder="내용을 입력해주세요."
-                    defaultValue="내용을 입력해주세요."
                 />
                 <ButtonWrapper>
                     <Button name="cancle">취소</Button>

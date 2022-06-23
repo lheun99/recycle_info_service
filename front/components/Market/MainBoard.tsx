@@ -1,13 +1,29 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Search from "../shared/Search";
 import SingleBoard from "./SingleBoard";
 import Write from "./Write";
-
-const MainBoard = () => {
+import { get } from "../../api";
+type AppSingleBoardProps = {
+    children: React.ReactNode;
+};
+const MainBoard = ({ children }: AppSingleBoardProps) => {
     const [isWrite, setIsWrite] = useState(false);
     const [htmlStr, setHtmlStr] = useState("");
     const [title, setTitle] = useState("");
+    const [board, setBoard] = useState<any[]>([]);
+
+    const getBoardsList = async () => {
+        const page = 1;
+        const zz = 10;
+        const res = await get(`post/list?page=${page}&perPage=${zz}`);
+        const boardsList = [...res.data.data.postLists];
+        setBoard(boardsList);
+    };
+    useEffect(() => {
+        getBoardsList();
+    }, []);
+
     return (
         <Wrapper>
             <Container>
@@ -15,7 +31,7 @@ const MainBoard = () => {
                 <Menu>
                     <Search />
                     <Button onClick={() => setIsWrite((cur) => !cur)}>
-                        {isWrite ? "🏠 메인으로" : "글쓰러 가기 ✏️"}
+                        {isWrite ? "🏠 메인으로" : "+ 글쓰러 가기 ✏️"}
                     </Button>
                 </Menu>
                 <BoardWrapper>
@@ -28,7 +44,14 @@ const MainBoard = () => {
                             setIsWrite={setIsWrite}
                         />
                     ) : (
-                        <SingleBoard htmlStr={htmlStr} />
+                        board.map((item, index) => (
+                            <SingleBoard
+                                key={index}
+                                postImg={item.postImg}
+                                content={item.content}
+                                title={item.title}
+                            />
+                        ))
                     )}
                 </BoardWrapper>
             </Container>
@@ -64,19 +87,21 @@ const Title = styled.h1`
 
 const Menu = styled.div`
     display: flex;
+    flex-direction: column;
     width: 100%;
     justify-content: center;
-    margin: 0 0 30px 0;
+    align-items: center;
+    margin: 30px 0 10px 0;
 `;
 
 const Button = styled.button`
     font-family: Elice Digital Baeum;
-    width: 100px;
-    margin-left: 5px;
+    width: 410px;
     height: 40px;
     border: none;
     border-radius: 15px;
     cursor: pointer;
+    margin-top: 30px;
 `;
 
 const BoardWrapper = styled.div`

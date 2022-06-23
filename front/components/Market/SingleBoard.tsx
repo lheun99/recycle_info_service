@@ -1,7 +1,6 @@
 import React, { useContext, useState, useRef, useEffect } from "react";
 import { UserStateContext } from "../../pages/_app";
 import Comment from "./Comment";
-import { get } from "../../api";
 
 import styled from "styled-components";
 import { styled as muiStyled } from "@mui/material/styles";
@@ -24,6 +23,8 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import { useTheme } from "@mui/material/styles";
+import nextArrow from "../../public/images/next.arrow.png";
+import Image from "next/image";
 import { SignalCellularNullTwoTone } from "@mui/icons-material";
 
 interface ExpandMoreProps extends IconButtonProps {
@@ -42,72 +43,113 @@ const ExpandMore = muiStyled((props: ExpandMoreProps) => {
 }));
 
 // data map 할 예정, 게시글과 댓글 연동은 postId (게시글 번호) 로 연동 !
-const SingleBoard = ({ htmlStr }) => {
+const SingleBoard = ({ postImg, content, title }) => {
     const [expanded, setExpanded] = useState(false);
-    const [board, setBoard] = useState([]);
+    const [slideIndex, setSlideIndex] = useState(1);
+    const [activeStep, setActiveStep] = useState(0);
+    const maxSteps = postImg?.length; // 자료의 총 길이
     const userInfo = useContext(UserStateContext);
     const viewContainerRef = useRef<HTMLDivElement>(null);
 
     const profileImg = userInfo?.user?.picture ?? "";
     const nickname = userInfo?.user?.nickname ?? "";
     const theme = useTheme();
-    const [activeStep, setActiveStep] = useState(0);
-    const maxSteps = 5; // 자료의 길이로 설정 에정
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
     };
-    const handleNext = () => {
-        setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    // const handleNext = () => {
+    //     setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    // };
+
+    // const handleBack = () => {
+    //     setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    // };
+    // const handleStepChange = (step: number) => {
+    //     setActiveStep(step);
+    // };
+
+    const nextSlide = () => {
+        if (slideIndex === postImg?.length) {
+            return;
+        }
+        setActiveStep((cur) => cur + 1);
+        setSlideIndex(slideIndex + 1);
     };
 
-    const handleBack = () => {
-        setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    const prevSlide = () => {
+        if (slideIndex === 1) {
+            return;
+        }
+        setActiveStep((cur) => cur - 1);
+        setSlideIndex(slideIndex - 1);
     };
 
-    const getBoardsList = async () => {
-        const page = 1;
-        const zz = 10;
-        const res = await get(`post/list?page=${page}&perPage=${zz}`);
-        const boardsList = [...res.data.data.postLists];
-        setBoard(boardsList);
-    };
     useEffect(() => {
-        getBoardsList();
-
-        // if (viewContainerRef.current) {
-        //     viewContainerRef.current.innerHTML = htmlStr;
-        // }
+        if (viewContainerRef.current) {
+            viewContainerRef.current.innerHTML = content;
+        }
     }, []);
-    console.log(board.map((item, idx) => console.log(item.title)));
 
-    return board.map((item, idx) => {
-        <Card sx={{ maxWidth: "500px" }}>
-            {/* {board.map((item, index) => (
-                <div key={item.postId} style={{ position: "relative" }}>
-                    {item.postImg
-                        ? item.postImg.map((url, idx) => (
-                              <div key={idx}>
-                                  <CardMedia
-                                      component="img"
-                                      height="250"
-                                      image={url}
-                                      alt={`postImage-${idx}`}
-                                      style={{ position: "absolute" }}
-                                  />
-                              </div>
-                          ))
-                        : null}
-                </div>
-            ))} */}
+    return (
+        <div
+            style={{
+                width: "410px",
+                height: "100%",
+                borderRadius: "15px",
+                margin: "5px 5px 20px 5px",
+                padding: "3px 3px",
+                backgroundColor: "white",
+                boxShadow: "#a7c4bc 0px 1px 2px, #a7c4bc 0px 1px 2px",
+            }}
+        >
+            <Card
+                style={{
+                    minHeight: "300PX",
+                    marginBottom: "5px",
+                    boxShadow: "none",
+                }}
+            >
+                {postImg ? (
+                    <CarouselWrapper>
+                        <CarouselAll>
+                            {postImg?.map((img, idx) => {
+                                return (
+                                    <Slider
+                                        key={`page-${idx}`}
+                                        className={
+                                            slideIndex === idx + 1
+                                                ? "is_active"
+                                                : "is_pass"
+                                        }
+                                    >
+                                        <InfoBox>
+                                            <Image
+                                                src={img}
+                                                alt={`img-${idx}`}
+                                                width={250}
+                                                height={250}
+                                            />
+                                        </InfoBox>
+                                    </Slider>
+                                );
+                            })}
+                        </CarouselAll>
+                    </CarouselWrapper>
+                ) : null}
+            </Card>
             <MobileStepper
+                style={{
+                    borderRadius: "4px",
+                    marginBottom: "5px",
+                }}
                 steps={maxSteps}
                 position="static"
                 activeStep={activeStep}
                 nextButton={
                     <Button
                         size="small"
-                        onClick={handleNext}
+                        onClick={nextSlide}
                         disabled={activeStep === maxSteps - 1}
                     >
                         Next
@@ -121,7 +163,7 @@ const SingleBoard = ({ htmlStr }) => {
                 backButton={
                     <Button
                         size="small"
-                        onClick={handleBack}
+                        onClick={prevSlide}
                         disabled={activeStep === 0}
                     >
                         {theme.direction === "rtl" ? (
@@ -133,25 +175,46 @@ const SingleBoard = ({ htmlStr }) => {
                     </Button>
                 }
             />
-            <CardContent>
+            <CardContent
+                style={{
+                    backgroundColor: "white",
+                    borderRadius: "4px",
+                    marginBottom: "5px",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "space-around",
+                    paddingBottom: "12px",
+                }}
+            >
                 <Typography gutterBottom variant="h5" component="div">
-                    {item.title}
+                    <h3>{title}</h3>
                 </Typography>
+
                 <div ref={viewContainerRef} />
+
+                <CardHeader
+                    avatar={<Avatar alt="userProfile" src={profileImg} />}
+                    action={
+                        <IconButton aria-label="settings">
+                            <MoreVertIcon />
+                        </IconButton>
+                    }
+                    title={nickname}
+                    subheader="September 14, 2016"
+                    style={{ padding: "16px 0 0 0" }}
+                />
             </CardContent>
-            <CardHeader
-                avatar={<Avatar alt="userProfile" src={profileImg} />}
-                action={
-                    <IconButton aria-label="settings">
-                        <MoreVertIcon />
-                    </IconButton>
-                }
-                title={nickname}
-                subheader="September 14, 2016"
-            />
-            <CardActions disableSpacing>
-                <Typography variant="body2" color="text.secondary">
-                    댓글
+
+            <CardActions
+                disableSpacing
+                style={{ backgroundColor: "white", borderRadius: "4px" }}
+            >
+                <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    style={{ padding: "0 0 0 16px" }}
+                >
+                    <span>댓글</span>
                 </Typography>
                 <ExpandMore
                     expand={expanded}
@@ -167,99 +230,46 @@ const SingleBoard = ({ htmlStr }) => {
                     <Comment expand={expanded} />
                 </CardContent>
             </Collapse>
-        </Card>;
-    });
+        </div>
+    );
 };
 export default SingleBoard;
-// const SingleBoard = () => {
-//     return (
-//         <Container>
-//             <BoardImage image="/images/piano.png"></BoardImage>
-//             <TextWrapper>
-//                 <Title>중고피아노 팝니다!</Title>
-//                 <TextArea>
-//                     거의 새거에요~ 이사하면서 둘 곳이 없어서요! 필요하신 분은
-//                     댓글 남겨주세요~^^!
-//                 </TextArea>
-//                 <WriteInfo>
-//                     <p>2022-06-16</p> <p>jaPark</p>
-//                 </WriteInfo>
-//                 <AccordionWrapper>
-//                     <AccordionSummary
-//                         // expandIcon={<ExpandMoreIcon />}
-//                         aria-controls="panel1a-content"
-//                         id="panel1a-header"
-//                     >
-//                         <AttachTitle>댓글</AttachTitle>
-//                     </AccordionSummary>
-//                     <AccordionDetails>
-//                         <Typography>
-//                             Lorem ipsum dolor sit amet, consectetur adipiscing
-//                             elit. Suspendisse malesuada lacus ex, sit amet
-//                             blandit leo lobortis eget.
-//                         </Typography>
-//                     </AccordionDetails>
-//                 </AccordionWrapper>
-//             </TextWrapper>
-//         </Container>
-//     );
-// };
 
-// export default SingleBoard;
-
-// const Container = styled.div`
-//     width: 40%;
-//     height: 550px;
-//     background-color: white;
-//     display: flex;
-//     flex-direction: column;
-// `;
-
-// const ImgWrapper = styled.div`
-//     width: 100%;
-//     height: 45%;
-// `;
-
-// const BoardImage = styled.div<{ image: string }>`
-//     width: 100%;
-//     height: 45%;
-//     background-image: url(${(props) => props.image});
-//     background-size: cover;
-//     background-position: center center;
-// `;
-
-// const TextWrapper = styled.div`
-//     height: 55%;
-//     padding: 5px 15px;
-// `;
-
-// const Title = styled.h4`
-//     height: 20%;
-// `;
-
-// const TextArea = styled.div`
-//     height: 30%;
-//     word-break: keep-all;
-// `;
-
-// const WriteInfo = styled.div`
-//     height: 10%;
-//     margin-bottom: 10px;
-//     font-size: 12px;
-//     color: var(--deepgray);
-//     display: flex;
-//     justify-content: space-between;
-// `;
-
-// const Date = styled.div``;
-
-// const AccordionWrapper = styled(Accordion)`
-//     height: auto;
-//     padding: 0;
-// `;
-
-// const AttachTitle = styled(Typography)`
-//     font-family: Elice Digital Baeum;
-//     font-size: 12px;
-//     margin: 0;
-// `;
+const CarouselWrapper = styled.div`
+    display: flex;
+    align-items: center;
+    width: auto;
+    height: 100%;
+`;
+const CarouselAll = styled.div`
+    width: auto;
+    height: 100%;
+    position: relative;
+    border-radius: 15px;
+    margin: 8px 8px;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    background-color: #a7c4bc;
+`;
+const Slider = styled.div`
+    width: auto;
+    height: auto;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    &.is_pass {
+        opacity: 0;
+        transition: opacity ease-in-out 0.01s;
+    }
+    &.is_active {
+        opacity: 1;
+    }
+`;
+const InfoBox = styled.div`
+    height: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+`;
