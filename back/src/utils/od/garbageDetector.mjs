@@ -53,7 +53,9 @@ const CLASSES_EN = [
 ];
 const CLASSNAMES = { en: CLASSES_EN, ko: CLASSES_KO };
 
-/** @const {string} MODELDIR - `back/src/utils/od/gdmodel`의 절대 경로입니다.
+/** `back/src/utils/od/gdmodel`의 절대 경로입니다.
+ *
+ * @const {string} MODELDIR
  *
  * `gdmodel` 경로는 git이 무시하는 위치이기 때문에 크기가 큰 인공지능 모델을 두기 좋습니다.
  * `MODELDIR`의 사용 여부는 자유이지만, 편의성을 위해 추가된 상수입니다.
