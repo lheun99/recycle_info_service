@@ -14,7 +14,7 @@ const Point = {
     },
 
     findByFilter: async ({ user_id, route, today }) => {
-        const point = await pointModel.findOne({
+        const point = await pointModel.findAll({
             attributes: ["point"],
             where: { user_id, route, raised_at: { [Op.gt]: today } },
         });
