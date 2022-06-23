@@ -4,54 +4,54 @@ const axios = require("axios");
 const { v4: uuidv4 } = require("uuid");
 
 class naverService {
-    // static addUser = async ({ newUser }) => {
-    //     await User.create({ newUser });
-    //     return;
-    // };
+    static addUser = async ({ newUser }) => {
+        await User.create({ newUser });
+        return;
+    };
 
-    // static checkUser = async ({ nickname, email, picture }) => {
-    //     const user = await User.findByEmail({ email });
-    //     if (user) {
-    //         const today = new Date();
-    //         // 최근 로그인 날짜를 업데이트해줌
-    //         const toUpdate = { last_login: today };
-    //         await User.update({ user_id: user.user_id, toUpdate });
+    static checkUser = async ({ nickname, email, picture }) => {
+        const user = await User.findByEmail({ email });
+        if (user) {
+            const today = new Date();
+            // 최근 로그인 날짜를 업데이트해줌
+            const toUpdate = { last_login: today };
+            await User.update({ user_id: user.user_id, toUpdate });
 
-    //         const secretKey = process.env.JWT_SECRET_KEY;
-    //         const token = jwt.sign({ userId: user.user_id }, secretKey);
+            const secretKey = process.env.JWT_SECRET_KEY;
+            const token = jwt.sign({ userId: user.user_id }, secretKey);
 
-    //         const { user_id, nickname, picture } = user;
+            const { user_id, nickname, picture } = user;
 
-    //         const loginUser = {
-    //             token,
-    //             userId: user_id,
-    //             nickname,
-    //             picture,
-    //         };
-    //         return { message: "success", data: loginUser };
-    //     } else {
-    //         const registerDate = new Date();
-    //         const userId = uuidv4();
-    //         const newUser = {
-    //             nickname,
-    //             email,
-    //             password: "noPassword",
-    //             user_id: userId,
-    //             register_date: registerDate,
-    //             picture,
-    //         };
-    //         await this.addUser({ newUser });
-    //         const data = {
-    //             userId,
-    //             nickname,
-    //             email,
-    //             registerDate,
-    //         };
+            const loginUser = {
+                token,
+                userId: user_id,
+                nickname,
+                picture,
+            };
+            return { message: "success", data: loginUser };
+        } else {
+            const registerDate = new Date();
+            const userId = uuidv4();
+            const newUser = {
+                nickname,
+                email,
+                password: "noPassword",
+                user_id: userId,
+                register_date: registerDate,
+                picture,
+            };
+            await this.addUser({ newUser });
+            const data = {
+                userId,
+                nickname,
+                email,
+                registerDate,
+            };
 
-    //         const registerUser = { message: "success", data, register: true };
-    //         return registerUser;
-    //     }
-    // };
+            const registerUser = { message: "success", data, register: true };
+            return registerUser;
+        }
+    };
 
     static getUserData = async ({ accessToken }) => {
         const apiUrl = "https://openapi.naver.com/v1/nid/me";
