@@ -13,11 +13,11 @@ const regionData = Array.from(new Set(WasteInfo.map((data) => data.region)));
 const nameData = Array.from(new Set(WasteInfo.map((data) => data.name)));
 
 const Search = ({ mapData, handleSetMapData }) => {
-    const [region, setRegion] = useState<String | null>(null);
-    const [name, setName] = useState<String | null>(null);
+    const [region, setRegion] = useState<string | null>(null);
+    const [name, setName] = useState<string | null>(null);
     const [inputRegion, setInputRegion] = useState('');
     const [inputName, setInputName] = useState('');
-    const [newNameData, setNewNameData] = useState<String[]>(nameData);
+    const [newNameData, setNewNameData] = useState<string[]>(nameData);
     const isRegionValid = (region === null)
 
     useEffect(() => {

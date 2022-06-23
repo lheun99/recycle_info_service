@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import { AnyStyledComponent } from "styled-components";
 import WasteInfo from "../../public/wasteInfo.json";
 
 declare global {
@@ -9,7 +8,7 @@ declare global {
 }
 
 interface MapProps {
-  mapData: String[] | null;
+  mapData: string[] | null;
   handleSetClickMapData: any;
 }
 
@@ -55,10 +54,8 @@ function Map({ mapData, handleSetClickMapData }: MapProps) {
                             // 지도의 중심을 결과값으로 받은 위치로 이동
                             marker.setMap(map);
 
-                            window.kakao.maps.event.addListener(marker, 'click', function() {
-                                const map = WasteInfo.filter((data) => data.address === result[0].address_name)
-                                handleSetClickMapData(map)
-                            });
+                            const mapData = WasteInfo.filter((data) => data.address === result[0].address_name)
+                            handleSetClickMapData(mapData)
                         }
                     })
                 } else { 
@@ -87,11 +84,13 @@ function Map({ mapData, handleSetClickMapData }: MapProps) {
                                     if (dist < nearesetDistance) {
                                         nearesetDistance = dist;
                                         map.panTo(coords); // 지도 이동
+                                        const mapData = WasteInfo.filter((data) => data.address === result[0].address_name)
+                                        handleSetClickMapData(mapData)
                                     }
 
                                     window.kakao.maps.event.addListener(marker, 'click', function() {
-                                        const map = WasteInfo.filter((data) => data.address === result[0].address_name)
-                                        handleSetClickMapData(map)
+                                        const mapData = WasteInfo.filter((data) => data.address === result[0].address_name)
+                                        handleSetClickMapData(mapData)
                                     });
                                 }
                             })
