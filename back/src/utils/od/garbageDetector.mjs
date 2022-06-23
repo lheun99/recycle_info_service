@@ -247,6 +247,7 @@ class GarbageDetector {
 
     this.modelPath = modelPath;
     this.model = null;
+    this.initDone = false;
   }
 
   /** 모델을 준비합니다. 인스턴스 생성 후 반드시 이 메소드를 호출하세요. */
@@ -260,6 +261,7 @@ class GarbageDetector {
       // saved model 포맷입니다.
       this.model = await tf.node.loadSavedModel(this.modelPath);
     }
+    this.initDone = true;
   }
 
   /** 이미지에서 쓰레기를 찾아 분류합니다.
@@ -280,7 +282,7 @@ class GarbageDetector {
    *  각각의 `Detection`은 인공지능이 발견한 물체 하나에 대한 정보를 담고 있습니다.
    */
   async guess(image) {
-    if (this.model === null) {
+    if (!this.initDone) {
       throw new AppError(
         { name: `DetectionError`, operational: true, detail: {} },
         `Model is not ready`
