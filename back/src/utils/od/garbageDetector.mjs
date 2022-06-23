@@ -103,6 +103,8 @@ const MODELDIR = path.resolve(
  *   `xyxy` 형식으로 바운딩 박스 좌표를 반환합니다.
  * - `Detection.xywh(dim: number[] = [this.imageWidth, this.imageHeight])` -
  *   `xywh` 형식으로 바운딩 박스 좌표를 반환합니다.
+ * - `Detection.toString(verbose: boolean = false)` -
+ *   `Detection` 오브젝트를 컴팩트한 문자열로 바꿔줍니다.
  */
 class Detection {
   /**
@@ -184,6 +186,19 @@ class Detection {
       Math.round(this._xywh[2] * width),
       Math.round(this._xywh[3] * height),
     ];
+  }
+
+  /** `Detection` 오브젝트를 컴팩트한 문자열로 바꿔줍니다.
+   *
+   * @arg {boolean} verbose - 기본값 `false`. `true`이면 모든 프로퍼티를 보여줍니다.
+   * @return {string}
+   */
+  toString(verbose = false) {
+    if (verbose) {
+      return Object.prototype.toString(this);
+    } else {
+      return `Detection(${this.classId})`;
+    }
   }
 }
 
