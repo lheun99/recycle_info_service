@@ -23,7 +23,7 @@ let sequelize = new Sequelize({
   logging: false,
 });
 
-// fs.readdirSync(__dirname)
+// fs.readdirSync(`{__dirname}/schemas`)
 //   .filter((file) => {
 //     return (
 //       file.indexOf(".") !== 0 && file !== basename && file.slice(-3) === ".js"
