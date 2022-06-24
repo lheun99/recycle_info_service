@@ -45,7 +45,7 @@ const ExpandMore = muiStyled((props: ExpandMoreProps) => {
 // data map 할 예정, 게시글과 댓글 연동은 postId (게시글 번호) 로 연동 !
 const SingleBoard = ({ postImg, content, title }) => {
     const [expanded, setExpanded] = useState(false);
-    const [slideIndex, setSlideIndex] = useState(1);
+    const [slideIndex, setSlideIndex] = useState(0);
     const [activeStep, setActiveStep] = useState(0);
     const maxSteps = postImg?.length; // 자료의 총 길이
     const userInfo = useContext(UserStateContext);
@@ -78,7 +78,7 @@ const SingleBoard = ({ postImg, content, title }) => {
     };
 
     const prevSlide = () => {
-        if (slideIndex === 1) {
+        if (slideIndex === 0) {
             return;
         }
         setActiveStep((cur) => cur - 1);
@@ -118,7 +118,7 @@ const SingleBoard = ({ postImg, content, title }) => {
                                     <Slider
                                         key={`page-${idx}`}
                                         className={
-                                            slideIndex === idx + 1
+                                            slideIndex === idx
                                                 ? "is_active"
                                                 : "is_pass"
                                         }
