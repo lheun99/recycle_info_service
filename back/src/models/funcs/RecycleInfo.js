@@ -1,21 +1,25 @@
 import db from "../index.js";
 import QueryTypes from "sequelize";
+import { StaticPool } from "node-worker-threads-pool";
+
 const recycleInfoModel = db.recycleInfo;
 const recycleCategoryModel = db.recycleCategory;
 const Sequelize = db.Sequelize;
 const sequelize = db.sequelize;
 
-import { GarbageDetector, MODELDIR } from "../../utils/od/garbageDetector.mjs";
-const detector = new GarbageDetector(MODELDIR);
-await detector.init().then(() => {
-  console.log(detector.initDone);
+//worker_thread 연결
+const filePath = "./src/utils/worker.js";
+const pool = new StaticPool({
+  size: 3,
+  task: filePath,
+  workerData: "인공지능 분석 요청",
 });
 
 const RecycleInfo = {
   //POST /recycleInfo
   //인공지능 파트로 이미지 정보 전달
   findRecycleCode: async ({ imgBuffer }) => {
-    const result = await detector.guess(imgBuffer);
+    const result = await pool.exec(imgBuffer);
     return result;
   },
 

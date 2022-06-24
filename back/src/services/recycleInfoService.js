@@ -3,12 +3,16 @@ import RecycleInfo from "../models/funcs/RecycleInfo.js";
 const recycleInfoService = {
   //POST /recycleInfo
   analysisImg: async ({ imgBuffer }) => {
-    //인공지능 파트로 이미지 정보 전달
+    //인공지능 파트로 이미지 정보 전달, 분석 결과
     const result = await RecycleInfo.findRecycleCode({ imgBuffer });
-    //console.log(result);
-    console.log(result[0].classId);
+    if (result.length === 0) {
+      const errorMessage = "분석 실패! 재촬영 요청";
+      return { errorMessage };
+    }
+    //분석 결과 중 recycle_category_code 추출
     const code = result[0].classId;
-    //분석 결과에 따른 분리배출 정보
+
+    //recycle_category_code에 따른 분리배출 정보
     const infos = await RecycleInfo.findInfoByCode({ code });
 
     //안내될 정보 페이지 수
