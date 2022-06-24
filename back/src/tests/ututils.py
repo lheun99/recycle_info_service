@@ -52,7 +52,7 @@ class AuthMixin(unittest.TestCase):
         if res.status != HTTPStatus.CREATED:
             raise Exception('Registration failed')
 
-        data = json.loads(res.read()).data
+        data = json.loads(res.read())['data']
         self.nickname = data['nickname']
         self.email = data['email']
         self.userId = data['userId']
