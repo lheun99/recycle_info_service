@@ -6,13 +6,13 @@ import Search from "./Search"
 import Map from "./Map"
 
 const ReportWaste = () => {
-    const [mapData, setMapData] = useState<String[] | null>(null);  
-    const handleSetMapData = (data: String[]) => {
+    const [mapData, setMapData] = useState<string[] | null>(null);  
+    const handleSetMapData = (data: string[]) => {
         setMapData(data);
     }
 
-    const [clickData, setClickData] = useState<String[] | null>(null);  
-    const handleSetClickMapData = (data: String[]) => {
+    const [clickData, setClickData] = useState<string[] | null>(null);  
+    const handleSetClickMapData = (data: string[]) => {
         setClickData(data);
     }
 
@@ -39,27 +39,25 @@ const ReportWaste = () => {
                     <Map mapData={mapData} handleSetClickMapData={handleSetClickMapData}/>
                 </MapContainer>
                 <MapInfo>
-                    <p>
-                        { clickData ? (
-                            <MapInfoData>
-                                <ImageWrapper>
-                                    <Image
-                                        src={clickData[0]["banner_image"]}
-                                        alt="banner_image"
-                                        width={100}
-                                        height={40}
-                                        unoptimized={true}
-                                    />
-                                </ImageWrapper>
-                                <div>
-                                    <div>주소 : {clickData[0]["address"]}</div>
-                                    <div>전화번호 : {clickData[0]["tel"]}</div>
-                                    <div><a href={clickData[0]["url1"]} target='_blank'>우리동네 공식 홈페이지 바로가기 </a></div>
-                                    <div><a href={clickData[0]["url2"]} target='_blank'>대형폐기물 배출신고 안내 바로가기 </a></div>
-                                </div>
-                            </MapInfoData>
-                        ) : "검색 결과를 확인하세요!" }
-                    </p>
+                    {clickData && (
+                        <MapInfoData>
+                            <ImageWrapper>
+                                <Image
+                                    src={clickData[0]["banner_image"]}
+                                    alt="banner_image"
+                                    width={100}
+                                    height={40}
+                                    unoptimized={true}
+                                />
+                            </ImageWrapper>
+                            <div>
+                                <div>주소 : {clickData[0]["address"]}</div>
+                                <div>전화번호 : {clickData[0]["tel"]}</div>
+                                <div><a href={clickData[0]["url1"]} target='_blank'>우리동네 공식 홈페이지 바로가기 </a></div>
+                                <div><a href={clickData[0]["url2"]} target='_blank'>대형폐기물 배출신고 안내 바로가기 </a></div>
+                            </div>
+                        </MapInfoData>
+                    )}
                 </MapInfo>
             </Form>
             <p>Tip! 대형폐기물은 무료로  수거가 가능하기도 해요!</p>
@@ -115,16 +113,15 @@ const MapContainer = styled.div`
 
 const MapInfo = styled.div`
     width: 650px;
-    height: 110px;
+    height: 120px;
     border: 1px dashed #c4c4c4;
-    padding-left: 20px;
+    padding: 20px;
     font-size: 0.8rem;
 `;
 
 const MapInfoData = styled.div`
     display: flex;
     align-items: center;
-    // justify-content: space-between;
 `;
 
 const ImageWrapper = styled.div`

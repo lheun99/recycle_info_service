@@ -1,19 +1,22 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import QuizResult from "./QuizResult";
 import Image from "next/image";
 import QuestionMark from "../../public/images/question_mark.png";
-import messageOpen from "../../public/images/message-open.png";
+import CheckMark from "../../public/images/check.png";
+import CheckColorMark from "../../public/images/check2.png";
 import styled from "styled-components";
 import { styled as materialStyled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
-import { get } from "../../api";
+import { get, getQuary } from "../../api";
 
 type QuizType = {
     question: string,
     multiples : [],
     answer: string,
-    image: Boolean,
+    image: boolean,
 }
+
+const CHALLENGENUM : number = 3;
 
 const Quiz = () => {
     const [quiz, setQuiz] = useState<QuizType>({
@@ -22,20 +25,53 @@ const Quiz = () => {
         answer: "",
         image: false,
     });
-    const [open, setOpen] = useState<Boolean>(false);
-    const [answer, setAnswer] = useState<Boolean>(false);
+    const [open, setOpen] = useState<boolean>(false);
+    const [answer, setAnswer] = useState<boolean>(false);
     const [userAnswer, setUserAnswer] = useState<string>("");
-    const openClickHandler = () => setOpen(!open)
+    const [userPoint, setUserPoint] = useState<number>(0);
+    const openClickHandler = () : void => setOpen(!open)
     
     const answerClickHandler = (userAnswer : string) : void => {
         setAnswer(!answer);
         setUserAnswer(userAnswer);
     }
 
+    const setChallengeButton = () : any => {
+        const result = [];
+        if (userPoint >= CHALLENGENUM) {
+            setUserPoint(CHALLENGENUM)
+        }
+        for (var i = 0; i < userPoint; i++) {
+            result.push(
+                <div>
+                    <Image
+                        src={CheckMark}
+                        alt="check-mark"
+                        width={100}
+                        height={100}
+                    />
+                    <ChallengeText>완료</ChallengeText>
+                </div>
+            )}
+        for (var i = 0; i < CHALLENGENUM - userPoint; i++) {
+            result.push(
+                <div>
+                    <ChallengeImage
+                        src={CheckColorMark}
+                        alt="check-color-mark"
+                        width={100}
+                        height={100}
+                        onClick={openClickHandler}
+                    />
+                    <ChallengeText>도전하기!</ChallengeText>
+                </div>
+            )}
+        return result;
+    }
+
     const getQuizData = async () => {
         try {
             await get("quizs").then((res) => {
-                // console.log(res.data)
                 setQuiz(res.data.data)
             })
         } catch (err) {
@@ -43,8 +79,35 @@ const Quiz = () => {
         }
     };
 
+    const checkPoint = async () => {
+        try {
+            await getQuary(
+                "points",
+                {
+                    params: {
+                        route: "quiz",
+                    },
+                },
+            ).then((res : any) => {
+                setUserPoint(res.data.data)
+            })
+        } catch (err) {
+            console.log("errer message: ", err);
+        }
+
+        // 포인트 리스트 조회
+        // try {
+        //     await get("points/list").then((res : any) => {
+        //         console.log("points/list: ", res.data)
+        //     })
+        // } catch (err) {
+        //     console.log("errer message: ", err);
+        // }
+    }
+
     useEffect(() => {
         getQuizData();
+        checkPoint();
     }, [])
 
     return (
@@ -97,15 +160,9 @@ const Quiz = () => {
                                 </InnerForm>
                             )
                         ) : (
-                            <ChallengeButton onClick={openClickHandler}>
-                                <Image
-                                    src={messageOpen}
-                                    alt="message-open"
-                                    width={200}
-                                    height={200}
-                                />
-                                <ImageText>도전하기</ImageText>
-                            </ChallengeButton>
+                            <ChallengeButtonWrapper>
+                                {setChallengeButton()}
+                            </ChallengeButtonWrapper>
                         )
                     }
                 </Container>
@@ -174,13 +231,6 @@ const ImageWrapper = styled.div`
     margin: 20px 0;
 `;
 
-const ImageText = styled.div`
-    position: absolute;
-    top: 70px;
-    font-size: 1.2rem;
-    font-weight: bold;
-`;
-
 const Question = styled.div`
     width: 100%;
     text-align: center;
@@ -216,16 +266,22 @@ const AnswerImageButton = styled.img`
     cursor: pointer;
 `;
 
-const ChallengeButton = materialStyled(Button)(
-    () => (
-        {
-            width: '50%',
-            height: '50%',
-            '&:hover': {
-                backgroundColor: 'white',
-            }
-        }
-    ));
+const ChallengeButtonWrapper = styled.div`      
+    width: 80%;
+    height: 50%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+`;
+
+const ChallengeImage = styled(Image)`
+    cursor: pointer;
+`;
+
+const ChallengeText = styled.p`      
+    width: 100px;
+    text-align: center;
+`;
 
 const AnswerButton = materialStyled(Button)(
     () => (

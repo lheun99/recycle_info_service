@@ -28,15 +28,16 @@ const MyPage = () => {
             email: userAll.email,
             nickname: userAll.nickname,
             picture: userAll.picture,
-            point: userAll.rank?.total ?? "",
+            point: userAll.rank?.total ?? 0,
             rank: userAll.rank?.rank ?? "",
             rankers: userAll.rankers ?? "",
         });
     };
+    console.log(user.point);
 
     useEffect(() => {
         getUserInfo();
-    }, []);
+    }, [user]);
 
     return (
         <Wrapper>

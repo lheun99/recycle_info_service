@@ -7,22 +7,18 @@ import { styled as materialStyled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import lottie from "lottie-web";
 import animationData from "../../public/trueEffect.json";
-import { get, post } from "../../api";
+import { post } from "../../api";
 
 type QuizType = {
     question: string;
     multiples : [];
     answer: string;
-    image: Boolean;
+    image: boolean;
 }
 
 type QuizResultProps = {
-    result: Boolean;
+    result: boolean;
     quiz: QuizType;
-}
-
-type Point = {
-    route: string;
 }
 
 const QuizResult = ({ result, quiz } : QuizResultProps) => {
@@ -32,30 +28,15 @@ const QuizResult = ({ result, quiz } : QuizResultProps) => {
     const pointClickHandler = async () => {
         try {
             await post("points", {
-                "route": "quiz",
-                "point": 100
+                route: "quiz",
+                point: 100
             }).then(() => {
-                // console.log("포인트 적립")
+                console.log("포인트 적립")
             })
         } catch (err) {
             console.log("errer message: ", err);
         }
     }
-
-    // 어케 쓰는 걸까 하놔
-    // const pointCheck = async () => {
-    //     try {
-    //         await get<Point>("points", {
-    //             params: { 
-    //                 route : "quiz",
-    //             }
-    //         }).then((res : any) => {
-    //             console.log(res.data)
-    //         })
-    //     } catch (err) {
-
-    //     }
-    // }
 
     useEffect(() => {
         lottie.loadAnimation({
@@ -89,7 +70,7 @@ const QuizResult = ({ result, quiz } : QuizResultProps) => {
             </ResultForm>   
             <div>
                 <NavButton onClick={() => router.push('/')}>홈으로</NavButton>
-                <NavButton onClick={pointClickHandler}>
+                <NavButton onClick={pointClickHandler} disabled={!result}>
                     <Image
                         src={PointCoin}
                         alt="point-coin"
@@ -98,7 +79,6 @@ const QuizResult = ({ result, quiz } : QuizResultProps) => {
                     />
                     <p>포인트 적립</p>
                 </NavButton>
-                {/* <button onClick={pointCheck}>포인트 확인</button> */}
             </div>
         </ResultWrapper>
     )

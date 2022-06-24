@@ -16,16 +16,17 @@ import { patch, get } from "../../api";
 const UserProfile = ({ user, setUser, userId }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [inputValue, setInputValue] = useState("");
+    const [profileImage, setProfileImage] = useState("");
 
     const editProfile = async () => {
-        if (inputValue === "") {
+        if (inputValue === "" && profileImage == "") {
             // 입력한 내용이 없을 경우, 넘어가지 못함
-            return;
+            return setIsEditing((cur) => !cur);
         } else {
             // 닉네임 수정
             await patch(`users/${userId}/profile`, {
-                nickname: inputValue,
-                picture: user?.picture,
+                nickname: inputValue ? inputValue : user.nickname,
+                picture: profileImage ? profileImage : user.picture,
             });
             // 업데이트 된 정보를 다시 받아온다
             const res = await get(`users/${userId}/myPage`);
@@ -36,6 +37,7 @@ const UserProfile = ({ user, setUser, userId }) => {
                 email: userAll.email,
                 picture: userAll.picture,
             });
+            setProfileImage("");
             setInputValue("");
             setIsEditing((cur) => !cur);
         }
@@ -62,9 +64,16 @@ const UserProfile = ({ user, setUser, userId }) => {
                 <Dialog open={isEditing}>
                     <EditTitle>프로필 편집</EditTitle>
                     <ProfileEdit>
-                        <ProfileImg alt="user profile" src={user?.picture} />
+                        <ProfileImg
+                            alt="user profile"
+                            src={profileImage ? profileImage : user?.picture}
+                        />
                         <UploadWrapper>
-                            <ImageUpload width={450} height={200} />
+                            <ImageUpload
+                                width={450}
+                                height={200}
+                                setProfileImage={setProfileImage}
+                            />
                         </UploadWrapper>
                         <InputWrapper>
                             <p>변경 닉네임 : </p>

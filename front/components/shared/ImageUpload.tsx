@@ -10,9 +10,15 @@ type ImageUploadProps = {
     width?: number;
     height?: number;
     route?: string;
+    setProfileImage?: any;
 };
 
-const ImageUpload = ({ width, height, route }: ImageUploadProps) => {
+const ImageUpload = ({
+    width,
+    height,
+    route,
+    setProfileImage,
+}: ImageUploadProps) => {
     const [isUploaded, setIsUploaded] = useState("standBy");
     // img upload 상태 : ["standBy"] "대기, 아직 아무것도 일어나지 않음" / ["loading"] "서버에 img를 보내고 결과를 기다림" / ["complete"] "결과를 저장하고 라우팅할 것"
     const router = useRouter();
@@ -43,8 +49,8 @@ const ImageUpload = ({ width, height, route }: ImageUploadProps) => {
         console.log(formData.getAll("image"));
         // console.log(formData.getAll("image")); // formData에 잘 들어가는지 확인
         if (route === "recycleInfo") {
-            const res = await sendImageFile("image", formData);
-            console.log(res);
+            const res = await sendImageFile("recycle-info", formData);
+
             const info = await res?.data?.data;
             // if (info) {
             //     localStorage.setItem(
@@ -57,13 +63,17 @@ const ImageUpload = ({ width, height, route }: ImageUploadProps) => {
             if (info) {
                 localStorage.setItem("recycleInfo", JSON.stringify(info)); // 페이지 라우팅 전, localStorage에 저장하여 넘어간 페이지에서 꺼내올 예정
                 // 용량 제한이 된다면, sessionStorage를 이용해야하는가...
+                setTimeout(async () => {
+                    // console.log("로딩중이 되나");
+                    setIsUploaded("complete");
+                }, 5000); // 임시로 약 5초가 걸린다고 생각하고, loading component가 실행되도록 한다
             }
         } else {
-        }
-        setTimeout(async () => {
-            console.log("로딩중이 되나");
+            const res = await sendImageFile("upload/profile-img", formData);
+            const imageRoute = res.data.data;
+            setProfileImage(imageRoute);
             setIsUploaded("complete");
-        }, 5000); // 임시로 약 5초가 걸린다고 생각하고, loading component가 실행되도록 한다
+        }
     };
 
     useEffect(() => {
