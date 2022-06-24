@@ -1,7 +1,7 @@
 #! /usr/bin/env python3
 
 import json
-import unittest
+# import unittest
 
 from http.client import HTTPConnection
 from http import HTTPStatus
@@ -12,15 +12,18 @@ class ConfigMixin(object):
     jsonpath: str
     config: dict
     root: str
+    headers: str
 
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         with Path(self.jsonpath).open() as json_in:
             self.config = json.load(json_in)
+
         self.root = f"{self.config['host']}:{self.config['port']}"
+        self.headers = json.dumps({'Content-Type': 'application/json'})
 
 
-class AuthMixin(unittest.TestCase):
+class AuthMixin(object):
     """로그인이 필요한 서비스 접근을 위해 회원가입/탈퇴를 합니다."""
     connection: HTTPConnection
     nickname: str
@@ -36,7 +39,6 @@ class AuthMixin(unittest.TestCase):
         )
 
         authdata = self.config['auth']
-        headers = {'Content-Type': 'application/json'}
         body = json.dumps(
             {
                 'nickname': authdata['nickname'],
@@ -46,7 +48,10 @@ class AuthMixin(unittest.TestCase):
         )
 
         self.connection.request(
-            'POST', f'{self.root}/users/register', body=body, headers=headers
+            'POST',
+            f'{self.root}/users/register',
+            body=body,
+            headers=self.headers
         )
         res = self.connection.getresponse()
         if res.status != HTTPStatus.CREATED:
