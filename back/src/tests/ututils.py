@@ -28,7 +28,7 @@ class AuthMixin(unittest.TestCase):
     password: str
     userId: str
     token: str
-    headers: dict
+    headers: str
 
     def setUp(self) -> None:
         self.connection = HTTPConnection(
@@ -57,16 +57,18 @@ class AuthMixin(unittest.TestCase):
         self.email = data['email']
         self.userId = data['userId']
 
-        self.headers = {
-            'Content-Type': 'application/json',
-            'Authorization': f'Bearer {self.token}'
-        }
+        self.headers = json.dumps(
+            {
+                'Content-Type': 'application/json',
+                'Authorization': f'Bearer {self.token}'
+            }
+        )
 
     def tearDown(self) -> None:
         self.connection.request(
             'DELETE',
             f'{self.root}/users/{self.userId}',
-            headers=json.dumps(self.headers)
+            headers=self.headers
         )
 
         res = self.connection.getresponse()
