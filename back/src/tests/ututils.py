@@ -59,7 +59,7 @@ class AuthMixin(unittest.TestCase):
 
         self.headers = {
             'Content-Type': 'application/json',
-            'authorization': f'Bearer {self.token}'
+            'Authorization': f'Bearer {self.token}'
         }
 
     def tearDown(self) -> None:
