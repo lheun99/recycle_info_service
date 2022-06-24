@@ -2,9 +2,12 @@ import RecycleInfo from "../models/funcs/RecycleInfo.js";
 
 const recycleInfoService = {
   //POST /recycleInfo
-  analysisImg: async ({ encoded }) => {
+  analysisImg: async ({ imgBuffer }) => {
     //인공지능 파트로 이미지 정보 전달
-    const code = await RecycleInfo.findRecycleCode({ encoded });
+    const result = await RecycleInfo.findRecycleCode({ imgBuffer });
+    //console.log(result);
+    console.log(result[0].classId);
+    const code = result[0].classId;
     //분석 결과에 따른 분리배출 정보
     const infos = await RecycleInfo.findInfoByCode({ code });
 
