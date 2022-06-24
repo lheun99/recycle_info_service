@@ -4,9 +4,12 @@ import Logo from "../public/images/logo.png";
 import navStyles from "../styles/Nav.module.css";
 import LoginOrRegisterModal from "./modal/LoginOrRegisterModal";
 import React, { useState } from "react";
+import { useRecoilState } from "recoil";
+import { LoginState } from "../states/atoms";
+import styled from "styled-components";
 
 const Nav = () => {
-    // 오류 해결해야함..
+    const [login, setLogin] = useRecoilState(LoginState);
     const [open, setOpen] = useState<Boolean>(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -54,9 +57,17 @@ const Nav = () => {
                     </Link>
                 </li>
                 <li>
-                    <div onClick={handleOpen} style={{ cursor: "pointer" }}>
-                        Sign in
-                    </div>
+                    {
+                        login ? (
+                            <LoginButton onClick={() => setLogin(false)}>
+                                Sign out
+                            </LoginButton>
+                        ) : (
+                            <LoginButton onClick={handleOpen}>
+                                Sign in
+                            </LoginButton>
+                        )
+                    }
                     <LoginOrRegisterModal
                         open={open}
                         handleClose={handleClose}
@@ -68,3 +79,8 @@ const Nav = () => {
 };
 
 export default Nav;
+
+
+const LoginButton = styled.div`
+    cursor: pointer;
+`;
