@@ -104,5 +104,8 @@ class AuthMixin(object):
 
         res = self.connection.getresponse()
         self.connection.close()
-        if res.status != HTTPStatus.NO_CONTENT:
-            raise Exception('Unregistration failed')
+        self.assertEqual(
+            res.status,
+            HTTPStatus.NO_CONTENT,
+            'Unregistration failed'
+        )
