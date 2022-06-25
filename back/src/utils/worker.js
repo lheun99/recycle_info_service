@@ -1,21 +1,21 @@
-// import { parentPort, workerData } from "worker_threads";
-// import { GarbageDetector, MODELDIR } from "./od/garbageDetector.mjs";
+import { parentPort, workerData } from "worker_threads";
+import { GarbageDetector, MODELDIR } from "./od/garbageDetector.mjs";
 
-// //GarbageDetector 모델 생성
-// const detector = new GarbageDetector(MODELDIR);
-// await detector.init().then(() => {
-//   //초기화 정상적으로 완료 : true
-//   console.log(detector.initDone);
-// });
+//GarbageDetector 모델 생성
+const detector = new GarbageDetector(MODELDIR);
+await detector.init().then(() => {
+  //초기화 정상적으로 완료 : true
+  console.log(detector.initDone);
+});
 
-// parentPort.on("message", async (imgBuffer) => {
-//   if (!detector.initDone) {
-//     console.log("초기화 실패");
-//   }
+parentPort.on("message", async (imgBuffer) => {
+  if (!detector.initDone) {
+    console.log("초기화 실패");
+  }
 
-//   const result = await detector.guess(imgBuffer);
-//   console.log(workerData);
+  const result = await detector.guess(imgBuffer);
+  console.log(workerData);
 
-//   // return the result to main thread.
-//   parentPort.postMessage(result);
-// });
+  // return the result to main thread.
+  parentPort.postMessage(result);
+});
