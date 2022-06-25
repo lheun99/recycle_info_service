@@ -24,7 +24,7 @@ class Identity(object):
     password: str
     userId: str
     token: str
-    headers: str
+    headers: dict
     registered: bool = False
     loggedin: bool = False
     connection: HTTPConnection
