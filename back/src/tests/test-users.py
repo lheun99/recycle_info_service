@@ -61,9 +61,27 @@ class TestUsers(unittest.TestCase, ConfigMixin):
             and self.myself.nickname == data['nickname']
         )
 
+    def test_1_update_password(self):
+        """자기 자신만 비밀번호를 바꿀 수 있어야 합니다."""
+        with self.subTest('자기 자신의 비밀번호 바꾸기'):
+            self._update_password(self.myself)
+        with self.subTest('로그인하지 않은 사용자가 비밀번호 바꾸기'):
+            unittest.expectedFailure(self._update_password(self.nobody))
+        with self.subTest('로그인한 다른 사용자가 비밀번호 바꾸기'):
+            unittest.expectedFailure(self._update_password(self.somebody))
+
     def test_illegal_modification(self):
-        conn = self.connection
-        cfg = self.config['illegal_modification']
+        conn = self.myself.connection
+        cfg = self.config['update_password']
+
+        conn.request(
+            'PATCH',
+            f'{self.root}/{cfg["path"]}'.format(**vars(self.myself)),
+            body=json.dumps(cfg['body']),
+            headers=self.myself.headers,
+        )
+        res = conn.getresponse()
+        self.assertEqual(res.status, HTTPStatus.OK)
 
 
 if __name__ == '__main__':
