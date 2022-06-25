@@ -147,6 +147,7 @@ class Identity(object):
 
 
 class ConfigMixin(object):
+    name: str
     jsonpath: str
     config: dict
     root: str
@@ -155,10 +156,14 @@ class ConfigMixin(object):
     nobody: Identity
 
     def setUp(self):
+        with (Path(__file__).parent / 'domain.json').open() as json_in:
+            config: dict = json.load(json_in)
+            host = config['host']
+            port = config['port']
+            self.root = f'http://{host}:{port}/{self.name}'
+
         with Path(self.jsonpath).open() as json_in:
             self.config = json.load(json_in)
-
-        self.root = f"{self.config['host']}:{self.config['port']}"
 
         # Identity 세 가지를 만듭니다. (자기 자신, 다른 사용자, 로그인하지 않은 사용자)
         self.myself = Identity().register().login()
