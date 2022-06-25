@@ -92,7 +92,7 @@ class Identity(object):
                 secrets.token_urlsafe(43),
             ]
         )
-        self.headers = json.dumps({'Content-Type': 'application/json'})
+        self.headers = {'Content-Type': 'application/json'}
         self.connection = HTTPConnection(self.host, self.port)
 
     def register(self) -> Identity:
@@ -139,12 +139,7 @@ class Identity(object):
             raise AssertionError(f'Logging in fail, got {res.status}')
         self.loggedin = True
         self.token = json.loads(res.read()).data['token']
-        self.headers = json.dumps(
-            {
-                'Content-Type': 'application/json',
-                'Authorization': f'Bearer {self.token}',
-            }
-        )
+        self.headers['Authorization'] = f'Bearer {self.token}'
         return self
 
     def close(self) -> None:
@@ -155,7 +150,6 @@ class ConfigMixin(object):
     jsonpath: str
     config: dict
     root: str
-    headers: str
     myself: Identity
     somebody: Identity
     nobody: Identity
