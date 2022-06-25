@@ -45,7 +45,7 @@ function Login({ handleClose, setRegister }) {
             const jwtToken = user.token;
             sessionStorage.setItem("userToken", jwtToken);
 
-            setLogin(true)
+            setLogin(true);
             dispatch({
                 type: "LOGIN_SUCCESS",
                 payload: user,
