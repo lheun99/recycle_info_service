@@ -146,6 +146,9 @@ class Identity(object):
             }
         )
 
+    def close(self) -> None:
+        self.connection.close()
+
 
 class ConfigMixin(object):
     jsonpath: str
