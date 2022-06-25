@@ -168,7 +168,12 @@ class ConfigMixin(object):
         self.nobody = Identity()
 
     def tearDown(self):
-        pass
+        if self.myself.registered:
+            self.myself.unregister()
+        if self.somebody.registered:
+            self.somebody.unregister()
+        if self.nobody.registered:
+            self.nobody.unregister()
 
 
 class AuthMixin(object):
