@@ -10,6 +10,7 @@ from ututils import ConfigMixin, Identity
 class TestUsers(unittest.TestCase, ConfigMixin):
     """``users`` api를 검사합니다."""
     name = 'users'
+    jsonpath = 'test-users.json'
 
     def _update_profile(self, imposter: Identity):
         conn = imposter.connection
