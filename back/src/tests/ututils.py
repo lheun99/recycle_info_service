@@ -79,7 +79,7 @@ class Identity(object):
         if password is None:
             self.password = self.generate_password()
         else:
-            self.nickname = nickname
+            self.password = password
 
         self.userId = uuid4()
         self.token = '.'.join(
