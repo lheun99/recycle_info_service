@@ -9,7 +9,7 @@ from ututils import ConfigMixin, Identity
 
 class TestUsers(unittest.TestCase, ConfigMixin):
     def _update_profile(self, imposter: Identity):
-        conn = self.myself.connection
+        conn = imposter.connection
         cfg = self.config['update_profile']
 
         conn.request(
@@ -22,7 +22,7 @@ class TestUsers(unittest.TestCase, ConfigMixin):
         self.assertEqual(res.status, HTTPStatus.OK)
 
     def _update_password(self, imposter: Identity):
-        conn = self.connection
+        conn = self.myself.connection
         cfg = self.config['update_password']
 
     def test_illegal_modification(self):
