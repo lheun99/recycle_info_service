@@ -145,6 +145,13 @@ class Identity(object):
     def close(self) -> None:
         self.connection.close()
 
+    @staticmethod
+    def generate_password():
+        return ''.join(
+            secrets.choice(__class__.pw_chars)
+            for _ in range(random.randint(__class__.pw_len))
+        )
+
 
 class ConfigMixin(object):
     name: str
