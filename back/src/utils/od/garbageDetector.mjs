@@ -53,7 +53,9 @@ const CLASSES_EN = [
 ];
 const CLASSNAMES = { en: CLASSES_EN, ko: CLASSES_KO };
 
-/** @const {string} MODELDIR - `back/src/utils/od/gdmodel`의 절대 경로입니다.
+/** `back/src/utils/od/gdmodel`의 절대 경로입니다.
+ *
+ * @const {string} MODELDIR
  *
  * `gdmodel` 경로는 git이 무시하는 위치이기 때문에 크기가 큰 인공지능 모델을 두기 좋습니다.
  * `MODELDIR`의 사용 여부는 자유이지만, 편의성을 위해 추가된 상수입니다.
@@ -201,19 +203,24 @@ class Detection {
  * const detector = new GarbageDetector(
  *   path.join(MODELDIR, `path/to/model/dir/or.json`)
  * )
- * await detector.init()
- *
- * const inferences = await detector.guess(
- *    Buffer.from(image_b64, `base64`)
+ * detector.init().then(
+ *    () => console.log(`AI model initialized`)
  * )
- * // 반환값은 Detection 인스턴스의 배열입니다.
- * for (const obj of inferences) {
- *    console.log(obj.name('ko'))   // '전자제품', etc.
+ *
+ * if (detector.initDone) {
+ *    const inferences = await detector.guess(
+ *      Buffer.from(image_b64, `base64`)
+ *    )
+ *    // 반환값은 Detection 인스턴스의 배열입니다.
+ *    for (const obj of inferences) {
+ *      console.log(obj.name('ko'))   // '전자제품', etc.
+ *    }
  * }
  * ```
  *
  * ### 프로퍼티
  *
+ * - `GarbageDetector.initDone`: `boolean`
  * - `GarbageDetector.model`: `tf.node.TFSavedModel`
  * - `GarbageDetector.modelPath`: `string`
  *
