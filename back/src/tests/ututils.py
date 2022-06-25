@@ -27,11 +27,14 @@ class Identity(object):
     headers: str
     registered: bool = False
     loggedin: bool = False
+    connection: HTTPConnection
 
-    id_chars: str = string.ascii_letters + \
-        string.digits + "!#$%&'*+-/=?^_`{|}~"
-    pw_chars: str = string.ascii_letters + \
-        string.digits + "!#$%&'*+-/=?^_`{|}~"
+    id_chars: str = (
+        string.ascii_letters + string.digits + "!#$%&'*+-/=?^_`{|}~"
+    )
+    pw_chars: str = (
+        string.ascii_letters + string.digits + "!#$%&'*+-/=?^_`{|}~"
+    )
     domain_chars: str = string.ascii_lowercase + string.digits
     token_chars: str = string.ascii_letters + string.digits
     nickname_len: Tuple[int, int] = (4, 12)
@@ -39,6 +42,12 @@ class Identity(object):
     domain_len: Tuple[int, int] = (4, 12)
     domain_ext_len: Tuple[int, int] = (2, 4)
     pw_len: Tuple[int, int] = (8, 16)
+
+    with (Path(__file__).parent / 'domain.json').open() as json_in:
+        config: dict = json.load(json_in)
+        host: str = config['host']
+        port: int = config['port']
+        root: str = f'http://{host}:{port}/users'
 
     def __init__(self, nickname=None, email=None, password=None) -> None:
         """회원 정보는 제공하지 않으면 자동으로 생성합니다."""
@@ -84,6 +93,7 @@ class Identity(object):
             ]
         )
         self.headers = json.dumps({'Content-Type': 'application/json'})
+        self.connection = HTTPConnection(self.host, self.port)
 
     def register(self) -> Identity:
         ...
