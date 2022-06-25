@@ -92,6 +92,12 @@ class Identity(object):
         self.headers = {'Content-Type': 'application/json'}
         self.connection = HTTPConnection(self.host, self.port)
 
+    def __repr__(self) -> str:
+        return f'Identity({self.nickname}, {self.email}, {self.password})'
+
+    def __str__(self) -> str:
+        return f'Identity({self.nickname})'
+
     def register(self) -> Identity:
         self.connection.request(
             'POST',
