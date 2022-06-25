@@ -1,11 +1,98 @@
 #! /usr/bin/env python3
 
 import json
+import random
+import secrets
+import string
 # import unittest
 
+from __future__ import annotations
 from http.client import HTTPConnection
 from http import HTTPStatus
 from pathlib import Path
+from uuid import uuid4
+from typing import Tuple
+
+
+random.seed()
+
+
+class Identity(object):
+    """웹사이트에 로그인하거나 또는 하지 않은 사용자입니다."""
+    nickname: str
+    email: str
+    password: str
+    userId: str
+    token: str
+    headers: str
+    registered: bool = False
+    loggedin: bool = False
+
+    id_chars: str = string.ascii_letters + \
+        string.digits + "!#$%&'*+-/=?^_`{|}~"
+    pw_chars: str = string.ascii_letters + \
+        string.digits + "!#$%&'*+-/=?^_`{|}~"
+    domain_chars: str = string.ascii_lowercase + string.digits
+    token_chars: str = string.ascii_letters + string.digits
+    nickname_len: Tuple[int, int] = (4, 12)
+    email_id_len: Tuple[int, int] = (4, 12)
+    domain_len: Tuple[int, int] = (4, 12)
+    domain_ext_len: Tuple[int, int] = (2, 4)
+    pw_len: Tuple[int, int] = (8, 16)
+
+    def __init__(self, nickname=None, email=None, password=None) -> None:
+        """회원 정보는 제공하지 않으면 자동으로 생성합니다."""
+        if nickname is None:
+            self.nickname = ''.join(
+                secrets.choice(self.id_chars)
+                for _ in range(random.randint(self.nickname_len))
+            )
+        else:
+            self.nickname = nickname
+
+        if email is None:
+            email_id = ''.join(
+                secrets.choice(self.id_chars)
+                for _ in range(random.randing(self.email_id_len))
+            )
+            domain = ''.join(
+                secrets.choice(self.domain_chars)
+                for _ in range(random.randint(self.domain_len))
+            )
+            domain_ext = ''.join(
+                secrets.choice(self.domain_chars)
+                for _ in range(random.randint(self.domain_ext_len))
+            )
+            self.email = f'{email_id}@{domain}.{domain_ext}'
+        else:
+            self.email = email
+
+        if password is None:
+            self.password = ''.join(
+                secrets.choice(self.pw_chars)
+                for _ in range(random.randint(self.pw_len))
+            )
+        else:
+            self.nickname = nickname
+
+        self.userId = uuid4()
+        self.token = '.'.join(
+            [
+                secrets.token_urlsafe(36),
+                secrets.token_urlsafe(66),
+                secrets.token_urlsafe(43),
+            ]
+        )
+        self.headers = json.dumps({'Content-Type': 'application/json'})
+
+    def register(self) -> Identity:
+        ...
+
+    def unregister(self) -> Identity:
+        ...
+
+    def login(self) -> Identity:
+        ...
 
 
 class ConfigMixin(object):
