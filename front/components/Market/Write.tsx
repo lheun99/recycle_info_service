@@ -277,11 +277,12 @@ const Button = styled.button`
     font-family: Elice Digital Baeum;
     font-size: 15px;
     width: 100px;
-    margin: 30px 0;
+    margin: 30px 3px;
     height: 40px;
     border: none;
     border-radius: 15px;
     cursor: pointer;
+    color: white;
     background-color: ${(props) =>
-        props.color === "success" ? "#a7c4bc" : "#f2f2f2"};
+        props.color === "success" ? "var(--deepgreen)" : "var(--green)"};
 `;

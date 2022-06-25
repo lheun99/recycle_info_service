@@ -7,10 +7,6 @@ const aiSearcher = () => {
     return (
         <Container>
             <ImageWrapper>
-                {/* <Menu>
-                    <h4>이미지 </h4>
-                    <h4>/ 검색</h4>
-                </Menu> */}
                 <h1>사물을 찍어주세요!</h1>
                 <p>
                     캔, 병, 과자봉지 등 사물 다 상관없어요. <br />
@@ -57,9 +53,4 @@ const SearchWrapper = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
-`;
-
-const Menu = styled.div`
-    display: flex;
-    width: 600px;
 `;

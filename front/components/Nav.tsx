@@ -10,7 +10,6 @@ import { LoginState } from "../states/atoms";
 import styled from "styled-components";
 import { UserStateContext } from "../pages/_app";
 
-
 const Nav = () => {
     const userInfo = useContext(UserStateContext);
     const [login, setLogin] = useRecoilState(LoginState);
@@ -25,7 +24,7 @@ const Nav = () => {
         } else {
             setLogin(true);
         }
-    }, [userInfo.user])
+    }, [userInfo.user]);
 
     return (
         <nav className={navStyles.nav}>
@@ -61,34 +60,30 @@ const Nav = () => {
                 </li>
                 <li>
                     <Link href="/quiz" passHref>
-                        <a>퀴즈 / 게임 하러가기</a>
+                        <a>퀴즈 풀러가기</a>
                     </Link>
                 </li>
-                {
-                    login && (
-                        <li>
-                            <Link href="/myPage" passHref>
-                                <a>마이페이지</a>
-                            </Link>
-                        </li>
-                    )
-                }
+                {login && (
+                    <li>
+                        <Link href="/myPage" passHref>
+                            <a>마이페이지</a>
+                        </Link>
+                    </li>
+                )}
                 <li>
-                    {
-                        login ? (
-                            <LoginButton onClick={() => {
+                    {login ? (
+                        <LoginButton
+                            onClick={() => {
                                 setLogin(false);
                                 sessionStorage.removeItem("userToken");
-                                router.push('/');
-                            }}>
-                                Sign out
-                            </LoginButton>
-                        ) : (
-                            <LoginButton onClick={handleOpen}>
-                                Sign in
-                            </LoginButton>
-                        )
-                    }
+                                router.push("/");
+                            }}
+                        >
+                            Sign out
+                        </LoginButton>
+                    ) : (
+                        <LoginButton onClick={handleOpen}>Sign in</LoginButton>
+                    )}
                     <LoginOrRegisterModal
                         open={open}
                         handleClose={handleClose}
@@ -100,7 +95,6 @@ const Nav = () => {
 };
 
 export default Nav;
-
 
 const LoginButton = styled.div`
     cursor: pointer;

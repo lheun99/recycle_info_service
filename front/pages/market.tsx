@@ -7,7 +7,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     const start = 1;
     const per = 10;
     const res = await getPost(`post/list?page=${start}&perPage=${per}`);
-    const firstBoards = res.data.data.postLists;
+    const firstBoards = res.data.data.postList || null;
 
     return {
         props: { firstBoards },
