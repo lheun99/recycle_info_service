@@ -88,7 +88,8 @@ class TestUsers(unittest.TestCase, ConfigMixin):
         with self.subTest('로그인하지 않은 사용자가 마이 페이지 조회 실패'):
             unittest.expectedFailure(self._update_profile(self.nobody))
 
-    def test_illegal_modification(self):
+    @unittest.expectedFailure
+    def test_4_illegal_modification(self):
         """자기 자신의 정보라도 어떤 정보는 수정할 수 없어야 합니다."""
         conn = self.myself.connection
         cfg = self.config['illegal_modification']
@@ -100,7 +101,7 @@ class TestUsers(unittest.TestCase, ConfigMixin):
             headers=self.myself.headers,
         )
         res = conn.getresponse()
-        self.assertNotEqual(res.status, HTTPStatus.OK)
+        self.assertEqual(res.status, HTTPStatus.OK)
 
 
 if __name__ == '__main__':
