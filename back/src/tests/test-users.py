@@ -19,7 +19,7 @@ class TestUsers(unittest.TestCase, ConfigMixin):
             'PATCH',
             f'{self.root}/{cfg["path"]}'.format(**vars(self.myself)),
             body=json.dumps(cfg['body']),
-            headers=imposter.headers
+            headers=imposter.headers,
         )
         res = conn.getresponse()
         self.assertEqual(res.status, HTTPStatus.OK)
@@ -33,7 +33,7 @@ class TestUsers(unittest.TestCase, ConfigMixin):
             'PATCH',
             f'{self.root}/{cfg["path"]}'.format(**vars(self.myself)),
             body=json.dumps(cfg['body']),
-            headers=imposter.headers
+            headers=imposter.headers,
         )
         res = conn.getresponse()
         self.assertEqual(res.status, HTTPStatus.OK)
@@ -42,6 +42,24 @@ class TestUsers(unittest.TestCase, ConfigMixin):
         # 로그인에 실패하면 AssertionError가 전파됩니다.
         self.myself.password = password
         self.myself.login()
+
+    def _get_mypage(self, imposter: Identity):
+        conn = imposter.connection
+        cfg = self.config['get_mypage']
+
+        conn.request(
+            'GET',
+            f'{self.root}/{cfg["path"]}'.format(**vars(self.myself)),
+            headers=imposter.headers,
+        )
+        res = conn.getresponse()
+        self.assertEqual(res.status, HTTPStatus.OK)
+
+        data = json.loads(res.read())['data']
+        self.assertTrue(
+            self.myself.email == data['email']
+            and self.myself.nickname == data['nickname']
+        )
 
     def test_illegal_modification(self):
         conn = self.connection
