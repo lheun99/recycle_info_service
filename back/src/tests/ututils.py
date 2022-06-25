@@ -173,11 +173,11 @@ class ConfigMixin(object):
 
     def tearDown(self):
         if self.myself.registered:
-            self.myself.unregister()
+            self.myself.unregister().close()
         if self.somebody.registered:
-            self.somebody.unregister()
+            self.somebody.unregister().close()
         if self.nobody.registered:
-            self.nobody.unregister()
+            self.nobody.unregister().close()
 
 
 class AuthMixin(object):
