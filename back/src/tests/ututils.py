@@ -166,7 +166,7 @@ class ConfigMixin(object):
             port = config['port']
             self.root = f'http://{host}:{port}/{self.name}'
 
-        with Path(self.jsonpath).open() as json_in:
+        with (Path(__file__).parent / self.jsonpath) as json_in:
             self.config = json.load(json_in)
 
         # Identity 세 가지를 만듭니다. (자기 자신, 다른 사용자, 로그인하지 않은 사용자)
