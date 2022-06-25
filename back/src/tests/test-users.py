@@ -83,8 +83,8 @@ class TestUsers(unittest.TestCase, ConfigMixin):
         """로그인한 사용자만 마이 페이지를 볼 수 있어야 합니다."""
         with self.subTest('자기 자신의 마이 페이지 조회'):
             self._update_profile(self.myself)
-        with self.subTest('로그인한 다른 사용자가 마이 페이지 조회'):
-            self._update_profile(self.somebody)
+        with self.subTest('로그인한 다른 사용자가 마이 페이지 조회 실패'):
+            unittest.expectedFailure(self._update_profile(self.somebody))
         with self.subTest('로그인하지 않은 사용자가 마이 페이지 조회 실패'):
             unittest.expectedFailure(self._update_profile(self.nobody))
 
