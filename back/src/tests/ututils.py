@@ -121,6 +121,9 @@ class Identity(object):
             f'{self.root}/{self.userId}',
             headers=self.headers,
         )
+        res = self.connection.getresponse()
+        if res.status != HTTPStatus.NO_CONTENT:
+            raise AssertionError(f'Unregistration fail, got {res.status}')
         return self
 
     def login(self) -> Identity:
@@ -148,14 +151,23 @@ class ConfigMixin(object):
     config: dict
     root: str
     headers: str
+    myself: Identity
+    somebody: Identity
+    nobody: Identity
 
-    def __init__(self, *args, **kwargs) -> None:
-        super().__init__(*args, **kwargs)
+    def setUp(self):
         with Path(self.jsonpath).open() as json_in:
             self.config = json.load(json_in)
 
         self.root = f"{self.config['host']}:{self.config['port']}"
-        self.headers = json.dumps({'Content-Type': 'application/json'})
+
+        # Identity 세 가지를 만듭니다. (자기 자신, 다른 사용자, 로그인하지 않은 사용자)
+        self.myself = Identity().register().login()
+        self.somebody = Identity().register().login()
+        self.nobody = Identity()
+
+    def tearDown(self):
+        pass
 
 
 class AuthMixin(object):
