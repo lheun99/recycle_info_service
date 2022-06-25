@@ -81,7 +81,7 @@ class TestUsers(unittest.TestCase, ConfigMixin):
             unittest.expectedFailure(self._update_profile(self.somebody))
 
     def test_3_get_mypage(self):
-        """로그인한 사용자만 마이 페이지를 볼 수 있어야 합니다."""
+        """자기 자신만 마이 페이지를 볼 수 있어야 합니다."""
         with self.subTest('자기 자신의 마이 페이지 조회'):
             self._update_profile(self.myself)
         with self.subTest('로그인한 다른 사용자가 마이 페이지 조회 실패'):
