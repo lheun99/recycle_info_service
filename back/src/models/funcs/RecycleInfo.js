@@ -16,7 +16,7 @@ const pool = new StaticPool({
 });
 
 const RecycleInfo = {
-  //POST /recycleInfo
+  //POST /recycle-info
   //인공지능 파트로 이미지 정보 전달
   findRecycleCode: async ({ imgBuffer }) => {
     const result = await pool.exec(imgBuffer);
@@ -41,22 +41,23 @@ const RecycleInfo = {
     return infos[0];
   },
 
-  //GET /search
-  //분리배출 정보 검색
-  searchData: async ({ text }) => {
-    const searchedData = await sequelize.query(
+  //POST /recycle-info
+  //GET /recycle-info/?code
+  //분석 결과에 따른 분리배출 정보
+  findInfoByCode: async ({ code }) => {
+    const infos = await sequelize.query(
       `SELECT recycle_categories.category, recycle_infos.details, recycle_infos.info_img
       FROM recycle_infos
-      INNER JOIN recycle_categories 
+      INNER JOIN recycle_categories
       ON recycle_infos.code=recycle_categories.code
-      WHERE (details LIKE '%'||$text||'%') OR (related_item LIKE '%'||$text||'%')`,
+      WHERE recycle_infos.code=$code`,
       {
-        bind: { text: text },
+        bind: { code: code },
         type: QueryTypes.SELECT,
       }
     );
 
-    return searchedData[0];
+    return infos[0];
   },
 };
 
