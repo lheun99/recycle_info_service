@@ -77,10 +77,7 @@ class Identity(object):
             self.email = email
 
         if password is None:
-            self.password = ''.join(
-                secrets.choice(self.pw_chars)
-                for _ in range(random.randint(self.pw_len))
-            )
+            self.password = self.generate_password()
         else:
             self.nickname = nickname
 
