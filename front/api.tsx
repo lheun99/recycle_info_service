@@ -21,6 +21,7 @@ async function getQuary(endpoint, { params = {} }) {
             Authorization: `Bearer ${sessionStorage.getItem("userToken")}`,
         },
     });
+}
 async function getPost(endpoint, params = "") {
     return axios.get(serverUrl + endpoint + params);
 } // 중고마켓 게시글만 불러올때, 로그인 하지 않아도 되는것으로 하기
@@ -81,4 +82,13 @@ async function del(endpoint, params = "") {
 
 // 아래처럼 export한 후, import * as A 방식으로 가져오면,
 // A.get, A.post 로 쓸 수 있음.
-export { get, getQuary, patch, post, getPost, sendImageFile, put, del as delete };
+export {
+    get,
+    getQuary,
+    patch,
+    post,
+    getPost,
+    sendImageFile,
+    put,
+    del as delete,
+};
