@@ -63,16 +63,35 @@ class TestUsers(unittest.TestCase, ConfigMixin):
 
     def test_1_update_password(self):
         """자기 자신만 비밀번호를 바꿀 수 있어야 합니다."""
-        with self.subTest('자기 자신의 비밀번호 바꾸기'):
+        with self.subTest('자기 자신의 비밀번호 변경'):
             self._update_password(self.myself)
-        with self.subTest('로그인하지 않은 사용자가 비밀번호 바꾸기'):
+        with self.subTest('로그인하지 않은 사용자가 비밀번호 변경 실패'):
             unittest.expectedFailure(self._update_password(self.nobody))
-        with self.subTest('로그인한 다른 사용자가 비밀번호 바꾸기'):
+        with self.subTest('로그인한 다른 사용자가 비밀번호 변경 실패'):
             unittest.expectedFailure(self._update_password(self.somebody))
 
+    def test_2_update_profile(self):
+        """자기 자신만 프로파일을 수정할 수 있어야 합니다."""
+        with self.subTest('자기 자신의 프로파일 수정'):
+            self._update_profile(self.myself)
+        with self.subTest('로그인하지 않은 사용자가 프로파일 수정 실패'):
+            unittest.expectedFailure(self._update_profile(self.nobody))
+        with self.subTest('로그인한 다른 사용자가 프로파일 수정 실패'):
+            unittest.expectedFailure(self._update_profile(self.somebody))
+
+    def test_3_get_mypage(self):
+        """로그인한 사용자만 마이 페이지를 볼 수 있어야 합니다."""
+        with self.subTest('자기 자신의 마이 페이지 조회'):
+            self._update_profile(self.myself)
+        with self.subTest('로그인한 다른 사용자가 마이 페이지 조회'):
+            self._update_profile(self.somebody)
+        with self.subTest('로그인하지 않은 사용자가 마이 페이지 조회 실패'):
+            unittest.expectedFailure(self._update_profile(self.nobody))
+
     def test_illegal_modification(self):
+        """자기 자신의 정보라도 어떤 정보는 수정할 수 없어야 합니다."""
         conn = self.myself.connection
-        cfg = self.config['update_password']
+        cfg = self.config['illegal_modification']
 
         conn.request(
             'PATCH',
@@ -81,7 +100,7 @@ class TestUsers(unittest.TestCase, ConfigMixin):
             headers=self.myself.headers,
         )
         res = conn.getresponse()
-        self.assertEqual(res.status, HTTPStatus.OK)
+        self.assertNotEqual(res.status, HTTPStatus.OK)
 
 
 if __name__ == '__main__':
