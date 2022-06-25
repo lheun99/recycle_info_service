@@ -5,18 +5,18 @@ import QuestionMark from "../../public/images/question_mark.png";
 import CheckMark from "../../public/images/check.png";
 import CheckColorMark from "../../public/images/check2.png";
 import styled from "styled-components";
-import { styled as materialStyled } from '@mui/material/styles';
-import Button from '@mui/material/Button';
+import { styled as materialStyled } from "@mui/material/styles";
+import Button from "@mui/material/Button";
 import { get, getQuary } from "../../api";
 
 type QuizType = {
-    question: string,
-    multiples : [],
-    answer: string,
-    image: boolean,
-}
+    question: string;
+    multiples: [];
+    answer: string;
+    image: boolean;
+};
 
-const CHALLENGENUM : number = 3;
+const CHALLENGENUM: number = 3;
 
 const Quiz = () => {
     const [quiz, setQuiz] = useState<QuizType>({
@@ -29,17 +29,17 @@ const Quiz = () => {
     const [answer, setAnswer] = useState<boolean>(false);
     const [userAnswer, setUserAnswer] = useState<string>("");
     const [userPoint, setUserPoint] = useState<number>(0);
-    const openClickHandler = () : void => setOpen(!open)
-    
-    const answerClickHandler = (userAnswer : string) : void => {
+    const openClickHandler = (): void => setOpen(!open);
+
+    const answerClickHandler = (userAnswer: string): void => {
         setAnswer(!answer);
         setUserAnswer(userAnswer);
-    }
+    };
 
-    const setChallengeButton = () : any => {
+    const setChallengeButton = (): any => {
         const result = [];
         if (userPoint >= CHALLENGENUM) {
-            setUserPoint(CHALLENGENUM)
+            setUserPoint(CHALLENGENUM);
         }
         for (var i = 0; i < userPoint; i++) {
             result.push(
@@ -52,7 +52,8 @@ const Quiz = () => {
                     />
                     <ChallengeText>완료</ChallengeText>
                 </div>
-            )}
+            );
+        }
         for (var i = 0; i < CHALLENGENUM - userPoint; i++) {
             result.push(
                 <div>
@@ -65,34 +66,32 @@ const Quiz = () => {
                     />
                     <ChallengeText>도전하기!</ChallengeText>
                 </div>
-            )}
+            );
+        }
         return result;
-    }
+    };
 
     const getQuizData = async () => {
         try {
             await get("quizs").then((res) => {
-                setQuiz(res.data.data)
-            })
+                setQuiz(res.data.data);
+            });
         } catch (err) {
-            console.log("errer message: ", err);
+            console.log("error message: ", err);
         }
     };
 
     const checkPoint = async () => {
         try {
-            await getQuary(
-                "points",
-                {
-                    params: {
-                        route: "quiz",
-                    },
+            await getQuary("points", {
+                params: {
+                    route: "quiz",
                 },
-            ).then((res : any) => {
-                setUserPoint(res.data.data)
-            })
+            }).then((res: any) => {
+                setUserPoint(res.data.data);
+            });
         } catch (err) {
-            console.log("errer message: ", err);
+            console.log("error message: ", err);
         }
 
         // 포인트 리스트 조회
@@ -103,76 +102,88 @@ const Quiz = () => {
         // } catch (err) {
         //     console.log("errer message: ", err);
         // }
-    }
+    };
 
     useEffect(() => {
         getQuizData();
         checkPoint();
-    }, [])
+    }, []);
 
     return (
         <Wrapper>
             <h1>퀴즈 풀고 포인트 받자!</h1>
-            <Contents>
-                {"매일 매일 색다른 오늘의 퀴즈에 도전하세요."}
-            </Contents>
+            <Contents>{"매일 매일 색다른 오늘의 퀴즈에 도전하세요."}</Contents>
             <Form>
                 <Title>오늘의 퀴즈</Title>
                 <Container>
-                    {
-                        open ? (
-                            answer ? (
-                                <QuizResult result={quiz.answer === userAnswer} quiz={quiz}/>
-                            ) : (
-                                <InnerForm>
-                                    <ImageWrapper>
-                                        <Image
-                                            src={QuestionMark}
-                                            alt="question-mark"
-                                            width={40}
-                                            height={40}
-                                        />
-                                    </ImageWrapper>
-                                    <Question>{quiz.question}</Question>
-                                    <AnswerWrapper>
-                                        <Answer>
-                                        { 
-                                            quiz.image ? (
-                                                <AnswerImageWrapper> 
-                                                {
-                                                    quiz.multiples.map((value, index) => (
-                                                        <AnswerImageButton 
-                                                            key={index} 
+                    {open ? (
+                        answer ? (
+                            <QuizResult
+                                result={quiz.answer === userAnswer}
+                                quiz={quiz}
+                            />
+                        ) : (
+                            <InnerForm>
+                                <ImageWrapper>
+                                    <Image
+                                        src={QuestionMark}
+                                        alt="question-mark"
+                                        width={40}
+                                        height={40}
+                                    />
+                                </ImageWrapper>
+                                <Question>{quiz.question}</Question>
+                                <AnswerWrapper>
+                                    <Answer>
+                                        {quiz.image ? (
+                                            <AnswerImageWrapper>
+                                                {quiz.multiples.map(
+                                                    (value, index) => (
+                                                        <AnswerImageButton
+                                                            key={`notImg-${index}`}
                                                             src={value}
                                                             alt="image"
-                                                            onClick={() => answerClickHandler(value)} />
-                                                    ))
-                                                }
-                                                </AnswerImageWrapper>
-                                            ) : (
-                                                quiz.multiples.map((value, index) => (
-                                                    <AnswerButton key={index} onClick={() => answerClickHandler(value)}>{value}</AnswerButton>
-                                                ))
+                                                            onClick={() =>
+                                                                answerClickHandler(
+                                                                    value
+                                                                )
+                                                            }
+                                                        />
+                                                    )
+                                                )}
+                                            </AnswerImageWrapper>
+                                        ) : (
+                                            quiz.multiples.map(
+                                                (value, index) => (
+                                                    <AnswerButton
+                                                        key={`Img-${index}`}
+                                                        onClick={() =>
+                                                            answerClickHandler(
+                                                                value
+                                                            )
+                                                        }
+                                                    >
+                                                        {value}
+                                                    </AnswerButton>
+                                                )
                                             )
-                                        }
-                                        </Answer>
-                                    </AnswerWrapper>
-                                </InnerForm>
-                            )
-                        ) : (
-                            <ChallengeButtonWrapper>
-                                {setChallengeButton()}
-                            </ChallengeButtonWrapper>
+                                        )}
+                                    </Answer>
+                                </AnswerWrapper>
+                            </InnerForm>
                         )
-                    }
+                    ) : (
+                        <ChallengeButtonWrapper>
+                            {setChallengeButton()}
+                        </ChallengeButtonWrapper>
+                    )}
                 </Container>
             </Form>
         </Wrapper>
-    )
-}
+    );
+};
 
 export default Quiz;
-
 
 const Wrapper = styled.div`
     width: 100%;
@@ -266,7 +277,7 @@ const AnswerImageButton = styled.img`
     cursor: pointer;
 `;
 
-const ChallengeButtonWrapper = styled.div`      
+const ChallengeButtonWrapper = styled.div`
     width: 80%;
     height: 50%;
     display: flex;
@@ -278,24 +289,21 @@ const ChallengeImage = styled(Image)`
     cursor: pointer;
 `;
 
-const ChallengeText = styled.p`      
+const ChallengeText = styled.p`
     width: 100px;
     text-align: center;
 `;
 
-const AnswerButton = materialStyled(Button)(
-    () => (
-        {
-            width: '500px',
-            height: '45px',
-            backgroundColor: 'var(--green)',
-            margin: '6px 0',
-            padding: '14px',
-            borderRadius: '10px',
-            color: 'black',
-            '&:hover': {
-                backgroundColor: 'var(--deepgreen)',
-                color: 'white',
-            }
-        }
-    ));
+const AnswerButton = materialStyled(Button)(() => ({
+    width: "500px",
+    height: "45px",
+    backgroundColor: "var(--green)",
+    margin: "6px 0",
+    padding: "14px",
+    borderRadius: "10px",
+    color: "black",
+    "&:hover": {
+        backgroundColor: "var(--deepgreen)",
+        color: "white",
+    },
+}));
