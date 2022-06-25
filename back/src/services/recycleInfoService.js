@@ -4,15 +4,18 @@ const recycleInfoService = {
   //POST /recycle-info
   analysisImg: async ({ imgBuffer }) => {
     //인공지능 파트로 이미지 정보 전달, 분석 결과
-    const result = await RecycleInfo.findRecycleCode({ imgBuffer });
-    if (result.length === 0) {
-      const errorMessage = "분석 실패! 재촬영 요청";
-      return { errorMessage };
-    }
-    //분석 결과 중 recycle_category_code 추출
-    const code = result[0].classId;
+    //const result = await RecycleInfo.findRecycleCode({ imgBuffer });
+    // if (result.length === 0) {
+    //   const errorMessage = "분석 실패! 재촬영 요청";
+    //   return { errorMessage };
+    // }
+    // //분석 결과 중 recycle_category_code 추출
+    // const code = result[0].classId;
 
-    //recycle_category_code에 따른 분리배출 정보
+    // //recycle_category_code에 따른 분리배출 정보
+
+    //테스트 가능 코드
+    const code = await RecycleInfo.findRecycleCode({ imgBuffer });
     const infos = await RecycleInfo.findInfoByCode({ code });
 
     //안내될 정보 페이지 수
