@@ -62,7 +62,7 @@ class Identity(object):
         if email is None:
             email_id = ''.join(
                 secrets.choice(self.id_chars)
-                for _ in range(random.randing(self.email_id_len))
+                for _ in range(random.randint(self.email_id_len))
             )
             domain = ''.join(
                 secrets.choice(self.domain_chars)
