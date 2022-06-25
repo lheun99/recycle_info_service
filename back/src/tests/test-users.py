@@ -88,7 +88,6 @@ class TestUsers(unittest.TestCase, ConfigMixin):
         with self.subTest('로그인하지 않은 사용자가 마이 페이지 조회 실패'):
             unittest.expectedFailure(self._update_profile(self.nobody))
 
-    @unittest.expectedFailure
     def test_4_illegal_modification(self):
         """자기 자신의 정보라도 어떤 정보는 수정할 수 없어야 합니다."""
         conn = self.myself.connection
@@ -101,7 +100,28 @@ class TestUsers(unittest.TestCase, ConfigMixin):
             headers=self.myself.headers,
         )
         res = conn.getresponse()
-        self.assertEqual(res.status, HTTPStatus.OK)
+        data = json.loads(res.read())['data']
+
+        # 수정한 필드 수가 0이어야 합니다.
+        self.assertEqual(data[0], 0)
+        # userId가 변하지 않았는지 확인합니다.
+        conn.request(
+            'GET',
+            f'{self.root}/{cfg["path_val"]}'.format(**cfg['body']),
+            headers=self.myself.headers,
+        )
+        res = conn.getresponse()
+        self.assertEqual(res.status, HTTPStatus.NOT_FOUND)
+        # 수정되면 안되는 필드가 변하지 않았는지 확인합니다.
+        conn.request(
+            'GET',
+            f'{self.root}/{cfg["path_val"]}'.format(**vars(self.myself)),
+            headers=self.myself.headers,
+        )
+        res = conn.getresponse()
+        data = json.loads(res.read())['data']
+        self.assertEqual(data['nickname'], self.myself.nickname)
+        self.assertNotEqual(data['email'], cfg['val']['email'])
 
 
 if __name__ == '__main__':
