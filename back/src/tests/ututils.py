@@ -69,7 +69,7 @@ class Identity(object):
                 for _ in range(random.randint(self.domain_len))
             )
             domain_ext = ''.join(
-                secrets.choice(self.domain_chars)
+                secrets.choice(string.ascii_lowercase)
                 for _ in range(random.randint(self.domain_ext_len))
             )
             self.email = f'{email_id}@{domain}.{domain_ext}'
