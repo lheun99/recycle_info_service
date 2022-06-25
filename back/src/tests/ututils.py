@@ -124,6 +124,7 @@ class Identity(object):
         res = self.connection.getresponse()
         if res.status != HTTPStatus.NO_CONTENT:
             raise AssertionError(f'Unregistration fail, got {res.status}')
+        self.registered = self.loggedin = False
         return self
 
     def login(self) -> Identity:
