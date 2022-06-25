@@ -3,16 +3,29 @@ import Image from "next/image";
 import Logo from "../public/images/logo.png";
 import navStyles from "../styles/Nav.module.css";
 import LoginOrRegisterModal from "./modal/LoginOrRegisterModal";
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { useRouter } from "next/router";
 import { useRecoilState } from "recoil";
 import { LoginState } from "../states/atoms";
 import styled from "styled-components";
+import { UserStateContext } from "../pages/_app";
+
 
 const Nav = () => {
+    const userInfo = useContext(UserStateContext);
     const [login, setLogin] = useRecoilState(LoginState);
     const [open, setOpen] = useState<Boolean>(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+    const router = useRouter();
+
+    useEffect(() => {
+        if (userInfo.user === null) {
+            setLogin(false);
+        } else {
+            setLogin(true);
+        }
+    }, [userInfo.user])
 
     return (
         <nav className={navStyles.nav}>
@@ -51,15 +64,23 @@ const Nav = () => {
                         <a>퀴즈 / 게임 하러가기</a>
                     </Link>
                 </li>
-                <li>
-                    <Link href="/myPage" passHref>
-                        <a>마이페이지</a>
-                    </Link>
-                </li>
+                {
+                    login && (
+                        <li>
+                            <Link href="/myPage" passHref>
+                                <a>마이페이지</a>
+                            </Link>
+                        </li>
+                    )
+                }
                 <li>
                     {
                         login ? (
-                            <LoginButton onClick={() => setLogin(false)}>
+                            <LoginButton onClick={() => {
+                                setLogin(false);
+                                sessionStorage.removeItem("userToken");
+                                router.push('/');
+                            }}>
                                 Sign out
                             </LoginButton>
                         ) : (
