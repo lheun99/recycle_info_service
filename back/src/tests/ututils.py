@@ -77,7 +77,7 @@ class Identity(object):
             self.email = email
 
         if password is None:
-            self.password = self.passwd()
+            self.password = self.generate_password()
         else:
             self.nickname = nickname
 
@@ -143,7 +143,7 @@ class Identity(object):
         self.connection.close()
 
     @staticmethod
-    def passwd():
+    def generate_password():
         return ''.join(
             secrets.choice(__class__.pw_chars)
             for _ in range(random.randint(__class__.pw_len))
