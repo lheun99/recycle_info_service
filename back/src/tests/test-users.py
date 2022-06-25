@@ -8,7 +8,7 @@ from ututils import ConfigMixin, Identity
 
 
 class TestUsers(unittest.TestCase, ConfigMixin):
-    def _update_profile(self, usurper: Identity):
+    def _update_profile(self, imposter: Identity):
         conn = self.myself.connection
         cfg = self.config['update_profile']
 
@@ -16,12 +16,12 @@ class TestUsers(unittest.TestCase, ConfigMixin):
             'PATCH',
             f'{self.root}/{cfg["path"]}'.format(**vars(self.myself)),
             body=json.dumps(cfg['body']),
-            headers=usurper.headers
+            headers=imposter.headers
         )
         res = conn.getresponse()
         self.assertEqual(res.status, HTTPStatus.OK)
 
-    def test_update_password(self):
+    def _update_password(self, imposter: Identity):
         conn = self.connection
         cfg = self.config['update_password']
 
