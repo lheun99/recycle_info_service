@@ -109,7 +109,7 @@ class Identity(object):
         if res.status != HTTPStatus.CREATED:
             raise AssertionError(f'Registration fail, got {res.status}')
         self.registered = True
-        self.userId = json.loads(res.read()).data['userId']
+        self.userId = json.loads(res.read())['data']['userId']
         return self
 
     def unregister(self) -> Identity:
@@ -135,7 +135,7 @@ class Identity(object):
         if res.status != HTTPStatus.OK:
             raise AssertionError(f'Logging in fail, got {res.status}')
         self.loggedin = True
-        self.token = json.loads(res.read()).data['token']
+        self.token = json.loads(res.read())['data']['token']
         self.headers['Authorization'] = f'Bearer {self.token}'
         return self
 
