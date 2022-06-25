@@ -47,7 +47,7 @@ const SingleBoard = ({ postImg, content, title }) => {
     const [expanded, setExpanded] = useState(false);
     const [slideIndex, setSlideIndex] = useState(0);
     const [activeStep, setActiveStep] = useState(0);
-    const maxSteps = postImg?.length; // 자료의 총 길이
+    const maxSteps = postImg?.length ?? 0; // 자료의 총 길이
     const userInfo = useContext(UserStateContext);
     const viewContainerRef = useRef<HTMLDivElement>(null);
 
@@ -106,7 +106,6 @@ const SingleBoard = ({ postImg, content, title }) => {
             <Card
                 style={{
                     minHeight: "300PX",
-                    marginBottom: "5px",
                     boxShadow: "none",
                 }}
             >
@@ -125,10 +124,10 @@ const SingleBoard = ({ postImg, content, title }) => {
                                     >
                                         <InfoBox>
                                             <Image
-                                                src={img}
+                                                src={postImg[idx]}
                                                 alt={`img-${idx}`}
-                                                width={250}
-                                                height={250}
+                                                width={290}
+                                                height={290}
                                             />
                                         </InfoBox>
                                     </Slider>
@@ -238,13 +237,13 @@ export default SingleBoard;
 const CarouselWrapper = styled.div`
     display: flex;
     align-items: center;
-    width: auto;
+    justify-content: center;
+    width: 100%;
     height: 100%;
 `;
 const CarouselAll = styled.div`
     width: auto;
     height: 100%;
-    position: relative;
     border-radius: 15px;
     margin: 8px 8px;
     display: flex;
@@ -253,11 +252,12 @@ const CarouselAll = styled.div`
     background-color: #a7c4bc;
 `;
 const Slider = styled.div`
-    width: auto;
+    width: 100%;
     height: auto;
     position: absolute;
     display: flex;
     flex-direction: column;
+    align-items: center;
     justify-content: space-evenly;
     &.is_pass {
         opacity: 0;
@@ -268,7 +268,7 @@ const Slider = styled.div`
     }
 `;
 const InfoBox = styled.div`
-    height: 80%;
+    height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;

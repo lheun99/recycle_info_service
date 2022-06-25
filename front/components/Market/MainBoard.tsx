@@ -4,26 +4,12 @@ import Search from "../shared/Search";
 import SingleBoard from "./SingleBoard";
 import Write from "./Write";
 import { get } from "../../api";
-import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-    const start = 1;
-    const per = 10;
-    const res = await get(`post/list?page=${start}&perPage=${per}`);
-    const data = res.data.data;
-    return {
-        props: { data },
-    };
-};
-
-const MainBoard = ({
-    props,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+const MainBoard = ({ firstBoards }) => {
     const [isWrite, setIsWrite] = useState(false);
     const [htmlStr, setHtmlStr] = useState("");
     const [title, setTitle] = useState("");
-    const [board, setBoard] = useState<any[]>([]);
-    console.log(props);
+    const [board, setBoard] = useState(firstBoards);
 
     // const getBoardsList = async () => {
     //     const page = 1;
@@ -32,9 +18,9 @@ const MainBoard = ({
     //     const boardsList = [...res.data.data.postLists];
     //     setBoard(boardsList);
     // };
-    useEffect(() => {
-        // getBoardsList();
-    }, []);
+    // useEffect(() => {
+    //     getBoardsList();
+    // }, []);
 
     return (
         <Wrapper>

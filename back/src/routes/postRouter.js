@@ -2,7 +2,7 @@ const postRouter = require("express").Router();
 const postService = require("../services/postService");
 const loginRequired = require("../middlewares/loginRequired");
 
-postRouter.use(loginRequired);
+// postRouter.use(loginRequired);
 
 //게시글 추가
 postRouter.post("/", async (req, res, next) => {

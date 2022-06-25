@@ -37,6 +37,7 @@ function Login({ open, handleClose, setRegister }) {
             const user = res.data.data;
             const jwtToken = user.token;
             sessionStorage.setItem("userToken", jwtToken);
+            localStorage.setItem("userToken", jwtToken);
 
             dispatch({
                 type: "LOGIN_SUCCESS",
