@@ -145,6 +145,7 @@ class Identity(object):
                 'Authorization': f'Bearer {self.token}',
             }
         )
+        return self
 
     def close(self) -> None:
         self.connection.close()
