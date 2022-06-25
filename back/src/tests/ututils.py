@@ -96,13 +96,51 @@ class Identity(object):
         self.connection = HTTPConnection(self.host, self.port)
 
     def register(self) -> Identity:
-        ...
+        self.connection.request(
+            'POST',
+            f'{self.root}/register',
+            body=json.dumps(
+                {
+                    'nickname': self.nickname,
+                    'email': self.email,
+                    'password': self.password
+                }
+            ),
+            headers=self.headers,
+        )
+        res = self.connection.getresponse()
+        if res.status != HTTPStatus.CREATED:
+            raise AssertionError(f'Registration fail, got {res.status}')
+        self.registered = True
+        self.userId = json.loads(res.read()).data['userId']
+        return self
 
     def unregister(self) -> Identity:
-        ...
+        self.connection.request(
+            'DELETE',
+            f'{self.root}/{self.userId}',
+            headers=self.headers,
+        )
+        return self
 
     def login(self) -> Identity:
-        ...
+        self.connection.request(
+            'POST',
+            f'{self.root}/login',
+            body=json.dumps({'email': self.email, 'password': self.password}),
+            headers=self.headers,
+        )
+        res = self.connection.getresponse()
+        if res.status != HTTPStatus.OK:
+            raise AssertionError(f'Logging in fail, got {res.status}')
+        self.loggedin = True
+        self.token = json.loads(res.read()).data['token']
+        self.headers = json.dumps(
+            {
+                'Content-Type': 'application/json',
+                'Authorization': f'Bearer {self.token}',
+            }
+        )
 
 
 class ConfigMixin(object):
