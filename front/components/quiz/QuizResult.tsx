@@ -27,11 +27,9 @@ const QuizResult = ({ result, quiz } : QuizResultProps) => {
 
     const pointClickHandler = async () => {
         try {
-            await post("points", {
-                route: "quiz",
-                point: 100
-            }).then(() => {
-                console.log("포인트 적립")
+                const data = await post("points", {
+                    route: "quiz",
+                    point: 100
             })
         } catch (err) {
             console.log("errer message: ", err);

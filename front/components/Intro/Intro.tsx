@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import IntroData from "./IntroData";
 import { useRouter } from 'next/router';
 import Image from "next/image";
@@ -12,6 +12,7 @@ import DoughnutChart from "./DoughnutChart";
 
 const Intro = () => {
     const router = useRouter()
+
     const handleScroll = () => {
         const screenHeight = document.querySelector("#intro").clientHeight;
         window.scrollTo({
@@ -29,7 +30,7 @@ const Intro = () => {
                         text={
                             "내 손안의 분리배출\n작은 실천이 지구를 지킵니다.\n\n\n\n"
                         }
-                    />
+                    />                
                     <Arrow onClick={handleScroll}>
                         <Image
                             src={DownArrow}
@@ -152,6 +153,7 @@ const Intro = () => {
 };
 
 export default Intro;
+
 
 const Wrapper = styled.div`
     width: 100%;

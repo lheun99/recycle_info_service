@@ -83,25 +83,16 @@ const Quiz = () => {
 
     const checkPoint = async () => {
         try {
-            await getQuary("points", {
+            const res = await getQuary("points", {
                 params: {
                     route: "quiz",
                 },
-            }).then((res: any) => {
-                setUserPoint(res.data.data);
-            });
+            })
+            setUserPoint(res.data.data);
+            
         } catch (err) {
             console.log("error message: ", err);
         }
-
-        // 포인트 리스트 조회
-        // try {
-        //     await get("points/list").then((res : any) => {
-        //         console.log("points/list: ", res.data)
-        //     })
-        // } catch (err) {
-        //     console.log("errer message: ", err);
-        // }
     };
 
     useEffect(() => {

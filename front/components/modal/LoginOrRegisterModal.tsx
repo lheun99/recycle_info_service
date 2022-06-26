@@ -21,19 +21,15 @@ const LoginOrRegisterModal = ({ open, handleClose }) => {
         >
             {
                 register ? (
-                    <Wrapper>
-                        <Register
-                            handleClose={handleClose}
-                            setRegister={setRegister}
-                        />
-                    </Wrapper>
+                    <Register
+                        handleClose={handleClose}
+                        setRegister={setRegister}
+                    />
                 ) : (
-                    <Wrapper>
-                        <Login
-                            handleClose={handleClose}
-                            setRegister={setRegister}
-                        />
-                    </Wrapper>
+                    <Login
+                        handleClose={handleClose}
+                        setRegister={setRegister}
+                    />
                 )
             }
         </Modal>
