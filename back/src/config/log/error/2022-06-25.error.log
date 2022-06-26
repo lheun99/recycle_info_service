@@ -1,0 +1,5 @@
+2022-06-25 22:06:26 || [ [31merror[39m ] ▶ [31m게시글이 존재하지 않습니다. 다시 한 번 확인해 주세요.[39m
+2022-06-25 22:06:41 || [ [31merror[39m ] ▶ [31m게시글이 존재하지 않습니다. 다시 한 번 확인해 주세요.[39m
+2022-06-25 22:06:67 || [ [31merror[39m ] ▶ [31mnotNull Violation: posts.user_id cannot be null[39m
+2022-06-25 22:06:28 || [ [31merror[39m ] ▶ [31mnotNull Violation: posts.user_id cannot be null[39m
+2022-06-25 22:06:66 || [ [31merror[39m ] ▶ [31mnotNull Violation: posts.user_id cannot be null[39m
