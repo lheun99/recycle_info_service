@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState } from "react";
 import dynamic from "next/dynamic";
 import "react-quill/dist/quill.snow.css";
 import styled from "styled-components";
@@ -11,7 +11,6 @@ const QuillNoSSR = dynamic(import("react-quill"), {
 });
 
 const modules = {
-    // useMemo를 써야한다는데..
     toolbar: [
         [{ header: "1" }, { header: "2" }, { font: [] }],
         [{ size: [] }],
@@ -74,7 +73,6 @@ export default function Write({
             alert("이미지는 최대 5장까지 업로드 가능합니다.");
         }
         setImgList(imageUrlLists);
-        console.log();
     };
     // 다중 이미지 List에서 특정 이미지 제거 함수
     const handleDeleteImage = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -98,7 +96,6 @@ export default function Write({
             post_img: postS3Image,
             content: htmlStr,
         });
-        console.log(newUpload);
         setIsWrite((cur) => !cur);
     };
 
