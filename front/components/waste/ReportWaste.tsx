@@ -1,42 +1,45 @@
 import React, { useState } from "react";
 import Image from "next/image";
-import Gps from "../../public/images/gps.png"
+import Gps from "../../public/images/gps.png";
 import styled from "styled-components";
-import Search from "./Search"
-import Map from "./Map"
+import Search from "./Search";
+import Map from "./Map";
 
 const ReportWaste = () => {
-    const [mapData, setMapData] = useState<string[] | null>(null);  
+    const [mapData, setMapData] = useState<string[] | null>(null);
     const handleSetMapData = (data: string[]) => {
         setMapData(data);
-    }
+    };
 
-    const [clickData, setClickData] = useState<string[] | null>(null);  
+    const [clickData, setClickData] = useState<string[] | null>(null);
     const handleSetClickMapData = (data: string[]) => {
         setClickData(data);
-    }
+    };
 
     return (
         <Wrapper>
             <h1>우리동네 대형폐기물 신고하기</h1>
             <Contents>
-                {"대형폐기물은 구청/주민센터에서 납부 필증을 구매 후 버려야합니다.\n우리동네 어디에서 신고할 수 있는지 알아볼까요?"}
+                {
+                    "대형폐기물은 구청/주민센터에서 납부 필증을 구매 후 버려야합니다.\n우리동네 어디에서 신고할 수 있는지 알아볼까요?"
+                }
             </Contents>
             <Form>
                 <Title>우리동네 사이트 찾기</Title>
                 <SearchWrapper>
-                    <ImageButton onClick={()=> handleSetMapData(null)}>
-                        <Image
-                            src={Gps}
-                            alt="gps"
-                            width={40}
-                            height={40}
-                        />
+                    <ImageButton onClick={() => handleSetMapData(null)}>
+                        <Image src={Gps} alt="gps" width={40} height={40} />
                     </ImageButton>
-                    <Search mapData={clickData} handleSetMapData={handleSetMapData} />
+                    <Search
+                        mapData={clickData}
+                        handleSetMapData={handleSetMapData}
+                    />
                 </SearchWrapper>
                 <MapContainer id="map">
-                    <Map mapData={mapData} handleSetClickMapData={handleSetClickMapData}/>
+                    <Map
+                        mapData={mapData}
+                        handleSetClickMapData={handleSetClickMapData}
+                    />
                 </MapContainer>
                 <MapInfo>
                     {clickData && (
@@ -53,20 +56,35 @@ const ReportWaste = () => {
                             <div>
                                 <div>주소 : {clickData[0]["address"]}</div>
                                 <div>전화번호 : {clickData[0]["tel"]}</div>
-                                <div><a href={clickData[0]["url1"]} target='_blank'>우리동네 공식 홈페이지 바로가기 </a></div>
-                                <div><a href={clickData[0]["url2"]} target='_blank'>대형폐기물 배출신고 안내 바로가기 </a></div>
+                                <div>
+                                    <a
+                                        href={clickData[0]["url1"]}
+                                        target="_blank"
+                                        rel="noreferrer"
+                                    >
+                                        우리동네 공식 홈페이지 바로가기{" "}
+                                    </a>
+                                </div>
+                                <div>
+                                    <a
+                                        href={clickData[0]["url2"]}
+                                        target="_blank"
+                                        rel="noreferrer"
+                                    >
+                                        대형폐기물 배출신고 안내 바로가기{" "}
+                                    </a>
+                                </div>
                             </div>
                         </MapInfoData>
                     )}
                 </MapInfo>
             </Form>
-            <p>Tip! 대형폐기물은 무료로  수거가 가능하기도 해요!</p>
+            <p>Tip! 대형폐기물은 무료로 수거가 가능하기도 해요!</p>
         </Wrapper>
     );
 };
 
 export default ReportWaste;
-
 
 const Wrapper = styled.div`
     width: 100%;
@@ -129,7 +147,7 @@ const ImageWrapper = styled.div`
     height: 70px;
 `;
 
-const SearchWrapper  = styled.div`
+const SearchWrapper = styled.div`
     display: flex;
     width: 650px;
     justify-content: space-between;
