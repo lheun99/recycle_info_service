@@ -53,8 +53,8 @@ const ReportWaste = () => {
                             <div>
                                 <div>주소 : {clickData[0]["address"]}</div>
                                 <div>전화번호 : {clickData[0]["tel"]}</div>
-                                <div><a href={clickData[0]["url1"]} target='_blank'>우리동네 공식 홈페이지 바로가기 </a></div>
-                                <div><a href={clickData[0]["url2"]} target='_blank'>대형폐기물 배출신고 안내 바로가기 </a></div>
+                                <div><a href={clickData[0]["url1"]} target='_blank' rel='noopener noreferrer'>우리동네 공식 홈페이지 바로가기 </a></div>
+                                <div><a href={clickData[0]["url2"]} target='_blank' rel='noopener noreferrer'>대형폐기물 배출신고 안내 바로가기 </a></div>
                             </div>
                         </MapInfoData>
                     )}

@@ -52,10 +52,10 @@ const QuizResult = ({ result, quiz } : QuizResultProps) => {
                 { result && <ResultEffect ref={container} /> }
                 <AnswerCheck>
                     {
-                        result ? "정답입니다!" : "틀렸습니다!"
+                        result ? <div>정답입니다!</div> : <div>틀렸습니다!</div>
                     }
                 </AnswerCheck>
-                <AnswerText>정답은 "{
+                <AnswerText>정답은 &quot{
                     quiz.image ? (
                         <AnswerImageButton 
                             src={quiz.answer}
@@ -63,7 +63,7 @@ const QuizResult = ({ result, quiz } : QuizResultProps) => {
                     ) : (
                         quiz.answer
                     )
-                }" 입니다.
+                }&quot 입니다.
                 </AnswerText>
             </ResultForm>   
             <div>
