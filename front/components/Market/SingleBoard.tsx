@@ -77,7 +77,7 @@ const SingleBoard = ({ item }) => {
         if (viewContainerRef.current) {
             viewContainerRef.current.innerHTML = item?.content ?? "";
         }
-    }, []);
+    }, [item?.content]);
 
     return (
         <Wrapper key={`postNum-${item.postId}`}>
