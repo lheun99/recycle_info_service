@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Search from "../shared/Search";
 import SingleBoard from "./SingleBoard";
 import Write from "./Write";
+import { FixedSizeList as List } from "react-window";
 import { get } from "../../api";
 
 const MainBoard = ({ firstBoards }) => {
@@ -10,8 +11,6 @@ const MainBoard = ({ firstBoards }) => {
     const [htmlStr, setHtmlStr] = useState("");
     const [title, setTitle] = useState("");
     const [board, setBoard] = useState(firstBoards);
-    console.log(board);
-
     // const getBoardsList = async () => {
     //     const page = 1;
     //     const zz = 10;
@@ -48,9 +47,18 @@ const MainBoard = ({ firstBoards }) => {
                             setIsWrite={setIsWrite}
                         />
                     ) : (
-                        board?.map((item, index) => (
-                            <SingleBoard key={index} item={item} />
-                        ))
+                        <List
+                            height={600}
+                            temCount={board.length}
+                            itemSize={600}
+                            width="100%"
+                        >
+                            {({ index }) => {
+                                const poi = board[index];
+                                return <SingleBoard key={index} item={poi} />;
+                            }}
+                            ;
+                        </List>
                     )}
                 </BoardWrapper>
             </Container>
@@ -70,14 +78,7 @@ const Wrapper = styled.div`
     align-items: center;
     padding-top: 60px;
 `;
-// width: 100%;
-// height: 790px;
-// background-color: var(--gray);
-// display: flex;
-// flex-direction: column;
-// justify-content: space-evenly;
-// align-items: center;
-// padding-top: 40px;
+
 const Contents = styled.p`
     white-space: pre-wrap;
     text-align: center;

@@ -5,7 +5,7 @@ const loginRequired = require("../middlewares/loginRequired");
 // postRouter.use(loginRequired);
 
 //게시글 추가
-postRouter.post("/", async (req, res, next) => {
+postRouter.post("/", loginRequired, async (req, res, next) => {
     try {
         //게시글 작성자 정보
         const userId = req.currentUserId;
