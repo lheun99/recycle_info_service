@@ -187,13 +187,13 @@ export default Quiz;
 
 const Wrapper = styled.div`
     width: 100%;
-    height: 790px;
+    height: 800px;
     background-color: var(--gray);
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
     align-items: center;
-    padding-top: 40px;
+    position: relative;
+    padding-top: 100px;
 `;
 
 const Contents = styled.p`
@@ -203,12 +203,14 @@ const Contents = styled.p`
 
 const Form = styled.div`
     width: 600px;
-    height: 470px;
+    height: 400px;
     background-color: white;
     display: flex;
     flex-direction: column;
     align-items: center;
     border-radius: 20px;
+    position: absolute;
+    top: 290px;
 `;
 
 const Title = styled.h2`
@@ -223,7 +225,7 @@ const Title = styled.h2`
 
 const Container = styled.div`
     width: 100%;
-    height: 450px;
+    height: 330px;
     display: flex;
     justify-content: center;
     align-items: center;

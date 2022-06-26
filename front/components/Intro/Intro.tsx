@@ -1,12 +1,17 @@
 import React from "react";
 import IntroData from "./IntroData";
+import { useRouter } from 'next/router';
 import Image from "next/image";
 import styled from "styled-components";
 import Handphone from "../../public/images/handphone.png";
 import DownArrow from "../../public/images/down-arrow.png";
+import Earth from "../../public/images/title.earth.png"
+import Eco from "../../public/images/eco.jpeg"
+import RightArrow from "../../public/images/right-arrow.png"
 import DoughnutChart from "./DoughnutChart";
 
 const Intro = () => {
+    const router = useRouter()
     const handleScroll = () => {
         const screenHeight = document.querySelector("#intro").clientHeight;
         window.scrollTo({
@@ -59,33 +64,21 @@ const Intro = () => {
                     <IntroData
                         title={"환경을 도와주세요!"}
                         text={
-                            "우리나라의 실질적인 재활용률은 40%도 되지 않습니다."
+                            `우리나라는 OECD 국가 중 재활용을 잘 하는 국가 2위이지만 실질적인 재활용은 \n제대로 이루어지고 있지 않습니다.
+                            이는 실질적인 재활용 참여 비율이기 때문이며 실질적인 재활용률은 \n40%도 되지 않는다고 합니다. `
                         }
                     />
                     <DoughnutChart />
                 </SectionWaste>
                 <SectionCard>
                     <CardItem>
-                        <CardBackground style={{ backgroundColor: "var(--deepgreen)" }}>
-                            <CardImage />
-                        </CardBackground>
-                    </CardItem>
-                    <CardItem>
                         <IntroData
-                            subtitle={"게임하고 포인트 받자!"}
-                            text={"올바른 분리수거 방법을 재미있게 알아보아요!"}
-                            hasButton={"게임 하러가기"}
-                        />
-                    </CardItem>
-                </SectionCard>
-                <SectionCard>
-                    <CardItem>
-                        <IntroData
-                            subtitle={"하루 한 번 퀴즈에 참여해요!"}
+                            subtitle={"하루 세 번 퀴즈에 참여해요!"}
                             text={
                                 "분리수거에 관련된 퀴즈를 풀어보고 포인트를 얻어요!"
                             }
                             hasButton={"퀴즈 참여하기"}
+                            href={"/quiz"}
                         />
                     </CardItem>
                     <CardItem>
@@ -112,34 +105,46 @@ const Intro = () => {
                     </CardItem>
                 </SectionCard>
                 <InsertText>
-                    <div>올바른 분리수거는 지구를 구하는 첫 걸음이 될 수 있어요.</div>
-                    <div>지구지구</div>
+                    <p>올바른 분리수거는 지구를 구하는 첫 걸음이 될 수 있어요.</p>
+                    <Image
+                        src={Earth}
+                        alt="earth"
+                        width={40}
+                        height={40}
+                    />
                 </InsertText>
                 <ContentsWrapper>
-                    <Contents>
-                        <ContentsTop>
-                            <ContentsImage />
-                            <ContentsText>
-                                우리는 이런것도 제공해요!
-                            </ContentsText>
-                        </ContentsTop>
-                    </Contents>
-                    <Contents>
-                        <ContentsBottom>
-                            <ContentsData>
-                                <div>
-                                    우리 동네 대형폐기물 스티커는 어디서?
-                                </div>
-                                <div>버튼</div>
+                    <ContentsForm>
+                        <Image
+                            src={Eco}
+                            alt="eco"
+                            width={770}
+                            height={400}
+                        />
+                        <Contents>
+                            <SubTitle>우리는 이런것도 제공해요!</SubTitle>
+                            <SubText>{`우리 동네 대형폐기물 스티커는\n어디서 발급받을 수 있을까?`}</SubText>
+                            <ContentsData onClick={() => router.push("/waste")}>
+                                <p>{`우리동네 대형폐기물\n신고하러 가기`}</p>
+                                <Image
+                                    src={RightArrow}
+                                    alt="right-arrow"
+                                    width={50}
+                                    height={50}
+                                />
                             </ContentsData>
-                            <ContentsData>
-                                <div>
-                                    멀쩡한데.. 중고로 팔아볼까?
-                                </div>
-                                <div>버튼</div>
+                            <SubText>멀쩡한데.. 중고로 팔아볼까?</SubText>
+                            <ContentsData onClick={() => router.push("/market")}>
+                                <p>{`중고마켓으로 가기`}</p>
+                                <Image
+                                    src={RightArrow}
+                                    alt="right-arrow"
+                                    width={50}
+                                    height={50}
+                                />
                             </ContentsData>
-                        </ContentsBottom>
-                    </Contents>
+                        </Contents>
+                    </ContentsForm>
                 </ContentsWrapper>
             </section>
         </main>
@@ -249,10 +254,11 @@ const InsertText = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    font-size: var(--font-text);
 `;
 
 const ContentsWrapper = styled.div`
-    height: 860px;
+    height: 800px;
     background-color: var(--gray);
     display: flex;
     flex-direction: column;
@@ -260,43 +266,45 @@ const ContentsWrapper = styled.div`
     align-items: center;
 `;
 
-const Contents = styled.div`
+const ContentsForm = styled.div`
     width: 1170px;
-    height: 370px;
-`;
-
-const ContentsTop = styled.div`
-    width: 100%;
-    height: 100%;
+    height: 600px;
     display: flex;
 `;
 
-const ContentsBottom = styled.div`
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-`;
-
-const ContentsImage = styled.div`
-    width: 400px;
-    height: 100%;
-    background-color: wheat;
-`;
-
-const ContentsText = styled.div`
-    width: 770px;
+const Contents = styled.div`
+    width: 450px;
     background-color: #305e63;
     color: white;
-    font-size: var(--font-title);
-    padding: 50px 0 0 50px;
+    padding: 50px 0 30px 50px;
+    white-space: pre-wrap;
+`;
+
+const SubTitle = styled.div`
+    font-size: var(--font-subtitle);
+    font-weight: bold;
+    margin-bottom: 40px;
+`;
+
+const SubText = styled.p`
+    font-size: var(--font-text);
+    margin-bottom: 20px;
 `;
 
 const ContentsData = styled.div`
-    width: 570px;
-    height: 310px;
-    background-color: white;
-    font-size: var(--font-subtitle);
-    padding: 50px 0 0 50px;
+    width: 330px;
+    height: 100px;
+    margin-bottom: 50px;
+    padding: 20px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    font-size: var(--font-text);
+    border: 1px solid white;
+    border-radius: 20px;
+    cursor: pointer;
+    :hover {
+        background-color: #294e52;
+        border: none;
+    }
 `;

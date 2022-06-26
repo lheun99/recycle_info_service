@@ -60,7 +60,7 @@ const ReportWaste = () => {
                     )}
                 </MapInfo>
             </Form>
-            <p>Tip! 대형폐기물은 무료로  수거가 가능하기도 해요!</p>
+            <Tip>Tip! 대형폐기물은 무료로  수거가 가능하기도 해요!</Tip>
         </Wrapper>
     );
 };
@@ -70,16 +70,23 @@ export default ReportWaste;
 
 const Wrapper = styled.div`
     width: 100%;
-    height: 1100px;
+    height: 1200px;
     background-color: var(--gray);
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
     align-items: center;
-    padding-top: 40px;
+    position: relative;
+    padding-top: 100px;
 `;
 
 const Contents = styled.p`
+    white-space: pre-wrap;
+    text-align: center;
+`;
+
+const Tip  = styled.p`
+    position: absolute; 
+    bottom: 50px;
     white-space: pre-wrap;
     text-align: center;
 `;
@@ -94,6 +101,8 @@ const Form = styled.div`
     align-items: center;
     padding-bottom: 60px;
     border-radius: 20px;
+    position: absolute;
+    top: 290px;
 `;
 
 const Title = styled.h2`
