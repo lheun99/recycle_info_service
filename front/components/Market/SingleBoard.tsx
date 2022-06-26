@@ -153,7 +153,7 @@ const SingleBoard = ({ item }) => {
                 }
             />
             <CardBodyContainer>
-                <PostTitle gutterBottom variant="h5" component="div">
+                <PostTitle gutterBottom variant="h5">
                     {item.title}
                 </PostTitle>
 
