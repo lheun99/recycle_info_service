@@ -53,7 +53,7 @@ const InfoCarousel = () => {
     };
     useEffect(() => {
         uploadData();
-    }, [uploadData]); // 페이지 오면 바로 데이터 가져옴. 그러나 변환 시간에 따라서, 그 사이는 Loading 으로 보여준다
+    }, []); // 페이지 오면 바로 데이터 가져옴. 그러나 변환 시간에 따라서, 그 사이는 Loading 으로 보여준다
 
     return totalInfo.type !== null ? (
         <Wrapper>
