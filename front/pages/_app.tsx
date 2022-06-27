@@ -1,7 +1,7 @@
 import { AppProps } from "next/app";
 import "../styles/globals.css";
 import Layout from "../components/Layout";
-import { loginReducer } from "./reducer";
+import { loginReducer } from "../Providers/reducer";
 import React, { useState, useEffect, useReducer, createContext } from "react";
 import { RecoilRoot } from "recoil";
 
