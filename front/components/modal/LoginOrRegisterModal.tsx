@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Login from "./Login";
 import Register from "./Register";
-import Modal from '@mui/material/Modal';
+import Modal from "@mui/material/Modal";
 
 const LoginOrRegisterModal = ({ open, handleClose }) => {
     const [register, setRegister] = useState<Boolean>(false);
@@ -27,7 +27,7 @@ const LoginOrRegisterModal = ({ open, handleClose }) => {
                 )
             }
         </Modal>
-    )
-}
+    );
+};
 
 export default LoginOrRegisterModal;
