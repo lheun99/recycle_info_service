@@ -46,7 +46,7 @@ const Comment = {
       	ON posts.post_id=comments.post_id 
       WHERE comments.comment_id=$comment_id`,
       {
-        bind: { comment_id: comment_id },
+        bind: { comment_id: comment_id },z
         type: QueryTypes.SELECT,
       }
     );
