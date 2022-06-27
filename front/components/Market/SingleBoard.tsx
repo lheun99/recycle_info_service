@@ -43,6 +43,7 @@ const ExpandMore = materialStyled((props: ExpandMoreProps) => {
 
 // data map 할 예정, 게시글과 댓글 연동은 postId (게시글 번호) 로 연동 !
 const SingleBoard = ({ item }) => {
+    console.log(item);
     const [expanded, setExpanded] = useState(false);
     const [slideIndex, setSlideIndex] = useState(0);
     const [activeStep, setActiveStep] = useState(0);
@@ -80,17 +81,17 @@ const SingleBoard = ({ item }) => {
     }, [item?.content]);
 
     return (
-        <Wrapper key={`postNum-${item.postId}`}>
+        <Wrapper key={`postNum-${item?.postId}`}>
             <Card
                 style={{
                     minHeight: "330PX",
                     boxShadow: "none",
                 }}
             >
-                {item.postImg ? (
+                {item?.postImg ? (
                     <CarouselWrapper>
                         <CarouselAll>
-                            {item.postImg?.map((img, idx) => {
+                            {item?.postImg?.map((img, idx) => {
                                 return (
                                     <Slider
                                         key={`page-${idx}`}
@@ -102,7 +103,7 @@ const SingleBoard = ({ item }) => {
                                     >
                                         <InfoBox>
                                             <Image
-                                                src={item.postImg[idx]}
+                                                src={item?.postImg[idx]}
                                                 alt={`img-${idx}`}
                                                 width={320}
                                                 height={320}
@@ -154,7 +155,7 @@ const SingleBoard = ({ item }) => {
             />
             <CardBodyContainer>
                 <PostTitle gutterBottom variant="h5">
-                    {item.title}
+                    {item?.title}
                 </PostTitle>
 
                 <div ref={viewContainerRef} />
@@ -166,8 +167,8 @@ const SingleBoard = ({ item }) => {
                             <MoreVertIcon />
                         </IconButton>
                     }
-                    title={item.nickname}
-                    subheader={item.createdAt.slice(0, 10)}
+                    title={item?.nickname}
+                    subheader={item?.createdAt?.slice(0, 10) ?? 0}
                 />
             </CardBodyContainer>
 
@@ -198,8 +199,8 @@ const SingleBoard = ({ item }) => {
 export default SingleBoard;
 
 const Wrapper = styled.div`
-    width: 600px;
-    height: 100%;
+    width: auto;
+    height: 80%;
     display: flex;
     flex-direction: column;
     justify-content: center;

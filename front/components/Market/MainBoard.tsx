@@ -3,13 +3,37 @@ import styled from "styled-components";
 import Search from "../shared/Search";
 import SingleBoard from "./SingleBoard";
 import Write from "./Write";
-import { get } from "../../api";
+import boardData from "./sampleData.json";
+import { FixedSizeList as List } from "react-window";
+
+const Example = () => {
+    const dataList = boardData;
+    return (
+        <List
+            height={1000}
+            itemCount={dataList.length}
+            itemSize={800}
+            width={600}
+            itemData={dataList}
+        >
+            {Column}
+        </List>
+    );
+};
+
+const Column = (props) => {
+    return (
+        <div style={props.style}>
+            <SingleBoard key={props.index} item={props.data[props.index]} />
+        </div>
+    );
+};
 
 const MainBoard = ({ firstBoards }) => {
     const [isWrite, setIsWrite] = useState(false);
     const [htmlStr, setHtmlStr] = useState("");
     const [title, setTitle] = useState("");
-    const [board, setBoard] = useState(firstBoards);
+    const [board, setBoard] = useState(boardData);
 
     return (
         <Wrapper>
@@ -36,9 +60,7 @@ const MainBoard = ({ firstBoards }) => {
                             setIsWrite={setIsWrite}
                         />
                     ) : (
-                        board?.map((item, index) => (
-                            <SingleBoard key={index} item={item} />
-                        ))
+                        <Example />
                     )}
                 </BoardWrapper>
             </Container>
@@ -103,6 +125,8 @@ const Button = styled.button`
 
 const BoardWrapper = styled.div`
     width: 100%;
+    height: 100%;
+    margin-bottom: 60px;
     display: flex;
     flex-direction: column;
     align-items: center;
