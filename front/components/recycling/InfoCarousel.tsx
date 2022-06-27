@@ -7,7 +7,7 @@ import styled from "styled-components";
 import { findList } from "./findList";
 import Loading from "../shared/Loading";
 
-const InfoCarousel = () => {
+const InfoCarousel = ({ info }) => {
     const [slideIndex, setSlideIndex] = useState(1);
     const router = useRouter(); // 페이지 이동을 위해 useRouter 적용
 

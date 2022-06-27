@@ -1,25 +1,25 @@
 import React, { useRef } from "react";
 import IntroData from "./IntroData";
-import { useRouter } from 'next/router';
+import { useRouter } from "next/router";
 import Image from "next/image";
 import styled from "styled-components";
 import Handphone from "../../public/images/handphone.png";
 import DownArrow from "../../public/images/down-arrow.png";
-import Earth from "../../public/images/title.earth.png"
-import Eco from "../../public/images/eco.jpeg"
-import RightArrow from "../../public/images/right-arrow.png"
+import IntroEco from "../../public/images/intro.eco.png";
+import Eco from "../../public/images/eco.jpeg";
+import RightArrow from "../../public/images/right-arrow.png";
 import DoughnutChart from "./DoughnutChart";
 
 const Intro = () => {
-    const router = useRouter()
+    const router = useRouter();
 
     const handleScroll = () => {
         const screenHeight = document.querySelector("#intro").clientHeight;
         window.scrollTo({
-          top: screenHeight,
-          behavior: 'smooth'
-        })
-    }
+            top: screenHeight,
+            behavior: "smooth",
+        });
+    };
 
     return (
         <main>
@@ -30,7 +30,7 @@ const Intro = () => {
                         text={
                             "내 손안의 분리배출\n작은 실천이 지구를 지킵니다.\n\n\n\n"
                         }
-                    />                
+                    />
                     <Arrow onClick={handleScroll}>
                         <Image
                             src={DownArrow}
@@ -64,10 +64,8 @@ const Intro = () => {
                 <SectionWaste>
                     <IntroData
                         title={"환경을 도와주세요!"}
-                        text={
-                            `우리나라는 OECD 국가 중 재활용을 잘 하는 국가 2위이지만 실질적인 재활용은 \n제대로 이루어지고 있지 않습니다.
-                            이는 실질적인 재활용 참여 비율이기 때문이며 실질적인 재활용률은 \n40%도 되지 않는다고 합니다. `
-                        }
+                        text={`우리나라는 OECD 국가 중 재활용을 잘 하는 국가 2위이지만 실질적인 재활용은 \n제대로 이루어지고 있지 않습니다.
+                            이는 실질적인 재활용 참여 비율이기 때문이며 실질적인 재활용률은 \n40%도 되지 않는다고 합니다. `}
                     />
                     <DoughnutChart />
                 </SectionWaste>
@@ -83,14 +81,18 @@ const Intro = () => {
                         />
                     </CardItem>
                     <CardItem>
-                        <CardBackground style={{ backgroundColor: "var(--green)" }}>
+                        <CardBackground
+                            style={{ backgroundColor: "var(--green)" }}
+                        >
                             <CardImage />
                         </CardBackground>
                     </CardItem>
                 </SectionCard>
                 <SectionCard>
                     <CardItem>
-                        <CardBackground style={{ backgroundColor: "var(--deepgray)" }}>
+                        <CardBackground
+                            style={{ backgroundColor: "var(--deepgray)" }}
+                        >
                             <CardImage />
                         </CardBackground>
                     </CardItem>
@@ -106,22 +108,19 @@ const Intro = () => {
                     </CardItem>
                 </SectionCard>
                 <InsertText>
-                    <p>올바른 분리수거는 지구를 구하는 첫 걸음이 될 수 있어요.</p>
+                    <p>
+                        올바른 분리수거는 지구를 구하는 첫 걸음이 될 수 있어요.
+                    </p>
                     <Image
-                        src={Earth}
+                        src={IntroEco}
                         alt="earth"
-                        width={40}
-                        height={40}
+                        width={280}
+                        height={200}
                     />
                 </InsertText>
                 <ContentsWrapper>
                     <ContentsForm>
-                        <Image
-                            src={Eco}
-                            alt="eco"
-                            width={770}
-                            height={400}
-                        />
+                        <Image src={Eco} alt="eco" width={770} height={400} />
                         <Contents>
                             <SubTitle>우리는 이런것도 제공해요!</SubTitle>
                             <SubText>{`우리 동네 대형폐기물 스티커는\n어디서 발급받을 수 있을까?`}</SubText>
@@ -135,7 +134,9 @@ const Intro = () => {
                                 />
                             </ContentsData>
                             <SubText>멀쩡한데.. 중고로 팔아볼까?</SubText>
-                            <ContentsData onClick={() => router.push("/market")}>
+                            <ContentsData
+                                onClick={() => router.push("/market")}
+                            >
                                 <p>{`중고마켓으로 가기`}</p>
                                 <Image
                                     src={RightArrow}
@@ -153,7 +154,6 @@ const Intro = () => {
 };
 
 export default Intro;
-
 
 const Wrapper = styled.div`
     width: 100%;
@@ -185,10 +185,10 @@ const Arrow = styled.button`
     @keyframes up-down {
         0% {
             margin-top: 0px;
-        } 
+        }
         100% {
             margin-top: 30px;
-        } 
+        }
     }
 `;
 
