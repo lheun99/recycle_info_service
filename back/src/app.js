@@ -1,13 +1,16 @@
-const cors = require("cors");
-const express = require("express");
-const db = require("./models/index.js");
-const errorMiddleware = require("./middlewares/errorMiddleware.js");
-const recycleInfoRouter = require("./routes/recycleInfoRouter");
-const userRouter = require("./routes/userRouter");
-const postRouter = require("./routes/postRouter");
-const imgUploadRouter = require("./routes/imgUploadRouter");
-const pointRouter = require("./routes/pointRouter");
-const quizRouter = require("./routes/quizRouter");
+import cors from "cors";
+import express from "express";
+import db from "./models/index.js";
+import errorMiddleware from "./middlewares/errorMiddleware.js";
+import recycleInfoRouter from "./routes/recycleInfoRouter.js";
+import userRouter from "./routes/userRouter.js";
+import postRouter from "./routes/postRouter.js";
+import commentRouter from "./routes/commentRouter.js";
+import searchRouter from "./routes/searchRouter.js";
+import imgUploadRouter from "./routes/imgUploadRouter.js";
+import pointRouter from "./routes/pointRouter.js";
+import quizRouter from "./routes/quizRouter.js";
+import authRouter from "./routes/authRouter.js";
 
 const app = express();
 
@@ -26,13 +29,16 @@ app.use(express.urlencoded({ extended: false }));
 app.get("/", (req, res) => {
   res.send("Hello, world!!!");
 });
-//recycle : 분리배출 방법 관련
-app.use("/recycle", recycleInfoRouter);
-app.use("/post", postRouter);
+
+app.use("/recycle-info", recycleInfoRouter);
+app.use("/search", searchRouter);
 app.use("/upload", imgUploadRouter);
+app.use("/post", postRouter);
+app.use("/comment", commentRouter);
 app.use("/users", userRouter);
 app.use("/points", pointRouter);
 app.use("/quizs", quizRouter);
+app.use("/auth", authRouter);
 app.use(errorMiddleware);
 
-module.exports = app;
+export default app;

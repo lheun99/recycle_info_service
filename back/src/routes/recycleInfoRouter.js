@@ -1,22 +1,48 @@
-const recycleInfoRouter = require("express").Router();
-const recycleInfoService = require("../services/recycleInfoService");
-// const { body, validationResult } = require("express-validator");
-// const loginRequired = require("../middlewares/loginRequired");
+import { Router } from "express";
+import recycleInfoService from "../services/recycleInfoService.js";
 
-//post_recycle/info: 사용자의 이미지를 분석해 분리배출 방법을 안내한다.
-recycleInfoRouter.post("/info", async (req, res, next) => {
+import multer from "multer";
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
+
+const recycleInfoRouter = Router();
+
+//POST /recycle-info : 사용자가 등록한 이미지 분석, 분리배출 방법 안내
+recycleInfoRouter.post("/", upload.single("image"), async (req, res, next) => {
   try {
-    //사용자의 이미지
-    const { img } = req.body;
+    //사용자가 등록한 이미지 정보
+    const imgBuffer = req.file.buffer;
+    //이미지 정보 전달, 분석 결과
+    const info = await recycleInfoService.analysisImg({ imgBuffer });
 
-    //안내할 분리배출 방법 정보
-    const recycleInfo = await recycleInfoService.passImg({
-      img,
-    });
+    if (info.errorMessage) {
+      throw new Error(info.errorMessage);
+    }
 
-    res.status(201).json(recycleInfo);
+    res.status(201).json(info);
   } catch (error) {
     next(error);
   }
 });
-module.exports = recycleInfoRouter;
+
+//GET /recycle-info/?code : 분리배출 방법 검색
+recycleInfoRouter.get("/", async (req, res, next) => {
+  try {
+    //검색어를 받는다
+    const code = req.query.code;
+
+    //검색 결과
+    const info = await recycleInfoService.getInfoByCode({
+      code,
+    });
+
+    if (info.errorMessage) {
+      throw new Error(info.errorMessage);
+    }
+
+    res.status(200).json(info);
+  } catch (e) {
+    next(e);
+  }
+});
+export default recycleInfoRouter;
