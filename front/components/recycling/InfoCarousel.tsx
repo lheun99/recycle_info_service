@@ -53,13 +53,13 @@ const InfoCarousel = () => {
     };
     useEffect(() => {
         uploadData();
-    }, []); // 페이지 오면 바로 데이터 가져옴. 그러나 변환 시간에 따라서, 그 사이는 Loading 으로 보여준다
+    }, [uploadData]); // 페이지 오면 바로 데이터 가져옴. 그러나 변환 시간에 따라서, 그 사이는 Loading 으로 보여준다
 
     return totalInfo.type !== null ? (
         <Wrapper>
             <MainTitle>
-                <h1>&apos;{totalInfo.type}&apos;</h1>
-                <h2> (으)로 분리수거 해주세요!</h2>
+                <h2>&apos;{totalInfo.type}&apos;</h2>
+                <h3> (으)로 분리수거 해주세요!</h3>
             </MainTitle>
             <p>
                 &apos;{totalInfo.type}&apos;(은)는{" "}
@@ -90,8 +90,8 @@ const InfoCarousel = () => {
                                     <Image
                                         src={info.infoImg}
                                         alt="recycle-information"
-                                        width={450}
-                                        height={630}
+                                        width={400}
+                                        height={500}
                                     />
                                 </InfoBox>
                                 <div>
@@ -141,11 +141,10 @@ export default InfoCarousel;
 const Wrapper = styled.div`
     background: #f2f2f2;
     width: 100%;
-    height: auto;
+    height: 700px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 80px 0;
 `;
 
 const MainTitle = styled.div`
@@ -157,19 +156,19 @@ const CarouselWrapper = styled.div`
     align-items: center;
 `;
 const CarouselAll = styled.div`
-    width: 600px;
-    height: 730px;
+    width: 500px;
+    height: 500px;
     border-radius: 15px;
     margin: 8px 8px;
     display: flex;
     justify-content: center;
     text-align: center;
-    background-color: #a7c4bc;
+
     word-break: keep-all;
 `;
 const Slider = styled.div`
-    width: 520px;
-    height: 720px;
+    width: 500px;
+    height: 500px;
     position: absolute;
     display: flex;
     flex-direction: column;
@@ -187,7 +186,7 @@ const InfoBox = styled.div`
 `;
 const ArrowButton = styled.button`
     border: none;
-    height: 50px;
+    height: 30px;
     cursor: pointer;
 `;
 const PrevArrow = styled(Image)`
@@ -197,25 +196,28 @@ const ButtonWrapper = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+    margin: 18px 0;
 `;
 const Button = styled.button`
     border: none;
     cursor: pointer;
-    width: 190px;
+    width: 150px;
     height: 50px;
     margin: 18px 6px;
     background-color: #dedede;
     border-radius: 15px;
+    word-break: keep-all;
 `;
 const PointButton = styled.button`
     display: flex;
     border: none;
     cursor: pointer;
-    width: 190px;
+    width: 150px;
     height: 50px;
     margin: 18px 6px;
     background-color: #dedede;
     border-radius: 15px;
     justify-content: center;
     align-items: center;
+    word-break: keep-all;
 `;
