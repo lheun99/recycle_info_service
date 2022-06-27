@@ -44,7 +44,7 @@ const Nav = () => {
             </ul>
             <ul className={navStyles.navList}>
                 <li>
-                    <Link href="/recycling/aiSearcher">
+                    <Link href="/recycling">
                         <a>분리배출 하러가기</a>
                     </Link>
                 </li>
