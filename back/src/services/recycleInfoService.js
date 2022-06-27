@@ -4,44 +4,21 @@ const recycleInfoService = {
   //POST /recycle-info
   analysisImg: async ({ imgBuffer }) => {
     //인공지능 파트로 이미지 정보 전달, 분석 결과
-    const results = await RecycleInfo.findRecycleCode({ imgBuffer });
+    const infos = await RecycleInfo.findRecycleCode({ imgBuffer });
 
-    if (results.length === 0) {
-      return { message: "success", data: { typeCount: 0, infos: [] } };
+    if (infos.length === 0) {
+      return { message: "success", data: { infoCount: 0, imgInfo: [] } };
     }
-
-    const analysisImgResult = results.map((result) => ({
-      code: result.classId,
-      confidence: (result.confidence * 100).toFixed(2),
-      xyxy: result._xyxy,
+    const imgInfo = infos.map((info) => ({
+      code: info.classId,
+      confidence: (info.confidence * 100).toFixed(2),
+      xyxy: Object.values(info._xyxy),
     }));
 
-    //recycle_category_code에 따른 분리배출 정보
-    //전달 데이터 형태 변경
-    const infos = await Promise.all(
-      analysisImgResult.map(async (result) => {
-        const info = await RecycleInfo.findInfoByCode({ code: result.code });
+    //분석 결과, 총 code 개수
+    const infoCount = imgInfo.length;
 
-        const category = info[0].category;
-        result.category = category;
-
-        const infoPageCount = info.length;
-        result.infoPageCount = infoPageCount;
-
-        const recycleInfo = info.map((info) => ({
-          details: info.details,
-          infoImg: info.info_img,
-        }));
-        result.recycleInfo = recycleInfo;
-
-        return result;
-      })
-    );
-
-    //안내될 정보 페이지 수
-    const typeCount = infos.length;
-
-    return { message: "success", data: { typeCount, infos } };
+    return { message: "success", data: { infoCount, imgInfo } };
   },
 
   //GET /recycle-info/?code

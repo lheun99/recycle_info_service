@@ -41,7 +41,6 @@ const RecycleInfo = {
     return infos[0];
   },
 
-  //POST /recycle-info
   //GET /recycle-info/?code
   //분석 결과에 따른 분리배출 정보
   findInfoByCode: async ({ code }) => {
