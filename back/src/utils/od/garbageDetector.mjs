@@ -346,4 +346,5 @@ class GarbageDetector {
   }
 }
 
-export { GarbageDetector, MODELDIR };
+// 타입힌팅 및 인텔리센스를 돕기 위해 Detection 클래스도 익스포트합니다.
+export { GarbageDetector, Detection, MODELDIR };
