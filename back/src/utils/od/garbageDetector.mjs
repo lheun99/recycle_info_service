@@ -6,6 +6,7 @@ import url from "url";
 import tf from "@tensorflow/tfjs-node";
 
 import { AppError } from "../errors.js";
+import * as status from "../status.js";
 
 /** 모듈 사용법
  *
@@ -291,8 +292,13 @@ class GarbageDetector {
   async guess(image) {
     if (!this.initDone) {
       throw new AppError(
-        { name: `DetectionError`, operational: true, detail: {} },
-        `Model is not ready`
+        {
+          name: `DetectionError`,
+          status: status.STATUS_503_SERVICEUNAVAILABLE,
+          operational: true,
+          detail: {},
+        },
+        `AI is not ready`
       );
     }
     let image_;
