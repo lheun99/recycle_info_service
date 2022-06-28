@@ -47,7 +47,12 @@ userRouter.post("/login", async (req, res, next) => {
 
 userRouter.get("/:userId/myPage", loginRequired, async (req, res, next) => {
     try {
-        const userId = req.currentUserId;
+        const loginId = req.currentUserId;
+        const userId = req.params.userId;
+
+        if (loginId !== userId) {
+            throw new Error("조회 권한이 없습니다. 다시 한 번 확인해 주세요.");
+        }
 
         const userPage = await userService.getUserPage({ userId });
 
