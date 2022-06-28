@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Search from "../shared/Search";
 import SingleBoard from "./SingleBoard";
 import Write from "./Write";
+import { FixedSizeList as List } from "react-window";
 import { get } from "../../api";
 
 const MainBoard = ({ firstBoards }) => {
@@ -10,6 +11,16 @@ const MainBoard = ({ firstBoards }) => {
     const [htmlStr, setHtmlStr] = useState("");
     const [title, setTitle] = useState("");
     const [board, setBoard] = useState(firstBoards);
+    // const getBoardsList = async () => {
+    //     const page = 1;
+    //     const zz = 10;
+    //     const res = await get(`post/list?page=${page}&perPage=${zz}`);
+    //     const boardsList = [...res.data.data.postLists];
+    //     setBoard(boardsList);
+    // };
+    // useEffect(() => {
+    //     getBoardsList();
+    // }, []);
 
     return (
         <Wrapper>
@@ -36,9 +47,18 @@ const MainBoard = ({ firstBoards }) => {
                             setIsWrite={setIsWrite}
                         />
                     ) : (
-                        board?.map((item, index) => (
-                            <SingleBoard key={index} item={item} />
-                        ))
+                        <List
+                            height={600}
+                            temCount={board.length}
+                            itemSize={600}
+                            width="100%"
+                        >
+                            {({ index }) => {
+                                const poi = board[index];
+                                return <SingleBoard key={index} item={poi} />;
+                            }}
+                            ;
+                        </List>
                     )}
                 </BoardWrapper>
             </Container>

@@ -49,7 +49,7 @@ const SingleBoard = ({ item }) => {
     const maxSteps = item?.postImg?.length ?? 0; // 자료의 총 길이
     const userInfo = useContext(UserStateContext);
     const viewContainerRef = useRef<HTMLDivElement>(null);
-
+    console.log(item);
     const profileImg = userInfo?.user?.picture ?? "";
     const theme = useTheme();
 
