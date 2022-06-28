@@ -12,8 +12,8 @@ const recycleInfoService = {
     const imgInfo = infos.map((info) => ({
       code: info.classId,
       confidence: (info.confidence * 100).toFixed(2),
-      xyxy: Object.values(info._xyxy),
-      xywh: info._xywh,
+      xyxy: info.xyxy,
+      xywh: info.xywh,
     }));
 
     //분석 결과, 총 code 개수
