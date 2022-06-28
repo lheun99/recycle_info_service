@@ -100,10 +100,14 @@ const MODELDIR = path.resolve(
  * ### 메소드
  *
  * - `Detection.name(lang: string)` - 물체의 분류 이름을 반환합니다.
- * - `Detection.xyxy(dim: number[] = [this.imageWidth, this.imageHeight])` -
- *   `xyxy` 형식으로 바운딩 박스 좌표를 반환합니다.
- * - `Detection.xywh(dim: number[] = [this.imageWidth, this.imageHeight])` -
- *   `xywh` 형식으로 바운딩 박스 좌표를 반환합니다.
+ * - `Detection.xyxy(
+ *      dim: number[] = [this.imageWidth, this.imageHeight],
+ *      decimal: boolean = false
+ *    )` - `xyxy` 형식으로 바운딩 박스 좌표를 반환합니다.
+ * - `Detection.xywh(
+ *      dim: number[] = [this.imageWidth, this.imageHeight],
+ *      decimal: boolean = false
+ *    )` - `xywh` 형식으로 바운딩 박스 좌표를 반환합니다.
  */
 class Detection {
   #_xyxy = null;
@@ -152,7 +156,7 @@ class Detection {
    *    기본값은 `false`입니다.
    * @return {number[]} xyxy
    *  - `dim` 값에 맞춰 계산한 `[ x1, y1, x2, y2]` 형식을 반환합니다.
-   *  - 좌표값은 가까운 정수로 반올림합니다.
+   *  - `decimal` 인자가 `false`이면 좌표값을 가까운 정수로 반올림합니다.
    */
   xyxy(dim = [this.imageWidth, this.imageHeight], decimal = false) {
     const [width, height] = dim;
@@ -174,7 +178,7 @@ class Detection {
    * @return {number[]} xyxy
    *  - `dim` 값에 맞춰 계산한 `[ xc, yc, w, h]` 형식을 반환합니다.
    *    `xc`, `yc`는 각각 바운딩 박스 중앙 지점의 좌표입니다.
-   *  - 좌표값은 가까운 정수로 반올림합니다.
+   *  - `decimal` 인자가 `false`이면 좌표값을 가까운 정수로 반올림합니다.
    */
   xywh(dim = [this.imageWidth, this.imageHeight], decimal = false) {
     if (this.#_xywh === null) {
