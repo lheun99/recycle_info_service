@@ -55,7 +55,7 @@ class Identity(object):
         if nickname is None:
             self.nickname = ''.join(
                 secrets.choice(self.id_chars)
-                for _ in range(random.randint(self.nickname_len))
+                for _ in range(random.randint(*self.nickname_len))
             )
         else:
             self.nickname = nickname
@@ -63,15 +63,15 @@ class Identity(object):
         if email is None:
             email_id = ''.join(
                 secrets.choice(self.id_chars)
-                for _ in range(random.randint(self.email_id_len))
+                for _ in range(random.randint(*self.email_id_len))
             )
             domain = ''.join(
                 secrets.choice(self.domain_chars)
-                for _ in range(random.randint(self.domain_len))
+                for _ in range(random.randint(*self.domain_len))
             )
             domain_ext = ''.join(
                 secrets.choice(string.ascii_lowercase)
-                for _ in range(random.randint(self.domain_ext_len))
+                for _ in range(random.randint(*self.domain_ext_len))
             )
             self.email = f'{email_id}@{domain}.{domain_ext}'
         else:
@@ -153,7 +153,7 @@ class Identity(object):
     def generate_password():
         return ''.join(
             secrets.choice(__class__.pw_chars)
-            for _ in range(random.randint(__class__.pw_len))
+            for _ in range(random.randint(*__class__.pw_len))
         )
 
 
