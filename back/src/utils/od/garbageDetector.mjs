@@ -185,8 +185,8 @@ class Detection {
       this.#_xywh = new Float32Array([
         (this.#_xyxy[0] + this.#_xyxy[2]) / 2.0,
         (this.#_xyxy[1] + this.#_xyxy[3]) / 2.0,
-        this.#_xyxy[2] + this.#_xyxy[0],
-        this.#_xyxy[3] + this.#_xyxy[1],
+        this.#_xyxy[2] - this.#_xyxy[0],
+        this.#_xyxy[3] - this.#_xyxy[1],
       ]);
     }
     const [width, height] = dim;
