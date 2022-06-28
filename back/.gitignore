@@ -5,6 +5,12 @@ node_modules
 gdmodel
 src/tests/test-images/*.jpg
 
+# python compiled code
+__pycache__
+*.pyc
+*.pyd
+*.pyo
+
 .env
 orm.js
 log
