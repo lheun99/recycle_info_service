@@ -26,7 +26,7 @@ const AiSearcher = () => {
     return (
         <>
             <Container>
-                {isAllInfo && (
+                {isAllInfo && !openInfo && (
                     <>
                         <h1>사물을 찍어주세요!</h1>
                         <p>
@@ -40,11 +40,20 @@ const AiSearcher = () => {
                     size="large"
                     onClick={() => {
                         setIsAllInfo((cur) => !cur);
+                        setOpenInfo((cur) => !cur);
                     }}
                 >
                     분리배출 정보 다 보기
                 </FaButton>
-                <Wrapper className={openInfo ? "success" : "uploading"}>
+                <Wrapper
+                    className={
+                        openInfo
+                            ? isAllInfo
+                                ? "success"
+                                : "uploading"
+                            : "uploading"
+                    }
+                >
                     {isAllInfo && (
                         <ImageWrapper>
                             <ImageForm>
@@ -57,46 +66,51 @@ const AiSearcher = () => {
                                         setOpenInfo={setOpenInfo}
                                     />
                                 ) : (
-                                    <ImgDetection info={info} />
+                                    <DetectionWrapper>
+                                        <Button
+                                            onClick={() => {
+                                                setOpenInfo((cur) => !cur);
+                                            }}
+                                        >
+                                            다시 하기
+                                        </Button>
+                                        <ImgDetection info={info} />
+                                    </DetectionWrapper>
                                 )}
                             </ImageForm>
                         </ImageWrapper>
                     )}
-                    {openInfo ||
-                        (!isAllInfo &&
-                            (!isAllInfo ? (
-                                <InfoWrapper>
-                                    <h1>카테고리를 선택해보세요.</h1>
-                                    <Autocomplete
-                                        value={name}
-                                        onChange={(
-                                            event: any,
-                                            newValue: string | null
-                                        ) => {
-                                            setName(newValue);
-                                        }}
-                                        inputValue={inputName}
-                                        onInputChange={(
-                                            event,
-                                            newInputValue
-                                        ) => {
-                                            setInputName(newInputValue);
-                                        }}
-                                        id="controllable-states-demo"
-                                        options={categoryData}
-                                        sx={{ width: 280 }}
-                                        renderInput={(params) => (
-                                            <TextField
-                                                {...params}
-                                                label="카테고리"
-                                            />
-                                        )}
-                                    />
-                                    <InfoCarousel info={info} />
-                                </InfoWrapper>
-                            ) : (
+                    {(!isAllInfo || openInfo) &&
+                        (!isAllInfo ? (
+                            <InfoWrapper>
+                                <h1>카테고리를 선택해보세요.</h1>
+                                <Autocomplete
+                                    value={name}
+                                    onChange={(
+                                        event: any,
+                                        newValue: string | null
+                                    ) => {
+                                        setName(newValue);
+                                    }}
+                                    inputValue={inputName}
+                                    onInputChange={(event, newInputValue) => {
+                                        setInputName(newInputValue);
+                                    }}
+                                    id="controllable-states-demo"
+                                    options={categoryData}
+                                    sx={{ width: 280 }}
+                                    renderInput={(params) => (
+                                        <TextField
+                                            {...params}
+                                            label="카테고리"
+                                        />
+                                    )}
+                                />
                                 <InfoCarousel info={info} />
-                            )))}
+                            </InfoWrapper>
+                        ) : (
+                            <InfoCarousel info={info} />
+                        ))}
                 </Wrapper>
             </Container>
         </>
@@ -142,7 +156,6 @@ const InfoWrapper = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 850px;
 `;
 
 const FaButton = materialStyled(Fab)(() => ({
@@ -160,3 +173,22 @@ const FaButton = materialStyled(Fab)(() => ({
         color: "#305e63",
     },
 }));
+
+const Button = styled.button`
+    border: none;
+    cursor: pointer;
+    width: 150px;
+    height: 40px;
+    margin: 19.92px 0 0 0;
+    border-radius: 15px;
+    word-break: keep-all;
+    font-size: 15px;
+    text-align: center;
+    background-color: #a7c4bc;
+    color: #fff;
+    font-family: Elice Digital Baeum;
+`;
+
+const DetectionWrapper = styled.div`
+    height: 800px;
+`;

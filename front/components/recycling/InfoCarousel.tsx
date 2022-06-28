@@ -141,7 +141,7 @@ export default InfoCarousel;
 const Wrapper = styled.div`
     background: #f2f2f2;
     width: 100%;
-    height: 700px;
+    height: 800px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -154,6 +154,7 @@ const MainTitle = styled.div`
 const CarouselWrapper = styled.div`
     display: flex;
     align-items: center;
+    height: 800px;
 `;
 const CarouselAll = styled.div`
     width: 500px;

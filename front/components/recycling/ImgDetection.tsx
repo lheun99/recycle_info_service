@@ -21,7 +21,7 @@ const Container = styled.div`
     align-items: center;
     justify-content: center;
     width: 100%;
-    height: 700px;
+    height: 620px;
 `;
 
 const Wrapper = styled.div`
