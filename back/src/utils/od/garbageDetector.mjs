@@ -118,7 +118,7 @@ class Detection {
     this.confidence = confidence;
     this.imageWidth = dim[0];
     this.imageHeight = dim[1];
-    this._xyxy = xyxy;
+    this.#_xyxy = xyxy;
   }
 
   /** 물체의 분류 이름을 반환합니다.
@@ -146,45 +146,51 @@ class Detection {
    *
    * @arg {number[]} dim - 이미지의 가로, 세로 치수의 배열입니다.
    *  기본값은 원본 이미지의 치수입니다.
+   * @arg {boolean} decimal - `true`이면 좌표의 소수점 아래 값을 보존합니다.
+   *    기본값은 `true`입니다.
    * @return {number[]} xyxy
    *  - `dim` 값에 맞춰 계산한 `[ x1, y1, x2, y2]` 형식을 반환합니다.
    *  - 좌표값은 가까운 정수로 반올림합니다.
    */
-  xyxy(dim = [this.imageWidth, this.imageHeight]) {
+  xyxy(dim = [this.imageWidth, this.imageHeight], decimal = true) {
     const [width, height] = dim;
-    return [
-      Math.round(this._xyxy[0] * width),
-      Math.round(this._xyxy[1] * height),
-      Math.round(this._xyxy[2] * width),
-      Math.round(this._xyxy[3] * height),
+    const coord = [
+      this.#_xyxy[0] * width,
+      this.#_xyxy[1] * height,
+      this.#_xyxy[2] * width,
+      this.#_xyxy[3] * height,
     ];
+    return decimal ? coord : coord.map((v) => Math.round(v));
   }
 
   /** `xywh` 형식으로 바운딩 박스 좌표를 반환합니다.
    *
    * @arg {number[]} dim - 이미지의 가로, 세로 치수의 배열입니다.
    *  - 기본값은 원본 이미지의 치수입니다.
+   * @arg {boolean} decimal - `true`이면 좌표의 소수점 아래 값을 보존합니다.
+   *    기본값은 `true`입니다.
    * @return {number[]} xyxy
    *  - `dim` 값에 맞춰 계산한 `[ xc, yc, w, h]` 형식을 반환합니다.
    *    `xc`, `yc`는 각각 바운딩 박스 중앙 지점의 좌표입니다.
    *  - 좌표값은 가까운 정수로 반올림합니다.
    */
-  xywh(dim = [this.imageWidth, this.imageHeight]) {
-    if (!this._xywh) {
-      this._xywh = [
-        (this._xyxy[0] + this._xyxy[2]) / 2.0,
-        (this._xyxy[1] + this._xyxy[3]) / 2.0,
-        this._xyxy[2] + this._xyxy[0],
-        this._xyxy[3] + this._xyxy[1],
-      ];
+  xywh(dim = [this.imageWidth, this.imageHeight], decimal = true) {
+    if (!this.#_xywh) {
+      this.#_xywh = new Float32Array([
+        (this.#_xyxy[0] + this.#_xyxy[2]) / 2.0,
+        (this.#_xyxy[1] + this.#_xyxy[3]) / 2.0,
+        this.#_xyxy[2] + this.#_xyxy[0],
+        this.#_xyxy[3] + this.#_xyxy[1],
+      ]);
     }
     const [width, height] = dim;
-    return [
-      Math.round(this._xywh[0] * width),
-      Math.round(this._xywh[1] * height),
-      Math.round(this._xywh[2] * width),
-      Math.round(this._xywh[3] * height),
+    const coord = [
+      this.#_xywh[0] * width,
+      this.#_xywh[1] * height,
+      this.#_xywh[2] * width,
+      this.#_xywh[3] * height,
     ];
+    return decimal ? coord : coord.map((v) => Math.round(v));
   }
 }
 
