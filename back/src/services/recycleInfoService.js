@@ -22,10 +22,21 @@ const recycleInfoService = {
     return { message: "success", data: { infoCount, imgInfo } };
   },
 
+  //GET /recycle-info/img
+  getInfoByCodes: async ({ code }) => {
+    //검색 결과
+    const infos = await RecycleInfo.findInfoByCodes({ code });
+    //안내될 정보 페이지 수
+    const page = infos.length;
+    //전달 데이터 형태 변경
+
+    return { message: "success", data: { page, infos } };
+  },
+
   //GET /recycle-info/?code
   getInfoByCode: async ({ code }) => {
     //코드 타입 확인 (number)
-    if (!typeof code === "number") {
+    if (!typeof code === "array") {
       const errorMessage = "잘못된 코드 입력";
       return { errorMessage };
     }

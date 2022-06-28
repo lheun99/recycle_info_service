@@ -25,6 +25,27 @@ recycleInfoRouter.post("/", upload.single("image"), async (req, res, next) => {
   }
 });
 
+// GET /recycle-info/img: 분석 결과(코드)에 따른 분리배출 방법
+recycleInfoRouter.get("/img", async (req, res, next) => {
+  try {
+    //검색어를 받는다
+    const code = req.body.code;
+
+    //검색 결과
+    const info = await recycleInfoService.getInfoByCodes({
+      code,
+    });
+
+    if (info.errorMessage) {
+      throw new Error(info.errorMessage);
+    }
+
+    res.status(200).json(info);
+  } catch (e) {
+    next(e);
+  }
+});
+
 //GET /recycle-info/?code : 분리배출 방법 검색
 recycleInfoRouter.get("/", async (req, res, next) => {
   try {
