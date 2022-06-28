@@ -51,7 +51,6 @@ const SingleBoard = ({ item }) => {
     const viewContainerRef = useRef<HTMLDivElement>(null);
     const profileImg = userInfo?.user?.picture ?? "";
     const theme = useTheme();
-    console.log(item);
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
@@ -83,7 +82,7 @@ const SingleBoard = ({ item }) => {
         <Wrapper key={`postNum-${item?.postId}`}>
             <Card
                 style={{
-                    minHeight: "280PX",
+                    height: "280px",
                     boxShadow: "none",
                 }}
             >
@@ -173,7 +172,11 @@ const SingleBoard = ({ item }) => {
 
             <CardActions
                 disableSpacing
-                style={{ backgroundColor: "white", borderRadius: "4px" }}
+                style={{
+                    backgroundColor: "white",
+                    borderRadius: "4px",
+                    height: "100%",
+                }}
             >
                 <CommentTitle variant="body2" color="text.secondary">
                     <span>댓글</span>
@@ -198,7 +201,7 @@ const SingleBoard = ({ item }) => {
 export default SingleBoard;
 
 const Wrapper = styled.div`
-    width: auto;
+    width: 100%;
     height: auto;
     display: flex;
     flex-direction: column;
@@ -215,11 +218,11 @@ const CarouselWrapper = styled.div`
     align-items: center;
     justify-content: center;
     width: 100%;
-    height: 100%;
+    height: auto;
 `;
 const CarouselAll = styled.div`
     width: auto;
-    height: 100%;
+    height: auto;
     border-radius: 15px;
     margin: 8px 8px;
     display: flex;
@@ -256,13 +259,13 @@ const CardWriterContainer = materialStyled(CardHeader)(() => ({
 }));
 
 const CardBodyContainer = materialStyled(CardContent)(() => ({
+    height: "100%",
     backgroundColor: "white",
     borderRadius: "4px",
     marginBottom: "5px",
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-around",
-    paddingBottom: "12px",
 }));
 
 const PostTitle = materialStyled(Typography)(() => ({

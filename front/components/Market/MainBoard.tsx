@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Search from "../shared/Search";
-import Boards from "./Boards";
 import SingleBoard from "./SingleBoard";
 import Write from "./Write";
 import { FixedSizeList as List } from "react-window";
@@ -12,22 +11,27 @@ const MainBoard = ({ firstBoards }) => {
     const [htmlStr, setHtmlStr] = useState("");
     const [title, setTitle] = useState("");
     const [board, setBoard] = useState(firstBoards);
+    const [page, setPage] = useState(1);
+    console.log(firstBoards);
+
+    const getBoardsList = async () => {
+        setPage((cur) => cur + 1);
+        const per = 10;
+        const res = await get(`post/list?page=${page}&perPage=${per}`);
+
+        const boardsList = [...res.data.data.postList];
+        setBoard(boardsList);
+    };
 
     const Row = ({ index, style }) => (
         <div style={style}>
             <SingleBoard item={board[index]} />
         </div>
     );
-    // const getBoardsList = async () => {
-    //     const page = 1;
-    //     const zz = 10;
-    //     const res = await get(`post/list?page=${page}&perPage=${zz}`);
-    //     const boardsList = [...res.data.data.postLists];
-    //     setBoard(boardsList);
-    // };
-    // useEffect(() => {
-    //     getBoardsList();
-    // }, []);
+
+    useEffect(() => {
+        setPage(1);
+    }, []);
 
     return (
         <Wrapper>
@@ -55,10 +59,11 @@ const MainBoard = ({ firstBoards }) => {
                         />
                     ) : (
                         <List
-                            height={700}
+                            height={800}
                             itemCount={board.length}
-                            itemSize={600}
+                            itemSize={800}
                             width={600}
+                            onItemsRendered={getBoardsList}
                         >
                             {Row}
                         </List>
@@ -126,6 +131,7 @@ const Button = styled.button`
 
 const BoardWrapper = styled.div`
     width: 100%;
+    height: 100%;
     margin-bottom: 30px;
     display: flex;
     flex-direction: column;
