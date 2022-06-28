@@ -25,7 +25,7 @@ const Nav = () => {
     const clickHandler = () => {
         setToggle(!toggle);
     }
-    
+
     useEffect(() => {
         if (userInfo.user === null) {
             setLogin(false);
@@ -112,7 +112,7 @@ const Nav = () => {
 export default Nav;
 
 
-const Wrapper = styled.div<any>`
+const Wrapper = styled.div`
     width: 100%;
     padding: 0 3rem;
     height: var(--nav-height);

@@ -76,7 +76,7 @@ const Search = ({ mapData, handleSetMapData }) => {
 export default Search;
 
 const Wrapper = styled.div`
-    width: 580px;
+    width: 80%;
     display: flex;
     justify-content: space-between;
 `;
