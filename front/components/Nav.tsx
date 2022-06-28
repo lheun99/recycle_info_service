@@ -135,6 +135,7 @@ const NavIcon = styled.ul`
     margin: 0;
     font-size: 30px;
     font-weight: bold;
+    cursor: pointer;
     @media screen and (max-width: 1224px) {
         width: 100%;
         height: 60px;

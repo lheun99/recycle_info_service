@@ -3,8 +3,6 @@ import Footer from "../components/Footer";
 
 export default function Home() {
     return (
-        <div>
-            <Intro />
-        </div>
+        <Intro />
     );
 }
