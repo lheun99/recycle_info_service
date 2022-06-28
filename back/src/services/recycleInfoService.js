@@ -26,11 +26,23 @@ const recycleInfoService = {
   getInfoByCodes: async ({ code }) => {
     //검색 결과
     const infos = await RecycleInfo.findInfoByCodes({ code });
-    //안내될 정보 페이지 수
-    const page = infos.length;
-    //전달 데이터 형태 변경
 
-    return { message: "success", data: { page, infos } };
+    //전달 데이터 형태 변경
+    const recycleInfos = infos.map((info) => {
+      const recycleInfo = Object.entries(info.recycleInfo).map(
+        ([key, value]) => {
+          return { details: key, imgInfo: value };
+        }
+      );
+      return {
+        code: info.code,
+        category: info.category,
+        page: recycleInfo.length,
+        recycleInfo,
+      };
+    });
+
+    return { message: "success", data: recycleInfos };
   },
 
   //GET /recycle-info/?code
