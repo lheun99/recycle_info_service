@@ -1,12 +1,13 @@
 #! /usr/bin/env python3
 
+from __future__ import annotations
+
 import json
 import random
 import secrets
 import string
 # import unittest
 
-from __future__ import annotations
 from http.client import HTTPConnection
 from http import HTTPStatus
 from pathlib import Path
