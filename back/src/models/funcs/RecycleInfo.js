@@ -19,12 +19,8 @@ const RecycleInfo = {
   //POST /recycle-info
   //인공지능 파트로 이미지 정보 전달
   findRecycleCode: async ({ imgBuffer }) => {
-    // const result = await pool.exec(imgBuffer);
-    // return result;
-
-    //테스트 가능 코드
-    const code = Math.floor(Math.random() * 15);
-    return code;
+    const result = await pool.exec(imgBuffer);
+    return result;
   },
 
   //POST /recycleInfo
