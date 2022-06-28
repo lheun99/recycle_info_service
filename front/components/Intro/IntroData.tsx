@@ -47,16 +47,25 @@ const Wrapper = styled.div`
     justify-content: space-between;
     white-space: pre-wrap;
     margin: 0 50px;
+    @media screen and (max-width: 900px) {
+        width: auto;
+    };
 `;
 
 const Title = styled.div`
     font-size: var(--font-title);
     font-weight: bold;
+    @media screen and (max-width: 900px) {
+        font-size: var(--font-subtitle);
+    };
 `;
 
 const SubTitle = styled.div`
     font-size: var(--font-subtitle);
     font-weight: bold;
+    @media screen and (max-width: 900px) {
+        font-size: var(--font-text);
+    };
 `;
 
 const Contents = styled.p`
@@ -68,7 +77,6 @@ const NavButton = materialStyled(Button)(
         {
             width: '200px',
             height: '70px',
-            marginTop: '50px',
             borderRadius: '10px',
             backgroundColor: 'var(--gray)',
             color: 'black',

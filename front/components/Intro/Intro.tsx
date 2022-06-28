@@ -8,7 +8,10 @@ import DownArrow from "../../public/images/down-arrow.png";
 import Earth from "../../public/images/title.earth.png"
 import Eco from "../../public/images/eco.jpeg"
 import RightArrow from "../../public/images/right-arrow.png"
+import Quiz from "../../public/images/quiz.png"
+import Rank from "../../public/images/rank.png"
 import DoughnutChart from "./DoughnutChart";
+import { useMediaQuery } from "react-responsive";
 
 const Intro = () => {
     const router = useRouter()
@@ -20,6 +23,8 @@ const Intro = () => {
           behavior: 'smooth'
         })
     }
+
+    const isMobile = useMediaQuery({ query: '(max-width: 1224px)' })
 
     return (
         <main>
@@ -65,8 +70,7 @@ const Intro = () => {
                     <IntroData
                         title={"환경을 도와주세요!"}
                         text={
-                            `우리나라는 OECD 국가 중 재활용을 잘 하는 국가 2위이지만 실질적인 재활용은 \n제대로 이루어지고 있지 않습니다.
-                            이는 실질적인 재활용 참여 비율이기 때문이며 실질적인 재활용률은 \n40%도 되지 않는다고 합니다. `
+                            `우리나라는 OECD 국가 중\n 재활용을 잘하는 국가 2위이지만\n 실질적인 재활용률은 40%도\n 되지 않는다고 합니다.\n\n\n `
                         }
                     />
                     <DoughnutChart />
@@ -84,14 +88,24 @@ const Intro = () => {
                     </CardItem>
                     <CardItem>
                         <CardBackground style={{ backgroundColor: "var(--green)" }}>
-                            <CardImage />
+                            <Image
+                                src={Quiz}
+                                alt="quiz"
+                                width={200}
+                                height={200}
+                            />
                         </CardBackground>
                     </CardItem>
                 </SectionCard>
                 <SectionCard>
                     <CardItem>
                         <CardBackground style={{ backgroundColor: "var(--deepgray)" }}>
-                            <CardImage />
+                            <Image  
+                                src={Rank}
+                                alt="rank"
+                                width={200}
+                                height={200}
+                            />
                         </CardBackground>
                     </CardItem>
                     <CardItem>
@@ -116,12 +130,14 @@ const Intro = () => {
                 </InsertText>
                 <ContentsWrapper>
                     <ContentsForm>
-                        <Image
-                            src={Eco}
-                            alt="eco"
-                            width={770}
-                            height={400}
-                        />
+                        {
+                            !isMobile && <Image
+                                src={Eco}
+                                alt="eco"
+                                width={770}
+                                height={400}
+                            />
+                        }
                         <Contents>
                             <SubTitle>우리는 이런것도 제공해요!</SubTitle>
                             <SubText>{`우리 동네 대형폐기물 스티커는\n어디서 발급받을 수 있을까?`}</SubText>
@@ -242,11 +258,9 @@ const CardItem = styled.div`
 const CardBackground = styled.div`
     width: 100%;
     height: 100%;
-`;
-
-const CardImage = styled.div`
-    width: 330px;
-    height: 330px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 `;
 
 const InsertText = styled.div`
@@ -269,7 +283,6 @@ const ContentsWrapper = styled.div`
 `;
 
 const ContentsForm = styled.div`
-    width: 1170px;
     height: 600px;
     display: flex;
 `;
