@@ -106,8 +106,8 @@ const MODELDIR = path.resolve(
  *   `xywh` 형식으로 바운딩 박스 좌표를 반환합니다.
  */
 class Detection {
-  #_xyxy;
-  #_xywh;
+  #_xyxy = null;
+  #_xywh = null;
   /**
    * @arg {number} classId - 물체가 속한 클래스의 인덱스 값입니다.
    * @arg {number} confidence - 인공지능이 정답을 확신하는 정도입니다.
@@ -177,7 +177,7 @@ class Detection {
    *  - 좌표값은 가까운 정수로 반올림합니다.
    */
   xywh(dim = [this.imageWidth, this.imageHeight], decimal = true) {
-    if (!this.#_xywh) {
+    if (this.#_xywh === null) {
       this.#_xywh = new Float32Array([
         (this.#_xyxy[0] + this.#_xyxy[2]) / 2.0,
         (this.#_xyxy[1] + this.#_xyxy[3]) / 2.0,
