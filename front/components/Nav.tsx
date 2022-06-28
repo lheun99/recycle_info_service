@@ -8,11 +8,8 @@ import { useRecoilState } from "recoil";
 import { LoginState } from "../states/atoms";
 import styled from "styled-components";
 import { UserStateContext } from "../pages/_app";
-import MenuIcon from "../public/images/menu.png"; 
-
-interface ContainerProps {
-    bgColor: string;
-  }
+import MenuIcon from "../public/images/menu.png";
+import { useMediaQuery } from "react-responsive";
 
 const Nav = () => {
     const userInfo = useContext(UserStateContext);
@@ -22,11 +19,13 @@ const Nav = () => {
     const handleClose = () => setOpen(false);
     const router = useRouter();
 
+    const isMobile = useMediaQuery({ query: '(max-width: 1224px)' })
+
     const [toggle, setToggle] = useState<boolean>(false);
-    // const menu = document.querySelector("#menu");
     const clickHandler = () => {
         setToggle(!toggle);
     }
+
     useEffect(() => {
         if (userInfo.user === null) {
             setLogin(false);
@@ -49,7 +48,7 @@ const Nav = () => {
                     </TitleWrapper>
                 </Link>
             </NavIcon>
-            <NavList>
+            <NavList isMobile={isMobile} toggle={toggle}>
                 <NavListItem>
                     <Link href="/recycling/aiSearcher">
                         <a>분리배출 하러가기</a>
@@ -78,25 +77,26 @@ const Nav = () => {
                     </NavListItem>
                 )}
                 <NavListItem>
-                    {login ? (
-                        <LoginButton
-                            onClick={() => {
-                                setLogin(false);
-                                sessionStorage.removeItem("userToken");
-                                router.push("/");
-                            }}
-                        >
-                            Sign out
-                        </LoginButton>
-                    ) : (
-                        <LoginButton onClick={handleOpen}>Sign in</LoginButton>
-                    )}
-                    <LoginOrRegisterModal
-                        open={open}
-                        handleClose={handleClose}
-                    />
+                {login ? (
+                    <LoginButton
+                        onClick={() => {
+                            setLogin(false);
+                            sessionStorage.removeItem("userToken");
+                            router.push("/");
+                        }}
+                    >
+                        Sign out
+                    </LoginButton>
+                ) : (
+                    <LoginButton onClick={handleOpen}>Sign in</LoginButton>
+                )}
+                <LoginOrRegisterModal
+                    open={open}
+                    handleClose={handleClose}
+                />
                 </NavListItem>
             </NavList>
+            
             <Menu onClick={clickHandler}>
                 <Image 
                     src={MenuIcon}
@@ -112,7 +112,7 @@ const Nav = () => {
 export default Nav;
 
 
-const Wrapper = styled.div<any>`
+const Wrapper = styled.div`
     width: 100%;
     padding: 0 3rem;
     height: var(--nav-height);
@@ -122,10 +122,7 @@ const Wrapper = styled.div<any>`
     grid-template-columns: 1fr 3fr;
     background-color: white;
     opacity: 0.83;
-    // ${({isMobile}) => isMobile && `        
-    //     flex-direction: column;
-    // `}
-    @media screen and (max-width: 900px) {
+    @media screen and (max-width: 1224px) {
         height: auto;
         display: flex;
         flex-direction: column;
@@ -139,28 +136,32 @@ const NavIcon = styled.ul`
     margin: 0;
     font-size: 30px;
     font-weight: bold;
-    @media screen and (max-width: 900px) {
+    @media screen and (max-width: 1224px) {
         width: 100%;
         height: 60px;
         justify-content: center;
     };
 `;
 
-const NavList = styled.div`
+const NavList = styled.div<any>`
     display: flex;
     font-size: 14px !important;
     justify-content: flex-end;
     align-items: center;
-    @media screen and (max-width: 900px) {
-        width: 100%;
-        flex-direction: column;
-    };
+    ${(props) => props.isMobile && (
+        props.toggle ? `
+            width: 100%;
+            flex-direction: column;
+        ` : `
+            display: none;
+        `
+    )}
 `;
 
 const NavListItem = styled.li`
     margin: 0 1rem;
     display: flex;
-    @media screen and (max-width: 900px) {
+    @media screen and (max-width: 1224px) {
         display: flex;
         height: 60px;
         width: 100%;
@@ -180,7 +181,7 @@ const LoginButton = styled.div`
 
 const Menu = styled.div`
     display: none;
-    @media screen and (max-width: 900px) {
+    @media screen and (max-width: 1224px) {
         display: block;
         position: absolute;
         right: 20px;
