@@ -4,12 +4,14 @@ import Background from "../../public/images/background.jpg";
 import styled from "styled-components";
 import { styled as materialStyled } from '@mui/material/styles';
 import { Button, TextField } from "@mui/material";
-import * as Api from "../../api";
+import { post } from "../../api";
+import { useMediaQuery } from "react-responsive";
 
 const Register = ({ handleClose, setRegister }) => {
     const [nickname, setNickname] = useState<String>("");
     const [email, setEmail] = useState<String>("");
     const [password, setPassword] = useState<String>("");
+    const isMobile = useMediaQuery({ query: '(max-width: 1224px)' })
 
     const validateEmail = (email: String) => {
         return email
@@ -28,7 +30,7 @@ const Register = ({ handleClose, setRegister }) => {
         event.preventDefault();
 
         try {
-            await Api.post("users/register", {
+            await post("users/register", {
                 nickname,
                 email,
                 password,
@@ -43,15 +45,19 @@ const Register = ({ handleClose, setRegister }) => {
 
     return (
         <Wrapper>
-            <SideImage>
-                <Image
-                    src={Background}
-                    alt="background"
-                    width={430}
-                    height={600}
-                    objectFit="cover"
-                />
-            </SideImage>
+            {
+                !isMobile && (
+                    <SideImage>
+                        <Image
+                            src={Background}
+                            alt="background"
+                            width={430}
+                            height={600}
+                            objectFit="cover"
+                        />
+                    </SideImage>
+                )
+            }
             <SideWrapper>
                 <div style={{ textAlign: "right" }}>
                     <CloseButton
@@ -125,6 +131,9 @@ const Wrapper = styled.div`
     background-color: white;
     border-radius: 20px;
     display: flex;
+    @media screen and (max-width: 1224px) {
+        width: 520px;
+    };
 `;
 
 const SideImage = styled.div`

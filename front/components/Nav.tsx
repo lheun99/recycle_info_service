@@ -12,16 +12,15 @@ import MenuIcon from "../public/images/menu.png";
 import { useMediaQuery } from "react-responsive";
 
 const Nav = () => {
+    const router = useRouter();
     const userInfo = useContext(UserStateContext);
     const [login, setLogin] = useRecoilState(LoginState);
-    const [open, setOpen] = useState<Boolean>(false);
+    const [open, setOpen] = useState<boolean>(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-    const router = useRouter();
-
+    const [toggle, setToggle] = useState<boolean>(false);
     const isMobile = useMediaQuery({ query: '(max-width: 1224px)' })
 
-    const [toggle, setToggle] = useState<boolean>(false);
     const clickHandler = () => {
         setToggle(!toggle);
     }
@@ -120,13 +119,13 @@ const Wrapper = styled.div`
     z-index: 5;
     display: grid;
     grid-template-columns: 1fr 3fr;
-    background-color: white;
-    opacity: 0.83;
+    background-color: rgba(255, 255, 255, 0.83);
     @media screen and (max-width: 1224px) {
         height: auto;
         display: flex;
         flex-direction: column;
         align-items: center;
+        background-color: white;
     };
 `;
 
