@@ -149,12 +149,12 @@ class Detection {
    * @arg {number[]} dim - 이미지의 가로, 세로 치수의 배열입니다.
    *  기본값은 원본 이미지의 치수입니다.
    * @arg {boolean} decimal - `true`이면 좌표의 소수점 아래 값을 보존합니다.
-   *    기본값은 `true`입니다.
+   *    기본값은 `false`입니다.
    * @return {number[]} xyxy
    *  - `dim` 값에 맞춰 계산한 `[ x1, y1, x2, y2]` 형식을 반환합니다.
    *  - 좌표값은 가까운 정수로 반올림합니다.
    */
-  xyxy(dim = [this.imageWidth, this.imageHeight], decimal = true) {
+  xyxy(dim = [this.imageWidth, this.imageHeight], decimal = false) {
     const [width, height] = dim;
     const coord = [
       this.#_xyxy[0] * width,
@@ -170,13 +170,13 @@ class Detection {
    * @arg {number[]} dim - 이미지의 가로, 세로 치수의 배열입니다.
    *  - 기본값은 원본 이미지의 치수입니다.
    * @arg {boolean} decimal - `true`이면 좌표의 소수점 아래 값을 보존합니다.
-   *    기본값은 `true`입니다.
+   *    기본값은 `false`입니다.
    * @return {number[]} xyxy
    *  - `dim` 값에 맞춰 계산한 `[ xc, yc, w, h]` 형식을 반환합니다.
    *    `xc`, `yc`는 각각 바운딩 박스 중앙 지점의 좌표입니다.
    *  - 좌표값은 가까운 정수로 반올림합니다.
    */
-  xywh(dim = [this.imageWidth, this.imageHeight], decimal = true) {
+  xywh(dim = [this.imageWidth, this.imageHeight], decimal = false) {
     if (this.#_xywh === null) {
       this.#_xywh = new Float32Array([
         (this.#_xyxy[0] + this.#_xyxy[2]) / 2.0,
