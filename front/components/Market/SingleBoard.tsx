@@ -49,9 +49,9 @@ const SingleBoard = ({ item }) => {
     const maxSteps = item?.postImg?.length ?? 0; // 자료의 총 길이
     const userInfo = useContext(UserStateContext);
     const viewContainerRef = useRef<HTMLDivElement>(null);
-    console.log(item);
     const profileImg = userInfo?.user?.picture ?? "";
     const theme = useTheme();
+    console.log(item);
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
@@ -80,17 +80,17 @@ const SingleBoard = ({ item }) => {
     }, [item?.content]);
 
     return (
-        <Wrapper key={`postNum-${item.postId}`}>
+        <Wrapper key={`postNum-${item?.postId}`}>
             <Card
                 style={{
-                    minHeight: "330PX",
+                    minHeight: "280PX",
                     boxShadow: "none",
                 }}
             >
-                {item.postImg ? (
+                {item?.postImg ? (
                     <CarouselWrapper>
                         <CarouselAll>
-                            {item.postImg?.map((img, idx) => {
+                            {item?.postImg?.map((img, idx) => {
                                 return (
                                     <Slider
                                         key={`page-${idx}`}
@@ -104,8 +104,8 @@ const SingleBoard = ({ item }) => {
                                             <Image
                                                 src={item.postImg[idx]}
                                                 alt={`img-${idx}`}
-                                                width={320}
-                                                height={320}
+                                                width={280}
+                                                height={280}
                                             />
                                         </InfoBox>
                                     </Slider>
@@ -154,7 +154,7 @@ const SingleBoard = ({ item }) => {
             />
             <CardBodyContainer>
                 <PostTitle gutterBottom variant="h5">
-                    {item.title}
+                    {item?.title}
                 </PostTitle>
 
                 <div ref={viewContainerRef} />
@@ -166,8 +166,8 @@ const SingleBoard = ({ item }) => {
                             <MoreVertIcon />
                         </IconButton>
                     }
-                    title={item.nickname}
-                    subheader={item.createdAt.slice(0, 10)}
+                    title={item?.nickname}
+                    subheader={item?.createdAt.slice(0, 10)}
                 />
             </CardBodyContainer>
 
@@ -198,13 +198,13 @@ const SingleBoard = ({ item }) => {
 export default SingleBoard;
 
 const Wrapper = styled.div`
-    width: 600px;
-    height: 100%;
+    width: auto;
+    height: auto;
     display: flex;
     flex-direction: column;
     justify-content: center;
     border-radius: 15px;
-    margin: 5px 5px 20px 5px;
+    margin: 5px 5px 30px 5px;
     padding: 3px 15px;
     background-color: white;
     box-shadow: #a7c4bc 0px 1px 2px #a7c4bc 0px 1px 2px;

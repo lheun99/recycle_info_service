@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Search from "../shared/Search";
+import Boards from "./Boards";
 import SingleBoard from "./SingleBoard";
 import Write from "./Write";
 import { FixedSizeList as List } from "react-window";
@@ -11,6 +12,12 @@ const MainBoard = ({ firstBoards }) => {
     const [htmlStr, setHtmlStr] = useState("");
     const [title, setTitle] = useState("");
     const [board, setBoard] = useState(firstBoards);
+
+    const Row = ({ index, style }) => (
+        <div style={style}>
+            <SingleBoard item={board[index]} />
+        </div>
+    );
     // const getBoardsList = async () => {
     //     const page = 1;
     //     const zz = 10;
@@ -48,16 +55,12 @@ const MainBoard = ({ firstBoards }) => {
                         />
                     ) : (
                         <List
-                            height={600}
-                            temCount={board.length}
+                            height={700}
+                            itemCount={board.length}
                             itemSize={600}
-                            width="100%"
+                            width={600}
                         >
-                            {({ index }) => {
-                                const poi = board[index];
-                                return <SingleBoard key={index} item={poi} />;
-                            }}
-                            ;
+                            {Row}
                         </List>
                     )}
                 </BoardWrapper>
@@ -123,6 +126,7 @@ const Button = styled.button`
 
 const BoardWrapper = styled.div`
     width: 100%;
+    margin-bottom: 30px;
     display: flex;
     flex-direction: column;
     align-items: center;
