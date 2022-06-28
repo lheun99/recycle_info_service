@@ -15,8 +15,8 @@ parentPort.on("message", async (imgBuffer) => {
     // 반환값은 Detection 인스턴스의 배열입니다.
 
     for (const obj of inferences) {
-      obj.xyxy = obj.xyxy([1, 1]);
-      obj.xywh = obj.xywh([1, 1]);
+      obj.xyxy = obj.xyxy([1, 1], true);
+      obj.xywh = obj.xywh([1, 1], true);
     }
     // return the result to main thread.
     parentPort.postMessage(inferences);
