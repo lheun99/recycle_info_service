@@ -15,9 +15,11 @@ import { useMediaQuery } from "react-responsive";
 
 const Intro = () => {
     const router = useRouter()
+    const ref = useRef<HTMLInputElement>();
 
     const handleScroll = () => {
-        const screenHeight = document.querySelector("#intro").clientHeight;
+        const screenHeight = ref.current.clientHeight;
+        
         window.scrollTo({
           top: screenHeight,
           behavior: 'smooth'
@@ -28,7 +30,7 @@ const Intro = () => {
 
     return (
         <main>
-            <Wrapper id="intro">
+            <Wrapper ref={ref}>
                 <IntroTop>
                     <IntroData
                         title={"구해줘! 지구"}

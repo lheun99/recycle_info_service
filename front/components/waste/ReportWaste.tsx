@@ -8,15 +8,7 @@ import { useMediaQuery } from "react-responsive";
 
 const ReportWaste = () => {
     const [mapData, setMapData] = useState<string[] | null>(null);
-    const handleSetMapData = (data: string[]) => {
-        setMapData(data);
-    };
-
     const [clickData, setClickData] = useState<string[] | null>(null);
-    const handleSetClickMapData = (data: string[]) => {
-        setClickData(data);
-    };
-
     const isMobile = useMediaQuery({ query: '(max-width: 1224px)' })
 
     return (
@@ -30,18 +22,18 @@ const ReportWaste = () => {
             <Form isMobile={isMobile}>
                 <Title>우리동네 사이트 찾기</Title>
                 <SearchWrapper>
-                    <ImageButton onClick={() => handleSetMapData(null)}>
+                    <ImageButton onClick={() => setMapData(null)}>
                         <Image src={Gps} alt="gps" width={40} height={40} />
                     </ImageButton>
                     <Search
                         mapData={clickData}
-                        handleSetMapData={handleSetMapData}
+                        setMapData={setMapData}
                     />
                 </SearchWrapper>
                 <MapContainer id="map">
                     <Map
                         mapData={mapData}
-                        handleSetClickMapData={handleSetClickMapData}
+                        setClickData={setClickData}
                     />
                 </MapContainer>
                 <MapInfo>
@@ -96,7 +88,7 @@ const Tip  = styled.p`
     text-align: center;
 `;
 
-const Form = styled.div<any>`
+const Form = styled.div<any>`   
     width: 800px;
     height: 750px;
     background-color: white;
