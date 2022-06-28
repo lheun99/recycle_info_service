@@ -14,17 +14,17 @@ const MainBoard = ({ firstBoards }) => {
     const [page, setPage] = useState(1);
     console.log(firstBoards);
 
-    const getBoardsList = async () => {
-        setPage((cur) => cur + 1);
-        const per = 10;
-        const res = await get(`post/list?page=${page}&perPage=${per}`);
+    // const getBoardsList = async () => {
+    //     setPage((cur) => cur + 1);
+    //     const per = 10;
+    //     const res = await get(`post/list?page=${page}&perPage=${per}`);
 
-        const boardsList = [...res.data.data.postList];
-        setBoard(boardsList);
-    };
+    //     const boardsList = [...res.data.data.postList];
+    //     setBoard(boardsList);
+    // };
 
     const Row = ({ index, style }) => (
-        <div style={style}>
+        <div>
             <SingleBoard item={board[index]} />
         </div>
     );
@@ -63,7 +63,7 @@ const MainBoard = ({ firstBoards }) => {
                             itemCount={board.length}
                             itemSize={800}
                             width={600}
-                            onItemsRendered={getBoardsList}
+                            // onItemsRendered={getBoardsList}
                         >
                             {Row}
                         </List>

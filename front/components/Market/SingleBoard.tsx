@@ -175,7 +175,6 @@ const SingleBoard = ({ item }) => {
                 style={{
                     backgroundColor: "white",
                     borderRadius: "4px",
-                    height: "100%",
                 }}
             >
                 <CommentTitle variant="body2" color="text.secondary">
@@ -202,7 +201,7 @@ export default SingleBoard;
 
 const Wrapper = styled.div`
     width: 100%;
-    height: auto;
+    height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
