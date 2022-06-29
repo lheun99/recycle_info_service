@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Component } from "react";
 import styled from "styled-components";
 import Search from "../shared/Search";
 import SingleBoard from "./SingleBoard";
@@ -12,21 +12,24 @@ const MainBoard = ({ firstBoards }) => {
     const [title, setTitle] = useState("");
     const [board, setBoard] = useState(firstBoards);
     const [page, setPage] = useState(1);
-    console.log(firstBoards);
-
-    // const getBoardsList = async () => {
-    //     setPage((cur) => cur + 1);
-    //     const per = 10;
-    //     const res = await get(`post/list?page=${page}&perPage=${per}`);
-
-    //     const boardsList = [...res.data.data.postList];
-    //     setBoard(boardsList);
-    // };
+    const [show, setShow] = useState([]);
 
     const Row = ({ index, style }) => (
-        <div>
-            <SingleBoard item={board[index]} />
+        <div id={`content-${index}`} style={style}>
+            <SingleBoard key={index} item={board[index]} />
         </div>
+    );
+
+    const ListComponent = () => (
+        <List
+            height={800}
+            width={600}
+            itemCount={board.length}
+            itemSize={800}
+            className="list-container"
+        >
+            {Row}
+        </List>
     );
 
     useEffect(() => {
@@ -57,16 +60,10 @@ const MainBoard = ({ firstBoards }) => {
                             setHtmlStr={setHtmlStr}
                             setIsWrite={setIsWrite}
                         />
+                    ) : show ? (
+                        <ListComponent />
                     ) : (
-                        <List
-                            height={800}
-                            itemCount={board.length}
-                            itemSize={800}
-                            width={600}
-                            // onItemsRendered={getBoardsList}
-                        >
-                            {Row}
-                        </List>
+                        <></>
                     )}
                 </BoardWrapper>
             </Container>

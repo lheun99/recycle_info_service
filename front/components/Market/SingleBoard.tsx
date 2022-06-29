@@ -82,7 +82,7 @@ const SingleBoard = ({ item }) => {
         <Wrapper key={`postNum-${item?.postId}`}>
             <Card
                 style={{
-                    height: "280px",
+                    minHeight: "280px",
                     boxShadow: "none",
                 }}
             >
@@ -103,8 +103,8 @@ const SingleBoard = ({ item }) => {
                                             <Image
                                                 src={item.postImg[idx]}
                                                 alt={`img-${idx}`}
-                                                width={280}
-                                                height={280}
+                                                width={260}
+                                                height={260}
                                             />
                                         </InfoBox>
                                     </Slider>
@@ -118,6 +118,7 @@ const SingleBoard = ({ item }) => {
                 style={{
                     borderRadius: "4px",
                     marginBottom: "5px",
+                    height: "50px",
                 }}
                 steps={maxSteps}
                 position="static"
@@ -151,12 +152,19 @@ const SingleBoard = ({ item }) => {
                     </Button>
                 }
             />
-            <CardBodyContainer>
-                <PostTitle gutterBottom variant="h5">
+            <CardBodyContainer style={{ height: "400px" }}>
+                <PostTitle gutterBottom variant="h5" style={{ height: "auto" }}>
                     {item?.title}
                 </PostTitle>
 
-                <div ref={viewContainerRef} />
+                <div
+                    ref={viewContainerRef}
+                    style={{
+                        height: "auto",
+                        wordBreak: "keep-all",
+                        overflow: "auto",
+                    }}
+                />
 
                 <CardWriterContainer
                     avatar={<Avatar alt="userProfile" src={profileImg} />}
@@ -167,14 +175,16 @@ const SingleBoard = ({ item }) => {
                     }
                     title={item?.nickname}
                     subheader={item?.createdAt.slice(0, 10)}
+                    style={{ height: "50px" }}
                 />
             </CardBodyContainer>
 
-            <CardActions
+            {/* <CardActions
                 disableSpacing
                 style={{
                     backgroundColor: "white",
                     borderRadius: "4px",
+                    height: "50px",
                 }}
             >
                 <CommentTitle variant="body2" color="text.secondary">
@@ -193,7 +203,7 @@ const SingleBoard = ({ item }) => {
                 <CardContent>
                     <Comment expand={expanded} />
                 </CardContent>
-            </Collapse>
+            </Collapse> */}
         </Wrapper>
     );
 };
@@ -206,9 +216,7 @@ const Wrapper = styled.div`
     flex-direction: column;
     justify-content: center;
     border-radius: 15px;
-    margin: 5px 5px 30px 5px;
-    padding: 3px 15px;
-    background-color: white;
+
     box-shadow: #a7c4bc 0px 1px 2px #a7c4bc 0px 1px 2px;
 `;
 
