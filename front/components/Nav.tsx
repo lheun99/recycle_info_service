@@ -58,11 +58,13 @@ const Nav = () => {
                         <a>중고마켓</a>
                     </Link>
                 </NavListItem>
+                {login && (
                 <NavListItem>
                     <Link href="/quiz">
                         <a>퀴즈 풀러가기</a>
                     </Link>
                 </NavListItem>
+                )}
                 {login && (
                     <NavListItem>
                         <Link href="/myPage">
