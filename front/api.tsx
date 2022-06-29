@@ -2,6 +2,9 @@ import axios from "axios";
 var os = require("os");
 var hostname = os.hostname();
 
+var os = require("os");
+var hostname = os.hostname();
+
 const backendPortNumber = "5000";
 
 const serverUrl =
