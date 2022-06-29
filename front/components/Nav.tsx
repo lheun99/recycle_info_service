@@ -54,7 +54,7 @@ const Nav = () => {
                     </Link>
                 </NavListItem>
                 <NavListItem>
-                    <Link href="/Market">
+                    <Link href="/market">
                         <a>중고마켓</a>
                     </Link>
                 </NavListItem>

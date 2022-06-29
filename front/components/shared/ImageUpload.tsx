@@ -15,6 +15,24 @@ type ImageUploadProps = {
     setInfo?: Dispatch<SetStateAction<Object>>;
 };
 
+const matchType = [
+    "종이류",
+    "플라스틱류",
+    "유리병",
+    "캔류",
+    "고철류",
+    "의류",
+    "전자제품",
+    "스티로폼",
+    "도기류",
+    "비닐류",
+    "가구",
+    "자전거",
+    "형광등",
+    "페트병류",
+    "나무류",
+];
+
 const ImageUpload = ({
     width,
     height,
@@ -57,8 +75,7 @@ const ImageUpload = ({
             // console.log(formData.getAll("image")); // formData에 잘 들어가는지 확인
             if (route === "recycleInfo") {
                 const res = await sendImageFile("recycle-info/img", formData);
-
-                const info = res?.data?.data;
+                const info = res?.data?.data.imgInfo;
                 setInfo(info);
                 setIsUploaded("complete");
                 setOpenInfo(true);

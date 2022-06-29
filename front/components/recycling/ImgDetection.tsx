@@ -1,7 +1,20 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
+import { getRecycleInfo } from "../../api";
 
 const ImgDetection = ({ info }) => {
+    console.log(info);
+    const getInfo = async () => {
+        const code = info.imgInfo?.map((item) => item.code);
+        const object = { code: [] };
+        object["code"] = code;
+        console.log(object);
+        const res = await getRecycleInfo(`recycle-info/img`, { code: code });
+        console.log(res);
+    };
+    useEffect(() => {
+        getInfo();
+    });
     return (
         <Container>
             <h3>Results...</h3>
