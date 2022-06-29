@@ -24,9 +24,7 @@ async function get(endpoint, params = "") {
 }
 
 async function getRecycleInfo(endpoint, data) {
-    const bodyData = JSON.stringify(data);
-
-    return axios.get(serverUrl + endpoint, data);
+    return axios.post(serverUrl + endpoint, data);
 }
 
 async function getQuary(endpoint, { params = {} }) {

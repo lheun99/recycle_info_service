@@ -16,8 +16,10 @@ const AiSearcher = () => {
     const [openInfo, setOpenInfo] = useState(false);
     const [isAllInfo, setIsAllInfo] = useState(true);
 
+    const [imgUrl, setImgUrl] = useState<string | null>(null);
+
     const [name, setName] = useState<string | null>(null);
-    const [inputName, setInputName] = useState("");
+    const [inputName, setInputName] = useState<null>(null);
 
     useEffect(() => {
         setName(null);
@@ -64,6 +66,7 @@ const AiSearcher = () => {
                                         route="recycleInfo"
                                         setInfo={setInfo}
                                         setOpenInfo={setOpenInfo}
+                                        setImgUrl={setImgUrl}
                                     />
                                 ) : (
                                     <DetectionWrapper>
@@ -74,7 +77,10 @@ const AiSearcher = () => {
                                         >
                                             다시 하기
                                         </Button>
-                                        <ImgDetection info={info} />
+                                        <ImgDetection
+                                            info={info}
+                                            imgUrl={imgUrl}
+                                        />
                                     </DetectionWrapper>
                                 )}
                             </ImageForm>

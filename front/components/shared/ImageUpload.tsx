@@ -13,6 +13,7 @@ type ImageUploadProps = {
     setProfileImage?: any;
     setOpenInfo?: Dispatch<SetStateAction<boolean>>;
     setInfo?: Dispatch<SetStateAction<Object>>;
+    setImgUrl?: any;
 };
 
 const matchType = [
@@ -40,6 +41,7 @@ const ImageUpload = ({
     setProfileImage,
     setOpenInfo,
     setInfo,
+    setImgUrl,
 }: ImageUploadProps) => {
     const [isUploaded, setIsUploaded] = useState("standBy");
     // img upload 상태 : ["standBy"] "대기, 아직 아무것도 일어나지 않음" / ["loading"] "서버에 img를 보내고 결과를 기다림" / ["complete"] "결과를 저장하고 라우팅할 것"
@@ -65,10 +67,21 @@ const ImageUpload = ({
                 break;
         }
     };
+    // image preview를 위한 함수
+    const encodeFileToBase64 = (file: Blob) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        return new Promise((resolve) => {
+            reader.onload = () => {
+                setImgUrl(reader.result);
+                resolve(reader.result);
+            };
+        });
+    };
 
-    // 서버에 이미지를 보내는 함수
     const sendImage = async (file: Blob) => {
         try {
+            encodeFileToBase64(file);
             setIsUploaded("loading");
             const formData = new FormData();
             formData.append("image", file);
