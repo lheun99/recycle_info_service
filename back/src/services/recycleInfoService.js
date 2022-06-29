@@ -48,14 +48,13 @@ const recycleInfoService = {
   //GET /recycle-info/?code
   getInfoByCode: async ({ code }) => {
     //코드 타입 확인 (number)
-    if (!typeof code === "array") {
+    if (!typeof code === "number") {
       const errorMessage = "잘못된 코드 입력";
       return { errorMessage };
     }
 
     //검색 결과
     const infos = await RecycleInfo.findInfoByCode({ code });
-
     //안내될 정보 페이지 수
     const page = infos.length;
     //전달 데이터 형태 변경
