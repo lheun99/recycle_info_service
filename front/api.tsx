@@ -61,8 +61,16 @@ async function post(endpoint, data) {
 async function sendImageFile(endpoint: string, formData) {
     return axios.post(serverUrl + endpoint, formData, {
         headers: {
-            Authorization: `Bearer ${sessionStorage.getItem("userToken")}`,
             "content-type": "multipart/form-data",
+        },
+    });
+}
+
+async function sendProfileFile(endpoint: string, formData) {
+    return axios.post(serverUrl + endpoint, formData, {
+        headers: {
+            "content-type": "multipart/form-data",
+            Authorization: `Bearer ${sessionStorage.getItem("userToken")}`,
         },
     });
 }
@@ -99,6 +107,7 @@ export {
     post,
     getPost,
     sendImageFile,
+    sendProfileFile,
     put,
     del as delete,
 };

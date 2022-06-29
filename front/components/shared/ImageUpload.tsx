@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import Image from "next/image";
 import styled from "styled-components";
 import uploadingImage from "../../public/images/image.upload.png";
-import { sendImageFile } from "../../api";
+import { sendImageFile, sendProfileFile } from "../../api";
 import Loading from "./Loading";
 
 type ImageUploadProps = {
@@ -56,14 +56,17 @@ const ImageUpload = ({
             formData.append("image", file);
             // console.log(formData.getAll("image")); // formData에 잘 들어가는지 확인
             if (route === "recycleInfo") {
-                const res = await sendImageFile("recycle-info", formData);
+                const res = await sendImageFile("recycle-info/img", formData);
 
                 const info = res?.data?.data;
                 setInfo(info);
                 setIsUploaded("complete");
                 setOpenInfo(true);
             } else {
-                const res = await sendImageFile("upload/profile-img", formData);
+                const res = await sendProfileFile(
+                    "upload/profile-img",
+                    formData
+                );
                 const imageRoute = res.data.data;
                 setProfileImage(imageRoute);
                 setIsUploaded("complete");
