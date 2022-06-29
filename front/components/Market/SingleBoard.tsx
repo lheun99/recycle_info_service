@@ -43,14 +43,13 @@ const ExpandMore = materialStyled((props: ExpandMoreProps) => {
 
 // data map 할 예정, 게시글과 댓글 연동은 postId (게시글 번호) 로 연동 !
 const SingleBoard = ({ item }) => {
-    console.log(item);
     const [expanded, setExpanded] = useState(false);
     const [slideIndex, setSlideIndex] = useState(0);
     const [activeStep, setActiveStep] = useState(0);
     const maxSteps = item?.postImg?.length ?? 0; // 자료의 총 길이
     const userInfo = useContext(UserStateContext);
     const viewContainerRef = useRef<HTMLDivElement>(null);
-
+    console.log(item);
     const profileImg = userInfo?.user?.picture ?? "";
     const theme = useTheme();
 

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import dynamic from "next/dynamic";
+import { useRouter } from "next/router";
 import "react-quill/dist/quill.snow.css";
 import styled from "styled-components";
 import Image from "next/image";
@@ -56,6 +57,7 @@ export default function Write({
     setIsWrite,
 }) {
     const [imgList, setImgList] = useState([]);
+    const router = useRouter();
 
     // 바로 이미지를 서버로 보내 저장하지 않고, 해당 목록에서 자유자재로 삭제와 추가를 한 후, 최종 완성 시 form 파일을 만들어 보낼 예정
     // 다중 이미지 List 추가 함수
@@ -86,10 +88,11 @@ export default function Write({
 
     const uploadPost = async (imgList) => {
         // 이미지 업로드 먼저 한다 -> s3 주소 받아오기
-        const formData = new FormData();
-        imgList.map((item) => formData.append("image", item.file));
-        const res = await sendImageFile("upload/post-img", formData);
-        const postS3Image = await res.data?.data; // s3 주소 받음
+        try {
+            const formData = new FormData();
+            imgList.map((item) => formData.append("image", item.file));
+            const res = await sendImageFile("upload/post-img", formData);
+            const postS3Image = await res.data?.data; // s3 주소 받음
 
         const newUpload = await post("post", {
             title,
