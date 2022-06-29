@@ -179,7 +179,7 @@ const SingleBoard = ({ item }) => {
                 />
             </CardBodyContainer>
 
-            {/* <CardActions
+            <CardActions
                 disableSpacing
                 style={{
                     backgroundColor: "white",
@@ -200,10 +200,10 @@ const SingleBoard = ({ item }) => {
                 </ExpandMore>
             </CardActions>
             <Collapse in={expanded} timeout="auto" unmountOnExit>
-                <CardContent>
+                <CardContent style={{ backgroundColor: "white" }}>
                     <Comment expand={expanded} />
                 </CardContent>
-            </Collapse> */}
+            </Collapse>
         </Wrapper>
     );
 };

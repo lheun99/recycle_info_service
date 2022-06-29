@@ -15,7 +15,7 @@ const MainBoard = ({ firstBoards }) => {
     const [show, setShow] = useState([]);
 
     const Row = ({ index, style }) => (
-        <div id={`content-${index}`} style={style}>
+        <div id={`content-${index}`} style={{ ...style, overflow: "auto" }}>
             <SingleBoard key={index} item={board[index]} />
         </div>
     );
