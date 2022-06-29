@@ -48,7 +48,7 @@ const recycleInfoService = {
   //GET /recycle-info/?code
   getInfoByCode: async ({ code }) => {
     //코드 타입 확인 (number)
-    if (!typeof code === "array") {
+    if (!typeof code === "number") {
       const errorMessage = "잘못된 코드 입력";
       return { errorMessage };
     }
