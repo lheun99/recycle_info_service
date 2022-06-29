@@ -19,11 +19,11 @@ const Nav = () => {
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
     const [toggle, setToggle] = useState<boolean>(false);
-    const isMobile = useMediaQuery({ query: '(max-width: 1224px)' })
+    const isMobile = useMediaQuery({ query: "(max-width: 1224px)" });
 
     const clickHandler = () => {
         setToggle(!toggle);
-    }
+    };
 
     useEffect(() => {
         if (userInfo.user === null) {
@@ -38,18 +38,13 @@ const Nav = () => {
             <NavIcon>
                 <Link href="/">
                     <TitleWrapper>
-                        <Image
-                            src={Logo}
-                            alt="logo"
-                            width={30}
-                            height={30}
-                        />
+                        <Image src={Logo} alt="logo" width={30} height={30} />
                     </TitleWrapper>
                 </Link>
             </NavIcon>
             <NavList isMobile={isMobile} toggle={toggle}>
                 <NavListItem>
-                    <Link href="/recycling/aiSearcher">
+                    <Link href="/recycling">
                         <a>분리배출 하러가기</a>
                     </Link>
                 </NavListItem>
@@ -57,8 +52,8 @@ const Nav = () => {
                     <Link href="/waste">
                         <a>우리동네 대형폐기물 신고하기</a>
                     </Link>
-                </li>
-                <li>
+                </NavListItem>
+                <NavListItem>
                     <Link href="/Market">
                         <a>중고마켓</a>
                     </Link>
@@ -76,40 +71,34 @@ const Nav = () => {
                     </NavListItem>
                 )}
                 <NavListItem>
-                {login ? (
-                    <LoginButton
-                        onClick={() => {
-                            setLogin(false);
-                            sessionStorage.removeItem("userToken");
-                            router.push("/");
-                        }}
-                    >
-                        Sign out
-                    </LoginButton>
-                ) : (
-                    <LoginButton onClick={handleOpen}>Sign in</LoginButton>
-                )}
-                <LoginOrRegisterModal
-                    open={open}
-                    handleClose={handleClose}
-                />
+                    {login ? (
+                        <LoginButton
+                            onClick={() => {
+                                setLogin(false);
+                                sessionStorage.removeItem("userToken");
+                                router.push("/");
+                            }}
+                        >
+                            Sign out
+                        </LoginButton>
+                    ) : (
+                        <LoginButton onClick={handleOpen}>Sign in</LoginButton>
+                    )}
+                    <LoginOrRegisterModal
+                        open={open}
+                        handleClose={handleClose}
+                    />
                 </NavListItem>
             </NavList>
-            
+
             <Menu onClick={clickHandler}>
-                <Image 
-                    src={MenuIcon}
-                    alt="menu"
-                    width={20}
-                    height={20}
-                />
+                <Image src={MenuIcon} alt="menu" width={20} height={20} />
             </Menu>
         </Wrapper>
     );
 };
 
 export default Nav;
-
 
 const Wrapper = styled.div`
     width: 100%;
@@ -126,7 +115,7 @@ const Wrapper = styled.div`
         flex-direction: column;
         align-items: center;
         background-color: white;
-    };
+    } ;
 `;
 
 const NavIcon = styled.ul`
@@ -140,7 +129,7 @@ const NavIcon = styled.ul`
         width: 100%;
         height: 60px;
         justify-content: center;
-    };
+    } ;
 `;
 
 const NavList = styled.div<any>`
@@ -148,14 +137,16 @@ const NavList = styled.div<any>`
     font-size: 14px !important;
     justify-content: flex-end;
     align-items: center;
-    ${(props) => props.isMobile && (
-        props.toggle ? `
+    ${(props) =>
+        props.isMobile &&
+        (props.toggle
+            ? `
             width: 100%;
             flex-direction: column;
-        ` : `
-            display: none;
         `
-    )}
+            : `
+            display: none;
+        `)}
 `;
 
 const NavListItem = styled.li`
@@ -167,7 +158,7 @@ const NavListItem = styled.li`
         width: 100%;
         justify-content: center;
         align-items: center;
-    };
+    } ;
 `;
 
 const TitleWrapper = styled.a`
@@ -187,5 +178,5 @@ const Menu = styled.div`
         right: 20px;
         top: 20px;
         cursor: pointer;
-    };
+    } ;
 `;

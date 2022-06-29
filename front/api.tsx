@@ -6,7 +6,7 @@ const backendPortNumber = "5000";
 
 const serverUrl =
     "http://" +
-    process.env.NEXT_PUBLIC_BUILD_BACK_URL +
+    "kdt-ai4-team09.elicecoding.com" +
     ":" +
     backendPortNumber +
     "/";

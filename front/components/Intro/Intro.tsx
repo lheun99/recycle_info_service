@@ -5,28 +5,29 @@ import Image from "next/image";
 import styled from "styled-components";
 import Handphone from "../../public/images/handphone.png";
 import DownArrow from "../../public/images/down-arrow.png";
-import Earth from "../../public/images/title.earth.png"
-import Eco from "../../public/images/eco.jpeg"
-import RightArrow from "../../public/images/right-arrow.png"
-import Quiz from "../../public/images/quiz.png"
-import Rank from "../../public/images/rank.png"
+import Earth from "../../public/images/title.earth.png";
+import IntroEco from "../../public/images/intro.eco.png";
+import Eco from "../../public/images/eco.jpeg";
+import RightArrow from "../../public/images/right-arrow.png";
+import Quiz from "../../public/images/quiz.png";
+import Rank from "../../public/images/rank.png";
 import DoughnutChart from "./DoughnutChart";
 import { useMediaQuery } from "react-responsive";
 
 const Intro = () => {
-    const router = useRouter()
+    const router = useRouter();
     const ref = useRef<HTMLInputElement>();
 
     const handleScroll = () => {
         const screenHeight = ref.current.clientHeight;
-        
+
         window.scrollTo({
             top: screenHeight,
             behavior: "smooth",
         });
     };
 
-    const isMobile = useMediaQuery({ query: '(max-width: 1224px)' })
+    const isMobile = useMediaQuery({ query: "(max-width: 1224px)" });
 
     return (
         <main>
@@ -71,9 +72,7 @@ const Intro = () => {
                 <SectionWaste>
                     <IntroData
                         title={"환경을 도와주세요!"}
-                        text={
-                            `우리나라는 OECD 국가 중\n 재활용을 잘하는 국가 2위이지만\n 실질적인 재활용률은 40%도\n 되지 않는다고 합니다.\n\n\n `
-                        }
+                        text={`우리나라는 OECD 국가 중\n 재활용을 잘하는 국가 2위이지만\n 실질적인 재활용률은 40%도\n 되지 않는다고 합니다.\n\n\n `}
                     />
                     <DoughnutChart />
                 </SectionWaste>
@@ -89,7 +88,9 @@ const Intro = () => {
                         />
                     </CardItem>
                     <CardItem>
-                        <CardBackground style={{ backgroundColor: "var(--green)" }}>
+                        <CardBackground
+                            style={{ backgroundColor: "var(--green)" }}
+                        >
                             <Image
                                 src={Quiz}
                                 alt="quiz"
@@ -101,8 +102,10 @@ const Intro = () => {
                 </SectionCard>
                 <SectionCard>
                     <CardItem>
-                        <CardBackground style={{ backgroundColor: "var(--deepgray)" }}>
-                            <Image  
+                        <CardBackground
+                            style={{ backgroundColor: "var(--deepgray)" }}
+                        >
+                            <Image
                                 src={Rank}
                                 alt="rank"
                                 width={200}
@@ -134,14 +137,14 @@ const Intro = () => {
                 </InsertText>
                 <ContentsWrapper>
                     <ContentsForm>
-                        {
-                            !isMobile && <Image
+                        {!isMobile && (
+                            <Image
                                 src={Eco}
                                 alt="eco"
                                 width={770}
                                 height={400}
                             />
-                        }
+                        )}
                         <Contents>
                             <SubTitle>우리는 이런것도 제공해요!</SubTitle>
                             <SubText>{`우리 동네 대형폐기물 스티커는\n어디서 발급받을 수 있을까?`}</SubText>

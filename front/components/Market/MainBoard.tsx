@@ -3,7 +3,6 @@ import styled from "styled-components";
 import Search from "../shared/Search";
 import SingleBoard from "./SingleBoard";
 import Write from "./Write";
-import boardData from "./sampleData.json";
 import { FixedSizeList as List } from "react-window";
 import { getPost } from "../../api";
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -16,7 +15,7 @@ const MainBoard = ({ firstBoards }) => {
     const [board, setBoard] = useState(firstBoards);
     const [show, setShow] = useState([]);
     const [hasMore, setHasMore] = useState(true);
-    console.log(board);
+
     const loadMore = async () => {
         const per = 10;
         const res = await getPost(`post/list?page=${page + 1}&perPage=${per}`);
