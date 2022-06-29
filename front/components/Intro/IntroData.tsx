@@ -41,7 +41,7 @@ export default IntroData;
 
 const Wrapper = styled.div`
     width: 370px;
-    height: 250px;
+    height: 300px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -56,6 +56,7 @@ const Title = styled.div`
 
 const SubTitle = styled.div`
     font-size: var(--font-subtitle);
+    font-weight: bold;
 `;
 
 const Contents = styled.p`
@@ -66,14 +67,13 @@ const NavButton = materialStyled(Button)(
     () => (
         {
             width: '200px',
-            height: '100px',
+            height: '70px',
             marginTop: '50px',
             borderRadius: '10px',
             backgroundColor: 'var(--gray)',
             color: 'black',
             '&:hover': {
                 backgroundColor: 'var(--deepgray)',
-                color: 'white',
                 border: 'none',
             }
         }

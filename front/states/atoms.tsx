@@ -1,4 +1,4 @@
-import { atom, selector } from "recoil";
+import { atom } from "recoil";
 
 export const LoginState = atom({
     key: "loginState",
@@ -9,9 +9,3 @@ export const UserState = atom({
     key: "userState",
     default: {},
 });
-
-// export const LoginSelector = selector({
-//     key: "loginSelector",
-//     get: async ({get}) => {
-//         const dispatch = get(Dispatch);
-// });

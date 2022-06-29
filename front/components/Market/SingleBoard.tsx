@@ -77,7 +77,7 @@ const SingleBoard = ({ item }) => {
         if (viewContainerRef.current) {
             viewContainerRef.current.innerHTML = item?.content ?? "";
         }
-    }, []);
+    }, [item?.content]);
 
     return (
         <Wrapper key={`postNum-${item.postId}`}>
@@ -153,7 +153,7 @@ const SingleBoard = ({ item }) => {
                 }
             />
             <CardBodyContainer>
-                <PostTitle gutterBottom variant="h5" component="div">
+                <PostTitle gutterBottom variant="h5">
                     {item.title}
                 </PostTitle>
 

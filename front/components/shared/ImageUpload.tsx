@@ -28,16 +28,19 @@ const ImageUpload = ({
         e.preventDefault();
         e.stopPropagation();
         switch (text) {
-            case "dragOver":
-                (e.target as HTMLElement).style.backgroundColor = "#a7c4bc";
             case "dragEnter":
-                return;
+                break;
+            case "dragOver":
+                return ((e.target as HTMLElement).style.backgroundColor =
+                    "#a7c4bc");
             case "dragLeave":
-                (e.target as HTMLElement).style.backgroundColor = "#F2F2F2";
+                return ((e.target as HTMLElement).style.backgroundColor =
+                    "#F2F2F2");
             case "fileDrop":
                 (e.target as HTMLElement).style.backgroundColor = "#F2F2F2";
                 const file = e.dataTransfer.files[0];
                 sendImage(file);
+                break;
         }
     };
 
@@ -50,7 +53,7 @@ const ImageUpload = ({
         if (route === "recycleInfo") {
             const res = await sendImageFile("recycle-info", formData);
 
-            const info = await res?.data?.data;
+            const info = res?.data?.data;
             // if (info) {
             //     localStorage.setItem(
             //         "recycleInfo",

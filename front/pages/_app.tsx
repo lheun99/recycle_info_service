@@ -1,11 +1,9 @@
 import { AppProps } from "next/app";
 import "../styles/globals.css";
 import Layout from "../components/Layout";
-import GlobalStyle from "../styles/GlobalStyle";
-import { loginReducer } from "./reducer";
+import { loginReducer } from "../Providers/reducer";
 import React, { useState, useEffect, useReducer, createContext } from "react";
 import { RecoilRoot } from "recoil";
-import wrapper from "../Providers/createCtx";
 
 export const UserStateContext = createContext(null);
 export const DispatchContext = createContext(null);
@@ -54,7 +52,6 @@ function MyApp({ Component, pageProps }: AppProps) {
             <DispatchContext.Provider value={dispatch}>
                 <UserStateContext.Provider value={userState}>
                     <RecoilRoot>
-                        <GlobalStyle />
                         <Layout>
                             <Component {...pageProps} />
                         </Layout>
