@@ -4,17 +4,9 @@ var hostname = os.hostname();
 
 const backendPortNumber = "5000";
 
-var getGlobal = function () {
-    if (typeof window !== "undefined") return window.location.hostname;
-    if (typeof global !== "undefined") return hostname;
-    throw new Error("unable to locate global object");
-};
-
-var globals = getGlobal();
-// window.location.hostname
 const serverUrl =
     "http://" +
-    "kdt-ai4-team09.elicecoding.com" +
+    process.env.NEXT_PUBLIC_BUILD_BACK_URL +
     ":" +
     backendPortNumber +
     "/";
