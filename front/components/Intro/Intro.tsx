@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import IntroData from "./IntroData";
-import { useRouter } from 'next/router';
+import { useRouter } from "next/router";
 import Image from "next/image";
 import styled from "styled-components";
 import Handphone from "../../public/images/handphone.png";
@@ -21,10 +21,10 @@ const Intro = () => {
         const screenHeight = ref.current.clientHeight;
         
         window.scrollTo({
-          top: screenHeight,
-          behavior: 'smooth'
-        })
-    }
+            top: screenHeight,
+            behavior: "smooth",
+        });
+    };
 
     const isMobile = useMediaQuery({ query: '(max-width: 1224px)' })
 
@@ -37,7 +37,7 @@ const Intro = () => {
                         text={
                             "내 손안의 분리배출\n작은 실천이 지구를 지킵니다.\n\n\n\n"
                         }
-                    />                
+                    />
                     <Arrow onClick={handleScroll}>
                         <Image
                             src={DownArrow}
@@ -122,12 +122,14 @@ const Intro = () => {
                     </CardItem>
                 </SectionCard>
                 <InsertText>
-                    <p>올바른 분리수거는 지구를 구하는 첫 걸음이 될 수 있어요.</p>
+                    <p>
+                        올바른 분리수거는 지구를 구하는 첫 걸음이 될 수 있어요.
+                    </p>
                     <Image
-                        src={Earth}
+                        src={IntroEco}
                         alt="earth"
-                        width={40}
-                        height={40}
+                        width={280}
+                        height={200}
                     />
                 </InsertText>
                 <ContentsWrapper>
@@ -153,7 +155,9 @@ const Intro = () => {
                                 />
                             </ContentsData>
                             <SubText>멀쩡한데.. 중고로 팔아볼까?</SubText>
-                            <ContentsData onClick={() => router.push("/market")}>
+                            <ContentsData
+                                onClick={() => router.push("/market")}
+                            >
                                 <p>{`중고마켓으로 가기`}</p>
                                 <Image
                                     src={RightArrow}
@@ -171,7 +175,6 @@ const Intro = () => {
 };
 
 export default Intro;
-
 
 const Wrapper = styled.div`
     width: 100%;
@@ -203,10 +206,10 @@ const Arrow = styled.button`
     @keyframes up-down {
         0% {
             margin-top: 0px;
-        } 
+        }
         100% {
             margin-top: 30px;
-        } 
+        }
     }
 `;
 

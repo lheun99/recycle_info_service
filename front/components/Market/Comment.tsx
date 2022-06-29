@@ -28,10 +28,8 @@ const Comment = ({ expand }) => {
             {/* 댓글 작성  */}
             <Box
                 sx={{
-                    width: 500,
+                    width: "100%",
                     height: "auto",
-                    maxWidth: "100%",
-                    maxHeight: "100%",
                 }}
             >
                 <Typography paragraph>👤 {nickname} :</Typography>

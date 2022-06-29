@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Dispatch, SetStateAction } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import styled from "styled-components";
@@ -11,6 +11,8 @@ type ImageUploadProps = {
     height?: number;
     route?: string;
     setProfileImage?: any;
+    setOpenInfo?: Dispatch<SetStateAction<boolean>>;
+    setInfo?: Dispatch<SetStateAction<Object>>;
 };
 
 const ImageUpload = ({
@@ -18,6 +20,8 @@ const ImageUpload = ({
     height,
     route,
     setProfileImage,
+    setOpenInfo,
+    setInfo,
 }: ImageUploadProps) => {
     const [isUploaded, setIsUploaded] = useState("standBy");
     // img upload 상태 : ["standBy"] "대기, 아직 아무것도 일어나지 않음" / ["loading"] "서버에 img를 보내고 결과를 기다림" / ["complete"] "결과를 저장하고 라우팅할 것"
@@ -46,35 +50,26 @@ const ImageUpload = ({
 
     // 서버에 이미지를 보내는 함수
     const sendImage = async (file: Blob) => {
-        setIsUploaded("loading");
-        const formData = new FormData();
-        formData.append("image", file);
-        // console.log(formData.getAll("image")); // formData에 잘 들어가는지 확인
-        if (route === "recycleInfo") {
-            const res = await sendImageFile("recycle-info", formData);
+        try {
+            setIsUploaded("loading");
+            const formData = new FormData();
+            formData.append("image", file);
+            // console.log(formData.getAll("image")); // formData에 잘 들어가는지 확인
+            if (route === "recycleInfo") {
+                const res = await sendImageFile("recycle-info", formData);
 
-            const info = res?.data?.data;
-            // if (info) {
-            //     localStorage.setItem(
-            //         "recycleInfo",
-            //         JSON.stringify(info.recycleInfo)
-            //     );
-            //     setIsUploaded("complete");
-            // }
-
-            if (info) {
-                localStorage.setItem("recycleInfo", JSON.stringify(info)); // 페이지 라우팅 전, localStorage에 저장하여 넘어간 페이지에서 꺼내올 예정
-                // 용량 제한이 된다면, sessionStorage를 이용해야하는가...
-                setTimeout(async () => {
-                    // console.log("로딩중이 되나");
-                    setIsUploaded("complete");
-                }, 5000); // 임시로 약 5초가 걸린다고 생각하고, loading component가 실행되도록 한다
+                const info = res?.data?.data;
+                setInfo(info);
+                setIsUploaded("complete");
+                setOpenInfo(true);
+            } else {
+                const res = await sendImageFile("upload/profile-img", formData);
+                const imageRoute = res.data.data;
+                setProfileImage(imageRoute);
+                setIsUploaded("complete");
             }
-        } else {
-            const res = await sendImageFile("upload/profile-img", formData);
-            const imageRoute = res.data.data;
-            setProfileImage(imageRoute);
-            setIsUploaded("complete");
+        } catch (e) {
+            console.error(e);
         }
     };
 

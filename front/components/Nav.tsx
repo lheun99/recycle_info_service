@@ -57,9 +57,9 @@ const Nav = () => {
                     <Link href="/waste">
                         <a>우리동네 대형폐기물 신고하기</a>
                     </Link>
-                </NavListItem>
-                <NavListItem>
-                    <Link href="/market">
+                </li>
+                <li>
+                    <Link href="/Market">
                         <a>중고마켓</a>
                     </Link>
                 </NavListItem>

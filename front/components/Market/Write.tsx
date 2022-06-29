@@ -94,12 +94,18 @@ export default function Write({
             const res = await sendImageFile("upload/post-img", formData);
             const postS3Image = await res.data?.data; // s3 주소 받음
 
-        const newUpload = await post("post", {
-            title,
-            post_img: postS3Image,
-            content: htmlStr,
-        });
-        setIsWrite((cur) => !cur);
+            const newUpload = await post("post", {
+                title,
+                post_img: postS3Image,
+                content: htmlStr,
+            });
+
+            setIsWrite((cur) => !cur);
+            location.reload();
+        } catch (e) {
+            alert("로그인이 필요한 서비스 입니다.");
+            router.push("/");
+        }
     };
 
     return (
