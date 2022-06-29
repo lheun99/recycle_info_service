@@ -8,7 +8,6 @@ const Search = () => {
     const router = useRouter(); // 페이지 이동을 위해 useRouter 적용
 
     const findValue = async () => {
-        console.log(inputValue); // input 창 value 확인
         if (inputValue === "") {
             // 입력한 내용이 없을 경우, 넘어가지 못함
             return;
@@ -16,7 +15,7 @@ const Search = () => {
             // 서버로 검색어 넘긴다
             const res = await get(`search?text=${inputValue}`);
             const info = await res?.data?.data;
-            console.log(info);
+
             if (info.length === 0) {
                 alert("검색 결과가 없습니다!");
             } else {

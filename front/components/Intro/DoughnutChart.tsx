@@ -1,6 +1,7 @@
 import React from 'react';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
+import styled from "styled-components";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -42,9 +43,15 @@ const options = {
 
 
 export default function DoughnutChart() {
-  return (
-    <div style={{ position: "relative", width:"200px", height: "200px"}}>
-      <Doughnut data={data} />
-    </div>
-  ) 
+    return (
+        <Wrapper>
+            <Doughnut data={data} />
+        </Wrapper>
+    ) 
 }
+
+const Wrapper = styled.div`
+    position: relative;
+    width: 200px;
+    height: 200px;
+`;
