@@ -54,7 +54,7 @@ const Nav = () => {
                     </Link>
                 </li>
                 <li>
-                    <Link href="/market">
+                    <Link href="/Market">
                         <a>중고마켓</a>
                     </Link>
                 </li>

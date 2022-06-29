@@ -12,7 +12,12 @@ var getGlobal = function () {
 
 var globals = getGlobal();
 // window.location.hostname
-const serverUrl = "http://" + globals + ":" + backendPortNumber + "/";
+const serverUrl =
+    "http://" +
+    "kdt-ai4-team09.elicecoding.com" +
+    ":" +
+    backendPortNumber +
+    "/";
 
 async function get(endpoint, params = "") {
     return axios.get(serverUrl + endpoint + params, {

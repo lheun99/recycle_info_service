@@ -101,6 +101,7 @@ export default function Write({
             });
 
             setIsWrite((cur) => !cur);
+            location.reload();
         } catch (e) {
             alert("로그인이 필요한 서비스 입니다.");
             router.push("/");

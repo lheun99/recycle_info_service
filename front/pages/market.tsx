@@ -14,7 +14,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     };
 };
 
-const market = ({
+const Market = ({
     firstBoards,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
     return (
@@ -24,4 +24,4 @@ const market = ({
     );
 };
 
-export default market;
+export default Market;

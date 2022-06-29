@@ -174,7 +174,7 @@ const SingleBoard = ({ item }) => {
                         </IconButton>
                     }
                     title={item?.nickname}
-                    subheader={item?.createdAt.slice(0, 10)}
+                    subheader={item?.createdAt?.slice(0, 10)}
                     style={{ height: "50px" }}
                 />
             </CardBodyContainer>
