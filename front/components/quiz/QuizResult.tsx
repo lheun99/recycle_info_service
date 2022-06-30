@@ -1,63 +1,63 @@
-import React, { useEffect, useRef } from "react";
-import { useRouter } from "next/router";
+import React, { useState, useEffect, useRef, MouseEventHandler } from "react";
 import PointCoin from "../../public/images/point.coin.png";
 import Image from "next/image";
 import styled from "styled-components";
-import { styled as materialStyled } from '@mui/material/styles';
-import Button from '@mui/material/Button';
+import { styled as materialStyled } from "@mui/material/styles";
+import Button from "@mui/material/Button";
 import lottie from "lottie-web";
 import animationData from "../../public/trueEffect.json";
 import { post } from "../../api";
 
 type QuizType = {
     question: string;
-    multiples : [];
+    multiples: [];
     answer: string;
     image: boolean;
-}
+};
 
 type QuizResultProps = {
     result: boolean;
     quiz: QuizType;
-}
+    openClickHandler: MouseEventHandler;
+};
 
-const QuizResult = ({ result, quiz } : QuizResultProps) => {
+const QuizResult = ({ result, quiz, openClickHandler }: QuizResultProps) => {
     const container = useRef();
-    const router = useRouter();
+    const [click, setClick] = useState<boolean>(false);
+    const checkDisabled = (result && !click) ? false : true;
 
     const pointClickHandler = async () => {
         try {
-            await post("points", {
-                route: "quiz",
-                point: 100
-            }).then(() => {
-                console.log("포인트 적립")
+                const data = await post("points", {
+                    route: "quiz",
+                    point: 100
             })
+            setClick(true);
         } catch (err) {
-            console.log("errer message: ", err);
+            console.log("error message: ", err);
         }
-    }
+    };
 
     useEffect(() => {
         lottie.loadAnimation({
-            container: container.current, 
-            renderer: 'svg',
+            container: container.current,
+            renderer: "svg",
             loop: false,
             autoplay: true,
-            animationData: animationData
+            animationData: animationData,
         });
-    }, [])
+    }, []);
 
     return (
         <ResultWrapper>
             <ResultForm>
-                { result && <ResultEffect ref={container} /> }
+                {result && <ResultEffect ref={container} />}
                 <AnswerCheck>
                     {
-                        result ? "정답입니다!" : "틀렸습니다!"
+                        result ? <div>정답입니다!</div> : <div>틀렸습니다!</div>
                     }
                 </AnswerCheck>
-                <AnswerText>정답은 "{
+                <AnswerText>정답은 &quot;{
                     quiz.image ? (
                         <AnswerImageButton 
                             src={quiz.answer}
@@ -65,13 +65,13 @@ const QuizResult = ({ result, quiz } : QuizResultProps) => {
                     ) : (
                         quiz.answer
                     )
-                }" 입니다.
+                }&quot; 입니다.
                 </AnswerText>
-            </ResultForm>   
+            </ResultForm>
             <div>
-                <NavButton onClick={() => router.push('/')}>홈으로</NavButton>
-                <NavButton onClick={pointClickHandler} disabled={!result}>
-                    <Image
+                <NavButton onClick={openClickHandler}>돌아가기</NavButton>
+                <NavButton onClick={pointClickHandler} disabled={checkDisabled}>
+                    <Image 
                         src={PointCoin}
                         alt="point-coin"
                         width={35}
@@ -81,11 +81,10 @@ const QuizResult = ({ result, quiz } : QuizResultProps) => {
                 </NavButton>
             </div>
         </ResultWrapper>
-    )
-}
+    );
+};
 
 export default QuizResult;
-
 
 const ResultWrapper = styled.div`
     width: 80%;
@@ -99,12 +98,15 @@ const ResultWrapper = styled.div`
 const ResultForm = styled.div`
     width: 100%;
     height: 100%;
+    position: relative;
 `;
 
 const ResultEffect = styled.div`
+    height: 500px;
     position: absolute;
-    top: -10px;
-    left: -5px;
+    top: -200px;
+    left: -200px;
+    // background-color: blue;
 `;
 
 const AnswerCheck = styled.div`
@@ -113,6 +115,7 @@ const AnswerCheck = styled.div`
     text-align: center;
     font-size: 1.5rem;
     font-weight: bold;
+    margin-top: 40px;
 `;
 
 const AnswerText = styled.div`
@@ -132,18 +135,15 @@ const AnswerImageButton = styled.img`
     background-color: var(--green);
 `;
 
-const NavButton = materialStyled(Button)(
-    () => (
-        {
-            width: '150px',
-            height: '50px',
-            borderRadius: '10px',
-            margin: '0 20px',
-            backgroundColor: 'var(--gray)',
-            color: 'black',
-            '&:hover': {
-                backgroundColor: 'var(--deepgray)',
-                color: 'white',
-            }
-        }
-    ));
+const NavButton = materialStyled(Button)(() => ({
+    width: "150px",
+    height: "50px",
+    borderRadius: "10px",
+    margin: "30px 20px 0 20px",
+    backgroundColor: "var(--gray)",
+    color: "black",
+    "&:hover": {
+        backgroundColor: "var(--deepgray)",
+        color: "white",
+    },
+}));

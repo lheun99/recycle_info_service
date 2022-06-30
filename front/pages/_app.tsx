@@ -1,11 +1,10 @@
 import { AppProps } from "next/app";
 import "../styles/globals.css";
 import Layout from "../components/Layout";
-import GlobalStyle from "../styles/GlobalStyle";
-import { loginReducer } from "./reducer";
+import { loginReducer } from "../Providers/reducer";
 import React, { useState, useEffect, useReducer, createContext } from "react";
 import { RecoilRoot } from "recoil";
-import wrapper from "../Providers/createCtx";
+import { get } from "../api";
 
 export const UserStateContext = createContext(null);
 export const DispatchContext = createContext(null);
@@ -19,17 +18,17 @@ function MyApp({ Component, pageProps }: AppProps) {
     
     const fetchCurrentUser = async () => {
         try {
-            // 이전에 발급받은 토큰이 있다면, 이를 가지고 유저 정보를 받아옴.
-            // const res = await Api.get("users/current");
-            // const currentUser = res.data;
-
             const currentUser = sessionStorage.getItem("userToken");
 
             if (currentUser) {
+                const res = await get("users/current");
+                const user = res.data;
+
                 dispatch({
                     type: "LOGIN_SUCCESS",
-                    payload: currentUser,
+                    payload: user,
                 });
+                
                 console.log("%c sessionStorage에 토큰 있음.", "color: #d93d1a;");
             } else {
                 console.log("%c SessionStorage에 토큰 없음.", "color: #d93d1a;");
@@ -54,7 +53,6 @@ function MyApp({ Component, pageProps }: AppProps) {
             <DispatchContext.Provider value={dispatch}>
                 <UserStateContext.Provider value={userState}>
                     <RecoilRoot>
-                        <GlobalStyle />
                         <Layout>
                             <Component {...pageProps} />
                         </Layout>

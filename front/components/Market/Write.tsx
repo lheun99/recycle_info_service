@@ -1,5 +1,6 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState } from "react";
 import dynamic from "next/dynamic";
+import { useRouter } from "next/router";
 import "react-quill/dist/quill.snow.css";
 import styled from "styled-components";
 import Image from "next/image";
@@ -11,7 +12,6 @@ const QuillNoSSR = dynamic(import("react-quill"), {
 });
 
 const modules = {
-    // useMemo를 써야한다는데..
     toolbar: [
         [{ header: "1" }, { header: "2" }, { font: [] }],
         [{ size: [] }],
@@ -57,6 +57,7 @@ export default function Write({
     setIsWrite,
 }) {
     const [imgList, setImgList] = useState([]);
+    const router = useRouter();
 
     // 바로 이미지를 서버로 보내 저장하지 않고, 해당 목록에서 자유자재로 삭제와 추가를 한 후, 최종 완성 시 form 파일을 만들어 보낼 예정
     // 다중 이미지 List 추가 함수
@@ -74,7 +75,6 @@ export default function Write({
             alert("이미지는 최대 5장까지 업로드 가능합니다.");
         }
         setImgList(imageUrlLists);
-        console.log();
     };
     // 다중 이미지 List에서 특정 이미지 제거 함수
     const handleDeleteImage = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -88,18 +88,24 @@ export default function Write({
 
     const uploadPost = async (imgList) => {
         // 이미지 업로드 먼저 한다 -> s3 주소 받아오기
-        const formData = new FormData();
-        imgList.map((item) => formData.append("image", item.file));
-        const res = await sendImageFile("upload/post-img", formData);
-        const postS3Image = await res.data?.data; // s3 주소 받음
+        try {
+            const formData = new FormData();
+            imgList.map((item) => formData.append("image", item.file));
+            const res = await sendImageFile("upload/post-img", formData);
+            const postS3Image = await res.data?.data; // s3 주소 받음
 
-        const newUpload = await post("post", {
-            title,
-            post_img: postS3Image,
-            content: htmlStr,
-        });
-        console.log(newUpload);
-        setIsWrite((cur) => !cur);
+            const newUpload = await post("post", {
+                title,
+                post_img: postS3Image,
+                content: htmlStr,
+            });
+
+            setIsWrite((cur) => !cur);
+            location.reload();
+        } catch (e) {
+            alert("로그인이 필요한 서비스 입니다.");
+            router.push("/");
+        }
     };
 
     return (

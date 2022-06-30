@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { UserStateContext } from "../../pages/_app";
 import { get } from "../../api";
 
@@ -17,19 +17,19 @@ const Comment = ({ expand }) => {
         const res = await get(`comment/${id}`);
     };
 
-    if (expand) {
-        getCommentList();
-    } // expanded가 true 일 경우에만 불러오고 싶다! (댓글을 펼쳤을 때)
+    useEffect(() => {
+        if (expand) {
+            getCommentList();
+        } // expanded가 true 일 경우에만 불러오고 싶다! (댓글을 펼쳤을 때)
+    }, [expand]);
 
     return (
         <div>
             {/* 댓글 작성  */}
             <Box
                 sx={{
-                    width: 500,
+                    width: "100%",
                     height: "auto",
-                    maxWidth: "100%",
-                    maxHeight: "100%",
                 }}
             >
                 <Typography paragraph>👤 {nickname} :</Typography>

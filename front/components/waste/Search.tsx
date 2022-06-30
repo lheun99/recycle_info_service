@@ -12,7 +12,7 @@ interface WasteInfo {
 const regionData = Array.from(new Set(WasteInfo.map((data) => data.region)));
 const nameData = Array.from(new Set(WasteInfo.map((data) => data.name)));
 
-const Search = ({ mapData, handleSetMapData }) => {
+const Search = ({ mapData, setMapData }) => {
     const [region, setRegion] = useState<string | null>(null);
     const [name, setName] = useState<string | null>(null);
     const [inputRegion, setInputRegion] = useState('');
@@ -34,7 +34,7 @@ const Search = ({ mapData, handleSetMapData }) => {
     useEffect(() => {
         if (name) {
             const map = WasteInfo.filter((data) => data.region === region && data.name === name)
-            handleSetMapData(map)
+            setMapData(map)
         }
     }, [name])
     
@@ -76,7 +76,7 @@ const Search = ({ mapData, handleSetMapData }) => {
 export default Search;
 
 const Wrapper = styled.div`
-    width: 580px;
+    width: 80%;
     display: flex;
     justify-content: space-between;
 `;
