@@ -69,9 +69,24 @@ const ImageUpload = ({
                     "#F2F2F2");
             case "fileDrop":
                 (e.target as HTMLElement).style.backgroundColor = "#F2F2F2";
+                if (e.dataTransfer.items[0].kind !== "file") {
+                    alert("파일로 업로드 가능합니다.");
+                    location.reload();
+                } // FILE로 업로드 안 하는 경우 alert
                 const file = e.dataTransfer.files[0];
-                sendImage(file);
-                break;
+                findAllowableExt(file);
+        }
+    };
+    // 확장자 제어를 위한 함수
+    const findAllowableExt = (file: File) => {
+        const ext = file.name.split(".").pop(); // 파일 확장자 뽑아오기
+        const allowExt = "jpeg,jpg,png,gif,bmp";
+        const found = allowExt.match(ext); // found 가 null 이면 불가능한 확장자, 확장자 반환 시 true
+        if (!found) {
+            alert("파일 확장자는 jpeg, jpg, png, gif, bmp 만 가능합니다!");
+            location.reload();
+        } else {
+            sendImage(file);
         }
     };
     // image preview를 위한 함수
@@ -110,6 +125,8 @@ const ImageUpload = ({
             }
         } catch (e) {
             console.error(e);
+            alert("다시 시도 해주세요!");
+            location.reload();
         }
     };
 
@@ -152,9 +169,9 @@ const ImageUpload = ({
                 <input
                     type="file"
                     id="input-file"
-                    accept="image/*"
+                    accept=".gif, .jpg, .png, .jpeg, .bmp"
                     style={{ display: "none" }}
-                    onChange={(e) => sendImage(e.target.files[0])}
+                    onChange={(e) => findAllowableExt(e.target.files[0])}
                 />
             </div>
         </Wrapper>
