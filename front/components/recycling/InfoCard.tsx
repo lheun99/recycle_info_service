@@ -5,7 +5,7 @@ import styled from "styled-components";
 
 const InfoCard = ({ cards, route }) => {
     const [slideIndex, setSlideIndex] = useState(1);
-    console.log(cards);
+
     const nextSlide = (idx) => {
         if (slideIndex === cards.length) {
             return;
@@ -19,6 +19,7 @@ const InfoCard = ({ cards, route }) => {
         }
         setSlideIndex(slideIndex - 1);
     };
+
     return (
         <CarouselWrapper>
             <ArrowButton type="button" onClick={prevSlide}>

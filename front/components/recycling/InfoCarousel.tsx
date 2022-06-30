@@ -31,6 +31,7 @@ const InfoCarousel = ({ info, route }) => {
     const router = useRouter(); // 페이지 이동을 위해 useRouter 적용
     const [targetPage, setTargetPage] = useState(0);
 
+    // route === "ImageSearch", findInfo function
     const getInfo = async (uniqueCodeArr) => {
         const res = await getRecycleInfo(`recycle-info/search`, {
             code: uniqueCodeArr,
@@ -39,6 +40,7 @@ const InfoCarousel = ({ info, route }) => {
         setShowList(searchList);
     };
 
+    // Row buttons go ahead deferent page
     const rendPage = (e: React.MouseEvent<HTMLButtonElement>) => {
         router.push(`/${(e.target as HTMLButtonElement).name}`);
     };
@@ -52,7 +54,7 @@ const InfoCarousel = ({ info, route }) => {
             const uniqueCodeArr = Array.from(codeList);
             getInfo(uniqueCodeArr);
         }
-    }, []); // 페이지 오면 바로 데이터 가져옴. 그러나 변환 시간에 따라서, 그 사이는 Loading 으로 보여준다
+    }, []);
 
     return route === "ImageSearch" ? (
         showList.length !== 0 ? (

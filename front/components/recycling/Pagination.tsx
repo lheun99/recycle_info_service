@@ -1,13 +1,13 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
 
 const Pagination = ({ totalPages, setTargetPage }) => {
+    // Actually already load all data, but needed for UI
     const pageList = [];
+
     for (let i = 1; i < totalPages + 1; i++) {
         pageList.push(i);
     }
-
-    useEffect(() => {}, []);
 
     return (
         <>

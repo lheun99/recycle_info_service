@@ -20,6 +20,7 @@ const matchType = [
     "나무류",
 ];
 
+// result - garbage category, percentage show
 const Results = ({ content, index }) => {
     return (
         <Result key={`${index}`}>
@@ -29,6 +30,7 @@ const Results = ({ content, index }) => {
     );
 };
 
+// After preview image upload, object detection doing function run
 const Detection = ({ detection, index }) => {
     const top = detection.xyxy[1] * 350;
     const left = detection.xyxy[0] * 600;

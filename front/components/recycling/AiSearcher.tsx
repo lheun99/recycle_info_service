@@ -31,13 +31,12 @@ const matchType = [
 
 const AiSearcher = () => {
     const [info, setInfo] = useState([]);
-    const [openInfo, setOpenInfo] = useState(false);
-    const [isAllInfo, setIsAllInfo] = useState(true);
+    const [openInfo, setOpenInfo] = useState(false); // After image uploads, change result page to grid
+    const [isAllInfo, setIsAllInfo] = useState(true); // when click fab button, return false
+    const [imgUrl, setImgUrl] = useState<string | null>(null); // preview image url
+    const [name, setName] = useState<string | null>(null); // search keyword
 
-    const [imgUrl, setImgUrl] = useState<string | null>(null);
-
-    const [name, setName] = useState<string | null>(null);
-
+    // route === "AllSearch" 일때, 정보 불러오는 함수
     const findInfo = async (newValue: string) => {
         setName(newValue);
         const code = matchType.indexOf(newValue);
