@@ -105,8 +105,8 @@ export default UserProfile;
 
 const ProfileImg = materialStyled(Avatar)(() => ({
     border: "2px dashed #a7c4bc",
-    width: "200px",
-    height: "200px",
+    width: "170px",
+    height: "170px",
 }));
 
 const EditButton = styled.button`

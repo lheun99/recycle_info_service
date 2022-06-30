@@ -9,17 +9,23 @@ import { useMediaQuery } from "react-responsive";
 const ReportWaste = () => {
     const [mapData, setMapData] = useState<string[] | null>(null);
     const [clickData, setClickData] = useState<string[] | null>(null);
-    const isMobile = useMediaQuery({ query: '(max-width: 1224px)' })
+    const isMobile = useMediaQuery({ query: '(max-width: 800px)' })
 
     return (
         <Wrapper>
-            <h1>우리동네 대형폐기물 신고하기</h1>
-            <Contents>
-                {
-                    "대형폐기물은 구청/주민센터에서 납부 필증을 구매 후 버려야합니다.\n우리동네 어디에서 신고할 수 있는지 알아볼까요?"
-                }
-            </Contents>
-            <Form isMobile={isMobile}>
+            {
+                !isMobile && (
+                    <div>
+                        <h1>우리동네 대형폐기물 신고하기</h1>
+                        <Contents>
+                            {
+                                "대형폐기물은 구청/주민센터에서 납부 필증을 구매 후 버려야합니다.\n우리동네 어디에서 신고할 수 있는지 알아볼까요?"
+                            }
+                        </Contents>
+                    </div>
+                )
+            }
+            <Form>
                 <Title>우리동네 사이트 찾기</Title>
                 <SearchWrapper>
                     <ImageButton onClick={() => setMapData(null)}>
@@ -74,6 +80,9 @@ const Wrapper = styled.div`
     align-items: center;
     position: relative;
     padding-top: 100px;
+    @media screen and (max-width: 800px) {
+        height: 960px;
+    };
 `;
 
 const Contents = styled.p`
@@ -82,14 +91,16 @@ const Contents = styled.p`
 `;
 
 const Tip  = styled.p`
+    width: 100%;
     position: absolute; 
     bottom: 50px;
     white-space: pre-wrap;
     text-align: center;
 `;
 
-const Form = styled.div<any>`   
-    width: 800px;
+const Form = styled.div`   
+    max-width: 800px;
+    width: 100%;
     height: 750px;
     background-color: white;
     display: flex;
@@ -100,9 +111,10 @@ const Form = styled.div<any>`
     border-radius: 20px;
     position: absolute;
     top: 290px;
-    ${(props) => props.isMobile && `
-        width: 600px;
-    `};
+    @media screen and (max-width: 800px) {
+        border-radius: 0px;
+        top: 60px;
+    };
 `;
 
 const Title = styled.h2`
@@ -113,6 +125,9 @@ const Title = styled.h2`
     background-color: var(--green);
     text-align: center;
     border-radius: 20px 20px 0 0;
+    @media screen and (max-width: 800px) {
+        border-radius: 0px;
+    };
 `;
 
 const MapContainer = styled.div`

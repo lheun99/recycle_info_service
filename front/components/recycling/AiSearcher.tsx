@@ -56,10 +56,10 @@ const AiSearcher = () => {
                 {isAllInfo && !openInfo && (
                     <>
                         <h1>사물을 찍어주세요!</h1>
-                        <p>
+                        <div>
                             캔, 병, 과자봉지 등 사물 다 상관없어요. <br />
                             무엇이든 분리배출 방법을 알려드려요.
-                        </p>
+                        </div>
                     </>
                 )}
                 <FaButton
@@ -86,7 +86,7 @@ const AiSearcher = () => {
                             <ImageForm>
                                 {!openInfo ? (
                                     <ImageUpload
-                                        width={600}
+                                        width={350}
                                         height={350}
                                         route="recycleInfo"
                                         setInfo={setInfo}
@@ -114,7 +114,7 @@ const AiSearcher = () => {
                     {(!isAllInfo || openInfo) &&
                         (!isAllInfo ? (
                             <InfoWrapper>
-                                <h1>카테고리를 선택해보세요.</h1>
+                                <h2>카테고리를 선택해보세요.</h2>
                                 <Autocomplete
                                     value={name}
                                     onChange={(
@@ -147,19 +147,19 @@ const AiSearcher = () => {
 export default AiSearcher;
 
 const Container = styled.div`
+    width: 100%;
+    height: 800px;
+    padding-top: 100px;
     display: flex;
     flex-direction: column;
-    background-color: var(--gray);
-    width: 100%;
-    height: 1100px;
     align-items: center;
     text-align: center;
-    padding-top: 100px;
+    background-color: var(--gray);
 `;
 
 const Wrapper = styled.div`
     width: 100%;
-    height: 500px;
+    height: 450px;
     &.success {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -177,13 +177,18 @@ const ImageWrapper = styled.div`
     align-items: center;
 `;
 
-const ImageForm = styled.div``;
+const ImageForm = styled.div`
+    height: 100%;
+    margin-top: 50px;
+`;
+
 const InfoWrapper = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     height: auto;
+    
 `;
 
 const FaButton = materialStyled(Fab)(() => ({
@@ -208,9 +213,9 @@ const Button = styled.button`
     width: 150px;
     height: 40px;
     margin: 19.92px 0 19.92px 0;
-    border-radius: 15px;
+    border-radius: 10px;
     word-break: keep-all;
-    font-size: 15px;
+    font-size: 0.8rem;
     text-align: center;
     background-color: #a7c4bc;
     color: #fff;

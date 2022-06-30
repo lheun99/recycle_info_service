@@ -47,15 +47,13 @@ const InfoCard = ({ cards, route }) => {
                                             : card.infoImg
                                     }
                                     alt="recycle-information"
-                                    width={400}
-                                    height={500}
+                                    width={290}
+                                    height={400}
                                 />
                             </InfoBox>
-                            <div>
-                                <span>
-                                    {idx + 1} / {cards.length}
-                                </span>
-                            </div>
+                            <span>
+                                {idx + 1} / {cards.length}
+                            </span>
                         </Slider>
                     );
                 })}
@@ -75,30 +73,36 @@ const InfoCard = ({ cards, route }) => {
 export default InfoCard;
 
 const CarouselWrapper = styled.div`
+    max-width: 420px;
+    width: 95%;
+    height: 470px;
     display: flex;
+    justify-content: center;
     align-items: center;
-    height: 600px;
     overflow: auto;
     position: relative;
 `;
+
 const CarouselAll = styled.div`
-    width: 500px;
-    height: 600px;
+    max-width: 400px;
+    width: 95%;
     border-radius: 15px;
-    margin: 0 8px;
     display: flex;
     justify-content: center;
+    align-items: center;
     text-align: center;
     word-break: keep-all;
 `;
+
 const Slider = styled.div`
-    width: 500px;
-    height: 600px;
+    max-width: 500px;
+    width: 90%;
+    height: 95%;
     position: absolute;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     align-items: center;
-    justify-content: space-around;
     &.is_pass {
         opacity: 0;
         transition: opacity ease-in-out 0.01s;
@@ -112,8 +116,9 @@ const InfoBox = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 90%;
+    height: 95%;
 `;
+
 const ArrowButton = styled.button`
     border: none;
     height: 30px;

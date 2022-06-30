@@ -133,7 +133,7 @@ const InfoCarousel = ({ info, route }) => {
                             width={35}
                             height={35}
                         />
-                        <p>포인트 적립하기</p>
+                        <p>포인트 적립</p>
                     </PointButton>
                 </ButtonWrapper>
             </Wrapper>
@@ -146,9 +146,10 @@ export default InfoCarousel;
 const Wrapper = styled.div`
     background: #f2f2f2;
     width: 100%;
-    height: 800px;
+    height: 570px;
     display: flex;
     flex-direction: column;
+    justify-content: space-evenly;
     align-items: center;
     position: relative;
     border-left: 2px dashed #a7c4bc;
@@ -168,34 +169,40 @@ const ButtonWrapper = styled.div`
 const Button = styled.button`
     border: none;
     cursor: pointer;
-    width: 150px;
+    width: 130px;
     height: 50px;
     margin: 10px 6px;
     background-color: #dedede;
-    border-radius: 15px;
+    border-radius: 10px;
     word-break: keep-all;
     font-family: Elice Digital Baeum;
-    font-weight: bold;
+    font-size: 0.8rem;
+    @media screen and (max-width: 600px) {
+        width: 110px;
+    };
 `;
 const PointButton = styled.button`
     display: flex;
     border: none;
     cursor: pointer;
-    width: 150px;
+    width: 130px;
     height: 50px;
     margin: 18px 6px;
     background-color: #dedede;
-    border-radius: 15px;
+    border-radius: 10px;
     justify-content: center;
     align-items: center;
     word-break: keep-all;
     font-family: Elice Digital Baeum;
-    font-weight: bold;
+    font-size: 0.8rem;
+    @media screen and (max-width: 600px) {
+        width: 110px;
+    };
 `;
 
 const NoResult = styled.div`
     width: 100%;
-    height: 800px;
+    height: 600px;
     display: flex;
     flex-direction: column;
     align-items: center;

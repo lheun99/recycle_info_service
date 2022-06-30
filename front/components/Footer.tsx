@@ -72,6 +72,8 @@ const LogoWrapper = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    padding: 0 20px;
+    text-align: center;
 `;
 
 const Title = styled.span`

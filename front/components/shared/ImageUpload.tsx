@@ -181,9 +181,11 @@ const ImageUpload = ({
 export default ImageUpload;
 
 const Wrapper = styled.div`
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: space-between;
 `;
 
 const DragImage = styled.div<{ width: number; height: number }>`
@@ -204,5 +206,5 @@ const InputLabel = styled.label`
     background-color: #a7c4bc;
     color: #fff;
     padding: 7px 30px;
-    border-radius: 15px;
+    border-radius: 10px;
 `;

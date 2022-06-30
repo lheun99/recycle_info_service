@@ -2,7 +2,6 @@ import React from 'react';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
 import styled from "styled-components";
-import { bottomNavigationActionClasses } from '@mui/material';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -46,6 +45,7 @@ export default function DoughnutChart() {
                 data={data}
                 options={options}
             />
+            <PercentText>{`40%`}</PercentText>
         </Wrapper>
     ) 
 }
@@ -55,4 +55,13 @@ const Wrapper = styled.div`
     width: 200px;
     height: 200px;
     margin-bottom: 50px;
+`;
+
+const PercentText = styled.div`
+    position: absolute;
+    top: 82px; 
+    left: 82px;
+    font-weight: bold;
+    font-size: var(--font-subtitle);
+    color: #8aadb8;
 `;

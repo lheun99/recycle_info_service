@@ -5,9 +5,8 @@ import Image from "next/image";
 import styled from "styled-components";
 import Handphone from "../../public/images/handphone.png";
 import DownArrow from "../../public/images/down-arrow.png";
-import Earth from "../../public/images/title.earth.png";
 import IntroEco from "../../public/images/intro.eco.png";
-import Eco from "../../public/images/eco.jpeg";
+import Eco from "../../public/images/eco.jpg";
 import RightArrow from "../../public/images/right-arrow.png";
 import Quiz from "../../public/images/quiz.png";
 import Rank from "../../public/images/rank.png";
@@ -17,6 +16,7 @@ import { useMediaQuery } from "react-responsive";
 const Intro = () => {
     const router = useRouter();
     const ref = useRef<HTMLInputElement>();
+    const isMobile = useMediaQuery({ query: "(max-width: 1224px)" });
 
     const handleScroll = () => {
         const screenHeight = ref.current.clientHeight;
@@ -26,8 +26,6 @@ const Intro = () => {
             behavior: "smooth",
         });
     };
-
-    const isMobile = useMediaQuery({ query: "(max-width: 1224px)" });
 
     return (
         <main>
@@ -74,7 +72,7 @@ const Intro = () => {
                         title={"환경을 도와주세요!"}
                         text={`우리나라는 OECD 국가 중\n 재활용을 잘하는 국가 2위이지만\n 실질적인 재활용률은 40%도\n 되지 않는다고 합니다.\n\n\n `}
                     />
-                    <DoughnutChart />
+                    {!isMobile && (<DoughnutChart />)}
                 </SectionWaste>
                 <SectionCard>
                     <CardItem>
@@ -94,8 +92,8 @@ const Intro = () => {
                             <Image
                                 src={Quiz}
                                 alt="quiz"
-                                width={200}
-                                height={200}
+                                width={120}
+                                height={120}
                             />
                         </CardBackground>
                     </CardItem>
@@ -108,8 +106,8 @@ const Intro = () => {
                             <Image
                                 src={Rank}
                                 alt="rank"
-                                width={200}
-                                height={200}
+                                width={120}
+                                height={120}
                             />
                         </CardBackground>
                     </CardItem>
@@ -131,8 +129,8 @@ const Intro = () => {
                     <Image
                         src={IntroEco}
                         alt="earth"
-                        width={280}
-                        height={200}
+                        width={200}
+                        height={170}
                     />
                 </InsertForm>
                 <ContentsWrapper>
@@ -141,12 +139,12 @@ const Intro = () => {
                             <Image
                                 src={Eco}
                                 alt="eco"
-                                width={770}
+                                width={500}
                                 height={400}
                             />
                         )}
                         <Contents>
-                            <SubTitle>우리는 이런것도 제공해요!</SubTitle>
+                            <SubTitle>*우리는 이런것도 제공해요!</SubTitle>
                             <SubText>{`우리 동네 대형폐기물 스티커는\n어디서 발급받을 수 있을까?`}</SubText>
                             <ContentsData onClick={() => router.push("/waste")}>
                                 <p>{`우리동네 대형폐기물\n신고하러 가기`}</p>
@@ -243,6 +241,8 @@ const SectionRecyling = styled.div`
 const SectionWaste = styled.div`
     width: 100%;
     height: 700px;
+    background: url("/images/recycle.png");
+    object-fit: cover;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -254,16 +254,13 @@ const SectionWaste = styled.div`
 
 const SectionCard = styled.div`
     width: 100%;
-    height: 700px;
+    height: 350px;
     display: flex;
-    @media screen and (max-width: 1224px) {
-        flex-direction: column;
-    };
 `;
 
 const CardItem = styled.div`
-    flex: 1;
     display: flex;
+    width: 50%;
     justify-content: center;
     align-items: center;
     background-color: var(--gray);
@@ -292,7 +289,7 @@ const InsertText = styled.p`
     text-align: center;
 `;
 const ContentsWrapper = styled.div`
-    height: 700px;
+    height: 600px;
     background-color: var(--gray);
     display: flex;
     flex-direction: column;
@@ -300,12 +297,11 @@ const ContentsWrapper = styled.div`
     align-items: center;
     @media screen and (max-width: 1224px) {
         width: 100%;
-        height: 100%;
     };
 `;
 
 const ContentsForm = styled.div`
-    width: 80%;
+    width: 70%;
     height: 500px;
     display: flex;
     @media screen and (max-width: 1224px) {
@@ -318,21 +314,20 @@ const Contents = styled.div`
     width: 50%;
     background-color: #305e63;
     color: white;
-    padding: 50px 0 30px 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     white-space: pre-wrap;
     @media screen and (max-width: 1224px) {
         width: 100%;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
     };
 `;
 
 const SubTitle = styled.div`
     font-size: var(--font-subtitle);
     font-weight: bold;
-    margin-bottom: 40px;
+    margin-bottom: 20px;
 `;
 
 const SubText = styled.p`
@@ -341,16 +336,16 @@ const SubText = styled.p`
 `;
 
 const ContentsData = styled.div`
-    width: 280px;
+    width: 250px;
     height: 80px;
-    margin-bottom: 50px;
+    margin-bottom: 20px;
     padding: 10px;
     display: flex;
     justify-content: space-evenly;
     align-items: center;
-    font-size: var(--font-text);
+    font-size: 0.8rem;
     border: 1px solid white;
-    border-radius: 20px;
+    border-radius: 10px;
     cursor: pointer;
     :hover {
         background-color: #294e52;
