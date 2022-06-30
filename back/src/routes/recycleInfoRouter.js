@@ -6,7 +6,6 @@ const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
 const recycleInfoRouter = Router();
-import pngToJpeg from "png-to-jpeg";
 
 //POST /recycle-info : 사용자가 등록한 이미지 분석, 분리배출 방법 안내
 recycleInfoRouter.post(
@@ -15,12 +14,8 @@ recycleInfoRouter.post(
   async (req, res, next) => {
     try {
       //사용자가 등록한 이미지 정보
-      const mimetype = req.file.mimetype;
-      let imgBuffer = req.file.buffer;
+      const imgBuffer = req.file.buffer;
 
-      if (mimetype === "image/png") {
-        imgBuffer = await pngToJpeg({ quality: 90 })(imgBuffer);
-      }
       //이미지 정보 전달, 분석 결과
       const info = await recycleInfoService.analysisImg({ imgBuffer });
 
