@@ -86,7 +86,7 @@ const AiSearcher = () => {
                             <ImageForm>
                                 {!openInfo ? (
                                     <ImageUpload
-                                        width={600}
+                                        width={350}
                                         height={350}
                                         route="recycleInfo"
                                         setInfo={setInfo}
@@ -114,7 +114,7 @@ const AiSearcher = () => {
                     {(!isAllInfo || openInfo) &&
                         (!isAllInfo ? (
                             <InfoWrapper>
-                                <h1>카테고리를 선택해보세요.</h1>
+                                <h2>카테고리를 선택해보세요.</h2>
                                 <Autocomplete
                                     value={name}
                                     onChange={(
@@ -151,7 +151,7 @@ const Container = styled.div`
     flex-direction: column;
     background-color: var(--gray);
     width: 100%;
-    height: 1100px;
+    height: 800px;
     align-items: center;
     text-align: center;
     padding-top: 100px;
@@ -159,7 +159,7 @@ const Container = styled.div`
 
 const Wrapper = styled.div`
     width: 100%;
-    height: 500px;
+    height: 450px;
     &.success {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -208,9 +208,9 @@ const Button = styled.button`
     width: 150px;
     height: 40px;
     margin: 19.92px 0 19.92px 0;
-    border-radius: 15px;
+    border-radius: 10px;
     word-break: keep-all;
-    font-size: 15px;
+    font-size: 0.8rem;
     text-align: center;
     background-color: #a7c4bc;
     color: #fff;
