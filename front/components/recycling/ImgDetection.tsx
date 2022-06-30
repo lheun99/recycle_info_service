@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useRef } from "react";
 import styled from "styled-components";
 import Image from "next/image";
 
@@ -50,29 +50,32 @@ const Detection = ({ detection, index }) => {
 };
 
 const ImgDetection = ({ info, imgUrl }) => {
+    const urlSrc = useRef();
     return (
         <Container>
             <h3>Results...</h3>
-            <Wrapper>
-                <Image
-                    src={imgUrl}
-                    alt="preview-image"
-                    width="600"
-                    height="350"
-                    layout="fill"
-                />
-                {info.map((detection, index) => {
-                    return (
-                        <Detection
-                            key={`detectionImage${detection.code}`}
-                            detection={detection}
-                            index={index}
-                        />
-                    );
-                })}
-            </Wrapper>
+            {imgUrl && (
+                <Wrapper ref={urlSrc}>
+                    <Image
+                        src={imgUrl}
+                        alt="preview-image"
+                        width="600"
+                        height="350"
+                        layout="fill"
+                    />
+                    {info?.map((detection, index) => {
+                        return (
+                            <Detection
+                                key={`detectionImage${detection.code}`}
+                                detection={detection}
+                                index={index}
+                            />
+                        );
+                    })}
+                </Wrapper>
+            )}
             <div>
-                {info.map((content, index) => {
+                {info?.map((content, index) => {
                     return (
                         <Results
                             key={`result${index}`}

@@ -1,4 +1,10 @@
-import React, { useState, useEffect, Dispatch, SetStateAction } from "react";
+import React, {
+    useState,
+    useEffect,
+    Dispatch,
+    SetStateAction,
+    useRef,
+} from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import styled from "styled-components";
@@ -46,6 +52,7 @@ const ImageUpload = ({
     const [isUploaded, setIsUploaded] = useState("standBy");
     // img upload 상태 : ["standBy"] "대기, 아직 아무것도 일어나지 않음" / ["loading"] "서버에 img를 보내고 결과를 기다림" / ["complete"] "결과를 저장하고 라우팅할 것"
     const router = useRouter();
+    const inputRef = useRef();
 
     // 이미지 dnd 함수 분기 처리
     const dragEvent = (e: React.DragEvent<HTMLDivElement>, text: string) => {
@@ -127,6 +134,7 @@ const ImageUpload = ({
                     onDragEnter={(e) => dragEvent(e, "dragEnter")}
                     onDragLeave={(e) => dragEvent(e, "dragLeave")}
                     onDrop={(e) => dragEvent(e, "fileDrop")}
+                    ref={inputRef}
                 >
                     <Image
                         src={uploadingImage}
@@ -138,7 +146,9 @@ const ImageUpload = ({
                 </DragImage>
             )}
             <div>
-                <InputLabel htmlFor="input-file">사진 업로드</InputLabel>
+                <InputLabel htmlFor="input-file" ref={inputRef}>
+                    사진 업로드
+                </InputLabel>
                 <input
                     type="file"
                     id="input-file"

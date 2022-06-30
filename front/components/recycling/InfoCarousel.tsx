@@ -65,88 +65,88 @@ const InfoCarousel = ({ info }) => {
         getInfo(uniqueCodeArr);
     }, []); // 페이지 오면 바로 데이터 가져옴. 그러나 변환 시간에 따라서, 그 사이는 Loading 으로 보여준다
 
-//     return showList.length !== 0 ? (
-//         <Wrapper>
-//             <CarouselWrapper>
-//                 <ArrowButton type="button" onClick={prevSlide}>
-//                     <PrevArrow
-//                         src={nextArrow}
-//                         alt="prev arrow"
-//                         width={35}
-//                         height={35}
-//                     />
-//                 </ArrowButton>
-//                 <CarouselAll>
-//                     {showList.map((info, idx) => {
-//                         return (
-//                             <Slider
-//                                 key={`page-${idx}`}
-//                                 className={
-//                                     slideIndex === idx + 1
-//                                         ? "is_active"
-//                                         : "is_pass"
-//                                 }
-//                             >
-//                                 <MainTitle>
-//                                     <h2>&apos;{info.code}&apos;</h2>
-//                                     <h3> (으)로 분리수거 해주세요!</h3>
-//                                 </MainTitle>
-//                                 <p>
-//                                     &apos;{info.code}&apos;(은)는{" "}
-//                                     {/* {totalInfo.infoList.map(
-//                                         (sub) => sub.details + " / "
-//                                     )} */}
-//                                     (이)가 있습니다.
-//                                 </p>
-//                                 <InfoBox>
-//                                     <Image
-//                                         src={info.infoImg}
-//                                         alt="recycle-information"
-//                                         width={400}
-//                                         height={500}
-//                                     />
-//                                 </InfoBox>
-//                                 <div>
-//                                     <span>
-//                                         {idx + 1} / {showList.length}
-//                                     </span>
-//                                 </div>
-//                             </Slider>
-//                         );
-//                     })}
-//                 </CarouselAll>
+    return showList.length !== 0 ? (
+        <Wrapper>
+            <CarouselWrapper>
+                <ArrowButton type="button" onClick={prevSlide}>
+                    <PrevArrow
+                        src={nextArrow}
+                        alt="prev arrow"
+                        width={35}
+                        height={35}
+                    />
+                </ArrowButton>
+                <CarouselAll>
+                    {showList.map((info, idx) => {
+                        return (
+                            <Slider
+                                key={`page-${idx}`}
+                                className={
+                                    slideIndex === idx + 1
+                                        ? "is_active"
+                                        : "is_pass"
+                                }
+                            >
+                                <MainTitle>
+                                    <h2>&apos;{info.code}&apos;</h2>
+                                    <h3> (으)로 분리수거 해주세요!</h3>
+                                </MainTitle>
+                                <p>
+                                    &apos;{info.code}&apos;(은)는{" "}
+                                    {/* {totalInfo.infoList.map(
+                                        (sub) => sub.details + " / "
+                                    )} */}
+                                    (이)가 있습니다.
+                                </p>
+                                <InfoBox>
+                                    <Image
+                                        src={info.infoImg}
+                                        alt="recycle-information"
+                                        width={400}
+                                        height={500}
+                                    />
+                                </InfoBox>
+                                <div>
+                                    <span>
+                                        {idx + 1} / {showList.length}
+                                    </span>
+                                </div>
+                            </Slider>
+                        );
+                    })}
+                </CarouselAll>
 
-//                 <ArrowButton type="button" onClick={nextSlide}>
-//                     <Image
-//                         src={nextArrow}
-//                         alt="next arrow"
-//                         width={35}
-//                         height={35}
-//                     />
-//                 </ArrowButton>
-//             </CarouselWrapper>
-//             <ButtonWrapper>
-//                 <Button type="button" name="waste" onClick={rendPage}>
-//                     대형폐기물 신고하기
-//                 </Button>
-//                 <Button type="button" name="market" onClick={rendPage}>
-//                     중고마켓으로 가기
-//                 </Button>
-//                 <PointButton type="button" onClick={getPoint}>
-//                     <Image
-//                         src={pointCoin}
-//                         alt="point coin"
-//                         width={35}
-//                         height={35}
-//                     />
-//                     <p>포인트 적립하기</p>
-//                 </PointButton>
-//             </ButtonWrapper>
-//         </Wrapper>
-//     ) : (
-//         <Loading />
-//     );
-// };
+                <ArrowButton type="button" onClick={nextSlide}>
+                    <Image
+                        src={nextArrow}
+                        alt="next arrow"
+                        width={35}
+                        height={35}
+                    />
+                </ArrowButton>
+            </CarouselWrapper>
+            <ButtonWrapper>
+                <Button type="button" name="waste" onClick={rendPage}>
+                    대형폐기물 신고하기
+                </Button>
+                <Button type="button" name="market" onClick={rendPage}>
+                    중고마켓으로 가기
+                </Button>
+                <PointButton type="button" onClick={getPoint}>
+                    <Image
+                        src={pointCoin}
+                        alt="point coin"
+                        width={35}
+                        height={35}
+                    />
+                    <p>포인트 적립하기</p>
+                </PointButton>
+            </ButtonWrapper>
+        </Wrapper>
+    ) : (
+        <Loading />
+    );
+};
 
 export default InfoCarousel;
 
