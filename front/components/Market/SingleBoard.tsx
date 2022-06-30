@@ -1,5 +1,4 @@
-import React, { useContext, useState, useRef, useEffect } from "react";
-import { UserStateContext } from "../../pages/_app";
+import React, { useState, useRef, useEffect } from "react";
 import Comment from "./Comment";
 
 import styled from "styled-components";
@@ -14,7 +13,6 @@ import {
     Collapse,
     Avatar,
     MobileStepper,
-    Box,
 } from "@mui/material";
 import IconButton, { IconButtonProps } from "@mui/material/IconButton";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -24,7 +22,6 @@ import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import { useTheme } from "@mui/material/styles";
 import nextArrow from "../../public/images/next.arrow.png";
 import Image from "next/image";
-import { SignalCellularNullTwoTone } from "@mui/icons-material";
 
 interface ExpandMoreProps extends IconButtonProps {
     expand: boolean;
@@ -47,9 +44,7 @@ const SingleBoard = ({ item }) => {
     const [slideIndex, setSlideIndex] = useState(0);
     const [activeStep, setActiveStep] = useState(0);
     const maxSteps = item?.postImg?.length ?? 0; // 자료의 총 길이
-    const userInfo = useContext(UserStateContext);
     const viewContainerRef = useRef<HTMLDivElement>(null);
-    const profileImg = userInfo?.user?.picture ?? "";
     const theme = useTheme();
 
     const handleExpandClick = () => {
@@ -167,7 +162,7 @@ const SingleBoard = ({ item }) => {
                 />
 
                 <CardWriterContainer
-                    avatar={<Avatar alt="userProfile" src={profileImg} />}
+                    avatar={<Avatar alt="userProfile" src={item.userImg} />}
                     action={
                         <IconButton aria-label="settings">
                             <MoreVertIcon />
