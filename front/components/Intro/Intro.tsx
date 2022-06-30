@@ -56,12 +56,12 @@ const Intro = () => {
             </Wrapper>
             <section>
                 <SectionRecyling>
-                    <Image
+                    {!isMobile && (<Image
                         src={Handphone}
                         alt="handphone"
                         width={300}
                         height={300}
-                    />
+                    /> )}
                     <IntroData
                         title={"분리수거 어렵다구요?\n찍어보세요!"}
                         text={"헷갈리는 분리배출을 도와줍니다."}
@@ -124,17 +124,17 @@ const Intro = () => {
                         />
                     </CardItem>
                 </SectionCard>
-                <InsertText>
-                    <p>
+                <InsertForm>
+                    <InsertText>
                         올바른 분리수거는 지구를 구하는 첫 걸음이 될 수 있어요.
-                    </p>
+                    </InsertText>
                     <Image
                         src={IntroEco}
                         alt="earth"
                         width={280}
                         height={200}
                     />
-                </InsertText>
+                </InsertForm>
                 <ContentsWrapper>
                     <ContentsForm>
                         {!isMobile && (
@@ -233,7 +233,7 @@ const Video = styled.video`
 
 const SectionRecyling = styled.div`
     width: 100%;
-    height: 600px;
+    height: 700px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -242,17 +242,23 @@ const SectionRecyling = styled.div`
 
 const SectionWaste = styled.div`
     width: 100%;
-    height: 600px;
+    height: 700px;
     display: flex;
     justify-content: center;
     align-items: center;
     text-align: right;
+    @media screen and (max-width: 1224px) {
+        flex-direction: column;
+    };
 `;
 
 const SectionCard = styled.div`
     width: 100%;
-    height: 600px;
+    height: 700px;
     display: flex;
+    @media screen and (max-width: 1224px) {
+        flex-direction: column;
+    };
 `;
 
 const CardItem = styled.div`
@@ -271,7 +277,7 @@ const CardBackground = styled.div`
     align-items: center;
 `;
 
-const InsertText = styled.div`
+const InsertForm = styled.div`
     width: 100%;
     height: 400px;
     display: flex;
@@ -281,26 +287,46 @@ const InsertText = styled.div`
     font-size: var(--font-text);
 `;
 
+const InsertText = styled.p`
+    width: 80%;
+    text-align: center;
+`;
 const ContentsWrapper = styled.div`
-    height: 800px;
+    height: 700px;
     background-color: var(--gray);
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    @media screen and (max-width: 1224px) {
+        width: 100%;
+        height: 100%;
+    };
 `;
 
 const ContentsForm = styled.div`
-    height: 600px;
+    width: 80%;
+    height: 500px;
     display: flex;
+    @media screen and (max-width: 1224px) {
+        width: 100%;
+        height: 100%;
+    };
 `;
 
 const Contents = styled.div`
-    width: 450px;
+    width: 50%;
     background-color: #305e63;
     color: white;
     padding: 50px 0 30px 50px;
     white-space: pre-wrap;
+    @media screen and (max-width: 1224px) {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    };
 `;
 
 const SubTitle = styled.div`
@@ -315,10 +341,10 @@ const SubText = styled.p`
 `;
 
 const ContentsData = styled.div`
-    width: 330px;
-    height: 100px;
+    width: 280px;
+    height: 80px;
     margin-bottom: 50px;
-    padding: 20px;
+    padding: 10px;
     display: flex;
     justify-content: space-evenly;
     align-items: center;

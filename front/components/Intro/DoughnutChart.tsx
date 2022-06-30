@@ -52,7 +52,7 @@ export default function DoughnutChart() {
 
 const Wrapper = styled.div`
     position: relative;
-    width: 220px;
-    height: 220px;
+    width: 200px;
+    height: 200px;
     margin-bottom: 50px;
 `;
