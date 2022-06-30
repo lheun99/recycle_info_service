@@ -11,15 +11,17 @@ import styled from "styled-components";
 import uploadingImage from "../../public/images/image.upload.png";
 import { sendImageFile, sendProfileFile } from "../../api";
 import Loading from "./Loading";
+import { useIsMobile } from "../../styles/mediaQuery";
+import MobileCamera from "./MobileCamera";
 
 type ImageUploadProps = {
     width?: number;
     height?: number;
     route?: string;
-    setProfileImage?: any;
+    setProfileImage?: Dispatch<SetStateAction<string>>;
     setOpenInfo?: Dispatch<SetStateAction<boolean>>;
     setInfo?: Dispatch<SetStateAction<Object>>;
-    setImgUrl?: any;
+    setImgUrl?: Dispatch<SetStateAction<string | ArrayBuffer>>;
 };
 
 const matchType = [
@@ -53,6 +55,7 @@ const ImageUpload = ({
     // img upload 상태 : ["standBy"] "대기, 아직 아무것도 일어나지 않음" / ["loading"] "서버에 img를 보내고 결과를 기다림" / ["complete"] "결과를 저장하고 라우팅할 것"
     const router = useRouter();
     const inputRef = useRef();
+    const isMobile = useIsMobile();
 
     // 이미지 dnd 함수 분기 처리
     const dragEvent = (e: React.DragEvent<HTMLDivElement>, text: string) => {
@@ -104,7 +107,6 @@ const ImageUpload = ({
     const sendImage = async (file: Blob) => {
         try {
             encodeFileToBase64(file);
-            setIsUploaded("loading");
             const formData = new FormData();
             formData.append("image", file);
             // console.log(formData.getAll("image")); // formData에 잘 들어가는지 확인
@@ -139,7 +141,7 @@ const ImageUpload = ({
         }
     }, [isUploaded]);
 
-    return (
+    return !useIsMobile() ? (
         <Wrapper>
             {isUploaded === "loading" ? (
                 <Loading width={width} height={height} />
@@ -175,6 +177,12 @@ const ImageUpload = ({
                 />
             </div>
         </Wrapper>
+    ) : (
+        <MobileCamera
+            setImgUrl={setImgUrl}
+            setInfo={setInfo}
+            setOpenInfo={setOpenInfo}
+        />
     );
 };
 
