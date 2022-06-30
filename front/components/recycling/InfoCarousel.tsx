@@ -26,7 +26,7 @@ const matchType = [
     "나무류",
 ];
 
-const InfoCarousel = ({ info }) => {
+const InfoCarousel = ({ info, route }) => {
     const [showList, setShowList] = useState([]);
     const router = useRouter(); // 페이지 이동을 위해 useRouter 적용
     const [targetPage, setTargetPage] = useState(0);
@@ -47,37 +47,76 @@ const InfoCarousel = ({ info }) => {
         // get 기존 포인트 -> put 추가한 포인트
     };
     useEffect(() => {
-        const codeList = new Set(info.map((code) => code.code));
-        const uniqueCodeArr = Array.from(codeList);
-        getInfo(uniqueCodeArr);
+        if (route === "ImageSearch") {
+            const codeList = new Set(info.map((code) => code.code));
+            const uniqueCodeArr = Array.from(codeList);
+            getInfo(uniqueCodeArr);
+        }
     }, []); // 페이지 오면 바로 데이터 가져옴. 그러나 변환 시간에 따라서, 그 사이는 Loading 으로 보여준다
 
-    return showList.length !== 0 ? (
+    return route === "ImageSearch" ? (
+        showList.length !== 0 ? (
+            <>
+                <Wrapper>
+                    <Pagination
+                        totalPages={showList?.length}
+                        setTargetPage={setTargetPage}
+                    />
+                    {showList.map((content, index) => (
+                        <div key={`info-${index}`}>
+                            {index === targetPage && (
+                                <>
+                                    <MainTitle>
+                                        <h2>
+                                            &apos;{matchType[content.code]}
+                                            &apos;
+                                        </h2>
+                                        <h3> (으)로 분리수거 해주세요!</h3>
+                                    </MainTitle>
+
+                                    <InfoCard
+                                        key={`card-${index}`}
+                                        cards={content.recycleInfo}
+                                        route={route}
+                                    />
+                                </>
+                            )}
+                        </div>
+                    ))}
+                    <ButtonWrapper>
+                        <Button type="button" name="waste" onClick={rendPage}>
+                            대형폐기물 신고하기
+                        </Button>
+                        <Button type="button" name="market" onClick={rendPage}>
+                            중고마켓으로 가기
+                        </Button>
+                        <PointButton type="button" onClick={getPoint}>
+                            <Image
+                                src={pointCoin}
+                                alt="point coin"
+                                width={35}
+                                height={35}
+                            />
+                            <p>포인트 적립하기</p>
+                        </PointButton>
+                    </ButtonWrapper>
+                </Wrapper>
+            </>
+        ) : (
+            <NoResult>
+                아쉽습니다! <br />
+                결과가 나오지 않았습니다.
+                <br />
+                다시 한번 도전 해보시겠어요 ?
+            </NoResult>
+        )
+    ) : (
         <>
             <Wrapper>
-                <Pagination
-                    totalPages={showList?.length}
-                    setTargetPage={setTargetPage}
-                />
-                {showList.map((content, index) => (
-                    <div key={`info-${index}`}>
-                        {index === targetPage && (
-                            <>
-                                <MainTitle>
-                                    <h2>
-                                        &apos;{matchType[content.code]}&apos;
-                                    </h2>
-                                    <h3> (으)로 분리수거 해주세요!</h3>
-                                </MainTitle>
+                <>
+                    <InfoCard cards={info.recycleInfo} route={route} />
+                </>
 
-                                <InfoCard
-                                    key={`card-${index}`}
-                                    cards={content.recycleInfo}
-                                />
-                            </>
-                        )}
-                    </div>
-                ))}
                 <ButtonWrapper>
                     <Button type="button" name="waste" onClick={rendPage}>
                         대형폐기물 신고하기
@@ -97,13 +136,6 @@ const InfoCarousel = ({ info }) => {
                 </ButtonWrapper>
             </Wrapper>
         </>
-    ) : (
-        <NoResult>
-            아쉽습니다! <br />
-            결과가 나오지 않았습니다.
-            <br />
-            다시 한번 도전 해보시겠어요 ?
-        </NoResult>
     );
 };
 

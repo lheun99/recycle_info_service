@@ -6,10 +6,28 @@ import styled from "styled-components";
 import { Fab, Autocomplete, TextField } from "@mui/material";
 import { styled as materialStyled } from "@mui/material/styles";
 import RecycleInfo from "../../public/recycleInfo.json";
+import { getPost } from "../../api";
 
 const categoryData = Array.from(
     new Set(RecycleInfo.map((data) => data.category))
 );
+const matchType = [
+    "종이류",
+    "플라스틱류",
+    "유리병",
+    "캔류",
+    "고철류",
+    "의류",
+    "전자제품",
+    "스티로폼",
+    "도기류",
+    "비닐류",
+    "가구",
+    "자전거",
+    "형광등",
+    "페트병류",
+    "나무류",
+];
 
 const AiSearcher = () => {
     const [info, setInfo] = useState([]);
@@ -19,7 +37,15 @@ const AiSearcher = () => {
     const [imgUrl, setImgUrl] = useState<string | null>(null);
 
     const [name, setName] = useState<string | null>(null);
-    const [inputName, setInputName] = useState<null>(null);
+
+    const findInfo = async (newValue: string) => {
+        setName(newValue);
+        const code = matchType.indexOf(newValue);
+
+        const res = await getPost(`recycle-info/?code=${code}`);
+        const oneInfoList = res.data.data;
+        setInfo(oneInfoList);
+    };
 
     useEffect(() => {
         setName(null);
@@ -93,14 +119,10 @@ const AiSearcher = () => {
                                 <Autocomplete
                                     value={name}
                                     onChange={(
-                                        event: any,
+                                        event,
                                         newValue: string | null
                                     ) => {
-                                        setName(newValue);
-                                    }}
-                                    inputValue={inputName}
-                                    onInputChange={(event, newInputValue) => {
-                                        setInputName(newInputValue);
+                                        findInfo(newValue);
                                     }}
                                     id="controllable-states-demo"
                                     options={categoryData}
@@ -112,10 +134,10 @@ const AiSearcher = () => {
                                         />
                                     )}
                                 />
-                                <InfoCarousel info={info} />
+                                <InfoCarousel info={info} route="AllSearch" />
                             </InfoWrapper>
                         ) : (
-                            <InfoCarousel info={info} />
+                            <InfoCarousel info={info} route="ImageSearch" />
                         ))}
                 </Wrapper>
             </Container>
@@ -162,6 +184,7 @@ const InfoWrapper = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    height: auto;
 `;
 
 const FaButton = materialStyled(Fab)(() => ({

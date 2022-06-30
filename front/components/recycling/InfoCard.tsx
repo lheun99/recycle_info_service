@@ -3,9 +3,9 @@ import Image from "next/image";
 import nextArrow from "../../public/images/next.arrow.png";
 import styled from "styled-components";
 
-const InfoCard = ({ cards }) => {
+const InfoCard = ({ cards, route }) => {
     const [slideIndex, setSlideIndex] = useState(1);
-
+    console.log(cards);
     const nextSlide = (idx) => {
         if (slideIndex === cards.length) {
             return;
@@ -30,7 +30,7 @@ const InfoCard = ({ cards }) => {
                 />
             </ArrowButton>
             <CarouselAll>
-                {cards.map((card, idx) => {
+                {cards?.map((card, idx) => {
                     return (
                         <Slider
                             key={`page-${idx}`}
@@ -40,7 +40,11 @@ const InfoCard = ({ cards }) => {
                         >
                             <InfoBox>
                                 <Image
-                                    src={card.imgInfo}
+                                    src={
+                                        route === "ImageSearch"
+                                            ? card.imgInfo
+                                            : card.infoImg
+                                    }
                                     alt="recycle-information"
                                     width={400}
                                     height={500}
