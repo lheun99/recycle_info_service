@@ -40,38 +40,50 @@ export default IntroData;
 
 
 const Wrapper = styled.div`
-    width: 370px;
-    height: 300px;
+    width: 35%;
+    height: 250px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     white-space: pre-wrap;
     margin: 0 50px;
+    @media screen and (max-width: 1224px) {
+        width: auto;
+    };
 `;
 
 const Title = styled.div`
     font-size: var(--font-title);
     font-weight: bold;
+    @media screen and (max-width: 1224px) {
+        font-size: var(--font-subtitle);
+    };
 `;
 
 const SubTitle = styled.div`
     font-size: var(--font-subtitle);
     font-weight: bold;
+    @media screen and (max-width: 1224px) {
+        font-size: var(--font-text);
+    };
 `;
 
 const Contents = styled.p`
     font-size: var(--font-text);
+    @media screen and (max-width: 1224px) {
+        font-size: var(--font-text);
+    };
 `;
 
 const NavButton = materialStyled(Button)(
     () => (
         {
-            width: '200px',
+            width: '170px',
             height: '70px',
-            marginTop: '50px',
             borderRadius: '10px',
             backgroundColor: 'var(--gray)',
             color: 'black',
+            fontSize: 'var(--font-text)',
             '&:hover': {
                 backgroundColor: 'var(--deepgray)',
                 border: 'none',

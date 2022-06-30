@@ -4,17 +4,12 @@ import Gps from "../../public/images/gps.png";
 import styled from "styled-components";
 import Search from "./Search";
 import Map from "./Map";
+import { useMediaQuery } from "react-responsive";
 
 const ReportWaste = () => {
     const [mapData, setMapData] = useState<string[] | null>(null);
-    const handleSetMapData = (data: string[]) => {
-        setMapData(data);
-    };
-
     const [clickData, setClickData] = useState<string[] | null>(null);
-    const handleSetClickMapData = (data: string[]) => {
-        setClickData(data);
-    };
+    const isMobile = useMediaQuery({ query: '(max-width: 1224px)' })
 
     return (
         <Wrapper>
@@ -24,21 +19,21 @@ const ReportWaste = () => {
                     "대형폐기물은 구청/주민센터에서 납부 필증을 구매 후 버려야합니다.\n우리동네 어디에서 신고할 수 있는지 알아볼까요?"
                 }
             </Contents>
-            <Form>
+            <Form isMobile={isMobile}>
                 <Title>우리동네 사이트 찾기</Title>
                 <SearchWrapper>
-                    <ImageButton onClick={() => handleSetMapData(null)}>
+                    <ImageButton onClick={() => setMapData(null)}>
                         <Image src={Gps} alt="gps" width={40} height={40} />
                     </ImageButton>
                     <Search
                         mapData={clickData}
-                        handleSetMapData={handleSetMapData}
+                        setMapData={setMapData}
                     />
                 </SearchWrapper>
                 <MapContainer id="map">
                     <Map
                         mapData={mapData}
-                        handleSetClickMapData={handleSetClickMapData}
+                        setClickData={setClickData}
                     />
                 </MapContainer>
                 <MapInfo>
@@ -93,7 +88,7 @@ const Tip  = styled.p`
     text-align: center;
 `;
 
-const Form = styled.div`
+const Form = styled.div<any>`   
     width: 800px;
     height: 750px;
     background-color: white;
@@ -105,6 +100,9 @@ const Form = styled.div`
     border-radius: 20px;
     position: absolute;
     top: 290px;
+    ${(props) => props.isMobile && `
+        width: 600px;
+    `};
 `;
 
 const Title = styled.h2`
@@ -118,12 +116,12 @@ const Title = styled.h2`
 `;
 
 const MapContainer = styled.div`
-    width: 650px;
+    width: 85%;
     height: 340px;
 `;
 
 const MapInfo = styled.div`
-    width: 650px;
+    width: 85%;
     height: 120px;
     border: 1px dashed #c4c4c4;
     padding: 20px;
@@ -142,8 +140,8 @@ const ImageWrapper = styled.div`
 
 const SearchWrapper = styled.div`
     display: flex;
-    width: 650px;
-    justify-content: space-between;
+    width: 90%;
+    justify-content: space-evenly;
 `;
 
 const ImageButton = styled.div`

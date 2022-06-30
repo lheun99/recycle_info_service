@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import QuizResult from "./QuizResult";
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 import QuestionMark from "../../public/images/question_mark.png";
 import CheckMark from "../../public/images/check.png";
 import CheckColorMark from "../../public/images/check2.png";
@@ -16,6 +16,13 @@ type QuizType = {
     image: boolean;
 };
 
+type ChallengeType = {
+    src: StaticImageData,
+    alt: string,
+    onClick: any,
+    text: string
+}
+
 const CHALLENGENUM: number = 3;
 
 const Quiz = () => {
@@ -28,67 +35,61 @@ const Quiz = () => {
     const [open, setOpen] = useState<boolean>(false);
     const [answer, setAnswer] = useState<boolean>(false);
     const [userAnswer, setUserAnswer] = useState<string>("");
-    const [userPoint, setUserPoint] = useState<number>(0);
-    const openClickHandler = (): void => setOpen(!open);
+    const [challenge, setChallenge] = useState<ChallengeType[]>();
 
+    const openClickHandler = (): void => {
+        setAnswer(false);
+        setOpen(!open);
+    }
+    
     const answerClickHandler = (userAnswer: string): void => {
-        setAnswer(!answer);
+        setAnswer(true);
         setUserAnswer(userAnswer);
     };
 
-    const setChallengeButton = (): any => {
-        const result = [];
-        if (userPoint >= CHALLENGENUM) {
-            setUserPoint(CHALLENGENUM);
-        }
-        for (var i = 0; i < userPoint; i++) {
-            result.push(
-                <div>
-                    <Image
-                        src={CheckMark}
-                        alt="check-mark"
-                        width={100}
-                        height={100}
-                    />
-                    <ChallengeText>완료</ChallengeText>
-                </div>
-            );
-        }
-        for (var i = 0; i < CHALLENGENUM - userPoint; i++) {
-            result.push(
-                <div>
-                    <ChallengeImage
-                        src={CheckColorMark}
-                        alt="check-color-mark"
-                        width={100}
-                        height={100}
-                        onClick={openClickHandler}
-                    />
-                    <ChallengeText>도전하기!</ChallengeText>
-                </div>
-            );
-        }
-        return result;
-    };
-
+    // 포인트 변수 빼서, 포인트가 바뀌면 퀴즈 데이터 받아오는걸로 수정하기
     const getQuizData = async () => {
         try {
-            await get("quizs").then((res) => {
-                setQuiz(res.data.data);
-            });
+            const res = await get("quizs");
+            setQuiz(res.data.data);
         } catch (err) {
             console.log("error message: ", err);
         }
     };
-
-    const checkPoint = async () => {
+    
+    const setChallengeResult = async () => {   
         try {
             const res = await getQuary("points", {
                 params: {
                     route: "quiz",
                 },
             })
-            setUserPoint(res.data.data);
+
+            const result = [];
+            let userPoint = res.data.data;
+
+            if (userPoint >= CHALLENGENUM) {
+                userPoint = CHALLENGENUM;
+            }
+
+            for (var i = 0; i < userPoint; i++) {
+                result.push({
+                    src: CheckMark,
+                    alt: "check-mark",
+                    onClick: null,
+                    text: "완료!"
+                });
+            }
+            for (var i = 0; i < CHALLENGENUM - userPoint; i++) {
+                result.push({
+                    src: CheckColorMark,
+                    alt: "check-color-mark",
+                    onClick: openClickHandler,
+                    text: "도전하기!",
+                });
+            }
+
+            setChallenge(result);
             
         } catch (err) {
             console.log("error message: ", err);
@@ -97,8 +98,8 @@ const Quiz = () => {
 
     useEffect(() => {
         getQuizData();
-        checkPoint();
-    }, []);
+        setChallengeResult();
+    }, [open]);
 
     return (
         <Wrapper>
@@ -112,6 +113,7 @@ const Quiz = () => {
                             <QuizResult
                                 result={quiz.answer === userAnswer}
                                 quiz={quiz}
+                                openClickHandler={openClickHandler}
                             />
                         ) : (
                             <InnerForm>
@@ -165,7 +167,21 @@ const Quiz = () => {
                         )
                     ) : (
                         <ChallengeButtonWrapper>
-                            {setChallengeButton()}
+                            {
+                                challenge?.map((data, index)  => (
+                                    <div>
+                                        <Image
+                                            key={index}
+                                            src={data.src}
+                                            alt={data.alt}
+                                            width={100}
+                                            height={100}
+                                            onClick={data.onClick}
+                                        />
+                                        <ChallengeText>{data.text}</ChallengeText>
+                                     </div>
+                                ))
+                            }
                         </ChallengeButtonWrapper>
                     )}
                 </Container>
@@ -194,7 +210,7 @@ const Contents = styled.p`
 
 const Form = styled.div`
     width: 600px;
-    height: 400px;
+    height: 485px;
     background-color: white;
     display: flex;
     flex-direction: column;
@@ -276,9 +292,7 @@ const ChallengeButtonWrapper = styled.div`
     display: flex;
     justify-content: space-evenly;
     align-items: center;
-`;
-
-const ChallengeImage = styled(Image)`
+    margin-top: 60px;
     cursor: pointer;
 `;
 

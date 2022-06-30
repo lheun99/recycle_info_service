@@ -49,7 +49,6 @@ const SingleBoard = ({ item }) => {
     const maxSteps = item?.postImg?.length ?? 0; // 자료의 총 길이
     const userInfo = useContext(UserStateContext);
     const viewContainerRef = useRef<HTMLDivElement>(null);
-
     const profileImg = userInfo?.user?.picture ?? "";
     const theme = useTheme();
 
@@ -80,17 +79,17 @@ const SingleBoard = ({ item }) => {
     }, [item?.content]);
 
     return (
-        <Wrapper key={`postNum-${item.postId}`}>
+        <Wrapper key={`postNum-${item?.postId}`}>
             <Card
                 style={{
-                    minHeight: "330PX",
+                    minHeight: "280px",
                     boxShadow: "none",
                 }}
             >
-                {item.postImg ? (
+                {item?.postImg ? (
                     <CarouselWrapper>
                         <CarouselAll>
-                            {item.postImg?.map((img, idx) => {
+                            {item?.postImg?.map((img, idx) => {
                                 return (
                                     <Slider
                                         key={`page-${idx}`}
@@ -102,10 +101,10 @@ const SingleBoard = ({ item }) => {
                                     >
                                         <InfoBox>
                                             <Image
-                                                src={item.postImg[idx]}
+                                                src={item?.postImg[idx]}
                                                 alt={`img-${idx}`}
-                                                width={320}
-                                                height={320}
+                                                width={260}
+                                                height={260}
                                             />
                                         </InfoBox>
                                     </Slider>
@@ -119,6 +118,7 @@ const SingleBoard = ({ item }) => {
                 style={{
                     borderRadius: "4px",
                     marginBottom: "5px",
+                    height: "50px",
                 }}
                 steps={maxSteps}
                 position="static"
@@ -152,12 +152,19 @@ const SingleBoard = ({ item }) => {
                     </Button>
                 }
             />
-            <CardBodyContainer>
-                <PostTitle gutterBottom variant="h5">
-                    {item.title}
+            <CardBodyContainer style={{ height: "400px" }}>
+                <PostTitle gutterBottom variant="h5" style={{ height: "auto" }}>
+                    {item?.title}
                 </PostTitle>
 
-                <div ref={viewContainerRef} />
+                <div
+                    ref={viewContainerRef}
+                    style={{
+                        height: "auto",
+                        wordBreak: "keep-all",
+                        overflow: "auto",
+                    }}
+                />
 
                 <CardWriterContainer
                     avatar={<Avatar alt="userProfile" src={profileImg} />}
@@ -166,14 +173,19 @@ const SingleBoard = ({ item }) => {
                             <MoreVertIcon />
                         </IconButton>
                     }
-                    title={item.nickname}
-                    subheader={item.createdAt.slice(0, 10)}
+                    title={item?.nickname}
+                    subheader={item?.createdAt?.slice(0, 10)}
+                    style={{ height: "50px" }}
                 />
             </CardBodyContainer>
 
             <CardActions
                 disableSpacing
-                style={{ backgroundColor: "white", borderRadius: "4px" }}
+                style={{
+                    backgroundColor: "white",
+                    borderRadius: "4px",
+                    height: "50px",
+                }}
             >
                 <CommentTitle variant="body2" color="text.secondary">
                     <span>댓글</span>
@@ -188,7 +200,7 @@ const SingleBoard = ({ item }) => {
                 </ExpandMore>
             </CardActions>
             <Collapse in={expanded} timeout="auto" unmountOnExit>
-                <CardContent>
+                <CardContent style={{ backgroundColor: "white" }}>
                     <Comment expand={expanded} />
                 </CardContent>
             </Collapse>
@@ -198,15 +210,13 @@ const SingleBoard = ({ item }) => {
 export default SingleBoard;
 
 const Wrapper = styled.div`
-    width: 600px;
+    width: 100%;
     height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     border-radius: 15px;
-    margin: 5px 5px 20px 5px;
-    padding: 3px 15px;
-    background-color: white;
+
     box-shadow: #a7c4bc 0px 1px 2px #a7c4bc 0px 1px 2px;
 `;
 
@@ -215,11 +225,11 @@ const CarouselWrapper = styled.div`
     align-items: center;
     justify-content: center;
     width: 100%;
-    height: 100%;
+    height: auto;
 `;
 const CarouselAll = styled.div`
     width: auto;
-    height: 100%;
+    height: auto;
     border-radius: 15px;
     margin: 8px 8px;
     display: flex;
@@ -256,13 +266,13 @@ const CardWriterContainer = materialStyled(CardHeader)(() => ({
 }));
 
 const CardBodyContainer = materialStyled(CardContent)(() => ({
+    height: "100%",
     backgroundColor: "white",
     borderRadius: "4px",
     marginBottom: "5px",
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-around",
-    paddingBottom: "12px",
 }));
 
 const PostTitle = materialStyled(Typography)(() => ({

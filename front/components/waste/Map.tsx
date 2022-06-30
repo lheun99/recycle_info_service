@@ -9,19 +9,19 @@ declare global {
 
 interface MapProps {
   mapData: string[] | null;
-  handleSetClickMapData: any;
+  setClickData: any;
 }
 
 const addressData = Array.from(new Set(WasteInfo.map((data) => data.address)));
 
-function Map({ mapData, handleSetClickMapData }: MapProps) {
+function Map({ mapData, setClickData }: MapProps) {
     const mapScript = document.createElement("script");
     mapScript.async = true;
     mapScript.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAOMAP_APPKEY}&autoload=false&libraries=services,clusterer,drawing`;
     document.head.appendChild(mapScript);
 
     useEffect(() => {
-        handleSetClickMapData(null);
+        setClickData(null);
         const onLoadKakaoMap = () => {
             window.kakao.maps.load(() => {
                 // 지도 생성
@@ -55,7 +55,7 @@ function Map({ mapData, handleSetClickMapData }: MapProps) {
                             marker.setMap(map);
 
                             const mapData = WasteInfo.filter((data) => data.address === result[0].address_name)
-                            handleSetClickMapData(mapData)
+                            setClickData(mapData)
                         }
                     })
                 } else { 
@@ -85,12 +85,12 @@ function Map({ mapData, handleSetClickMapData }: MapProps) {
                                         nearesetDistance = dist;
                                         map.panTo(coords); // 지도 이동
                                         const mapData = WasteInfo.filter((data) => data.address === result[0].address_name)
-                                        handleSetClickMapData(mapData)
+                                        setClickData(mapData)
                                     }
 
                                     window.kakao.maps.event.addListener(marker, 'click', function() {
                                         const mapData = WasteInfo.filter((data) => data.address === result[0].address_name)
-                                        handleSetClickMapData(mapData)
+                                        setClickData(mapData)
                                     });
                                 }
                             })

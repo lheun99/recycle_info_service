@@ -1,19 +1,74 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Component } from "react";
 import styled from "styled-components";
 import Search from "../shared/Search";
 import SingleBoard from "./SingleBoard";
 import Write from "./Write";
-import { get } from "../../api";
+import { FixedSizeList as List } from "react-window";
+import { getPost } from "../../api";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 const MainBoard = ({ firstBoards }) => {
     const [isWrite, setIsWrite] = useState(false);
     const [htmlStr, setHtmlStr] = useState("");
     const [title, setTitle] = useState("");
+    const [page, setPage] = useState(1);
     const [board, setBoard] = useState(firstBoards);
+    const [show, setShow] = useState([]);
+    const [hasMore, setHasMore] = useState(true);
+
+    const loadMore = async () => {
+        const per = 10;
+        const res = await getPost(`post/list?page=${page + 1}&perPage=${per}`);
+        const newLists = res.data.data.postList;
+
+        if (
+            newLists.length === 0 ||
+            board.length - page * 10 === newLists.length
+        ) {
+            alert("contents is end");
+            setHasMore(false);
+        } else {
+            setPage((cur) => cur + 1);
+            const newBoard = [...board, ...newLists];
+            setBoard(newBoard);
+        }
+    };
+
+    const ListComponent = () => {
+        const Row = ({ index, style }) => (
+            <div id={`content-${index}`} style={{ ...style, overflow: "auto" }}>
+                <SingleBoard key={index} item={board[index]} />
+            </div>
+        );
+
+        return (
+            <InfiniteScroll
+                dataLength={board?.length}
+                next={loadMore}
+                hasMore={hasMore}
+                loader={<h3> Loading...</h3>}
+                endMessage={<h4>Nothing more to show</h4>}
+            >
+                <List
+                    height={800}
+                    width={600}
+                    itemCount={board?.length}
+                    itemSize={800}
+                    className="list-container"
+                >
+                    {Row}
+                </List>
+            </InfiniteScroll>
+        );
+    };
+
+    useEffect(() => {
+        setPage(1);
+    }, []);
 
     return (
         <Wrapper>
-            <h1>중고마켓 🥕</h1>
+            <h1>ECO 마켓 🌍</h1>
             <Contents>
                 &quot;멀쩡한데... 중고로 팔아볼까&quot;
                 <br /> 누군가에겐 정말 필요한 물건이 될 수 있어요! <br />
@@ -35,10 +90,10 @@ const MainBoard = ({ firstBoards }) => {
                             setHtmlStr={setHtmlStr}
                             setIsWrite={setIsWrite}
                         />
+                    ) : show ? (
+                        <ListComponent />
                     ) : (
-                        board?.map((item, index) => (
-                            <SingleBoard key={index} item={item} />
-                        ))
+                        <></>
                     )}
                 </BoardWrapper>
             </Container>
@@ -103,6 +158,8 @@ const Button = styled.button`
 
 const BoardWrapper = styled.div`
     width: 100%;
+    height: 100%;
+    margin-bottom: 30px;
     display: flex;
     flex-direction: column;
     align-items: center;

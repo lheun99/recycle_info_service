@@ -2,8 +2,8 @@ import { Router } from "express";
 import postService from "../services/postService.js";
 import loginRequired from "../middlewares/loginRequired.js";
 import {
-  validationErrorCatcher,
-  postMiddleware,
+    validationErrorCatcher,
+    postMiddleware,
 } from "../middlewares/validationMiddleware.js";
 
 const postRouter = Router();
@@ -37,7 +37,6 @@ postRouter.post(
     } catch (error) {
       next(error);
     }
-  }
 );
 
 //PUT /post/:id: 게시글 수정
@@ -77,9 +76,9 @@ postRouter.put(
 //DELETE /post/:id: 게시글 삭제
 //로그인 필요
 postRouter.delete("/:id", loginRequired, async (req, res, next) => {
-  try {
-    //삭제할 게시글 id
-    const postId = req.params.id;
+    try {
+        //삭제할 게시글 id
+        const postId = req.params.id;
 
     //게시글 삭제
     const deletedPost = await postService.deletePost({
@@ -151,25 +150,25 @@ postRouter.get("/search", async (req, res, next) => {
 });
 //GET /post/user: 특정 사용자 게시글 리스트
 postRouter.get("/user", loginRequired, async (req, res, next) => {
-  try {
-    //사용자 정보
-    const userId = req.currentUserId;
+    try {
+        //사용자 정보
+        const userId = req.currentUserId;
 
-    //특정 사용자 게시글 리스트
-    const currentPost = await postService.getPostByUserId({
-      userId,
-    });
+        //특정 사용자 게시글 리스트
+        const currentPost = await postService.getPostByUserId({
+            userId,
+        });
 
-    res.status(201).json(currentPost);
-  } catch (error) {
-    next(error);
-  }
+        res.status(201).json(currentPost);
+    } catch (error) {
+        next(error);
+    }
 });
 //GET /post/:id: 특정 게시글 정보
 postRouter.get("/:id", loginRequired, async (req, res, next) => {
-  try {
-    //게시글 id
-    const postId = req.params.id;
+    try {
+        //게시글 id
+        const postId = req.params.id;
 
     //특정 게시글 정보
     const currentPost = await postService.getPostByPostId({

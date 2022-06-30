@@ -1,19 +1,18 @@
 import axios from "axios";
+var os = require("os");
+var hostname = os.hostname();
 
 var os = require("os");
 var hostname = os.hostname();
 
 const backendPortNumber = "5000";
 
-var getGlobal = function () {
-    if (typeof window !== "undefined") return window.location.hostname;
-    if (typeof global !== "undefined") return hostname;
-    throw new Error("unable to locate global object");
-};
-
-var globals = getGlobal();
-
-const serverUrl = "http://" + globals + ":" + backendPortNumber + "/";
+const serverUrl =
+    "http://" +
+    "kdt-ai4-team09.elicecoding.com" +
+    ":" +
+    backendPortNumber +
+    "/";
 
 async function get(endpoint, params = "") {
     return axios.get(serverUrl + endpoint + params, {
@@ -22,6 +21,10 @@ async function get(endpoint, params = "") {
             Authorization: `Bearer ${sessionStorage.getItem("userToken")}`,
         },
     });
+}
+
+async function getRecycleInfo(endpoint, data) {
+    return axios.post(serverUrl + endpoint, data);
 }
 
 async function getQuary(endpoint, { params = {} }) {
@@ -62,8 +65,16 @@ async function post(endpoint, data) {
 async function sendImageFile(endpoint: string, formData) {
     return axios.post(serverUrl + endpoint, formData, {
         headers: {
-            Authorization: `Bearer ${sessionStorage.getItem("userToken")}`,
             "content-type": "multipart/form-data",
+        },
+    });
+}
+
+async function sendProfileFile(endpoint: string, formData) {
+    return axios.post(serverUrl + endpoint, formData, {
+        headers: {
+            "content-type": "multipart/form-data",
+            Authorization: `Bearer ${sessionStorage.getItem("userToken")}`,
         },
     });
 }
@@ -96,10 +107,12 @@ async function del(endpoint, params = "") {
 export {
     get,
     getQuary,
+    getRecycleInfo,
     patch,
     post,
     getPost,
     sendImageFile,
+    sendProfileFile,
     put,
     del as delete,
 };

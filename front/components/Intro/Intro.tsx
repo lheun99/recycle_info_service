@@ -1,36 +1,44 @@
 import React, { useRef } from "react";
 import IntroData from "./IntroData";
-import { useRouter } from 'next/router';
+import { useRouter } from "next/router";
 import Image from "next/image";
 import styled from "styled-components";
 import Handphone from "../../public/images/handphone.png";
 import DownArrow from "../../public/images/down-arrow.png";
-import Earth from "../../public/images/title.earth.png"
-import Eco from "../../public/images/eco.jpeg"
-import RightArrow from "../../public/images/right-arrow.png"
+import Earth from "../../public/images/title.earth.png";
+import IntroEco from "../../public/images/intro.eco.png";
+import Eco from "../../public/images/eco.jpeg";
+import RightArrow from "../../public/images/right-arrow.png";
+import Quiz from "../../public/images/quiz.png";
+import Rank from "../../public/images/rank.png";
 import DoughnutChart from "./DoughnutChart";
+import { useMediaQuery } from "react-responsive";
 
 const Intro = () => {
-    const router = useRouter()
+    const router = useRouter();
+    const ref = useRef<HTMLInputElement>();
 
     const handleScroll = () => {
-        const screenHeight = document.querySelector("#intro").clientHeight;
+        const screenHeight = ref.current.clientHeight;
+
         window.scrollTo({
-          top: screenHeight,
-          behavior: 'smooth'
-        })
-    }
+            top: screenHeight,
+            behavior: "smooth",
+        });
+    };
+
+    const isMobile = useMediaQuery({ query: "(max-width: 1224px)" });
 
     return (
         <main>
-            <Wrapper id="intro">
+            <Wrapper ref={ref}>
                 <IntroTop>
                     <IntroData
                         title={"구해줘! 지구"}
                         text={
                             "내 손안의 분리배출\n작은 실천이 지구를 지킵니다.\n\n\n\n"
                         }
-                    />                
+                    />
                     <Arrow onClick={handleScroll}>
                         <Image
                             src={DownArrow}
@@ -48,12 +56,12 @@ const Intro = () => {
             </Wrapper>
             <section>
                 <SectionRecyling>
-                    <Image
+                    {!isMobile && (<Image
                         src={Handphone}
                         alt="handphone"
                         width={300}
                         height={300}
-                    />
+                    /> )}
                     <IntroData
                         title={"분리수거 어렵다구요?\n찍어보세요!"}
                         text={"헷갈리는 분리배출을 도와줍니다."}
@@ -64,10 +72,7 @@ const Intro = () => {
                 <SectionWaste>
                     <IntroData
                         title={"환경을 도와주세요!"}
-                        text={
-                            `우리나라는 OECD 국가 중 재활용을 잘 하는 국가 2위이지만 실질적인 재활용은 \n제대로 이루어지고 있지 않습니다.
-                            이는 실질적인 재활용 참여 비율이기 때문이며 실질적인 재활용률은 \n40%도 되지 않는다고 합니다. `
-                        }
+                        text={`우리나라는 OECD 국가 중\n 재활용을 잘하는 국가 2위이지만\n 실질적인 재활용률은 40%도\n 되지 않는다고 합니다.\n\n\n `}
                     />
                     <DoughnutChart />
                 </SectionWaste>
@@ -83,15 +88,29 @@ const Intro = () => {
                         />
                     </CardItem>
                     <CardItem>
-                        <CardBackground style={{ backgroundColor: "var(--green)" }}>
-                            <CardImage />
+                        <CardBackground
+                            style={{ backgroundColor: "var(--green)" }}
+                        >
+                            <Image
+                                src={Quiz}
+                                alt="quiz"
+                                width={200}
+                                height={200}
+                            />
                         </CardBackground>
                     </CardItem>
                 </SectionCard>
                 <SectionCard>
                     <CardItem>
-                        <CardBackground style={{ backgroundColor: "var(--deepgray)" }}>
-                            <CardImage />
+                        <CardBackground
+                            style={{ backgroundColor: "var(--deepgray)" }}
+                        >
+                            <Image
+                                src={Rank}
+                                alt="rank"
+                                width={200}
+                                height={200}
+                            />
                         </CardBackground>
                     </CardItem>
                     <CardItem>
@@ -105,23 +124,27 @@ const Intro = () => {
                         />
                     </CardItem>
                 </SectionCard>
-                <InsertText>
-                    <p>올바른 분리수거는 지구를 구하는 첫 걸음이 될 수 있어요.</p>
+                <InsertForm>
+                    <InsertText>
+                        올바른 분리수거는 지구를 구하는 첫 걸음이 될 수 있어요.
+                    </InsertText>
                     <Image
-                        src={Earth}
+                        src={IntroEco}
                         alt="earth"
-                        width={40}
-                        height={40}
+                        width={280}
+                        height={200}
                     />
-                </InsertText>
+                </InsertForm>
                 <ContentsWrapper>
                     <ContentsForm>
-                        <Image
-                            src={Eco}
-                            alt="eco"
-                            width={770}
-                            height={400}
-                        />
+                        {!isMobile && (
+                            <Image
+                                src={Eco}
+                                alt="eco"
+                                width={770}
+                                height={400}
+                            />
+                        )}
                         <Contents>
                             <SubTitle>우리는 이런것도 제공해요!</SubTitle>
                             <SubText>{`우리 동네 대형폐기물 스티커는\n어디서 발급받을 수 있을까?`}</SubText>
@@ -135,7 +158,9 @@ const Intro = () => {
                                 />
                             </ContentsData>
                             <SubText>멀쩡한데.. 중고로 팔아볼까?</SubText>
-                            <ContentsData onClick={() => router.push("/market")}>
+                            <ContentsData
+                                onClick={() => router.push("/market")}
+                            >
                                 <p>{`중고마켓으로 가기`}</p>
                                 <Image
                                     src={RightArrow}
@@ -153,7 +178,6 @@ const Intro = () => {
 };
 
 export default Intro;
-
 
 const Wrapper = styled.div`
     width: 100%;
@@ -185,10 +209,10 @@ const Arrow = styled.button`
     @keyframes up-down {
         0% {
             margin-top: 0px;
-        } 
+        }
         100% {
             margin-top: 30px;
-        } 
+        }
     }
 `;
 
@@ -209,7 +233,7 @@ const Video = styled.video`
 
 const SectionRecyling = styled.div`
     width: 100%;
-    height: 600px;
+    height: 700px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -218,17 +242,23 @@ const SectionRecyling = styled.div`
 
 const SectionWaste = styled.div`
     width: 100%;
-    height: 600px;
+    height: 700px;
     display: flex;
     justify-content: center;
     align-items: center;
     text-align: right;
+    @media screen and (max-width: 1224px) {
+        flex-direction: column;
+    };
 `;
 
 const SectionCard = styled.div`
     width: 100%;
-    height: 600px;
+    height: 700px;
     display: flex;
+    @media screen and (max-width: 1224px) {
+        flex-direction: column;
+    };
 `;
 
 const CardItem = styled.div`
@@ -242,14 +272,12 @@ const CardItem = styled.div`
 const CardBackground = styled.div`
     width: 100%;
     height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 `;
 
-const CardImage = styled.div`
-    width: 330px;
-    height: 330px;
-`;
-
-const InsertText = styled.div`
+const InsertForm = styled.div`
     width: 100%;
     height: 400px;
     display: flex;
@@ -259,27 +287,46 @@ const InsertText = styled.div`
     font-size: var(--font-text);
 `;
 
+const InsertText = styled.p`
+    width: 80%;
+    text-align: center;
+`;
 const ContentsWrapper = styled.div`
-    height: 800px;
+    height: 700px;
     background-color: var(--gray);
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    @media screen and (max-width: 1224px) {
+        width: 100%;
+        height: 100%;
+    };
 `;
 
 const ContentsForm = styled.div`
-    width: 1170px;
-    height: 600px;
+    width: 80%;
+    height: 500px;
     display: flex;
+    @media screen and (max-width: 1224px) {
+        width: 100%;
+        height: 100%;
+    };
 `;
 
 const Contents = styled.div`
-    width: 450px;
+    width: 50%;
     background-color: #305e63;
     color: white;
     padding: 50px 0 30px 50px;
     white-space: pre-wrap;
+    @media screen and (max-width: 1224px) {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    };
 `;
 
 const SubTitle = styled.div`
@@ -294,10 +341,10 @@ const SubText = styled.p`
 `;
 
 const ContentsData = styled.div`
-    width: 330px;
-    height: 100px;
+    width: 280px;
+    height: 80px;
     margin-bottom: 50px;
-    padding: 20px;
+    padding: 10px;
     display: flex;
     justify-content: space-evenly;
     align-items: center;

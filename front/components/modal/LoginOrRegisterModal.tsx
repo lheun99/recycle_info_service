@@ -1,10 +1,8 @@
-import React, { useState } from "react";
-import Login from "./Login";
-import Register from "./Register";
+import React from "react";
+import LoginOrRegister from "./LoginOrRegister";
 import Modal from "@mui/material/Modal";
 
 const LoginOrRegisterModal = ({ open, handleClose }) => {
-    const [register, setRegister] = useState<Boolean>(false);
 
     return (
         <Modal
@@ -13,19 +11,7 @@ const LoginOrRegisterModal = ({ open, handleClose }) => {
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
         >
-            {
-                register ? (
-                    <Register
-                        handleClose={handleClose}
-                        setRegister={setRegister}
-                    />
-                ) : (
-                    <Login
-                        handleClose={handleClose}
-                        setRegister={setRegister}
-                    />
-                )
-            }
+            <LoginOrRegister handleClose={handleClose} />
         </Modal>
     );
 };

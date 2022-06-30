@@ -1,5 +1,4 @@
-import React, { useEffect, useRef } from "react";
-import { useRouter } from "next/router";
+import React, { useState, useEffect, useRef, MouseEventHandler } from "react";
 import PointCoin from "../../public/images/point.coin.png";
 import Image from "next/image";
 import styled from "styled-components";
@@ -19,11 +18,13 @@ type QuizType = {
 type QuizResultProps = {
     result: boolean;
     quiz: QuizType;
+    openClickHandler: MouseEventHandler;
 };
 
-const QuizResult = ({ result, quiz }: QuizResultProps) => {
+const QuizResult = ({ result, quiz, openClickHandler }: QuizResultProps) => {
     const container = useRef();
-    const router = useRouter();
+    const [click, setClick] = useState<boolean>(false);
+    const checkDisabled = (result && !click) ? false : true;
 
     const pointClickHandler = async () => {
         try {
@@ -31,6 +32,7 @@ const QuizResult = ({ result, quiz }: QuizResultProps) => {
                     route: "quiz",
                     point: 100
             })
+            setClick(true);
         } catch (err) {
             console.log("error message: ", err);
         }
@@ -67,9 +69,9 @@ const QuizResult = ({ result, quiz }: QuizResultProps) => {
                 </AnswerText>
             </ResultForm>
             <div>
-                <NavButton onClick={() => router.push("/")}>홈으로</NavButton>
-                <NavButton onClick={pointClickHandler} disabled={!result}>
-                    <Image
+                <NavButton onClick={openClickHandler}>돌아가기</NavButton>
+                <NavButton onClick={pointClickHandler} disabled={checkDisabled}>
+                    <Image 
                         src={PointCoin}
                         alt="point-coin"
                         width={35}
@@ -96,12 +98,15 @@ const ResultWrapper = styled.div`
 const ResultForm = styled.div`
     width: 100%;
     height: 100%;
+    position: relative;
 `;
 
 const ResultEffect = styled.div`
+    height: 500px;
     position: absolute;
-    top: -10px;
-    left: -5px;
+    top: -200px;
+    left: -200px;
+    // background-color: blue;
 `;
 
 const AnswerCheck = styled.div`
@@ -110,6 +115,7 @@ const AnswerCheck = styled.div`
     text-align: center;
     font-size: 1.5rem;
     font-weight: bold;
+    margin-top: 40px;
 `;
 
 const AnswerText = styled.div`
@@ -133,7 +139,7 @@ const NavButton = materialStyled(Button)(() => ({
     width: "150px",
     height: "50px",
     borderRadius: "10px",
-    margin: "0 20px",
+    margin: "30px 20px 0 20px",
     backgroundColor: "var(--gray)",
     color: "black",
     "&:hover": {
