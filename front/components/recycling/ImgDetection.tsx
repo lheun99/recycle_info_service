@@ -22,10 +22,10 @@ const matchType = [
 
 const Results = ({ content, index }) => {
     return (
-        <div key={`${index}`}>
-            {index + 1}번은 &apos;{matchType[content.code]}&apos; (으)로
-            분류되며, {content.confidence}% 확신합니다.{" "}
-        </div>
+        <Result key={`${index}`}>
+            {index + 1}번은 <b>&apos;{matchType[content.code]}&apos;</b> (으)로
+            분류되며, <b>{content.confidence}%</b> 확신합니다.{" "}
+        </Result>
     );
 };
 
@@ -74,7 +74,7 @@ const ImgDetection = ({ info, imgUrl }) => {
                     })}
                 </Wrapper>
             )}
-            <div>
+            <ResultWrapper>
                 {info?.map((content, index) => {
                     return (
                         <Results
@@ -84,7 +84,7 @@ const ImgDetection = ({ info, imgUrl }) => {
                         />
                     );
                 })}
-            </div>
+            </ResultWrapper>
         </Container>
     );
 };
@@ -121,7 +121,28 @@ const DetectionBox = styled.div<{
     border: 3px solid #00ff00;
     cursor: pointer;
     color: #00ff00;
+    font-weight: bold;
+    font-size: 17px;
     :hover {
         border: 3px solid red;
+        color: red;
     }
+`;
+const ResultWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 150px;
+    overflow: auto;
+    word-break: keep-all;
+    margin-top: 20px;
+`;
+
+const Result = styled.div`
+    width: 100%;
+    height: 30px;
+    margin: 5px 0;
+    display: flex;
+    align-items: center;
 `;

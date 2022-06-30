@@ -185,7 +185,7 @@ const Button = styled.button`
     cursor: pointer;
     width: 150px;
     height: 40px;
-    margin: 19.92px 0 0 0;
+    margin: 19.92px 0 19.92px 0;
     border-radius: 15px;
     word-break: keep-all;
     font-size: 15px;
