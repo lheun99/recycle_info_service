@@ -14,7 +14,6 @@ const NaverLogin = () => {
 
     const naverLogin = async (code) => {
         try {
-            console.log("안녕하세요!")
             const res = await get(`auth/naver?code=${code}`);
             const user = res.data.data;
             const jwtToken = user.token;

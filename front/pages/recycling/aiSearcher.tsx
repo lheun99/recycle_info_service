@@ -12,7 +12,9 @@ const aiSearcher = () => {
                     캔, 병, 과자봉지 등 사물 다 상관없어요. <br />
                     무엇이든 분리배출 방법을 알려드려요.
                 </p>
-                <ImageUpload width={600} height={350} route="recycleInfo" />
+                <ImageForm>
+                    <ImageUpload width={600} height={350} route="recycleInfo" />
+                </ImageForm>
             </ImageWrapper>
 
             <SearchWrapper>
@@ -21,7 +23,9 @@ const aiSearcher = () => {
                     사진이 없다면 검색으로도 알 수 있어요! <br />
                     &lsquo;우유갑&lsquo; 이렇게 갖고 있는 물건을 검색해보세요!
                 </p>
-                <Search />
+                <SearchForm>
+                    <Search />
+                </SearchForm>
             </SearchWrapper>
         </Container>
     );
@@ -37,20 +41,32 @@ const Container = styled.div`
 `;
 
 const ImageWrapper = styled.div`
-    background-color: #f2f2f2;
+    background-color: var(--gray);
     width: 100%;
-    height: 700px;
+    height: 800px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
+    position: relative;
+    padding-top: 100px;
 `;
 
 const SearchWrapper = styled.div`
-    height: 500px;
     width: 100%;
-    background-color: #dedede;
+    height: 400px;
+    background-color: var(--deepgray);
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    align-items: center;
+    position: relative;
+    padding-top: 40px;
+`;
+
+const ImageForm = styled.div`
+    position: absolute;
+    top: 290px;
+`;
+
+const SearchForm = styled.div`
+    margin-top: 30px;
 `;

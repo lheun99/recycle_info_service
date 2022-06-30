@@ -83,25 +83,16 @@ const Quiz = () => {
 
     const checkPoint = async () => {
         try {
-            await getQuary("points", {
+            const res = await getQuary("points", {
                 params: {
                     route: "quiz",
                 },
-            }).then((res: any) => {
-                setUserPoint(res.data.data);
-            });
+            })
+            setUserPoint(res.data.data);
+            
         } catch (err) {
             console.log("error message: ", err);
         }
-
-        // 포인트 리스트 조회
-        // try {
-        //     await get("points/list").then((res : any) => {
-        //         console.log("points/list: ", res.data)
-        //     })
-        // } catch (err) {
-        //     console.log("errer message: ", err);
-        // }
     };
 
     useEffect(() => {
@@ -187,13 +178,13 @@ export default Quiz;
 
 const Wrapper = styled.div`
     width: 100%;
-    height: 790px;
+    height: 800px;
     background-color: var(--gray);
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
     align-items: center;
-    padding-top: 40px;
+    position: relative;
+    padding-top: 100px;
 `;
 
 const Contents = styled.p`
@@ -203,12 +194,14 @@ const Contents = styled.p`
 
 const Form = styled.div`
     width: 600px;
-    height: 470px;
+    height: 400px;
     background-color: white;
     display: flex;
     flex-direction: column;
     align-items: center;
     border-radius: 20px;
+    position: absolute;
+    top: 290px;
 `;
 
 const Title = styled.h2`
@@ -223,7 +216,7 @@ const Title = styled.h2`
 
 const Container = styled.div`
     width: 100%;
-    height: 450px;
+    height: 330px;
     display: flex;
     justify-content: center;
     align-items: center;

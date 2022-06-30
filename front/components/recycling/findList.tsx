@@ -13,6 +13,7 @@ export function findList(totalInfo, action) {
                 infoList: action.infos?.recycleInfo,
             };
         default:
-            return alert("결과가 없습니다");
+            alert("결과가 없습니다");
+            break;
     }
 }

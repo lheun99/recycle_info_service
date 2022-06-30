@@ -30,7 +30,7 @@ const Nav = () => {
         <nav className={navStyles.nav}>
             <ul>
                 <li>
-                    <Link href="/" passHref>
+                    <Link href="/">
                         <a className={navStyles.titleWrapper}>
                             <Image
                                 src={Logo}
@@ -44,28 +44,28 @@ const Nav = () => {
             </ul>
             <ul className={navStyles.navList}>
                 <li>
-                    <Link href="/recycling/aiSearcher" passHref>
+                    <Link href="/recycling/aiSearcher">
                         <a>분리배출 하러가기</a>
                     </Link>
                 </li>
                 <li>
-                    <Link href="/waste" passHref>
+                    <Link href="/waste">
                         <a>우리동네 대형폐기물 신고하기</a>
                     </Link>
                 </li>
                 <li>
-                    <Link href="/market" passHref>
+                    <Link href="/market">
                         <a>중고마켓</a>
                     </Link>
                 </li>
                 <li>
-                    <Link href="/quiz" passHref>
+                    <Link href="/quiz">
                         <a>퀴즈 풀러가기</a>
                     </Link>
                 </li>
                 {login && (
                     <li>
-                        <Link href="/myPage" passHref>
+                        <Link href="/myPage">
                             <a>마이페이지</a>
                         </Link>
                     </li>

@@ -1,8 +1,19 @@
 import axios from "axios";
 
+var os = require("os");
+var hostname = os.hostname();
+
 const backendPortNumber = "5000";
-const serverUrl = "http://" + "localhost" + ":" + backendPortNumber + "/";
-// window.location.hostname
+
+var getGlobal = function () {
+    if (typeof window !== "undefined") return window.location.hostname;
+    if (typeof global !== "undefined") return hostname;
+    throw new Error("unable to locate global object");
+};
+
+var globals = getGlobal();
+
+const serverUrl = "http://" + globals + ":" + backendPortNumber + "/";
 
 async function get(endpoint, params = "") {
     return axios.get(serverUrl + endpoint + params, {
