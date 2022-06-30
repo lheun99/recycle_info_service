@@ -46,15 +46,19 @@ const ReportWaste = () => {
                 <MapInfo>
                     {clickData && (
                         <MapInfoData>
-                            <ImageWrapper>
-                                <Image
-                                    src={clickData[0]["banner_image"]}
-                                    alt="banner_image"
-                                    width={100}
-                                    height={40}
-                                    unoptimized={true}
-                                />
-                            </ImageWrapper>
+                            {
+                                !isMobile && (
+                                    <ImageWrapper>
+                                        <Image
+                                            src={clickData[0]["banner_image"]}
+                                            alt="banner_image"
+                                            width={100}
+                                            height={40}
+                                            unoptimized={true}
+                                        />
+                                    </ImageWrapper>
+                                )
+                            }
                             <div>
                                 <div>주소 : {clickData[0]["address"]}</div>
                                 <div>전화번호 : {clickData[0]["tel"]}</div>
@@ -168,6 +172,7 @@ const MapInfoData = styled.div`
 const ImageWrapper = styled.div`
     width: 120px;
     height: 70px;
+    margin-right: 30px;
 `;
 
 const SearchWrapper = styled.div`
