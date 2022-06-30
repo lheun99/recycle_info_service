@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import Gps from "../../public/images/gps.png";
+import RightArrow from "../../public/images/right-arrow.png";
 import styled from "styled-components";
 import Search from "./Search";
 import Map from "./Map";
@@ -57,14 +58,30 @@ const ReportWaste = () => {
                             <div>
                                 <div>주소 : {clickData[0]["address"]}</div>
                                 <div>전화번호 : {clickData[0]["tel"]}</div>
-                                <div><a href={clickData[0]["url1"]} target='_blank' rel='noopener noreferrer'>우리동네 공식 홈페이지 바로가기 </a></div>
-                                <div><a href={clickData[0]["url2"]} target='_blank' rel='noopener noreferrer'>대형폐기물 배출신고 안내 바로가기 </a></div>
+                                <NavForm>
+                                    <Image
+                                        src={RightArrow}
+                                        alt="right-arrow"
+                                        width={20}
+                                        height={20}
+                                    />
+                                    <NavText href={clickData[0]["url1"]} target='_blank' rel='noopener noreferrer'>우리동네 공식 홈페이지 바로가기</NavText>
+                                </NavForm>
+                                <NavForm>
+                                    <Image
+                                        src={RightArrow}
+                                        alt="right-arrow"
+                                        width={20}
+                                        height={20}
+                                    />
+                                    <NavText href={clickData[0]["url2"]} target='_blank' rel='noopener noreferrer'>대형폐기물 배출신고 안내 바로가기</NavText>
+                                </NavForm>
                             </div>
                         </MapInfoData>
                     )}
                 </MapInfo>
             </Form>
-            <Tip>Tip! 대형폐기물은 무료로  수거가 가능하기도 해요!</Tip>
+            <Tip>Tip! 대형폐기물은 무료로 수거가 가능하기도 해요!</Tip>
         </Wrapper>
     );
 };
@@ -171,4 +188,14 @@ const ImageButton = styled.div`
         background-color: var(--gray);
         cursor: pointer;
     }
+`;
+
+const NavForm = styled.div`
+    display: flex;
+    align-items: start;
+`;
+
+const NavText = styled.a`
+    background: linear-gradient(to bottom, white 50%, var(--green) 50%);
+    margin-left: 3px;
 `;
