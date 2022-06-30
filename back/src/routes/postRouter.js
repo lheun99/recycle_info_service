@@ -47,60 +47,30 @@ postRouter.put(
     validationErrorCatcher,
     async (req, res, next) => {
         try {
-            //전체 게시글 리스트
-            const listedPost = await postService.getAllPost({});
+            //수정할 게시글 id
+            const postId = req.params.id;
+            //수정할 내용
+            const { title, post_img, content } = req.body;
 
-            res.status(201).json(listedPost);
+            //수정할 게시글
+            const toUpdate = { title, post_img, content };
+
+            //게시글 수정
+            const updatedPost = await postService.setPost({
+                postId,
+                toUpdate,
+            });
+
+            if (updatedPost.errorMessage) {
+                throw new Error(updatedPost.errorMessage);
+            }
+
+            res.status(201).json(updatedPost);
         } catch (error) {
             next(error);
         }
     }
 );
-//게시글 리스트 찾기
-postRouter.get("/list", async (req, res, next) => {
-    try {
-        const page = req.query.page || 1;
-        const perPage = req.query.perPage || 10;
-
-        //전체 게시글 리스트
-        const listedPost = await postService.getAllPostPaged({ page, perPage });
-
-        res.status(201).json(listedPost);
-    } catch (error) {
-        next(error);
-    }
-});
-//특정 사용자의 게시글 찾기
-postRouter.get("/user", async (req, res, next) => {
-    try {
-        //특정 사용자 정보
-        const userId = req.currentUserId;
-
-        //특정 게시글 정보
-        const currentPost = await postService.getPostById({
-            userId,
-        });
-
-        res.status(201).json(currentPost);
-    } catch (error) {
-        next(error);
-    }
-});
-//특정 게시글 찾기
-postRouter.get("/:id", async (req, res, next) => {
-    try {
-        //특정 게시글 id
-        const postId = req.params.id;
-
-        //특정 게시글 정보
-        const currentPost = await postService.getPostByPostId({
-            postId,
-        });
-        res.status(201).json(currentPost);
-    } catch (error) {
-        next(error);
-    }
-});
 
 //DELETE /post/:id: 게시글 삭제
 //로그인 필요
@@ -109,25 +79,7 @@ postRouter.delete("/:id", loginRequired, async (req, res, next) => {
         //삭제할 게시글 id
         const postId = req.params.id;
 
-        //수정된 게시글
-        const updatedPost = await postService.setPost({
-            postId,
-            toUpdate,
-        });
-
-        res.status(201).json(updatedPost);
-    } catch (error) {
-        next(error);
-    }
-});
-
-//특정 게시글 삭제
-postRouter.delete("/:id", async (req, res, next) => {
-    try {
-        //특정 게시글 id
-        const postId = req.params.id;
-
-        //삭제된 게시글
+        //게시글 삭제
         const deletedPost = await postService.deletePost({
             postId,
         });
