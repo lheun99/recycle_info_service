@@ -68,7 +68,7 @@ const QuizResult = ({ result, quiz, openClickHandler }: QuizResultProps) => {
                 }&quot; 입니다.
                 </AnswerText>
             </ResultForm>
-            <div>
+            <ButtonForm>
                 <NavButton onClick={openClickHandler}>돌아가기</NavButton>
                 <NavButton onClick={pointClickHandler} disabled={checkDisabled}>
                     <Image 
@@ -79,7 +79,7 @@ const QuizResult = ({ result, quiz, openClickHandler }: QuizResultProps) => {
                     />
                     <p>포인트 적립</p>
                 </NavButton>
-            </div>
+            </ButtonForm>
         </ResultWrapper>
     );
 };
@@ -88,7 +88,7 @@ export default QuizResult;
 
 const ResultWrapper = styled.div`
     width: 80%;
-    height: 70%;
+    height: 80%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -99,6 +99,7 @@ const ResultForm = styled.div`
     width: 100%;
     height: 100%;
     position: relative;
+    margin-bottom: 50px;
 `;
 
 const ResultEffect = styled.div`
@@ -106,7 +107,6 @@ const ResultEffect = styled.div`
     position: absolute;
     top: -200px;
     left: -200px;
-    // background-color: blue;
 `;
 
 const AnswerCheck = styled.div`
@@ -120,27 +120,38 @@ const AnswerCheck = styled.div`
 
 const AnswerText = styled.div`
     width: 100%;
-    height: 100px;
+    max-height: 100px;
+    height: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     text-align: center;
     font-size: 1.2rem;
     word-break: break-all;
 `;
 
 const AnswerImageButton = styled.img`
-    width: 100px;
-    height: 100px;
+    width: 70px;
+    height: 70px;
     margin: 6px;
-    padding: 14px;
+    padding: 10px;
     border-radius: 10px;
     background-color: var(--green);
 `;
 
+const ButtonForm = styled.div`
+    max-width: 320px;
+    width: 90%;
+    display: flex;
+    justify-content: space-between;
+`;
+
 const NavButton = materialStyled(Button)(() => ({
-    width: "150px",
+    width: "130px",
     height: "50px",
     borderRadius: "10px",
-    margin: "30px 20px 0 20px",
     backgroundColor: "var(--gray)",
+    fontSize: "0.8rem",
     color: "black",
     "&:hover": {
         backgroundColor: "var(--deepgray)",

@@ -95,12 +95,8 @@ function Login({ handleClose }) {
                     <Image src={Logo} alt="logo" width={40} height={40} />
                 </LogoImage>
                 <SignInForm>
-                    <TextField
+                    <TextForm
                         type="email"
-                        style={{
-                            width: "380px",
-                            height: "40px",
-                        }}
                         label="E-MAIL"
                         size="small"
                         onChange={(e) => setEmail(e.target.value)}
@@ -108,12 +104,8 @@ function Login({ handleClose }) {
                             !isEmailValid && "이메일 형식이 올바르지 않습니다."
                         }
                     />
-                    <TextField
+                    <TextForm
                         type="password"
-                        style={{
-                            width: "380px",
-                            height: "40px",
-                        }}
                         label="PASSWORD"
                         size="small"
                         onChange={(e) => setPassword(e.target.value)}
@@ -150,7 +142,7 @@ function Login({ handleClose }) {
                             }}
                             style={{ borderRadius: "12px" }}
                         >
-                            <Image alt="kakao_Login" src={kakao} width={138} height={40} />
+                            <Image alt="kakao_Login" src={kakao} width={145} height={40} />
                         </Button>
                         <Button
                             variant="text"
@@ -160,7 +152,7 @@ function Login({ handleClose }) {
                             }}
                             style={{ borderRadius: "12px", width: "200px" }}
                         >
-                            <Image alt="naver_Login" src={naver} width={138} height={40} />
+                            <Image alt="naver_Login" src={naver} width={145} height={40} />
                         </Button>
                     </SocialLoginWrapper>
                 </FindWrapper>
@@ -194,12 +186,8 @@ function Login({ handleClose }) {
                     </div>
                     <Title>Create Account</Title>
                     <SignUpForm>
-                        <TextField
+                        <TextForm
                             type="nickname"
-                            style={{
-                                width: "380px",
-                                height: "40px",
-                            }}
                             label="NICKNAME"
                             size="small"
                             onChange={(e) => setNickname(e.target.value)}
@@ -207,12 +195,8 @@ function Login({ handleClose }) {
                                 !isNicknameValid && "닉네임은 두 글자 이상입니다."
                             }
                         />
-                        <TextField
+                        <TextForm
                             type="email"
-                            style={{
-                                width: "380px",
-                                height: "40px",
-                            }}
                             label="E-MAIL"
                             size="small"
                             onChange={(e) => setEmail(e.target.value)}
@@ -220,12 +204,8 @@ function Login({ handleClose }) {
                                 !isEmailValid && "이메일 형식이 올바르지 않습니다."
                             }
                         />
-                        <TextField
+                        <TextForm
                             type="password"
-                            style={{
-                                width: "380px",
-                                height: "40px",
-                            }}
                             label="PASSWORD"
                             size="small"
                             onChange={(e) => setPassword(e.target.value)}
@@ -254,7 +234,8 @@ const LoginWrapper = styled.div`
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 520px;
+    max-width: 520px;
+    width: 90%;
     height: 600px;
     background-color: white;
     border-radius: 20px;
@@ -332,7 +313,8 @@ const RegisterWrapper = styled.div`
     border-radius: 20px;
     display: flex;
     @media screen and (max-width: 1224px) {
-        width: 520px;
+        max-width: 520px;
+        width: 90%;
     };
 `;
 
@@ -364,6 +346,11 @@ const SignUpForm = styled.div`
     align-items: center;
 `;
 
+const TextForm = materialStyled(TextField)(() => ({
+    width: "90%",
+    height: "40px",
+}));
+
 const CloseButton = materialStyled(Button)(() => ({
     color: "black",
     "&:hover": {
@@ -372,7 +359,7 @@ const CloseButton = materialStyled(Button)(() => ({
 }));
 
 const SignButton = materialStyled(Button)(() => ({
-    width: "380px",
+    width: "90%",
     height: "40px",
     backgroundColor: "var(--green)",
     marginTop: "20px",

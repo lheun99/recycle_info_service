@@ -15,13 +15,13 @@ const Rank = ({ user }) => {
                 {user?.rankers.map((ranker, index) => {
                     return (
                         <RankWrapper key={`ranker-${index}`}>
-                            <p>
+                            <div>
                                 {rankMark[index]} {index + 1}위{" "}
                                 <b>{ranker.nickname}</b>
-                            </p>
-                            <p>
+                            </div>
+                            <div>
                                 <b>{ranker.total}</b> 포인트
-                            </p>
+                            </div>
                         </RankWrapper>
                     );
                 })}
@@ -34,6 +34,8 @@ export default Rank;
 
 const RankWrapper = styled.div`
     display: flex;
+    max-width: 380px;
     width: 100%;
     justify-content: space-between;
+    font-size: 0.8rem;
 `;

@@ -8,6 +8,7 @@ import styled from "styled-components";
 import { styled as materialStyled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import { get, getQuary } from "../../api";
+import { useMediaQuery } from "react-responsive";
 
 type QuizType = {
     question: string;
@@ -36,6 +37,7 @@ const Quiz = () => {
     const [answer, setAnswer] = useState<boolean>(false);
     const [userAnswer, setUserAnswer] = useState<string>("");
     const [challenge, setChallenge] = useState<ChallengeType[]>();
+    const isMobile = useMediaQuery({ query: '(max-width: 600px)' })
 
     const openClickHandler = (): void => {
         setAnswer(false);
@@ -103,8 +105,14 @@ const Quiz = () => {
 
     return (
         <Wrapper>
-            <h1>퀴즈 풀고 포인트 받자!</h1>
-            <Contents>{"매일 매일 색다른 오늘의 퀴즈에 도전하세요."}</Contents>
+            {
+                !isMobile && (
+                    <div>
+                        <h1>퀴즈 풀고 포인트 받자!</h1>
+                        <Contents>{"매일 매일 색다른 오늘의 퀴즈에 도전하세요."}</Contents>
+                    </div>
+                )
+            }
             <Form>
                 <Title>오늘의 퀴즈</Title>
                 <Container>
@@ -174,8 +182,8 @@ const Quiz = () => {
                                             key={index}
                                             src={data.src}
                                             alt={data.alt}
-                                            width={100}
-                                            height={100}
+                                            width={80}
+                                            height={80}
                                             onClick={data.onClick}
                                         />
                                         <ChallengeText>{data.text}</ChallengeText>
@@ -186,6 +194,7 @@ const Quiz = () => {
                     )}
                 </Container>
             </Form>
+            <Tip>마이페이지에서 포인트를 확인해보세요!</Tip>
         </Wrapper>
     );
 };
@@ -194,13 +203,16 @@ export default Quiz;
 
 const Wrapper = styled.div`
     width: 100%;
-    height: 800px;
+    height: 940px;
     background-color: var(--gray);
     display: flex;
     flex-direction: column;
     align-items: center;
     position: relative;
     padding-top: 100px;
+    @media screen and (max-width: 600px) {
+        height: 700px;
+    };
 `;
 
 const Contents = styled.p`
@@ -209,7 +221,8 @@ const Contents = styled.p`
 `;
 
 const Form = styled.div`
-    width: 600px;
+    max-width: 600px;
+    width: 100%;
     height: 485px;
     background-color: white;
     display: flex;
@@ -218,6 +231,18 @@ const Form = styled.div`
     border-radius: 20px;
     position: absolute;
     top: 290px;
+    @media screen and (max-width: 600px) {
+        border-radius: 0px;
+        top: 60px;
+    };
+`;
+
+const Tip  = styled.p`
+    width: 100%;
+    position: absolute; 
+    bottom: 50px;
+    white-space: pre-wrap;
+    text-align: center;
 `;
 
 const Title = styled.h2`
@@ -228,6 +253,9 @@ const Title = styled.h2`
     background-color: var(--green);
     text-align: center;
     border-radius: 20px 20px 0 0;
+    @media screen and (max-width: 600px) {
+        border-radius: 0px;
+    };
 `;
 
 const Container = styled.div`
@@ -277,10 +305,10 @@ const AnswerImageWrapper = styled.div`
 `;
 
 const AnswerImageButton = styled.img`
-    width: 100px;
-    height: 100px;
+    width: 70px;
+    height: 70px;
     margin: 6px;
-    padding: 14px;
+    padding: 10px;
     border-radius: 10px;
     background-color: var(--green);
     cursor: pointer;
@@ -297,12 +325,13 @@ const ChallengeButtonWrapper = styled.div`
 `;
 
 const ChallengeText = styled.p`
-    width: 100px;
+    width: 80px;
     text-align: center;
 `;
 
 const AnswerButton = materialStyled(Button)(() => ({
-    width: "500px",
+    maxWidth: "500px",
+    width: "95%",
     height: "45px",
     backgroundColor: "var(--green)",
     margin: "6px 0",

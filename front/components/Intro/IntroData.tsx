@@ -62,9 +62,8 @@ const Wrapper = styled.div`
         }
     }
     @media screen and (max-width: 1224px) {
-        max-width: 330px;
+        max-width: 300px;
         width: auto;
-        height: auto;
         margin: 20px;
         text-align: center;
         align-items: center;

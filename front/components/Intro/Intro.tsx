@@ -7,7 +7,6 @@ import Handphone from "../../public/images/handphone.png";
 import DownArrow from "../../public/images/down-arrow.png";
 import IntroEco from "../../public/images/intro.eco.png";
 import Eco from "../../public/images/eco.jpg";
-import Recycle from "../../public/images/recycle.png";
 import RightArrow from "../../public/images/right-arrow.png";
 import Quiz from "../../public/images/quiz.png";
 import Rank from "../../public/images/rank.png";
@@ -17,6 +16,7 @@ import { useMediaQuery } from "react-responsive";
 const Intro = () => {
     const router = useRouter();
     const ref = useRef<HTMLInputElement>();
+    const isMobile = useMediaQuery({ query: "(max-width: 1224px)" });
 
     const handleScroll = () => {
         const screenHeight = ref.current.clientHeight;
@@ -26,8 +26,6 @@ const Intro = () => {
             behavior: "smooth",
         });
     };
-
-    const isMobile = useMediaQuery({ query: "(max-width: 1224px)" });
 
     return (
         <main>
