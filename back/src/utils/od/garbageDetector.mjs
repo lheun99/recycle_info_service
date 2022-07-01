@@ -326,8 +326,8 @@ class GarbageDetector {
         `Image format is unknown`
       );
     }
-    // const [height, width] = image_.shape;
-    const [width, height] = image_.shape;
+    const [height, width] = image_.shape;
+    // const [width, height] = image_.shape;
     const dim = [width, height];
     console.log(`input image original dim`, dim);
 
