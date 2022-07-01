@@ -114,5 +114,5 @@ export {
     sendImageFile,
     sendProfileFile,
     put,
-    del as delete,
+    del as deleteComment,
 };

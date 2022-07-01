@@ -10,8 +10,10 @@ import styled from "styled-components";
 import { UserStateContext } from "../pages/_app";
 import MenuIcon from "../public/images/menu.png";
 import { useMediaQuery } from "react-responsive";
+import { DispatchContext } from "../pages/_app";
 
 const Nav = () => {
+    const dispatch = useContext(DispatchContext);
     const router = useRouter();
     const userInfo = useContext(UserStateContext);
     const [login, setLogin] = useRecoilState(LoginState);
@@ -21,7 +23,7 @@ const Nav = () => {
     const [toggle, setToggle] = useState<boolean>(false);
     const isMobile = useMediaQuery({ query: "(max-width: 1224px)" });
 
-    const clickHandler = (value : boolean) => {
+    const clickHandler = (value: boolean) => {
         setToggle(value);
     };
 
@@ -45,12 +47,16 @@ const Nav = () => {
             <NavList isMobile={isMobile} toggle={toggle}>
                 <NavListItem>
                     <Link href="/recycling">
-                        <a onClick={() => clickHandler(false)}>분리배출 하러가기</a>
+                        <a onClick={() => clickHandler(false)}>
+                            분리배출 하러가기
+                        </a>
                     </Link>
                 </NavListItem>
                 <NavListItem>
                     <Link href="/waste">
-                        <a onClick={() => clickHandler(false)}>우리동네 대형폐기물 신고하기</a>
+                        <a onClick={() => clickHandler(false)}>
+                            우리동네 대형폐기물 신고하기
+                        </a>
                     </Link>
                 </NavListItem>
                 <NavListItem>
@@ -61,14 +67,18 @@ const Nav = () => {
                 {login && (
                     <NavListItem>
                         <Link href="/quiz">
-                            <a onClick={() => clickHandler(false)}>퀴즈 풀러가기</a>
+                            <a onClick={() => clickHandler(false)}>
+                                퀴즈 풀러가기
+                            </a>
                         </Link>
                     </NavListItem>
                 )}
                 {login && (
                     <NavListItem>
                         <Link href="/myPage">
-                            <a onClick={() => clickHandler(false)}>마이페이지</a>
+                            <a onClick={() => clickHandler(false)}>
+                                마이페이지
+                            </a>
                         </Link>
                     </NavListItem>
                 )}
@@ -78,16 +88,23 @@ const Nav = () => {
                             onClick={() => {
                                 setLogin(false);
                                 sessionStorage.removeItem("userToken");
+                                dispatch({
+                                    type: "LOGOUT",
+                                });
                                 router.push("/");
                             }}
                         >
                             Sign out
                         </LoginButton>
                     ) : (
-                        <LoginButton onClick={() => {
-                            handleOpen();
-                            clickHandler(false);
-                        }}>Sign in</LoginButton>
+                        <LoginButton
+                            onClick={() => {
+                                handleOpen();
+                                clickHandler(false);
+                            }}
+                        >
+                            Sign in
+                        </LoginButton>
                     )}
                     <LoginOrRegisterModal
                         open={open}

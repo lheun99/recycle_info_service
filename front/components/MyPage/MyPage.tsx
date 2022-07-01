@@ -8,6 +8,52 @@ import { get } from "../../api";
 import { useMediaQuery } from "react-responsive";
 
 // mypage main component 에서 point를 조회하고 멘트 적용 및 props로 하위 컴포넌트에 전달
+const searchPointer = (point: number) => {
+    if (point <= 300) {
+        return (
+            <p>
+                환경에 대한 작은 생각의 시작으로 인해 <br />새 생명을
+                만나게되었습니다!
+            </p>
+        );
+    } // 초기값은 "1" 이며, 포인트가 깎이는 일이 없으므로, 1구간에 속하면 바로 return 해서 나온다.
+
+    if (300 < point && point <= 1000) {
+        return (
+            <p>
+                조금씩... 조금씩... 작지만
+                <br />그 마음들이 모여 생명이 살아갈 지구를 지켰습니다.
+            </p>
+        );
+    } else if (1000 < point && point <= 2500) {
+        return (
+            <p>
+                무럭무럭 자라나는 나무를 보며,
+                <br />
+                그동안 당신의 노력이 느껴져요. 조금 더 힘을 내봐요!
+            </p>
+        );
+    } else if (2500 < point && point <= 5000) {
+        return (
+            <p>
+                나무가 되었네요!
+                <br />
+                아직 앙상한 어린 나무지만 제법 어른이 된 것 같아요!
+            </p>
+        );
+    } else {
+        return (
+            <p>
+                와!
+                <br />
+                드디어 나무 하나를 키워냈어요!
+                <br />
+                그늘이 되고, 비를 막아주고 좋은 공기를 주고, <br />
+                크나큰 보답이 되어 지구와 우리 모두 행복해요!
+            </p>
+        );
+    }
+};
 
 const MyPage = () => {
     const [user, setUser] = useState({
@@ -20,7 +66,7 @@ const MyPage = () => {
     });
     const userInfo = useContext(UserStateContext);
     const id = userInfo.user?.userId;
-    const isMobile = useMediaQuery({ query: '(max-width: 800px)' })
+    const isMobile = useMediaQuery({ query: "(max-width: 800px)" });
 
     const getUserInfo = async () => {
         const res = await get(`users/${id}/myPage`);
@@ -42,13 +88,11 @@ const MyPage = () => {
 
     return (
         <Wrapper>
-            {
-                !isMobile && (
-                    <ProfileWrapper>
-                        <UserProfile user={user} setUser={setUser} userId={id} />
-                    </ProfileWrapper>
-                )
-            }
+            {!isMobile && (
+                <ProfileWrapper>
+                    <UserProfile user={user} setUser={setUser} userId={id} />
+                </ProfileWrapper>
+            )}
             <InnerWrapper>
                 <TitleWrapper>
                     <Title>마이 페이지</Title>
@@ -57,12 +101,8 @@ const MyPage = () => {
                     <GrowingTree point={user?.point} />
                     <InfoWrapper>
                         <PointInfo>
-                            <h3>{user?.nickname} 님의 나무</h3>
-                            <div>
-                                풍성한 열매가 달린 나무가 완성되었어요! <br />
-                                지속된 환경에 대한 관심으로 새 생명을 만나게
-                                되었습니다!
-                            </div>
+                            <h2>{user?.nickname} 님의 나무</h2>
+                            {searchPointer(Number(user?.point))}
                             <p>보유한 포인트 : {user?.point}</p>
                         </PointInfo>
                         <RankInfo>
@@ -86,7 +126,7 @@ const Wrapper = styled.div`
     padding-top: 60px;
     @media screen and (max-width: 800px) {
         display: flex;
-    };
+    } ;
 `;
 
 const InnerWrapper = styled.div`
