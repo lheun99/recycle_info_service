@@ -192,7 +192,8 @@ const SingleBoard = ({ item }) => {
 export default SingleBoard;
 
 const Wrapper = styled.div`
-    width: 500px;
+    width: 100%;
+    max-width: 400px;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -285,6 +286,7 @@ const Stepper = materialStyled(MobileStepper)(() => ({
     borderRadius: "15px",
     marginBottom: "3px",
     height: "40px",
+    padding: "0 20px",
 }));
 
 const StepButton = materialStyled(Button)(() => ({

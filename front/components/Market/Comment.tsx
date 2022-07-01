@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { UserStateContext } from "../../pages/_app";
-import { get, post, deleteComment } from "../../api";
+import { get, post, deleteComment, put } from "../../api";
 import { DispatchContext } from "../../pages/_app";
 import styled from "styled-components";
 import { styled as materialStyled } from "@mui/material/styles";
@@ -16,13 +16,13 @@ const DeleteButton = ({ commentId }) => {
         </Button>
     );
 };
+
 // postId 도 받아 와야함
 const Comment = ({ expand, postId, setExpanded }) => {
     const dispatch = useContext(DispatchContext);
     const userInfo = useContext(UserStateContext);
     const nickname = userInfo?.user?.nickname ?? "로그인이 필요해요.";
     const [comment, setComment] = useState("");
-    const [current, setCurrent] = useState(true); // has token ?
     const [commentList, setCommentList] = useState([]);
 
     const getCommentList = async () => {
@@ -44,6 +44,7 @@ const Comment = ({ expand, postId, setExpanded }) => {
             setComment("");
         }
     };
+
     useEffect(() => {
         getCommentList();
     }, [sendComment]);
@@ -95,13 +96,15 @@ const Comment = ({ expand, postId, setExpanded }) => {
                                 <CommentWriter paragraph>
                                     🌳 : {item.nickname}
                                 </CommentWriter>
+
                                 <CommentBody>{item.content}</CommentBody>
+
                                 {item.userId === userInfo.user.userId && (
-                                    <DeleteWrapper>
+                                    <ButtonWrapper>
                                         <DeleteButton
                                             commentId={item.commentId}
                                         />
-                                    </DeleteWrapper>
+                                    </ButtonWrapper>
                                 )}
                             </div>
                         ))}
