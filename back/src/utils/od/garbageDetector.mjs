@@ -329,6 +329,7 @@ class GarbageDetector {
     // const [height, width] = image_.shape;
     const [width, height] = image_.shape;
     const dim = [width, height];
+    console.log(`input image original dim`, dim);
 
     const input = tf.image
       .resizeBilinear(image_, [320, 320])
