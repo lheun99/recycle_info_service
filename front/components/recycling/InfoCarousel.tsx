@@ -98,7 +98,7 @@ const InfoCarousel = ({ info, route }) => {
                             width={35}
                             height={35}
                         />
-                        <p>포인트 적립하기</p>
+                        <p>포인트 적립</p>
                     </PointButton>
                 </ButtonWrapper>
             </Wrapper>
@@ -184,11 +184,16 @@ const Button = styled.button`
     width: 130px;
     height: 50px;
     margin: 10px 6px;
-    background-color: #dedede;
+    background-color: var(--deepgray);
     border-radius: 10px;
     word-break: keep-all;
     font-family: Elice Digital Baeum;
     font-size: 0.8rem;
+    color: gray;
+    :hover {
+        background-color: white;
+        color: black;
+    }
     @media screen and (max-width: 600px) {
         width: 110px;
     };
@@ -207,6 +212,11 @@ const PointButton = styled.button`
     word-break: keep-all;
     font-family: Elice Digital Baeum;
     font-size: 0.8rem;
+    color: gray;
+    :hover {
+        background-color: white;
+        color: black;
+    }
     @media screen and (max-width: 600px) {
         width: 110px;
     };

@@ -32,10 +32,10 @@ const Results = ({ content, index }) => {
 
 // After preview image upload, object detection doing function run
 const Detection = ({ detection, index }) => {
-    const top = detection.xyxy[1] * 350;
-    const left = detection.xyxy[0] * 600;
-    const width = (detection.xyxy[2] - detection.xyxy[0]) * 600;
-    const height = (detection.xyxy[3] - detection.xyxy[1]) * 350;
+    const top = detection.xyxy[1] * 240;
+    const left = detection.xyxy[0] * 400;
+    const width = (detection.xyxy[2] - detection.xyxy[0]) * 400;
+    const height = (detection.xyxy[3] - detection.xyxy[1]) * 240;
 
     return (
         <DetectionBox
@@ -61,8 +61,8 @@ const ImgDetection = ({ info, imgUrl }) => {
                     <Image
                         src={imgUrl}
                         alt="preview-image"
-                        width={600}
-                        height={350}
+                        width={400}
+                        height={240}
                         layout="fill"
                     />
                     {info?.map((detection, index) => {
@@ -103,8 +103,8 @@ const Container = styled.div`
 
 const Wrapper = styled.div`
     position: relative;
-    width: 600px;
-    height: 350px;
+    width: 400px;
+    height: 240px;
     display: flex;
     margin-top: 30px;
 `;

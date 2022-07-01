@@ -211,8 +211,8 @@ const FaButton = materialStyled(Fab)(() => ({
 const Button = styled.button`
     border: none;
     cursor: pointer;
-    width: 150px;
-    height: 40px;
+    width: 130px;
+    height: 50px;
     margin: 19.92px 0 19.92px 0;
     border-radius: 10px;
     word-break: keep-all;
@@ -221,4 +221,8 @@ const Button = styled.button`
     background-color: #a7c4bc;
     color: #fff;
     font-family: Elice Digital Baeum;
+    :hover {
+        background-color: var(--deepgreen);
+        color: white;
+    }
 `;

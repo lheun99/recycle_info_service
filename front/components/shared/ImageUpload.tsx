@@ -204,9 +204,14 @@ const DragImage = styled.div<{ width: number; height: number }>`
 `;
 
 const InputLabel = styled.label`
-    cursor: pointer;
-    background-color: #a7c4bc;
-    color: #fff;
-    padding: 7px 30px;
+    padding: 15px 34px;
     border-radius: 10px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    background-color: var(--green);
+    color: white;
+    :hover {
+        background-color: var(--deepgreen);
+        color: white;
+    }
 `;
