@@ -7,7 +7,7 @@ const upload = multer({ storage });
 
 const recycleInfoRouter = Router();
 
-//POST /recycle-info : 사용자가 등록한 이미지 분석, 분리배출 방법 안내
+//POST /recycle-info : 사용자가 등록한 이미지 분석
 recycleInfoRouter.post(
   "/img",
   upload.single("image"),
@@ -30,13 +30,13 @@ recycleInfoRouter.post(
   }
 );
 
-// GET /recycle-info/img: 분석 결과(코드)에 따른 분리배출 방법
+//post /recycle-info/search: 분석 결과(코드)에 따른 분리배출 방법 안내
 recycleInfoRouter.post("/search", async (req, res, next) => {
   try {
-    //검색어를 받는다
+    //분석 결과에 해당 하는 코드
     const code = req.body.code;
 
-    //검색 결과
+    //코드에 따른 분리배출 방법 검색 결과
     const info = await recycleInfoService.getInfoByCodes({
       code,
     });
@@ -51,10 +51,10 @@ recycleInfoRouter.post("/search", async (req, res, next) => {
   }
 });
 
-//GET /recycle-info/?code : 분리배출 방법 검색
+//GET /recycle-info/?code : 분리배출 방법 코드에 따라 안내
 recycleInfoRouter.get("/", async (req, res, next) => {
   try {
-    //검색어를 받는다
+    //검색어(코드)를 받는다
     const code = req.query.code;
 
     //검색 결과

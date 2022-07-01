@@ -6,7 +6,6 @@ import recycleInfoRouter from "./routes/recycleInfoRouter.js";
 import userRouter from "./routes/userRouter.js";
 import postRouter from "./routes/postRouter.js";
 import commentRouter from "./routes/commentRouter.js";
-import searchRouter from "./routes/searchRouter.js";
 import imgUploadRouter from "./routes/imgUploadRouter.js";
 import pointRouter from "./routes/pointRouter.js";
 import quizRouter from "./routes/quizRouter.js";
@@ -31,7 +30,6 @@ app.get("/", (req, res) => {
 });
 
 app.use("/recycle-info", recycleInfoRouter);
-app.use("/search", searchRouter);
 app.use("/upload", imgUploadRouter);
 app.use("/post", postRouter);
 app.use("/comment", commentRouter);

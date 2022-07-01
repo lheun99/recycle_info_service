@@ -17,14 +17,14 @@ const pool = new StaticPool({
 
 const RecycleInfo = {
   //POST /recycle-info/img
-  //인공지능 파트로 이미지 정보 전달
+  //인공지능 파트로 이미지 정보 전달, 분석 진행
   findRecycleCode: async ({ imgBuffer }) => {
     const result = await pool.exec(imgBuffer);
     return result;
   },
 
-  //GET /recycle-info/img
-  //분석 결과에 따른 분리배출 정보
+  //POST /recycle-info/search
+  //분석 결과(코드)에 따른 분리배출 정보
   findInfoByCodes: async ({ code }) => {
     const infos = await sequelize.query(
       `SELECT recycle_infos.code, recycle_categories.category, jsonb_object_agg(recycle_infos.details , recycle_infos.info_img) as "recycleInfo"
@@ -44,7 +44,7 @@ const RecycleInfo = {
   },
 
   //GET /recycle-info/?code
-  //분석 결과에 따른 분리배출 정보
+  //코드에 따른 분리배출 정보
   findInfoByCode: async ({ code }) => {
     const infos = await sequelize.query(
       `SELECT recycle_categories.category, recycle_infos.details, recycle_infos.info_img
