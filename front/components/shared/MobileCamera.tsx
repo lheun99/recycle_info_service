@@ -1,11 +1,6 @@
-import React, {
-    useState,
-    useEffect,
-    Dispatch,
-    SetStateAction,
-    useRef,
-} from "react";
+import React, { useState, Dispatch, SetStateAction } from "react";
 import Image from "next/image";
+import Loading from "./Loading";
 import { sendImageFile } from "../../api";
 import instax from "../../public/images/Instax.png";
 import styled from "styled-components";
@@ -89,7 +84,9 @@ const MobileCamera = ({
             </Wrapper>
         )
     ) : (
-        <Wrapper>결과를 기다려주세요!</Wrapper>
+        <Wrapper>
+            <Loading width={250} height={250} />
+        </Wrapper>
     );
 };
 
@@ -97,7 +94,7 @@ export default MobileCamera;
 
 const Wrapper = styled.div`
     width: 100%;
-    height: auto;
+    height: 800px;
     display: flex;
     flex-direction: column;
     justify-content: center;
