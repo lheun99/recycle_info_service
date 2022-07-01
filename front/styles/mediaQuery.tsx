@@ -4,7 +4,7 @@ import { useMediaQuery } from "react-responsive";
 // 모바일 기기
 export function useIsMobile() {
     const [isMobile, setIsMobile] = useState(false);
-    const mobile = useMediaQuery({ query: "(max-width: 600px)" }); // 600 이나 500 정도
+    const mobile = useMediaQuery({ query: "(max-width: 500px)" }); // 600 이나 500 정도
     useEffect(() => {
         setIsMobile(mobile);
     }, [mobile]);

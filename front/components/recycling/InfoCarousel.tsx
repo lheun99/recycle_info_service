@@ -6,7 +6,7 @@ import Loading from "../shared/Loading";
 import styled from "styled-components";
 import InfoCard from "./InfoCard";
 import Pagination from "./Pagination";
-import { getRecycleInfo } from "../../api";
+import { getRecycleInfo, post } from "../../api";
 
 const matchType = [
     "종이류",
@@ -30,6 +30,7 @@ const InfoCarousel = ({ info, route }) => {
     const [showList, setShowList] = useState([]);
     const router = useRouter(); // 페이지 이동을 위해 useRouter 적용
     const [targetPage, setTargetPage] = useState(0);
+    const [disabledBtn, setDisabledBtn] = useState(false);
 
     // route === "ImageSearch", findInfo function
     const getInfo = async (uniqueCodeArr) => {
@@ -45,14 +46,22 @@ const InfoCarousel = ({ info, route }) => {
         router.push(`/${(e.target as HTMLButtonElement).name}`);
     };
 
-    const getPoint = () => {
-        // get 기존 포인트 -> put 추가한 포인트
+    const getPoint = async (e) => {
+        if (e.type === "click") {
+            const res = await post("points", { route: "recycle", point: 100 });
+            alert(`100포인트가 적립되었습니다!
+            당신의 작은 관심 하나가 지구를 숨쉬게 합니다.
+            '마이페이지' 에서 자라나는 나무를 확인하세요~`);
+            console.log(res);
+            setDisabledBtn(true);
+        }
     };
     useEffect(() => {
         if (route === "ImageSearch") {
             const codeList = new Set(info.map((code) => code.code));
             const uniqueCodeArr = Array.from(codeList);
             getInfo(uniqueCodeArr);
+            setDisabledBtn(false);
         }
     }, []);
 
@@ -123,15 +132,6 @@ const InfoCarousel = ({ info, route }) => {
                     <Button type="button" name="market" onClick={rendPage}>
                         중고마켓으로 가기
                     </Button>
-                    <PointButton type="button" onClick={getPoint}>
-                        <Image
-                            src={pointCoin}
-                            alt="point coin"
-                            width={35}
-                            height={35}
-                        />
-                        <p>포인트 적립</p>
-                    </PointButton>
                 </ButtonWrapper>
             </Wrapper>
         </>
@@ -152,7 +152,7 @@ const Wrapper = styled.div`
     border-left: 2px dashed #a7c4bc;
     @media screen and (max-width: 1224px) {
         border-left: none;
-    };
+    } ;
 `;
 
 const ResultForm = styled.div`
@@ -196,7 +196,7 @@ const Button = styled.button`
     }
     @media screen and (max-width: 600px) {
         width: 110px;
-    };
+    } ;
 `;
 const PointButton = styled.button`
     display: flex;
@@ -219,7 +219,7 @@ const PointButton = styled.button`
     }
     @media screen and (max-width: 600px) {
         width: 110px;
-    };
+    } ;
 `;
 
 const NoResult = styled.div`
