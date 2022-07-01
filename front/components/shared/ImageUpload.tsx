@@ -106,11 +106,11 @@ const ImageUpload = ({
 
     const sendImage = async (file: Blob) => {
         try {
-            encodeFileToBase64(file);
             setIsUploaded("loading");
             const formData = new FormData();
             formData.append("image", file);
             if (route === "recycleInfo") {
+                encodeFileToBase64(file);
                 const res = await sendImageFile("recycle-info/img", formData);
                 const info = res?.data?.data.imgInfo;
                 setInfo(info);
@@ -180,12 +180,12 @@ export default ImageUpload;
 
 const Wrapper = styled.div`
     width: 100%;
-    height: 480px;
+    height: auto;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-evenly;
-    margin: 50px 0;
+    margin: 20px 0;
 `;
 
 const DragImage = styled.div<{ width: number; height: number }>`
