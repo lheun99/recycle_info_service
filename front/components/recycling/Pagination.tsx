@@ -11,7 +11,10 @@ const Pagination = ({ totalPages, setTargetPage }) => {
 
     return (
         <Wrapper>
-            <Comment>📍 페이지를 넘기며 결과를 확인해보세요.</Comment>
+            <Comment>
+                📍 대분류의 종류는 번호를 클릭하여 페이지를 전환하고,
+                <br />그 아래 세분류 카드는 슬라이드로 확인합니다.{" "}
+            </Comment>
             <NavWrapper>
                 {pageList.map((number) => (
                     <LiTag key={`pageKey-${number}`}>
@@ -37,7 +40,7 @@ const Comment = styled.p`
     padding-top: 20px;
     @media screen and (max-width: 1224px) {
         border-top: 2px dashed #a7c4bc;
-    };
+    } ;
 `;
 
 const NavWrapper = styled.ul`
@@ -66,5 +69,3 @@ const LiTag = styled.nav`
         background-color: #fff;
     }
 `;
-
-
