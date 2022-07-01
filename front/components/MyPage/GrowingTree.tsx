@@ -18,15 +18,14 @@ const GrowingTree = ({ point }) => {
 
         if (300 < point && point <= 1000) {
             setPagePointer("2");
-        } else if (1000 < point && point <= 2500) {
+        } else if (1000 < point && point <= 2000) {
             setPagePointer("3");
-        } else if (2500 < point && point <= 5000) {
+        } else if (2000 < point && point <= 3500) {
             setPagePointer("4");
         } else {
             setPagePointer("5");
         }
     };
-
 
     useEffect(() => {
         // user의 point를 받아 온다
