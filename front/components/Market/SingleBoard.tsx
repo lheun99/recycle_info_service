@@ -172,8 +172,18 @@ const SingleBoard = ({ item }) => {
                 </ExpandMore>
             </CardActionTab>
             <Collapse in={expanded} timeout="auto" unmountOnExit>
-                <CardContent style={{ backgroundColor: "white" }}>
-                    <Comment expand={expanded} />
+                <CardContent
+                    style={{
+                        backgroundColor: "white",
+                        borderRadius: "15px",
+                        marginTop: "3px",
+                    }}
+                >
+                    <Comment
+                        expand={expanded}
+                        postId={item.postId}
+                        setExpanded={setExpanded}
+                    />
                 </CardContent>
             </Collapse>
         </Wrapper>

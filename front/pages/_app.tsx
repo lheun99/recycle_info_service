@@ -15,23 +15,29 @@ function MyApp({ Component, pageProps }: AppProps) {
     });
 
     const [isFetchCompleted, setIsFetchCompleted] = useState(false);
-    
+
     const fetchCurrentUser = async () => {
         try {
             const currentUser = sessionStorage.getItem("userToken");
 
             if (currentUser) {
                 const res = await get("users/current");
-                const user = res.data;
+                const user = res.data.data;
 
                 dispatch({
                     type: "LOGIN_SUCCESS",
                     payload: user,
                 });
-                
-                console.log("%c sessionStorage에 토큰 있음.", "color: #d93d1a;");
+
+                console.log(
+                    "%c sessionStorage에 토큰 있음.",
+                    "color: #d93d1a;"
+                );
             } else {
-                console.log("%c SessionStorage에 토큰 없음.", "color: #d93d1a;");
+                console.log(
+                    "%c SessionStorage에 토큰 없음.",
+                    "color: #d93d1a;"
+                );
             }
         } catch (err) {
             console.log("error message: ", err);

@@ -10,8 +10,10 @@ import styled from "styled-components";
 import { UserStateContext } from "../pages/_app";
 import MenuIcon from "../public/images/menu.png";
 import { useMediaQuery } from "react-responsive";
+import { DispatchContext } from "../pages/_app";
 
 const Nav = () => {
+    const dispatch = useContext(DispatchContext);
     const router = useRouter();
     const userInfo = useContext(UserStateContext);
     const [login, setLogin] = useRecoilState(LoginState);
@@ -50,7 +52,9 @@ const Nav = () => {
                 </NavListItem>
                 <NavListItem>
                     <Link href="/waste">
-                        <a onClick={clickHandler}>우리동네 대형폐기물 신고하기</a>
+                        <a onClick={clickHandler}>
+                            우리동네 대형폐기물 신고하기
+                        </a>
                     </Link>
                 </NavListItem>
                 <NavListItem>
@@ -78,16 +82,23 @@ const Nav = () => {
                             onClick={() => {
                                 setLogin(false);
                                 sessionStorage.removeItem("userToken");
+                                dispatch({
+                                    type: "LOGOUT",
+                                });
                                 router.push("/");
                             }}
                         >
                             Sign out
                         </LoginButton>
                     ) : (
-                        <LoginButton onClick={() => {
-                            handleOpen();
-                            clickHandler();
-                        }}>Sign in</LoginButton>
+                        <LoginButton
+                            onClick={() => {
+                                handleOpen();
+                                clickHandler();
+                            }}
+                        >
+                            Sign in
+                        </LoginButton>
                     )}
                     <LoginOrRegisterModal
                         open={open}

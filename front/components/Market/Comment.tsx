@@ -1,58 +1,104 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { UserStateContext } from "../../pages/_app";
-import { get } from "../../api";
-
+import { get, post, deleteComment } from "../../api";
+import { DispatchContext } from "../../pages/_app";
 import styled from "styled-components";
 import { styled as materialStyled } from "@mui/material/styles";
 import { Box, TextField, Typography } from "@mui/material";
 
 // postId 도 받아 와야함
-const Comment = ({ expand }) => {
+const Comment = ({ expand, postId, setExpanded }) => {
+    const dispatch = useContext(DispatchContext);
     const userInfo = useContext(UserStateContext);
-    const profileImg = userInfo?.user?.picture ?? "";
     const nickname = userInfo?.user?.nickname ?? "로그인이 필요해요.";
+    const [comment, setComment] = useState("");
+    const [current, setCurrent] = useState(true); // has token ?
+    const [commentList, setCommentList] = useState([]);
 
     const getCommentList = async () => {
-        const id = "58"; // 원래 postId 가 필요하다
-        const res = await get(`comment/${id}`);
+        const res = await get(`comment/${postId}`);
+        const newList = res.data.data;
+        setCommentList(newList);
+    };
+
+    const sendComment = async () => {
+        if (comment === "") {
+            // 입력한 내용이 없을 경우, 넘어가지 못함
+            return;
+        } else {
+            // 서버로 검색어 넘긴다
+            const res = await post("comment", {
+                postId: postId,
+                content: comment,
+            });
+        }
     };
 
     useEffect(() => {
-        if (expand) {
+        if (expand && userInfo?.user) {
             getCommentList();
-        } // expanded가 true 일 경우에만 불러오고 싶다! (댓글을 펼쳤을 때)
+        }
+        // expanded가 true 일 경우, 그리고 로그인 했을때! 에만 불러오고 싶다!
     }, [expand]);
 
     return (
-        <div>
+        <div style={{ borderRadius: "15px" }}>
             {/* 댓글 작성  */}
-            <Box
-                sx={{
-                    width: "100%",
-                    height: "auto",
-                    borderRadius: "15px",
-                }}
-            >
-                <Typography paragraph>👤 {nickname} :</Typography>
-                <TextField
-                    style={{ width: "100%" }}
-                    multiline
-                    rows={3}
-                    placeholder="내용을 입력해주세요."
-                />
-                <ButtonWrapper>
-                    <Button name="cancle">취소</Button>
-                    <Button name="upload">완료</Button>
-                </ButtonWrapper>
-            </Box>
-            {/* 댓글 목록 */}
-            <Box>
-                <Typography paragraph>🌳:</Typography>
-                <Typography>
-                    Set aside off of the heat to let rest for 10 minutes, and
-                    then serve.
-                </Typography>
-            </Box>
+            {userInfo?.user ? (
+                <>
+                    <Box
+                        sx={{
+                            width: "100%",
+                            height: "auto",
+                            borderRadius: "15px",
+                        }}
+                    >
+                        <Typography paragraph>👤 {nickname} :</Typography>
+                        <TextField
+                            style={{ width: "100%" }}
+                            multiline
+                            rows={3}
+                            placeholder="내용을 입력해주세요."
+                            onChange={(
+                                e: React.ChangeEvent<HTMLInputElement>
+                            ) => setComment(e.target.value)}
+                        />
+                        <ButtonWrapper>
+                            <Button
+                                name="cancle"
+                                onClick={() => setExpanded(false)}
+                            >
+                                취소
+                            </Button>
+                            <Button name="upload" onClick={sendComment}>
+                                완료
+                            </Button>
+                        </ButtonWrapper>
+                    </Box>
+                    <CommentWrapper>
+                        {commentList?.map((item, index) => (
+                            <div key={`comment-${index}`}>
+                                <CommentWriter paragraph>
+                                    🌳 : {item.nickname}
+                                </CommentWriter>
+                                <CommentBody>{item.content}</CommentBody>
+                                {item.userId === userInfo.user.userId && (
+                                    <div>
+                                        <Button
+                                            id={item.commentId}
+                                            name="delete"
+                                        >
+                                            삭제
+                                        </Button>
+                                    </div>
+                                )}
+                            </div>
+                        ))}
+                    </CommentWrapper>
+                </>
+            ) : (
+                <p>로그인이 필요합니다.</p>
+            )}
         </div>
     );
 };
@@ -76,4 +122,23 @@ const ButtonWrapper = materialStyled(Box)(() => ({
     display: "flex",
     justifyContent: "flex-end",
     marginTop: "16px",
+    overflow: "auto",
+}));
+
+const CommentWriter = materialStyled(Typography)(() => ({
+    marginBottom: "8px",
+    fontFamily: "Elice Digital Baeum",
+    fontSize: "14px",
+}));
+
+const CommentBody = materialStyled(Typography)(() => ({
+    fontFamily: "Elice Digital Baeum",
+    fontSize: "14px",
+    padding: "5px 5px",
+    border: "1px solid rgba(0, 0, 0, 0.6)",
+    overflow: "auto",
+}));
+
+const CommentWrapper = materialStyled(Box)(() => ({
+    margin: "5px 5px",
 }));
