@@ -59,9 +59,14 @@ const InfoCarousel = ({ info, route }) => {
         if (route === "ImageSearch") {
             const codeList = new Set(info.map((code) => code.code));
             const uniqueCodeArr = Array.from(codeList);
-            getInfo(uniqueCodeArr);
-            setDisabledBtn(false);
+            if (uniqueCodeArr.length === 0) {
+                setShowList([]);
+                return;
+            } else {
+                getInfo(uniqueCodeArr);
+            }
         }
+        setDisabledBtn(false);
     }, []);
 
     return route === "ImageSearch" ? (
@@ -195,7 +200,7 @@ const Button = styled.button`
     }
     @media screen and (max-width: 600px) {
         width: 110px;
-    };
+    } ;
 `;
 const PointButton = styled.button`
     display: flex;
