@@ -8,7 +8,7 @@ var hostname = os.hostname();
 const backendPortNumber = "5000";
 
 const serverUrl =
-    "https://" +
+    "http://" +
     "kdt-ai4-team09.elicecoding.com" +
     ":" +
     backendPortNumber +
