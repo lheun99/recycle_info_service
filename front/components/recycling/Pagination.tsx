@@ -18,7 +18,13 @@ const Pagination = ({ totalPages, setTargetPage }) => {
             <NavWrapper>
                 {pageList.map((number) => (
                     <LiTag key={`pageKey-${number}`}>
-                        <a href="#" onClick={() => setTargetPage(number - 1)}>
+                        <a
+                            href="#"
+                            onClick={(e) => {
+                                e.preventDefault();
+                                setTargetPage(number - 1);
+                            }}
+                        >
                             {number}
                         </a>
                     </LiTag>
