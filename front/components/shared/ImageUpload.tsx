@@ -181,10 +181,12 @@ export default ImageUpload;
 
 const Wrapper = styled.div`
     width: 100%;
+    height: 480px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-evenly;
+    margin: 50px 0;
 `;
 
 const DragImage = styled.div<{ width: number; height: number }>`
