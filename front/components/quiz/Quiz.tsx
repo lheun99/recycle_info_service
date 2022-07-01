@@ -18,11 +18,11 @@ type QuizType = {
 };
 
 type ChallengeType = {
-    src: StaticImageData,
-    alt: string,
-    onClick: any,
-    text: string
-}
+    src: StaticImageData;
+    alt: string;
+    onClick: any;
+    text: string;
+};
 
 const CHALLENGENUM: number = 3;
 
@@ -37,13 +37,13 @@ const Quiz = () => {
     const [answer, setAnswer] = useState<boolean>(false);
     const [userAnswer, setUserAnswer] = useState<string>("");
     const [challenge, setChallenge] = useState<ChallengeType[]>();
-    const isMobile = useMediaQuery({ query: '(max-width: 600px)' })
+    const isMobile = useMediaQuery({ query: "(max-width: 600px)" });
 
     const openClickHandler = (): void => {
         setAnswer(false);
         setOpen(!open);
-    }
-    
+    };
+
     const answerClickHandler = (userAnswer: string): void => {
         setAnswer(true);
         setUserAnswer(userAnswer);
@@ -58,14 +58,14 @@ const Quiz = () => {
             console.log("error message: ", err);
         }
     };
-    
-    const setChallengeResult = async () => {   
+
+    const setChallengeResult = async () => {
         try {
             const res = await getQuary("points", {
                 params: {
                     route: "quiz",
                 },
-            })
+            });
 
             const result = [];
             let userPoint = res.data.data;
@@ -79,7 +79,7 @@ const Quiz = () => {
                     src: CheckMark,
                     alt: "check-mark",
                     onClick: null,
-                    text: "완료!"
+                    text: "완료!",
                 });
             }
             for (var i = 0; i < CHALLENGENUM - userPoint; i++) {
@@ -92,7 +92,6 @@ const Quiz = () => {
             }
 
             setChallenge(result);
-            
         } catch (err) {
             console.log("error message: ", err);
         }
@@ -105,14 +104,14 @@ const Quiz = () => {
 
     return (
         <Wrapper>
-            {
-                !isMobile && (
-                    <div>
-                        <h1>퀴즈 풀고 포인트 받자!</h1>
-                        <Contents>{"매일 매일 색다른 오늘의 퀴즈에 도전하세요."}</Contents>
-                    </div>
-                )
-            }
+            {!isMobile && (
+                <div>
+                    <h1>퀴즈 풀고 포인트 받자!</h1>
+                    <Contents>
+                        {"매일 매일 색다른 오늘의 퀴즈에 도전하세요."}
+                    </Contents>
+                </div>
+            )}
             <Form>
                 <Title>오늘의 퀴즈</Title>
                 <Container>
@@ -175,21 +174,19 @@ const Quiz = () => {
                         )
                     ) : (
                         <ChallengeButtonWrapper>
-                            {
-                                challenge?.map((data, index)  => (
-                                    <div>
-                                        <Image
-                                            key={index}
-                                            src={data.src}
-                                            alt={data.alt}
-                                            width={80}
-                                            height={80}
-                                            onClick={data.onClick}
-                                        />
-                                        <ChallengeText>{data.text}</ChallengeText>
-                                     </div>
-                                ))
-                            }
+                            {challenge?.map((data, index) => (
+                                <div key={`challenge-${index}`}>
+                                    <Image
+                                        key={index}
+                                        src={data.src}
+                                        alt={data.alt}
+                                        width={80}
+                                        height={80}
+                                        onClick={data.onClick}
+                                    />
+                                    <ChallengeText>{data.text}</ChallengeText>
+                                </div>
+                            ))}
                         </ChallengeButtonWrapper>
                     )}
                 </Container>
@@ -212,7 +209,7 @@ const Wrapper = styled.div`
     padding-top: 100px;
     @media screen and (max-width: 600px) {
         height: 700px;
-    };
+    } ;
 `;
 
 const Contents = styled.p`
@@ -234,12 +231,12 @@ const Form = styled.div`
     @media screen and (max-width: 600px) {
         border-radius: 0px;
         top: 60px;
-    };
+    } ;
 `;
 
-const Tip  = styled.p`
+const Tip = styled.p`
     width: 100%;
-    position: absolute; 
+    position: absolute;
     bottom: 50px;
     white-space: pre-wrap;
     text-align: center;
@@ -255,7 +252,7 @@ const Title = styled.h2`
     border-radius: 20px 20px 0 0;
     @media screen and (max-width: 600px) {
         border-radius: 0px;
-    };
+    } ;
 `;
 
 const Container = styled.div`
