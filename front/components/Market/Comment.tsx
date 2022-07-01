@@ -42,7 +42,6 @@ const Comment = ({ expand, postId, setExpanded }) => {
         if (expand && userInfo?.user) {
             getCommentList();
         }
-        // expanded가 true 일 경우, 그리고 로그인 했을때! 에만 불러오고 싶다!
     }, [expand]);
 
     return (

@@ -5,8 +5,30 @@ import Search from "../shared/Search";
 import SingleBoard from "./SingleBoard";
 import Write from "./Write";
 import { FixedSizeList as List } from "react-window";
-import { getPost } from "../../api";
+import { getPost, get } from "../../api";
 import InfiniteScroll from "react-infinite-scroll-component";
+
+const ListComponent = ({ loadMore, board }) => {
+    return (
+        <InfiniteScroll
+            dataLength={board.length} // 반복되는 컴포넌트 갯수
+            next={loadMore}
+            height={600}
+            hasMore={true}
+            loader={<h3> Loading...</h3>}
+            endMessage={<h4>Nothing more to show</h4>}
+        >
+            {board.map((i, index) => (
+                <div
+                    style={{ overflow: "auto", position: "relative" }}
+                    key={index}
+                >
+                    <SingleBoard item={i} />
+                </div>
+            ))}
+        </InfiniteScroll>
+    );
+};
 
 const MainBoard = ({ firstBoards }) => {
     const [isWrite, setIsWrite] = useState(false);
@@ -15,59 +37,21 @@ const MainBoard = ({ firstBoards }) => {
     const [page, setPage] = useState(1);
     const [board, setBoard] = useState(firstBoards);
     const [show, setShow] = useState([]);
-    const [hasMore, setHasMore] = useState(true);
     const userInfo = useContext(UserStateContext);
 
     const loadMore = async () => {
         const per = 10;
         const res = await getPost(`post/list?page=${page + 1}&perPage=${per}`);
+
         const newLists = res.data.data.postList;
 
-        if (
-            newLists.length === 0 ||
-            board.length - page * 10 === newLists.length
-        ) {
+        if (newLists.length === 0) {
             alert("contents is end");
-            setHasMore(false);
         } else {
             setPage((cur) => cur + 1);
             const newBoard = [...board, ...newLists];
             setBoard(newBoard);
         }
-    };
-
-    const ListComponent = () => {
-        const Row = ({ index, style }) => (
-            <div
-                id={`content-${index}`}
-                style={{
-                    ...style,
-                    overflow: "auto",
-                }}
-            >
-                <SingleBoard key={index} item={board[index]} />
-            </div>
-        );
-
-        return (
-            <InfiniteScroll
-                dataLength={10} // 반복되는 컴포넌트 갯수
-                next={loadMore}
-                hasMore={hasMore}
-                loader={<h3> Loading...</h3>}
-                endMessage={<h4>Nothing more to show</h4>}
-            >
-                <List
-                    height={830}
-                    width={600}
-                    itemCount={board?.length}
-                    itemSize={750}
-                    className="list-container"
-                >
-                    {Row}
-                </List>
-            </InfiniteScroll>
-        );
     };
 
     useEffect(() => {
@@ -91,7 +75,7 @@ const MainBoard = ({ firstBoards }) => {
                         </Button>
                     )}
                 </Menu>
-                <BoardWrapper>
+                <BoardWrapper id={"hello"}>
                     {isWrite ? (
                         <Write
                             title={title}
@@ -101,7 +85,7 @@ const MainBoard = ({ firstBoards }) => {
                             setIsWrite={setIsWrite}
                         />
                     ) : show ? (
-                        <ListComponent />
+                        <ListComponent loadMore={loadMore} board={board} />
                     ) : (
                         <></>
                     )}

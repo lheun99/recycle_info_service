@@ -40,7 +40,7 @@ const ExpandMore = materialStyled((props: ExpandMoreProps) => {
     }),
 }));
 
-// data map 할 예정, 게시글과 댓글 연동은 postId (게시글 번호) 로 연동 !
+// 게시글과 댓글 연동은 postId (게시글 번호) 로 연동 !
 const SingleBoard = ({ item }) => {
     const [expanded, setExpanded] = useState(false);
     const [slideIndex, setSlideIndex] = useState(0);
@@ -192,13 +192,14 @@ const SingleBoard = ({ item }) => {
 export default SingleBoard;
 
 const Wrapper = styled.div`
-    width: 100%;
+    width: 500px;
     height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     box-shadow: #a7c4bc 0px 1px 2px #a7c4bc 0px 1px 2px;
-    padding: 5px 5px;
+    padding: 5px 5px 10px 5px;
+    margin: 5px 0;
     border-bottom: 2px dashed #305e63;
 `;
 
@@ -299,7 +300,7 @@ const CardActionTab = materialStyled(CardActions)(() => ({
 }));
 
 const PostBody = styled.div`
-    height: auto;
+    min-height: 150px;
     word-break: keep-all;
     overflow: auto;
 `;
