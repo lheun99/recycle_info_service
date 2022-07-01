@@ -10,8 +10,8 @@ const Pagination = ({ totalPages, setTargetPage }) => {
     }
 
     return (
-        <>
-            <Comment>📍 페이지를 넘기며 결과를 확인해보세요!</Comment>
+        <Wrapper>
+            <Comment>📍 페이지를 넘기며 결과를 확인해보세요.</Comment>
             <NavWrapper>
                 {pageList.map((number) => (
                     <LiTag key={`pageKey-${number}`}>
@@ -21,14 +21,27 @@ const Pagination = ({ totalPages, setTargetPage }) => {
                     </LiTag>
                 ))}
             </NavWrapper>
-        </>
+        </Wrapper>
     );
 };
 
 export default Pagination;
 
+const Wrapper = styled.div`
+    width: 90%;
+`;
+
+const Comment = styled.p`
+    font-size: var(--font-text);
+    font-weight: bold;
+    padding-top: 20px;
+    @media screen and (max-width: 1224px) {
+        border-top: 2px dashed #a7c4bc;
+    };
+`;
+
 const NavWrapper = styled.ul`
-    width: 400px;
+    width: 100%;
     height: 20px;
     display: flex;
     padding-left: 0;
@@ -54,7 +67,4 @@ const LiTag = styled.nav`
     }
 `;
 
-const Comment = styled.p`
-    font-size: 12px;
-    font-weight: bold;
-`;
+

@@ -55,14 +55,14 @@ const ImgDetection = ({ info, imgUrl }) => {
     const urlSrc = useRef();
     return (
         <Container>
-            <h3>Results...</h3>
+            <h2>결과를 확인해주세요!</h2>
             {imgUrl && (
                 <Wrapper ref={urlSrc}>
                     <Image
                         src={imgUrl}
                         alt="preview-image"
-                        width="600"
-                        height="350"
+                        width={600}
+                        height={350}
                         layout="fill"
                     />
                     {info?.map((detection, index) => {
@@ -94,12 +94,11 @@ const ImgDetection = ({ info, imgUrl }) => {
 export default ImgDetection;
 
 const Container = styled.div`
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 100%;
-    height: 620px;
 `;
 
 const Wrapper = styled.div`
@@ -107,6 +106,7 @@ const Wrapper = styled.div`
     width: 600px;
     height: 350px;
     display: flex;
+    margin-top: 30px;
 `;
 
 const DetectionBox = styled.div<{
@@ -135,7 +135,6 @@ const ResultWrapper = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 150px;
     overflow: auto;
     word-break: keep-all;
     margin-top: 20px;
