@@ -40,7 +40,7 @@ const ExpandMore = materialStyled((props: ExpandMoreProps) => {
     }),
 }));
 
-// data map 할 예정, 게시글과 댓글 연동은 postId (게시글 번호) 로 연동 !
+// 게시글과 댓글 연동은 postId (게시글 번호) 로 연동 !
 const SingleBoard = ({ item }) => {
     const [expanded, setExpanded] = useState(false);
     const [slideIndex, setSlideIndex] = useState(0);
