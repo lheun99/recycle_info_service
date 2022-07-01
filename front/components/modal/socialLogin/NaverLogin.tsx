@@ -26,12 +26,12 @@ const NaverLogin = () => {
             setOpen((cur) => !cur);
             await router.push("/");
         } catch (error) {
-            console.log("문제 생김");
+            alert("다시 시도해주세요!");
         }
     };
 
     useEffect(() => {
-        code !== undefined ? naverLogin(code) : console.log("hi");
+        code !== undefined ? naverLogin(code) : "";
     }, [code]);
 
     return (

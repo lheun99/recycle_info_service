@@ -31,14 +31,17 @@ const Comment = ({ expand, postId, setExpanded }) => {
                 postId: postId,
                 content: comment,
             });
+            setComment("");
         }
     };
+    useEffect(() => {
+        getCommentList();
+    }, [sendComment]);
 
     useEffect(() => {
         if (expand && userInfo?.user) {
             getCommentList();
         }
-        // expanded가 true 일 경우, 그리고 로그인 했을때! 에만 불러오고 싶다!
     }, [expand]);
 
     return (
@@ -59,6 +62,7 @@ const Comment = ({ expand, postId, setExpanded }) => {
                             multiline
                             rows={3}
                             placeholder="내용을 입력해주세요."
+                            value={comment}
                             onChange={(
                                 e: React.ChangeEvent<HTMLInputElement>
                             ) => setComment(e.target.value)}

@@ -49,7 +49,6 @@ const MobileCamera = ({
             setOpenInfo(true);
             setIsUploaded("complete");
         } catch (e) {
-            console.error(e);
             alert("다시 시도 해주세요!");
             location.reload();
         }
@@ -58,7 +57,7 @@ const MobileCamera = ({
     return isUploaded !== "loading" ? (
         isCameraOn ? (
             <>
-                <div>
+                <Wrapper>
                     <InputLabel htmlFor="input-mobile-file">
                         한번 더 클릭!
                     </InputLabel>
@@ -70,7 +69,7 @@ const MobileCamera = ({
                         capture="environment"
                         onChange={(e) => sendImage(e.target.files[0])}
                     />
-                </div>
+                </Wrapper>
             </>
         ) : (
             <Wrapper>
@@ -90,7 +89,7 @@ const MobileCamera = ({
             </Wrapper>
         )
     ) : (
-        <p>결과를 기다려주세요!</p>
+        <Wrapper>결과를 기다려주세요!</Wrapper>
     );
 };
 

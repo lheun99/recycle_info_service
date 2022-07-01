@@ -3,7 +3,7 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import Logo from "../../public/images/logo.png";
 import kakao from "../../public/images/kakao.login.png";
-import naver from "../../public/images/naver.login.png"
+import naver from "../../public/images/naver.login.png";
 import styled from "styled-components";
 import { styled as materialStyled } from "@mui/material/styles";
 import { Button, TextField } from "@mui/material";
@@ -19,7 +19,7 @@ function Login({ handleClose }) {
     const dispatch = useContext(DispatchContext);
     const [login, setLogin] = useRecoilState(LoginState);
     const router = useRouter();
-    const isMobile = useMediaQuery({ query: '(max-width: 1224px)' });
+    const isMobile = useMediaQuery({ query: "(max-width: 1224px)" });
     const [register, setRegister] = useState<boolean>(false);
 
     const [nickname, setNickname] = useState<string>("");
@@ -34,11 +34,12 @@ function Login({ handleClose }) {
             );
     };
 
-    const isNicknameValid = nickname.length >= 2
+    const isNicknameValid = nickname.length >= 2;
     const isEmailValid = validateEmail(email);
     const isPasswordValid = password.length >= 8;
     const isLoginFormValid = isEmailValid && isPasswordValid;
-    const isRegisterFormValid = isNicknameValid && isEmailValid && isPasswordValid
+    const isRegisterFormValid =
+        isNicknameValid && isEmailValid && isPasswordValid;
 
     const handleLoginSubmit = async (event) => {
         event.preventDefault();
@@ -62,7 +63,6 @@ function Login({ handleClose }) {
             handleClose();
         } catch (err) {
             console.error("이메일 또는 비밀번호가 유효하지 않습니다.");
-            console.log(err);
         }
     };
 
@@ -77,24 +77,131 @@ function Login({ handleClose }) {
             });
 
             // 회원가입 마침
-            setRegister(false)
+            setRegister(false);
         } catch (err) {
             console.error("회원가입에 실패하였습니다.", err);
         }
     };
 
-    return (
-        !register ? (
-            <LoginWrapper>
+    return !register ? (
+        <LoginWrapper>
+            <div style={{ textAlign: "right" }}>
+                <CloseButton variant="text" onClick={handleClose}>
+                    x
+                </CloseButton>
+            </div>
+            <LogoImage>
+                <Image src={Logo} alt="logo" width={40} height={40} />
+            </LogoImage>
+            <SignInForm>
+                <TextForm
+                    type="email"
+                    label="E-MAIL"
+                    size="small"
+                    onChange={(e) => setEmail(e.target.value)}
+                    helperText={
+                        !isEmailValid && "이메일 형식이 올바르지 않습니다."
+                    }
+                />
+                <TextForm
+                    type="password"
+                    label="PASSWORD"
+                    size="small"
+                    onChange={(e) => setPassword(e.target.value)}
+                    helperText={
+                        !isPasswordValid && "비밀번호는 8글자 이상입니다."
+                    }
+                />
+                <SignButton
+                    type="submit"
+                    onClick={handleLoginSubmit}
+                    disabled={!isLoginFormValid}
+                >
+                    Sign in
+                </SignButton>
+            </SignInForm>
+            <Or>or</Or>
+            <FindWrapper>
+                <LoginSubWrapper>
+                    <Button
+                        variant="text"
+                        onClick={() => {
+                            setRegister(true);
+                        }}
+                    >
+                        회원가입
+                    </Button>
+                </LoginSubWrapper>
+                <SocialLoginWrapper>
+                    <Button
+                        variant="text"
+                        className=""
+                        onClick={() => {
+                            router.push(kakaoUrl());
+                        }}
+                        style={{ borderRadius: "12px" }}
+                    >
+                        <Image
+                            alt="kakao_Login"
+                            src={kakao}
+                            width={145}
+                            height={40}
+                        />
+                    </Button>
+                    <Button
+                        variant="text"
+                        className=""
+                        onClick={() => {
+                            router.push(naverUrl());
+                        }}
+                        style={{ borderRadius: "12px", width: "200px" }}
+                    >
+                        <Image
+                            alt="naver_Login"
+                            src={naver}
+                            width={145}
+                            height={40}
+                        />
+                    </Button>
+                </SocialLoginWrapper>
+            </FindWrapper>
+        </LoginWrapper>
+    ) : (
+        <RegisterWrapper>
+            {!isMobile && (
+                <SideImage>
+                    <Image
+                        src={Background}
+                        alt="background"
+                        width={430}
+                        height={600}
+                        objectFit="cover"
+                    />
+                </SideImage>
+            )}
+            <SideWrapper>
                 <div style={{ textAlign: "right" }}>
-                    <CloseButton variant="text" onClick={handleClose}>
+                    <CloseButton
+                        variant="text"
+                        onClick={() => {
+                            setRegister(false);
+                            handleClose();
+                        }}
+                    >
                         x
                     </CloseButton>
                 </div>
-                <LogoImage>
-                    <Image src={Logo} alt="logo" width={40} height={40} />
-                </LogoImage>
-                <SignInForm>
+                <Title>Create Account</Title>
+                <SignUpForm>
+                    <TextForm
+                        type="nickname"
+                        label="NICKNAME"
+                        size="small"
+                        onChange={(e) => setNickname(e.target.value)}
+                        helperText={
+                            !isNicknameValid && "닉네임은 두 글자 이상입니다."
+                        }
+                    />
                     <TextForm
                         type="email"
                         label="E-MAIL"
@@ -114,120 +221,20 @@ function Login({ handleClose }) {
                         }
                     />
                     <SignButton
+                        variant="text"
                         type="submit"
-                        onClick={handleLoginSubmit}
-                        disabled={!isLoginFormValid}
+                        onClick={handleRegisterSubmit}
+                        disabled={!isRegisterFormValid}
                     >
-                        Sign in
+                        Sign up
                     </SignButton>
-                </SignInForm>
-                <Or>or</Or>
-                <FindWrapper>
-                    <LoginSubWrapper>
-                        <Button
-                            variant="text"
-                            onClick={() => {
-                                setRegister(true);
-                            }}
-                        >
-                            회원가입
-                        </Button>
-                    </LoginSubWrapper>
-                    <SocialLoginWrapper>
-                        <Button
-                            variant="text"
-                            className=""
-                            onClick={() => {
-                                router.push(kakaoUrl());
-                            }}
-                            style={{ borderRadius: "12px" }}
-                        >
-                            <Image alt="kakao_Login" src={kakao} width={145} height={40} />
-                        </Button>
-                        <Button
-                            variant="text"
-                            className=""
-                            onClick={() => {
-                                router.push(naverUrl());
-                            }}
-                            style={{ borderRadius: "12px", width: "200px" }}
-                        >
-                            <Image alt="naver_Login" src={naver} width={145} height={40} />
-                        </Button>
-                    </SocialLoginWrapper>
-                </FindWrapper>
-            </LoginWrapper>
-        ) : (
-            <RegisterWrapper>
-                {
-                    !isMobile && (
-                        <SideImage>
-                            <Image
-                                src={Background}
-                                alt="background"
-                                width={430}
-                                height={600}
-                                objectFit="cover"
-                            />
-                        </SideImage>
-                    )
-                }
-                <SideWrapper>
-                    <div style={{ textAlign: "right" }}>
-                        <CloseButton
-                            variant="text"
-                            onClick={() => {
-                                setRegister(false)
-                                handleClose()
-                            }}
-                        >
-                            x
-                        </CloseButton>
-                    </div>
-                    <Title>Create Account</Title>
-                    <SignUpForm>
-                        <TextForm
-                            type="nickname"
-                            label="NICKNAME"
-                            size="small"
-                            onChange={(e) => setNickname(e.target.value)}
-                            helperText={
-                                !isNicknameValid && "닉네임은 두 글자 이상입니다."
-                            }
-                        />
-                        <TextForm
-                            type="email"
-                            label="E-MAIL"
-                            size="small"
-                            onChange={(e) => setEmail(e.target.value)}
-                            helperText={
-                                !isEmailValid && "이메일 형식이 올바르지 않습니다."
-                            }
-                        />
-                        <TextForm
-                            type="password"
-                            label="PASSWORD"
-                            size="small"
-                            onChange={(e) => setPassword(e.target.value)}
-                            helperText={!isPasswordValid && "비밀번호는 8글자 이상입니다."}
-                        />
-                        <SignButton
-                            variant="text"
-                            type="submit"
-                            onClick={handleRegisterSubmit}
-                            disabled={!isRegisterFormValid}
-                        >
-                            Sign up
-                        </SignButton>
-                    </SignUpForm>
-                </SideWrapper>
-            </RegisterWrapper>
-        )
+                </SignUpForm>
+            </SideWrapper>
+        </RegisterWrapper>
     );
 }
 
 export default Login;
-
 
 const LoginWrapper = styled.div`
     position: absolute;
@@ -315,7 +322,7 @@ const RegisterWrapper = styled.div`
     @media screen and (max-width: 1224px) {
         max-width: 520px;
         width: 90%;
-    };
+    } ;
 `;
 
 const SideImage = styled.div`

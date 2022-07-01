@@ -55,7 +55,7 @@ const Quiz = () => {
             const res = await get("quizs");
             setQuiz(res.data.data);
         } catch (err) {
-            console.log("error message: ", err);
+            console.error("error message: ", err);
         }
     };
 
@@ -93,7 +93,7 @@ const Quiz = () => {
 
             setChallenge(result);
         } catch (err) {
-            console.log("error message: ", err);
+            console.error("error message: ", err);
         }
     };
 

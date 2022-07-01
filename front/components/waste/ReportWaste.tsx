@@ -45,7 +45,7 @@ const ReportWaste = () => {
                                         alt="banner_image"
                                         width={100}
                                         height={40}
-                                        unoptimized={true}
+                                        optimized={false}
                                     />
                                 </ImageWrapper>
                             )}

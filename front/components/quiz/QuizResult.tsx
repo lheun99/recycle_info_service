@@ -24,18 +24,18 @@ type QuizResultProps = {
 const QuizResult = ({ result, quiz, openClickHandler }: QuizResultProps) => {
     const container = useRef();
     const [click, setClick] = useState<boolean>(false);
-    const checkDisabled = (result && !click) ? false : true;
+    const checkDisabled = result && !click ? false : true;
 
     const pointClickHandler = async () => {
         try {
-                const data = await post("points", {
-                    route: "quiz",
-                    point: 100
-            })
+            const data = await post("points", {
+                route: "quiz",
+                point: 100,
+            });
             alert(`100포인트가 적립되었습니다!`);
             setClick(true);
         } catch (err) {
-            console.log("error message: ", err);
+            console.error("error message: ", err);
         }
     };
 
@@ -54,25 +54,22 @@ const QuizResult = ({ result, quiz, openClickHandler }: QuizResultProps) => {
             <ResultForm>
                 {result && <ResultEffect ref={container} />}
                 <AnswerCheck>
-                    {
-                        result ? <div>정답입니다!</div> : <div>틀렸습니다!</div>
-                    }
+                    {result ? <div>정답입니다!</div> : <div>틀렸습니다!</div>}
                 </AnswerCheck>
-                <AnswerText>정답은 &quot;{
-                    quiz.image ? (
-                        <AnswerImageButton 
-                            src={quiz.answer}
-                            alt="image"/>
+                <AnswerText>
+                    정답은 &quot;
+                    {quiz.image ? (
+                        <AnswerImageButton src={quiz.answer} alt="image" />
                     ) : (
                         quiz.answer
-                    )
-                }&quot; 입니다.
+                    )}
+                    &quot; 입니다.
                 </AnswerText>
             </ResultForm>
             <ButtonForm>
                 <NavButton onClick={openClickHandler}>돌아가기</NavButton>
                 <NavButton onClick={pointClickHandler} disabled={checkDisabled}>
-                    <Image 
+                    <Image
                         src={PointCoin}
                         alt="point-coin"
                         width={35}

@@ -44,7 +44,6 @@ const Detection = ({ detection, index }) => {
             left={left}
             height={height}
             width={width}
-            onClick={(e) => console.log(detection.code)}
         >
             <p>{index + 1}번</p>
         </DetectionBox>

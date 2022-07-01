@@ -26,12 +26,12 @@ const KakaoLogin = () => {
             setOpen((cur) => !cur);
             await router.push("/");
         } catch (error) {
-            console.log("문제 생김");
+            alert("다시 시도해주세요!");
         }
     };
 
     useEffect(() => {
-        code !== undefined ? kakaoLogin(code) : console.log("hi");
+        code !== undefined ? kakaoLogin(code) : "";
     }, [code]);
 
     return (

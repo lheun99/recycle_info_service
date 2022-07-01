@@ -52,7 +52,6 @@ const InfoCarousel = ({ info, route }) => {
             alert(`100포인트가 적립되었습니다!
             당신의 작은 관심 하나가 지구를 숨쉬게 합니다.
             '마이페이지' 에서 자라나는 나무를 확인하세요~`);
-            console.log(res);
             setDisabledBtn(true);
         }
     };
