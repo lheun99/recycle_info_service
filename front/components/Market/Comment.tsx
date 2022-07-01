@@ -6,6 +6,16 @@ import styled from "styled-components";
 import { styled as materialStyled } from "@mui/material/styles";
 import { Box, TextField, Typography } from "@mui/material";
 
+const DeleteButton = ({ commentId }) => {
+    const deleteCmt = async () => {
+        const res = await deleteComment(`comment/${commentId}`);
+    };
+    return (
+        <Button name="delete" onClick={deleteCmt}>
+            삭제
+        </Button>
+    );
+};
 // postId 도 받아 와야함
 const Comment = ({ expand, postId, setExpanded }) => {
     const dispatch = useContext(DispatchContext);
@@ -87,14 +97,11 @@ const Comment = ({ expand, postId, setExpanded }) => {
                                 </CommentWriter>
                                 <CommentBody>{item.content}</CommentBody>
                                 {item.userId === userInfo.user.userId && (
-                                    <div>
-                                        <Button
-                                            id={item.commentId}
-                                            name="delete"
-                                        >
-                                            삭제
-                                        </Button>
-                                    </div>
+                                    <DeleteWrapper>
+                                        <DeleteButton
+                                            commentId={item.commentId}
+                                        />
+                                    </DeleteWrapper>
                                 )}
                             </div>
                         ))}
@@ -146,3 +153,9 @@ const CommentBody = materialStyled(Typography)(() => ({
 const CommentWrapper = materialStyled(Box)(() => ({
     margin: "5px 5px",
 }));
+
+const DeleteWrapper = styled.div`
+    display: flex;
+    justify-content: center;
+    margin-top: 5px;
+`;
