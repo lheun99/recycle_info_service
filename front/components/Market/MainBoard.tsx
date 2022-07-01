@@ -50,35 +50,23 @@ const MainBoard = ({ firstBoards }) => {
         );
 
         return (
-            <div
-                id="scrollableDiv"
-                style={{
-                    height: 1200,
-                    overflow: "auto",
-                    display: "flex",
-                    flexDirection: "column",
-                }}
+            <InfiniteScroll
+                dataLength={10} // 반복되는 컴포넌트 갯수
+                next={loadMore}
+                hasMore={hasMore}
+                loader={<h3> Loading...</h3>}
+                endMessage={<h4>Nothing more to show</h4>}
             >
-                <InfiniteScroll
-                    dataLength={board?.length}
-                    next={loadMore}
-                    hasMore={true}
-                    loader={<h3> Loading...</h3>}
-                    style={{ display: "flex", flexDirection: "column" }}
-                    endMessage={<h4>Nothing more to show</h4>}
-                    scrollableTarget="scrollableDiv"
+                <List
+                    height={830}
+                    width={600}
+                    itemCount={board?.length}
+                    itemSize={750}
+                    className="list-container"
                 >
-                    <List
-                        height={830}
-                        width={600}
-                        itemCount={board?.length}
-                        itemSize={750}
-                        className="list-container"
-                    >
-                        {Row}
-                    </List>
-                </InfiniteScroll>
-            </div>
+                    {Row}
+                </List>
+            </InfiniteScroll>
         );
     };
 
