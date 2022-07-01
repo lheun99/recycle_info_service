@@ -53,10 +53,12 @@ export default Search;
 const Wrapper = styled.div`
     display: flex;
     justify-content: center;
+    width: 100%;
 `;
 const Input = styled.input`
     font-family: Elice Digital Baeum;
-    width: 530px;
+    max-width: 330px;
+    width: 90%;
     height: 40px;
     border: none;
     outline: 2px solid #305e63;

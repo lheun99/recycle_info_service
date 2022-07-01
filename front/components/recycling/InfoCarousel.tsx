@@ -196,7 +196,7 @@ const Button = styled.button`
     }
     @media screen and (max-width: 600px) {
         width: 110px;
-    } ;
+    };
 `;
 const PointButton = styled.button`
     display: flex;

@@ -58,8 +58,8 @@ const MainBoard = ({ firstBoards }) => {
                 endMessage={<h4>Nothing more to show</h4>}
             >
                 <List
-                    height={830}
-                    width={600}
+                    height={730}
+                    width={400}
                     itemCount={board?.length}
                     itemSize={750}
                     className="list-container"
@@ -157,7 +157,8 @@ const Button = styled.button`
     font-weight: bold;
     font-size: 16px;
     color: white;
-    width: 600px;
+    max-width: 400px;
+    width: 100%;
     height: 40px;
     border: none;
     border-radius: 15px;
