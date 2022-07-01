@@ -21,6 +21,8 @@ const MobileCamera = ({
     setOpenInfo,
     setInfo,
 }: ImageUploadProps) => {
+    const [isUploaded, setIsUploaded] = useState("standBy");
+    // img upload 상태 : ["standBy"] "대기, 아직 아무것도 일어나지 않음" / ["loading"] "서버에 img를 보내고 결과를 기다림" / ["complete"] "결과를 저장하고 라우팅할 것"
     const [isCameraOn, setIsCameraOn] = useState(false);
 
     // image preview를 위한 함수
@@ -36,16 +38,16 @@ const MobileCamera = ({
     };
 
     const sendImage = async (file: Blob) => {
-        console.log(file);
         try {
             encodeFileToBase64(file);
+            setIsUploaded("loading");
             const formData = new FormData();
             formData.append("image", file);
-            console.log(formData.getAll("image")); // formData에 잘 들어가는지 확인
             const res = await sendImageFile("recycle-info/img", formData);
             const info = res?.data?.data.imgInfo;
             setInfo(info);
             setOpenInfo(true);
+            setIsUploaded("complete");
         } catch (e) {
             console.error(e);
             alert("다시 시도 해주세요!");
@@ -53,38 +55,42 @@ const MobileCamera = ({
         }
     };
 
-    return isCameraOn ? (
-        <>
-            <div>
-                <InputLabel htmlFor="input-mobile-file">
-                    한번 더 클릭!
-                </InputLabel>
-                <input
-                    type="file"
-                    id="input-mobile-file"
-                    accept="image/*"
-                    style={{ display: "none" }}
-                    capture="environment"
-                    onChange={(e) => sendImage(e.target.files[0])}
-                />
-            </div>
-        </>
-    ) : (
-        <Wrapper>
-            <Image src={instax} alt="camera" width={250} height={250} />
-            <div>
-                <Button
-                    onClick={
-                        () => {
-                            setIsCameraOn(true);
+    return isUploaded !== "loading" ? (
+        isCameraOn ? (
+            <>
+                <div>
+                    <InputLabel htmlFor="input-mobile-file">
+                        한번 더 클릭!
+                    </InputLabel>
+                    <input
+                        type="file"
+                        id="input-mobile-file"
+                        accept="image/*"
+                        style={{ display: "none" }}
+                        capture="environment"
+                        onChange={(e) => sendImage(e.target.files[0])}
+                    />
+                </div>
+            </>
+        ) : (
+            <Wrapper>
+                <Image src={instax} alt="camera" width={250} height={250} />
+                <div>
+                    <Button
+                        onClick={
+                            () => {
+                                setIsCameraOn(true);
+                            }
+                            // 카메라 종료
                         }
-                        // 카메라 종료
-                    }
-                >
-                    찰~~카악
-                </Button>
-            </div>
-        </Wrapper>
+                    >
+                        찰~~카악
+                    </Button>
+                </div>
+            </Wrapper>
+        )
+    ) : (
+        <p>결과를 기다려주세요!</p>
     );
 };
 

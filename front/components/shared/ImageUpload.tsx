@@ -127,20 +127,10 @@ const ImageUpload = ({
                 setIsUploaded("complete");
             }
         } catch (e) {
-            console.error(e);
             alert("다시 시도 해주세요!");
             location.reload();
         }
     };
-
-    useEffect(() => {
-        // 완료 전까지 특별한 작업이 없고 or 프로필 업로드의 경우 특정페이지로 routing 하지 않음
-        if (isUploaded !== "complete" || route !== "recycleInfo") {
-            return;
-        } else if (isUploaded === "complete") {
-            router.push("/recycling/recycleInfo"); // 정보 페이지로 routing
-        }
-    }, [isUploaded]);
 
     return !useIsMobile() ? (
         <Wrapper>
