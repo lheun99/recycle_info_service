@@ -94,7 +94,11 @@ const AiSearcher = () => {
                                         setImgUrl={setImgUrl}
                                     />
                                 ) : (
-                                    <DetectionWrapper>
+                                    <ImgDetectionForm>
+                                        <ImgDetection
+                                            info={info}
+                                            imgUrl={imgUrl}
+                                        />
                                         <Button
                                             onClick={() => {
                                                 setOpenInfo((cur) => !cur);
@@ -102,11 +106,7 @@ const AiSearcher = () => {
                                         >
                                             다시 하기
                                         </Button>
-                                        <ImgDetection
-                                            info={info}
-                                            imgUrl={imgUrl}
-                                        />
-                                    </DetectionWrapper>
+                                    </ImgDetectionForm>
                                 )}
                             </ImageForm>
                         </ImageWrapper>
@@ -148,7 +148,7 @@ export default AiSearcher;
 
 const Container = styled.div`
     width: 100%;
-    height: 800px;
+    height: 100%;
     padding-top: 100px;
     display: flex;
     flex-direction: column;
@@ -159,36 +159,37 @@ const Container = styled.div`
 
 const Wrapper = styled.div`
     width: 100%;
-    height: 450px;
     &.success {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        height: 700px;
+        display: flex;
     }
+    @media screen and (max-width: 1224px) {
+        flex-direction: column;
+    };
 `;
 
 const ImageWrapper = styled.div`
-    background-color: var(--gray);
     width: 100%;
+    height: 100%;
+`;
+
+const InfoWrapper = styled.div`
     height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
 `;
 
 const ImageForm = styled.div`
     height: 100%;
-    margin-top: 50px;
 `;
 
-const InfoWrapper = styled.div`
+const ImgDetectionForm = styled.div`
+    height: 100%;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     align-items: center;
-    justify-content: center;
-    height: auto;
-    
 `;
 
 const FaButton = materialStyled(Fab)(() => ({
@@ -210,8 +211,8 @@ const FaButton = materialStyled(Fab)(() => ({
 const Button = styled.button`
     border: none;
     cursor: pointer;
-    width: 150px;
-    height: 40px;
+    width: 130px;
+    height: 50px;
     margin: 19.92px 0 19.92px 0;
     border-radius: 10px;
     word-break: keep-all;
@@ -220,8 +221,8 @@ const Button = styled.button`
     background-color: #a7c4bc;
     color: #fff;
     font-family: Elice Digital Baeum;
-`;
-
-const DetectionWrapper = styled.div`
-    height: 800px;
+    :hover {
+        background-color: var(--deepgreen);
+        color: white;
+    }
 `;

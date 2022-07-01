@@ -11,15 +11,17 @@ import styled from "styled-components";
 import uploadingImage from "../../public/images/image.upload.png";
 import { sendImageFile, sendProfileFile } from "../../api";
 import Loading from "./Loading";
+import { useIsMobile } from "../../styles/mediaQuery";
+import MobileCamera from "./MobileCamera";
 
 type ImageUploadProps = {
     width?: number;
     height?: number;
     route?: string;
-    setProfileImage?: any;
+    setProfileImage?: Dispatch<SetStateAction<string>>;
     setOpenInfo?: Dispatch<SetStateAction<boolean>>;
     setInfo?: Dispatch<SetStateAction<Object>>;
-    setImgUrl?: any;
+    setImgUrl?: Dispatch<SetStateAction<string | ArrayBuffer>>;
 };
 
 const matchType = [
@@ -53,6 +55,7 @@ const ImageUpload = ({
     // img upload 상태 : ["standBy"] "대기, 아직 아무것도 일어나지 않음" / ["loading"] "서버에 img를 보내고 결과를 기다림" / ["complete"] "결과를 저장하고 라우팅할 것"
     const router = useRouter();
     const inputRef = useRef();
+    const isMobile = useIsMobile();
 
     // 이미지 dnd 함수 분기 처리
     const dragEvent = (e: React.DragEvent<HTMLDivElement>, text: string) => {
@@ -124,22 +127,12 @@ const ImageUpload = ({
                 setIsUploaded("complete");
             }
         } catch (e) {
-            console.error(e);
             alert("다시 시도 해주세요!");
             location.reload();
         }
     };
 
-    useEffect(() => {
-        // 완료 전까지 특별한 작업이 없고 or 프로필 업로드의 경우 특정페이지로 routing 하지 않음
-        if (isUploaded !== "complete" || route !== "recycleInfo") {
-            return;
-        } else if (isUploaded === "complete") {
-            router.push("/recycling/recycleInfo"); // 정보 페이지로 routing
-        }
-    }, [isUploaded]);
-
-    return (
+    return !useIsMobile() ? (
         <Wrapper>
             {isUploaded === "loading" ? (
                 <Loading width={width} height={height} />
@@ -175,6 +168,12 @@ const ImageUpload = ({
                 />
             </div>
         </Wrapper>
+    ) : (
+        <MobileCamera
+            setImgUrl={setImgUrl}
+            setInfo={setInfo}
+            setOpenInfo={setOpenInfo}
+        />
     );
 };
 
@@ -182,10 +181,12 @@ export default ImageUpload;
 
 const Wrapper = styled.div`
     width: 100%;
+    height: 480px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-evenly;
+    margin: 50px 0;
 `;
 
 const DragImage = styled.div<{ width: number; height: number }>`
@@ -202,9 +203,14 @@ const DragImage = styled.div<{ width: number; height: number }>`
 `;
 
 const InputLabel = styled.label`
-    cursor: pointer;
-    background-color: #a7c4bc;
-    color: #fff;
-    padding: 7px 30px;
+    padding: 15px 34px;
     border-radius: 10px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    background-color: var(--green);
+    color: white;
+    :hover {
+        background-color: var(--deepgreen);
+        color: white;
+    }
 `;

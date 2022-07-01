@@ -1,4 +1,5 @@
-import React, { useState, useEffect, Component } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { UserStateContext } from "../../pages/_app";
 import styled from "styled-components";
 import Search from "../shared/Search";
 import SingleBoard from "./SingleBoard";
@@ -15,6 +16,7 @@ const MainBoard = ({ firstBoards }) => {
     const [board, setBoard] = useState(firstBoards);
     const [show, setShow] = useState([]);
     const [hasMore, setHasMore] = useState(true);
+    const userInfo = useContext(UserStateContext);
 
     const loadMore = async () => {
         const per = 10;
@@ -36,24 +38,30 @@ const MainBoard = ({ firstBoards }) => {
 
     const ListComponent = () => {
         const Row = ({ index, style }) => (
-            <div id={`content-${index}`} style={{ ...style, overflow: "auto" }}>
+            <div
+                id={`content-${index}`}
+                style={{
+                    ...style,
+                    overflow: "auto",
+                }}
+            >
                 <SingleBoard key={index} item={board[index]} />
             </div>
         );
 
         return (
             <InfiniteScroll
-                dataLength={board?.length}
+                dataLength={10} // 반복되는 컴포넌트 갯수
                 next={loadMore}
                 hasMore={hasMore}
                 loader={<h3> Loading...</h3>}
                 endMessage={<h4>Nothing more to show</h4>}
             >
                 <List
-                    height={800}
-                    width={600}
+                    height={730}
+                    width={400}
                     itemCount={board?.length}
-                    itemSize={800}
+                    itemSize={750}
                     className="list-container"
                 >
                     {Row}
@@ -77,9 +85,11 @@ const MainBoard = ({ firstBoards }) => {
             <Container>
                 <Menu>
                     <Search />
-                    <Button onClick={() => setIsWrite((cur) => !cur)}>
-                        {isWrite ? "🏠 메인으로" : "+ 글쓰러 가기 ✏️"}
-                    </Button>
+                    {userInfo?.user && (
+                        <Button onClick={() => setIsWrite((cur) => !cur)}>
+                            {isWrite ? "🏠 메인으로" : "+ 글쓰러 가기 ✏️"}
+                        </Button>
+                    )}
                 </Menu>
                 <BoardWrapper>
                     {isWrite ? (
@@ -147,7 +157,8 @@ const Button = styled.button`
     font-weight: bold;
     font-size: 16px;
     color: white;
-    width: 600px;
+    max-width: 400px;
+    width: 100%;
     height: 40px;
     border: none;
     border-radius: 15px;

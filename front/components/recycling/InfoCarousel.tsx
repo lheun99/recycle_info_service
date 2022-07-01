@@ -6,7 +6,7 @@ import Loading from "../shared/Loading";
 import styled from "styled-components";
 import InfoCard from "./InfoCard";
 import Pagination from "./Pagination";
-import { getRecycleInfo } from "../../api";
+import { getRecycleInfo, post } from "../../api";
 
 const matchType = [
     "종이류",
@@ -30,6 +30,7 @@ const InfoCarousel = ({ info, route }) => {
     const [showList, setShowList] = useState([]);
     const router = useRouter(); // 페이지 이동을 위해 useRouter 적용
     const [targetPage, setTargetPage] = useState(0);
+    const [disabledBtn, setDisabledBtn] = useState(false);
 
     // route === "ImageSearch", findInfo function
     const getInfo = async (uniqueCodeArr) => {
@@ -45,80 +46,53 @@ const InfoCarousel = ({ info, route }) => {
         router.push(`/${(e.target as HTMLButtonElement).name}`);
     };
 
-    const getPoint = () => {
-        // get 기존 포인트 -> put 추가한 포인트
+    const getPoint = async (e) => {
+        if (e.type === "click") {
+            const res = await post("points", { route: "recycle", point: 100 });
+            alert(`100포인트가 적립되었습니다!
+            당신의 작은 관심 하나가 지구를 숨쉬게 합니다.
+            '마이페이지' 에서 자라나는 나무를 확인하세요~`);
+            console.log(res);
+            setDisabledBtn(true);
+        }
     };
     useEffect(() => {
         if (route === "ImageSearch") {
             const codeList = new Set(info.map((code) => code.code));
             const uniqueCodeArr = Array.from(codeList);
             getInfo(uniqueCodeArr);
+            setDisabledBtn(false);
         }
     }, []);
 
     return route === "ImageSearch" ? (
         showList.length !== 0 ? (
-            <>
-                <Wrapper>
-                    <Pagination
-                        totalPages={showList?.length}
-                        setTargetPage={setTargetPage}
-                    />
-                    {showList.map((content, index) => (
-                        <div key={`info-${index}`}>
-                            {index === targetPage && (
-                                <>
-                                    <MainTitle>
-                                        <h2>
-                                            &apos;{matchType[content.code]}
-                                            &apos;
-                                        </h2>
-                                        <h3> (으)로 분리수거 해주세요!</h3>
-                                    </MainTitle>
-
-                                    <InfoCard
-                                        key={`card-${index}`}
-                                        cards={content.recycleInfo}
-                                        route={route}
-                                    />
-                                </>
-                            )}
-                        </div>
-                    ))}
-                    <ButtonWrapper>
-                        <Button type="button" name="waste" onClick={rendPage}>
-                            대형폐기물 신고하기
-                        </Button>
-                        <Button type="button" name="market" onClick={rendPage}>
-                            중고마켓으로 가기
-                        </Button>
-                        <PointButton type="button" onClick={getPoint}>
-                            <Image
-                                src={pointCoin}
-                                alt="point coin"
-                                width={35}
-                                height={35}
-                            />
-                            <p>포인트 적립하기</p>
-                        </PointButton>
-                    </ButtonWrapper>
-                </Wrapper>
-            </>
-        ) : (
-            <NoResult>
-                아쉽습니다! <br />
-                결과가 나오지 않았습니다.
-                <br />
-                다시 한번 도전 해보시겠어요 ?
-            </NoResult>
-        )
-    ) : (
-        <>
             <Wrapper>
-                <>
-                    <InfoCard cards={info.recycleInfo} route={route} />
-                </>
+                <Pagination
+                    totalPages={showList?.length}
+                    setTargetPage={setTargetPage}
+                />
+                {showList.map((content, index) => (
+                    <ResultForm key={`info-${index}`}>
+                        {index === targetPage && (
+                            <ResultContents>
+                                <MainTitle>
+                                    <h2>
+                                        &apos;{matchType[content.code]}
+                                        &apos;
+                                    </h2>
+                                    <h3> (으)로 분리수거 해주세요!</h3>
+                                </MainTitle>
 
+                                <InfoCard
+                                    key={`card-${index}`}
+                                    cards={content.recycleInfo}
+                                    route={route}
+                                />
+                            </ResultContents>
+                        )}
+                    </ResultForm>
+                ))}
                 <ButtonWrapper>
                     <Button type="button" name="waste" onClick={rendPage}>
                         대형폐기물 신고하기
@@ -137,6 +111,29 @@ const InfoCarousel = ({ info, route }) => {
                     </PointButton>
                 </ButtonWrapper>
             </Wrapper>
+        ) : (
+            <NoResult>
+                <NoResultForm>
+                    아쉽습니다! <br />
+                    적절한 결과를 찾지 못했습니다.
+                    <br />
+                    다시 한번 도전 해보시겠어요?
+                </NoResultForm>
+            </NoResult>
+        )
+    ) : (
+        <>
+            <Wrapper>
+                <InfoCard cards={info.recycleInfo} route={route} />
+                <ButtonWrapper>
+                    <Button type="button" name="waste" onClick={rendPage}>
+                        대형폐기물 신고하기
+                    </Button>
+                    <Button type="button" name="market" onClick={rendPage}>
+                        중고마켓으로 가기
+                    </Button>
+                </ButtonWrapper>
+            </Wrapper>
         </>
     );
 };
@@ -144,15 +141,30 @@ const InfoCarousel = ({ info, route }) => {
 export default InfoCarousel;
 
 const Wrapper = styled.div`
-    background: #f2f2f2;
     width: 100%;
-    height: 570px;
+    height: 100%;
+    margin-bottom: 30px;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
     align-items: center;
     position: relative;
     border-left: 2px dashed #a7c4bc;
+    @media screen and (max-width: 1224px) {
+        border-left: none;
+    } ;
+`;
+
+const ResultForm = styled.div`
+    width: 100%;
+`;
+
+const ResultContents = styled.div`
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 `;
 
 const MainTitle = styled.div`
@@ -172,11 +184,16 @@ const Button = styled.button`
     width: 130px;
     height: 50px;
     margin: 10px 6px;
-    background-color: #dedede;
+    background-color: var(--deepgray);
     border-radius: 10px;
     word-break: keep-all;
     font-family: Elice Digital Baeum;
     font-size: 0.8rem;
+    color: gray;
+    :hover {
+        background-color: white;
+        color: black;
+    }
     @media screen and (max-width: 600px) {
         width: 110px;
     };
@@ -195,20 +212,34 @@ const PointButton = styled.button`
     word-break: keep-all;
     font-family: Elice Digital Baeum;
     font-size: 0.8rem;
+    color: gray;
+    :hover {
+        background-color: white;
+        color: black;
+    }
     @media screen and (max-width: 600px) {
         width: 110px;
-    };
+    } ;
 `;
 
 const NoResult = styled.div`
     width: 100%;
-    height: 600px;
+    height: 500px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    border-left: 2px dashed #a7c4bc;
+`;
+
+const NoResultForm = styled.div`
+    width: 300px;
+    height: 300px;
     border: 2px dashed #a7c4bc;
-    font-size: 25px;
+    font-size: var(--font-text);
     font-weight: bold;
-    color: red;
+    color: var(--deepgreen);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 `;

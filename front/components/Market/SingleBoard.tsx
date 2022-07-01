@@ -1,5 +1,5 @@
-import React, { useContext, useState, useRef, useEffect } from "react";
-import { UserStateContext } from "../../pages/_app";
+import React, { useState, useRef, useEffect } from "react";
+
 import Comment from "./Comment";
 
 import styled from "styled-components";
@@ -24,7 +24,6 @@ import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import { useTheme } from "@mui/material/styles";
 import nextArrow from "../../public/images/next.arrow.png";
 import Image from "next/image";
-import { SignalCellularNullTwoTone } from "@mui/icons-material";
 
 interface ExpandMoreProps extends IconButtonProps {
     expand: boolean;
@@ -47,9 +46,7 @@ const SingleBoard = ({ item }) => {
     const [slideIndex, setSlideIndex] = useState(0);
     const [activeStep, setActiveStep] = useState(0);
     const maxSteps = item?.postImg?.length ?? 0; // 자료의 총 길이
-    const userInfo = useContext(UserStateContext);
     const viewContainerRef = useRef<HTMLDivElement>(null);
-    const profileImg = userInfo?.user?.picture ?? "";
     const theme = useTheme();
 
     const handleExpandClick = () => {
@@ -80,12 +77,7 @@ const SingleBoard = ({ item }) => {
 
     return (
         <Wrapper key={`postNum-${item?.postId}`}>
-            <Card
-                style={{
-                    minHeight: "280px",
-                    boxShadow: "none",
-                }}
-            >
+            <CardMain>
                 {item?.postImg ? (
                     <CarouselWrapper>
                         <CarouselAll>
@@ -103,8 +95,8 @@ const SingleBoard = ({ item }) => {
                                             <Image
                                                 src={item?.postImg[idx]}
                                                 alt={`img-${idx}`}
-                                                width={260}
-                                                height={260}
+                                                width={250}
+                                                height={250}
                                             />
                                         </InfoBox>
                                     </Slider>
@@ -113,32 +105,27 @@ const SingleBoard = ({ item }) => {
                         </CarouselAll>
                     </CarouselWrapper>
                 ) : null}
-            </Card>
-            <MobileStepper
-                style={{
-                    borderRadius: "4px",
-                    marginBottom: "5px",
-                    height: "50px",
-                }}
+            </CardMain>
+            <Stepper
                 steps={maxSteps}
                 position="static"
                 activeStep={activeStep}
                 nextButton={
-                    <Button
+                    <StepButton
                         size="small"
                         onClick={nextSlide}
                         disabled={activeStep === maxSteps - 1}
                     >
-                        Next
+                        다음
                         {theme.direction === "rtl" ? (
                             <KeyboardArrowLeft />
                         ) : (
                             <KeyboardArrowRight />
                         )}
-                    </Button>
+                    </StepButton>
                 }
                 backButton={
-                    <Button
+                    <StepButton
                         size="small"
                         onClick={prevSlide}
                         disabled={activeStep === 0}
@@ -148,26 +135,19 @@ const SingleBoard = ({ item }) => {
                         ) : (
                             <KeyboardArrowLeft />
                         )}
-                        Back
-                    </Button>
+                        이전
+                    </StepButton>
                 }
             />
-            <CardBodyContainer style={{ height: "400px" }}>
-                <PostTitle gutterBottom variant="h5" style={{ height: "auto" }}>
+            <CardBodyContainer>
+                <PostTitle gutterBottom variant="h5">
                     {item?.title}
                 </PostTitle>
 
-                <div
-                    ref={viewContainerRef}
-                    style={{
-                        height: "auto",
-                        wordBreak: "keep-all",
-                        overflow: "auto",
-                    }}
-                />
+                <PostBody ref={viewContainerRef} />
 
                 <CardWriterContainer
-                    avatar={<Avatar alt="userProfile" src={profileImg} />}
+                    avatar={<Avatar alt="userProfile" src={item.userImg} />}
                     action={
                         <IconButton aria-label="settings">
                             <MoreVertIcon />
@@ -175,18 +155,10 @@ const SingleBoard = ({ item }) => {
                     }
                     title={item?.nickname}
                     subheader={item?.createdAt?.slice(0, 10)}
-                    style={{ height: "50px" }}
                 />
             </CardBodyContainer>
 
-            <CardActions
-                disableSpacing
-                style={{
-                    backgroundColor: "white",
-                    borderRadius: "4px",
-                    height: "50px",
-                }}
-            >
+            <CardActionTab disableSpacing>
                 <CommentTitle variant="body2" color="text.secondary">
                     <span>댓글</span>
                 </CommentTitle>
@@ -198,10 +170,20 @@ const SingleBoard = ({ item }) => {
                 >
                     <ExpandMoreIcon />
                 </ExpandMore>
-            </CardActions>
+            </CardActionTab>
             <Collapse in={expanded} timeout="auto" unmountOnExit>
-                <CardContent style={{ backgroundColor: "white" }}>
-                    <Comment expand={expanded} />
+                <CardContent
+                    style={{
+                        backgroundColor: "white",
+                        borderRadius: "15px",
+                        marginTop: "3px",
+                    }}
+                >
+                    <Comment
+                        expand={expanded}
+                        postId={item.postId}
+                        setExpanded={setExpanded}
+                    />
                 </CardContent>
             </Collapse>
         </Wrapper>
@@ -215,9 +197,9 @@ const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
-    border-radius: 15px;
-
     box-shadow: #a7c4bc 0px 1px 2px #a7c4bc 0px 1px 2px;
+    padding: 5px 5px;
+    border-bottom: 2px dashed #305e63;
 `;
 
 const CarouselWrapper = styled.div`
@@ -258,21 +240,23 @@ const InfoBox = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
+    border-radius: 15px;
 `;
 
 const CardWriterContainer = materialStyled(CardHeader)(() => ({
     padding: "16px 0 0 0",
     fontFamily: "Elice Digital Baeum",
+    height: "30px",
 }));
 
 const CardBodyContainer = materialStyled(CardContent)(() => ({
     height: "100%",
     backgroundColor: "white",
-    borderRadius: "4px",
-    marginBottom: "5px",
+    margin: "1px 0 4px 0",
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-around",
+    borderRadius: "15px",
 }));
 
 const PostTitle = materialStyled(Typography)(() => ({
@@ -283,7 +267,39 @@ const PostTitle = materialStyled(Typography)(() => ({
 
 const CommentTitle = materialStyled(Typography)(() => ({
     fontFamily: "Elice Digital Baeum",
-    fontSize: "15px",
+    fontSize: "13px",
     fontWeight: "bold",
     paddingLeft: "10px",
+    color: "#305e63",
 }));
+
+const CardMain = materialStyled(Card)(() => ({
+    minHeight: "270px",
+    boxShadow: "none",
+    borderRadius: "15px",
+    marginBottom: "3px",
+}));
+
+const Stepper = materialStyled(MobileStepper)(() => ({
+    borderRadius: "15px",
+    marginBottom: "3px",
+    height: "40px",
+}));
+
+const StepButton = materialStyled(Button)(() => ({
+    backgroundColor: "white",
+    fontFamily: "Elice Digital Baeum",
+    color: "#305e63",
+}));
+
+const CardActionTab = materialStyled(CardActions)(() => ({
+    backgroundColor: "white",
+    borderRadius: "15px",
+    height: "40px",
+}));
+
+const PostBody = styled.div`
+    height: auto;
+    word-break: keep-all;
+    overflow: auto;
+`;
