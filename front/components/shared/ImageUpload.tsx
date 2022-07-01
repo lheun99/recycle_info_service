@@ -154,7 +154,7 @@ const ImageUpload = ({
                     <p>이미지를 넣어주세요!</p>
                 </DragImage>
             )}
-            <div>
+            <div style={{ paddingBottom: "50px" }}>
                 <InputLabel htmlFor="input-file" ref={inputRef}>
                     사진 업로드
                 </InputLabel>

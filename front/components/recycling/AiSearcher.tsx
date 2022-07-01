@@ -86,8 +86,8 @@ const AiSearcher = () => {
                             <ImageForm>
                                 {!openInfo ? (
                                     <ImageUpload
-                                        width={350}
-                                        height={350}
+                                        width={400}
+                                        height={400}
                                         route="recycleInfo"
                                         setInfo={setInfo}
                                         setOpenInfo={setOpenInfo}
@@ -164,7 +164,7 @@ const Wrapper = styled.div`
     }
     @media screen and (max-width: 1224px) {
         flex-direction: column;
-    };
+    } ;
 `;
 
 const ImageWrapper = styled.div`
