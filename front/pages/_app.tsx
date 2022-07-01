@@ -28,19 +28,14 @@ function MyApp({ Component, pageProps }: AppProps) {
                     type: "LOGIN_SUCCESS",
                     payload: user,
                 });
-
-                console.log(
-                    "%c sessionStorage에 토큰 있음.",
-                    "color: #d93d1a;"
-                );
             } else {
-                console.log(
+                console.error(
                     "%c SessionStorage에 토큰 없음.",
                     "color: #d93d1a;"
                 );
             }
         } catch (err) {
-            console.log("error message: ", err);
+            console.error("error message: ", err);
         }
 
         setIsFetchCompleted(true);
