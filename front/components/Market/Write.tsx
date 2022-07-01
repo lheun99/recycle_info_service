@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import "react-quill/dist/quill.snow.css";
 import styled from "styled-components";
 import Image from "next/image";
-import { post, sendImageFile } from "../../api";
+import { post, sendPostImageFile } from "../../api";
 
 const QuillNoSSR = dynamic(import("react-quill"), {
     ssr: false,
@@ -91,9 +91,8 @@ export default function Write({
         try {
             const formData = new FormData();
             imgList.map((item) => formData.append("image", item.file));
-            const res = await sendImageFile("upload/post-img", formData);
+            const res = await sendPostImageFile("upload/post-img", formData);
             const postS3Image = await res.data?.data; // s3 주소 받음
-
             const newUpload = await post("post", {
                 title,
                 post_img: postS3Image,
@@ -101,7 +100,7 @@ export default function Write({
             });
 
             setIsWrite((cur) => !cur);
-            location.reload();
+            location.reload(); // 새 컨텐츠를 위로 올라오게 하고 싶었습니다.차 후, ISR을 적용하고 싶습니다.
         } catch (e) {
             alert("로그인이 필요한 서비스 입니다.");
             router.push("/");
@@ -113,7 +112,7 @@ export default function Write({
             <ImgUploadContainer>
                 <ImageWrapper>
                     {imgList.map((image, id) => (
-                        <SingleGroup key={id}>
+                        <SingleGroup key={`single-${id}`}>
                             <Image
                                 src={image.show}
                                 alt={`image-${id}`}
