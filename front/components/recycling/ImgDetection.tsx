@@ -54,7 +54,17 @@ const ImgDetection = ({ info, imgUrl }) => {
     const urlSrc = useRef();
     return (
         <Container>
-            <h2>결과를 확인해주세요!</h2>
+            {info.length !== 0 ? (
+                <h2>결과를 확인해주세요!</h2>
+            ) : (
+                <>
+                    <h2>다시 해볼까요?</h2>
+                    <h4>
+                        사물이 많거나 배경과 구분이 어려운 경우,
+                        <br /> 결과가 나오지 않을 수 있습니다.
+                    </h4>
+                </>
+            )}
             {imgUrl && (
                 <Wrapper ref={urlSrc}>
                     <Image
