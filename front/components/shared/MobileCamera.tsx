@@ -50,39 +50,21 @@ const MobileCamera = ({
     };
 
     return isUploaded !== "loading" ? (
-        isCameraOn ? (
-            <>
-                <Wrapper>
-                    <InputLabel htmlFor="input-mobile-file">
-                        한번 더 클릭!
-                    </InputLabel>
-                    <input
-                        type="file"
-                        id="input-mobile-file"
-                        accept="image/*"
-                        style={{ display: "none" }}
-                        capture="environment"
-                        onChange={(e) => sendImage(e.target.files[0])}
-                    />
-                </Wrapper>
-            </>
-        ) : (
-            <Wrapper>
-                <Image src={instax} alt="camera" width={250} height={250} />
-                <div>
-                    <Button
-                        onClick={
-                            () => {
-                                setIsCameraOn(true);
-                            }
-                            // 카메라 종료
-                        }
-                    >
-                        찰~~카악
-                    </Button>
-                </div>
-            </Wrapper>
-        )
+        <Wrapper>
+            <Image src={instax} alt="camera" width={250} height={250} />
+            <InputLabel htmlFor="input-mobile-file">찰~~카악</InputLabel>
+            <input
+                type="file"
+                id="input-mobile-file"
+                accept="image/*"
+                style={{ display: "none" }}
+                onChange={(e) => sendImage(e.target.files[0])}
+            />
+            <p>
+                사물이 너무 많거나, 과도한 확대 등<br /> 불분명한 사진은 분석
+                오류 사항이 될 수 있습니다!{" "}
+            </p>
+        </Wrapper>
     ) : (
         <Wrapper>
             <Loading width={250} height={250} />
@@ -94,29 +76,21 @@ export default MobileCamera;
 
 const Wrapper = styled.div`
     width: 100%;
-    height: 800px;
+    height: 500px;
+    min-height: 100vh;
+    padding-top: 100px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
+    @media screen and (max-width: 600px) {
+        height: 300px;
+    } ;
 `;
 
 const InputLabel = styled.label`
     cursor: pointer;
     background-color: #dedede;
-    padding: 7px 30px;
+    padding: 10px 50px;
     border-radius: 15px;
-`;
-
-const Button = styled.button`
-    border: none;
-    cursor: pointer;
-    width: 150px;
-    height: 50px;
-    margin: 20px 6px;
-    background-color: #dedede;
-    border-radius: 15px;
-    word-break: keep-all;
-    font-family: Elice Digital Baeum;
-    font-weight: bold;
+    margin-top: 40px;
 `;
