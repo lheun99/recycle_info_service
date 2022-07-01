@@ -2,6 +2,8 @@ import { useRouter } from 'next/router';
 import Button from '@mui/material/Button';
 import { styled as materialStyled } from '@mui/material/styles';
 import styled from "styled-components";
+import { useRecoilState } from "recoil";
+import { LoginState } from "../../states/atoms";
 
 type IntroDataProps = {
     title?: string;
@@ -12,6 +14,9 @@ type IntroDataProps = {
 }
 
 const IntroData = ({ title, subtitle, text, hasButton, href } : IntroDataProps) => {
+    const [login, setLogin] = useRecoilState(LoginState);
+    const abled = ((href === "/quiz" || href === "/myPage") && !login) ? true : false;
+    
     const router = useRouter()
     const handleClick = () => {
         router.push(href)
@@ -28,6 +33,7 @@ const IntroData = ({ title, subtitle, text, hasButton, href } : IntroDataProps) 
                         sx={{ borderColor: "#818479", color: "#818479"}}
                         variant="outlined"
                         onClick={handleClick}
+                        disabled={abled}
                     >
                         {hasButton}
                     </NavButton>

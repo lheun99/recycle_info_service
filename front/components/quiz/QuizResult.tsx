@@ -32,6 +32,7 @@ const QuizResult = ({ result, quiz, openClickHandler }: QuizResultProps) => {
                     route: "quiz",
                     point: 100
             })
+            alert(`100포인트가 적립되었습니다!`);
             setClick(true);
         } catch (err) {
             console.log("error message: ", err);

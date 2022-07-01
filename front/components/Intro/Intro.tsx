@@ -64,7 +64,7 @@ const Intro = () => {
                         title={"분리수거 어렵다구요?\n찍어보세요!"}
                         text={"헷갈리는 분리배출을 도와줍니다."}
                         hasButton={"분리배출 하러가기"}
-                        href={"/recycling/aiSearcher"}
+                        href={"/recycling"}
                     />
                 </SectionRecyling>
                 <SectionWaste>
