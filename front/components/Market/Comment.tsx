@@ -30,6 +30,7 @@ const Comment = ({ expand }) => {
                 sx={{
                     width: "100%",
                     height: "auto",
+                    borderRadius: "15px",
                 }}
             >
                 <Typography paragraph>👤 {nickname} :</Typography>

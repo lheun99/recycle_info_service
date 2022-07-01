@@ -17,7 +17,6 @@ const MainBoard = ({ firstBoards }) => {
     const [show, setShow] = useState([]);
     const [hasMore, setHasMore] = useState(true);
     const userInfo = useContext(UserStateContext);
-    console.log(userInfo.user);
 
     const loadMore = async () => {
         const per = 10;
@@ -39,29 +38,47 @@ const MainBoard = ({ firstBoards }) => {
 
     const ListComponent = () => {
         const Row = ({ index, style }) => (
-            <div id={`content-${index}`} style={{ ...style, overflow: "auto" }}>
+            <div
+                id={`content-${index}`}
+                style={{
+                    ...style,
+                    overflow: "auto",
+                }}
+            >
                 <SingleBoard key={index} item={board[index]} />
             </div>
         );
 
         return (
-            <InfiniteScroll
-                dataLength={board?.length}
-                next={loadMore}
-                hasMore={hasMore}
-                loader={<h3> Loading...</h3>}
-                endMessage={<h4>Nothing more to show</h4>}
+            <div
+                id="scrollableDiv"
+                style={{
+                    height: 1200,
+                    overflow: "auto",
+                    display: "flex",
+                    flexDirection: "column",
+                }}
             >
-                <List
-                    height={800}
-                    width={600}
-                    itemCount={board?.length}
-                    itemSize={800}
-                    className="list-container"
+                <InfiniteScroll
+                    dataLength={board?.length}
+                    next={loadMore}
+                    hasMore={true}
+                    loader={<h3> Loading...</h3>}
+                    style={{ display: "flex", flexDirection: "column" }}
+                    endMessage={<h4>Nothing more to show</h4>}
+                    scrollableTarget="scrollableDiv"
                 >
-                    {Row}
-                </List>
-            </InfiniteScroll>
+                    <List
+                        height={830}
+                        width={600}
+                        itemCount={board?.length}
+                        itemSize={750}
+                        className="list-container"
+                    >
+                        {Row}
+                    </List>
+                </InfiniteScroll>
+            </div>
         );
     };
 
