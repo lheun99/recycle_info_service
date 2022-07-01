@@ -1,17 +1,16 @@
 import styled from "styled-components";
 import Link from "next/link";
 import Image from "next/image";
-import Logo from "../public/images/logo.png";
+import footerLogo from "../public/images/footer.logo.png";
 import { useMediaQuery } from "react-responsive";
 
 const Footer = () => {
-    const isMobile = useMediaQuery({ query: '(max-width: 1224px)' })
+    const isMobile = useMediaQuery({ query: "(max-width: 1224px)" });
 
     return (
         <FooterWrapper>
             <LogoWrapper>
-                <Image src={Logo} alt="logo" width={30} height={30} />
-                <Title>구해줘! 지구</Title>
+                <Image src={footerLogo} alt="logo" width={50} height={50} />
                 <span>Copyright @ Cyberdyne 2022</span>
             </LogoWrapper>
             <LogoWrapper>
@@ -21,32 +20,30 @@ const Footer = () => {
                     <LinkText>About Us</LinkText>
                 </Link>
             </LogoWrapper>
-            {
-                !isMobile && (
-                    <TextWrapper>
-                        <LinkWrapper>
-                            <LinkText>Recyle</LinkText>
+            {!isMobile && (
+                <TextWrapper>
+                    <LinkWrapper>
+                        <LinkText>Recyle</LinkText>
 
-                            <span>· Ai-Searcher</span>
-                            <span>· Recycle-Info</span>
-                        </LinkWrapper>
-                        <LinkWrapper>
-                            <LinkText>Big-Trash</LinkText>
-                            <span>· Map-Searcher</span>
-                        </LinkWrapper>
-                        <LinkWrapper>
-                            <LinkText>Market</LinkText>
+                        <span>· Ai-Searcher</span>
+                        <span>· Recycle-Info</span>
+                    </LinkWrapper>
+                    <LinkWrapper>
+                        <LinkText>Big-Trash</LinkText>
+                        <span>· Map-Searcher</span>
+                    </LinkWrapper>
+                    <LinkWrapper>
+                        <LinkText>Market</LinkText>
 
-                            <span>· Recycle-Market</span>
-                        </LinkWrapper>
-                        <LinkWrapper>
-                            <LinkText>Quiz/Game</LinkText>
-                            <span>· Recycle-Quiz</span>
-                            <span>· Recycle-Game</span>
-                        </LinkWrapper>
-                    </TextWrapper>
-                )
-            }
+                        <span>· Recycle-Market</span>
+                    </LinkWrapper>
+                    <LinkWrapper>
+                        <LinkText>Quiz/Game</LinkText>
+                        <span>· Recycle-Quiz</span>
+                        <span>· Recycle-Game</span>
+                    </LinkWrapper>
+                </TextWrapper>
+            )}
         </FooterWrapper>
     );
 };
@@ -63,7 +60,7 @@ const FooterWrapper = styled.div`
     width: 100%;
     @media screen and (max-width: 1224px) {
         grid-template-columns: 0.4fr 0.6fr;
-    };
+    } ;
 `;
 
 const LogoWrapper = styled.div`
