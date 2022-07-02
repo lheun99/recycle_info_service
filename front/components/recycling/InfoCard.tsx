@@ -7,7 +7,7 @@ import footerLogo from "../../public/images/footer.logo.png";
 
 const InfoCard = ({ cards, route }) => {
     const [slideIndex, setSlideIndex] = useState(1);
-    console.log(cards);
+
     const nextSlide = (idx) => {
         if (slideIndex === cards.length) {
             return;

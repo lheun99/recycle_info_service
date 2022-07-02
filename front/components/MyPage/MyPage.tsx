@@ -7,6 +7,19 @@ import { UserStateContext } from "../../pages/_app";
 import { get } from "../../api";
 import { useMediaQuery } from "react-responsive";
 
+const getUserInfo = async (setUser, id) => {
+    const res = await get(`users/${id}/myPage`);
+    const userAll = res.data.data;
+
+    setUser({
+        email: userAll.email,
+        nickname: userAll.nickname,
+        picture: userAll.picture,
+        point: userAll.rank?.total ?? 0,
+        rank: userAll.rank?.rank ?? "",
+        rankers: userAll.rankers ?? "",
+    });
+};
 // mypage main component 에서 point를 조회하고 멘트 적용 및 props로 하위 컴포넌트에 전달
 const searchPointer = (point: number) => {
     if (point <= 300) {
@@ -68,23 +81,9 @@ const MyPage = () => {
     const id = userInfo.user?.userId;
     const isMobile = useMediaQuery({ query: "(max-width: 800px)" });
 
-    const getUserInfo = async () => {
-        const res = await get(`users/${id}/myPage`);
-        const userAll = res.data.data;
-
-        setUser({
-            email: userAll.email,
-            nickname: userAll.nickname,
-            picture: userAll.picture,
-            point: userAll.rank?.total ?? 0,
-            rank: userAll.rank?.rank ?? "",
-            rankers: userAll.rankers ?? "",
-        });
-    };
-
     useEffect(() => {
-        getUserInfo();
-    }, [user]);
+        getUserInfo(setUser, id);
+    }, []);
 
     return (
         <Wrapper>
