@@ -1,11 +1,9 @@
 import React, { useState, useEffect, useContext } from "react";
 import { UserStateContext } from "../../pages/_app";
 import styled from "styled-components";
-import Search from "../shared/Search";
 import SingleBoard from "./SingleBoard";
 import Write from "./Write";
-import { FixedSizeList as List } from "react-window";
-import { getPost, get } from "../../api";
+import { getPost } from "../../api";
 import InfiniteScroll from "react-infinite-scroll-component";
 
 const ListComponent = ({ loadMore, board }) => {
@@ -31,13 +29,15 @@ const ListComponent = ({ loadMore, board }) => {
 };
 
 const MainBoard = ({ firstBoards }) => {
-    const [isWrite, setIsWrite] = useState(false);
-    const [htmlStr, setHtmlStr] = useState("");
-    const [title, setTitle] = useState("");
-    const [page, setPage] = useState(1);
-    const [board, setBoard] = useState(firstBoards);
+    const [isWrite, setIsWrite] = useState(false); // [Write] 사용 유무
+    const [htmlStr, setHtmlStr] = useState(""); // [Write] 내 입력 태크와 내용
+    const [title, setTitle] = useState(""); // [Write] 제목
+    const [page, setPage] = useState(1); // [infinite] 페이지
+    const [board, setBoard] = useState(firstBoards); // [Infinite] 게시글 리스트
+    const [isSearch, setIsSearch] = useState(false); // [Search] 특정 검색으로 게시글 필터 유무
+    const [inputValue, setInputValue] = useState(""); // [Search] 검색어
     const [show, setShow] = useState([]);
-    const userInfo = useContext(UserStateContext);
+    const userInfo = useContext(UserStateContext); // 전역 user 정보
 
     const loadMore = async () => {
         const per = 10;
@@ -62,13 +62,12 @@ const MainBoard = ({ firstBoards }) => {
         <Wrapper>
             <h1>ECO 마켓 🌍</h1>
             <Contents>
-                &quot;멀쩡한데... 중고로 팔아볼까&quot;
+                &quot;멀쩡한데... 중고로 팔아볼까..?&quot;
                 <br /> 누군가에겐 정말 필요한 물건이 될 수 있어요! <br />
                 다시쓰고 나눠쓰며 지구를 아껴보아요
             </Contents>
             <Container>
                 <Menu>
-                    <Search />
                     {userInfo?.user && (
                         <Button onClick={() => setIsWrite((cur) => !cur)}>
                             {isWrite ? "🏠 메인으로" : "+ 글쓰러 가기 ✏️"}
