@@ -13,34 +13,52 @@ const Footer = () => {
                 <Image src={footerLogo} alt="logo" width={50} height={50} />
                 <span>Copyright @ Cyberdyne 2022</span>
             </LogoWrapper>
-            <LogoWrapper>
-                <Title>내 손안의 분리배출 작은 실천이 지구를 살립니다.</Title>
-                <span>구해줘! 지구의 서비스를 알고 싶어요</span>
+            <LinkWrapper>
                 <Link href="/" passHref>
-                    <LinkText>About Us</LinkText>
+                    <LinkText>About Cyberdyne</LinkText>
                 </Link>
-            </LogoWrapper>
+                <PositionWrapper>
+                    <PositionSubWrapper>
+                        <span>FrontEnd</span>
+                        <span>· 안민영</span>
+                        <span>· 박진아</span>
+                    </PositionSubWrapper>
+                    <PositionSubWrapper>
+                        <span>BackEnd</span>
+                        <span>· 신도희</span>
+                        <span>· 이하은</span>
+                    </PositionSubWrapper>
+                    <PositionSubWrapper>
+                        <span>AI</span>
+                        <span>· 김성훈</span>
+                        <span>· 윤성준</span>
+                    </PositionSubWrapper>
+                </PositionWrapper>
+            </LinkWrapper>
             {!isMobile && (
                 <TextWrapper>
                     <LinkWrapper>
-                        <LinkText>Recyle</LinkText>
-
+                        <Link href="/recycling" passHref>
+                            <LinkText>Recyle</LinkText>
+                        </Link>
                         <span>· Ai-Searcher</span>
                         <span>· Recycle-Info</span>
                     </LinkWrapper>
                     <LinkWrapper>
-                        <LinkText>Big-Trash</LinkText>
+                        <Link href="/waste" passHref>
+                            <LinkText>Big-Trash</LinkText>
+                        </Link>
                         <span>· Map-Searcher</span>
                     </LinkWrapper>
                     <LinkWrapper>
-                        <LinkText>Market</LinkText>
-
+                        <Link href="/market" passHref>
+                            <LinkText>Market</LinkText>
+                        </Link>
                         <span>· Recycle-Market</span>
                     </LinkWrapper>
                     <LinkWrapper>
-                        <LinkText>Quiz/Game</LinkText>
+                        <LinkText>Quiz</LinkText>
                         <span>· Recycle-Quiz</span>
-                        <span>· Recycle-Game</span>
                     </LinkWrapper>
                 </TextWrapper>
             )}
@@ -88,9 +106,22 @@ const LinkText = styled.a`
 const TextWrapper = styled.div`
     display: flex;
     justify-content: space-evenly;
+    border-left: 1px dashed #c4c4c4;
 `;
 
 const LinkWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+`;
+
+const PositionWrapper = styled.div`
+    display: flex;
+    width: 200px;
+    justify-content: space-between;
+`;
+
+const PositionSubWrapper = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
