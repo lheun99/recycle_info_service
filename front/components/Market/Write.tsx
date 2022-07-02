@@ -100,8 +100,8 @@ export default function Write({
                 post_img: postS3Image,
                 content: htmlStr,
             });
-
             setIsWrite((cur) => !cur);
+            location.reload();
         } catch (e) {
             toast.info("로그인이 필요한 서비스 입니다.");
             router.push("/");
