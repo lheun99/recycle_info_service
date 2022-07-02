@@ -10,6 +10,8 @@ import { getRecycleInfo, post } from "../../api";
 import { useRecoilState } from "recoil";
 import { LoginState } from "../../states/atoms";
 import { toast } from "react-toastify";
+import { styled as materialStyled } from "@mui/material/styles";
+import Button from "@mui/material/Button";
 
 const matchType = [
     "종이류",
@@ -106,21 +108,23 @@ const InfoCarousel = ({ info, route }) => {
                     </ResultForm>
                 ))}
                 <ButtonWrapper>
-                    <Button type="button" name="waste" onClick={rendPage}>
+                    <NavButton name="waste" onClick={rendPage}>
                         대형폐기물 신고하기
-                    </Button>
-                    <Button type="button" name="market" onClick={rendPage}>
+                    </NavButton>
+                    <NavButton name="market" onClick={rendPage}>
                         중고마켓으로 가기
-                    </Button>
-                    <PointButton type="button" onClick={getPoint}>
+                    </NavButton>
+                    <NavButton onClick={getPoint} disabled={disabledBtn}>
                         <Image
                             src={pointCoin}
                             alt="point coin"
                             width={35}
                             height={35}
                         />
-                        <p>포인트 적립</p>
-                    </PointButton>
+                        {
+                            disabledBtn ? <p>적립 완료</p> : <p>포인트 적립</p> 
+                        }
+                    </NavButton>
                 </ButtonWrapper>
             </Wrapper>
         ) : (
@@ -190,49 +194,65 @@ const ButtonWrapper = styled.div`
     align-items: center;
     justify-content: center;
 `;
-const Button = styled.button`
-    border: none;
-    cursor: pointer;
-    width: 130px;
-    height: 50px;
-    margin: 10px 6px;
-    background-color: var(--deepgray);
-    border-radius: 10px;
-    word-break: keep-all;
-    font-family: Elice Digital Baeum;
-    font-size: 0.8rem;
-    color: gray;
-    :hover {
-        background-color: white;
-        color: black;
-    }
-    @media screen and (max-width: 600px) {
-        width: 110px;
-    } ;
-`;
-const PointButton = styled.button`
-    display: flex;
-    border: none;
-    cursor: pointer;
-    width: 130px;
-    height: 50px;
-    margin: 18px 6px;
-    background-color: #dedede;
-    border-radius: 10px;
-    justify-content: center;
-    align-items: center;
-    word-break: keep-all;
-    font-family: Elice Digital Baeum;
-    font-size: 0.8rem;
-    color: gray;
-    :hover {
-        background-color: white;
-        color: black;
-    }
-    @media screen and (max-width: 600px) {
-        width: 110px;
-    } ;
-`;
+
+// const Button = styled.button`
+//     border: none;
+//     cursor: pointer;
+//     width: 130px;
+//     height: 50px;
+//     margin: 10px 6px;
+//     background-color: var(--deepgray);
+//     border-radius: 10px;
+//     word-break: keep-all;
+//     font-family: Elice Digital Baeum;
+//     font-size: 0.8rem;
+//     color: gray;
+//     :hover {
+//         background-color: white;
+//         color: black;
+//     }
+//     @media screen and (max-width: 600px) {
+//         width: 110px;
+//     } ;
+// `;
+
+const NavButton = materialStyled(Button)(() => ({
+    width: "130px",
+    height: "50px",
+    borderRadius: "10px",
+    margin: "10px 6px",
+    backgroundColor: "var(--deepgray)",
+    fontSize: "0.73rem",
+    color: "gray",
+    "&:hover": {
+        backgroundColor: "white",
+        color: "black",
+    },
+}));
+
+// const PointButton = styled.button`
+//     display: flex;
+//     border: none;
+//     cursor: pointer;
+//     width: 130px;
+//     height: 50px;
+//     margin: 18px 6px;
+//     background-color: #dedede;
+//     border-radius: 10px;
+//     justify-content: center;
+//     align-items: center;
+//     word-break: keep-all;
+//     font-family: Elice Digital Baeum;
+//     font-size: 0.8rem;
+//     color: gray;
+//     :hover {
+//         background-color: white;
+//         color: black;
+//     }
+//     @media screen and (max-width: 600px) {
+//         width: 110px;
+//     };
+// `;
 
 const NoResult = styled.div`
     width: 100%;
