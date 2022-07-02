@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-
+import footerLogo from "../../public/images/footer.logo.png";
 import Comment from "./Comment";
 
 import styled from "styled-components";
@@ -22,7 +22,6 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import { useTheme } from "@mui/material/styles";
-import nextArrow from "../../public/images/next.arrow.png";
 import Image from "next/image";
 
 interface ExpandMoreProps extends IconButtonProps {
@@ -48,6 +47,7 @@ const SingleBoard = ({ item }) => {
     const maxSteps = item?.postImg?.length ?? 0; // 자료의 총 길이
     const viewContainerRef = useRef<HTMLDivElement>(null);
     const theme = useTheme();
+    console.log(item);
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
@@ -78,10 +78,10 @@ const SingleBoard = ({ item }) => {
     return (
         <Wrapper key={`postNum-${item?.postId}`}>
             <CardMain>
-                {item?.postImg ? (
-                    <CarouselWrapper>
-                        <CarouselAll>
-                            {item?.postImg?.map((img, idx) => {
+                <CarouselWrapper>
+                    <CarouselAll>
+                        {item?.postImg?.length !== 0 ? (
+                            item?.postImg?.map((img, idx) => {
                                 return (
                                     <Slider
                                         key={`page-${idx}`}
@@ -101,10 +101,28 @@ const SingleBoard = ({ item }) => {
                                         </InfoBox>
                                     </Slider>
                                 );
-                            })}
-                        </CarouselAll>
-                    </CarouselWrapper>
-                ) : null}
+                            })
+                        ) : (
+                            <div
+                                style={{
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    justifyContent: "center",
+                                    alignItems: "center",
+                                    height: "270px",
+                                }}
+                            >
+                                <Image
+                                    src={footerLogo}
+                                    alt={`default`}
+                                    width={80}
+                                    height={80}
+                                />
+                                이미지가 없는 게시글 입니다.
+                            </div>
+                        )}
+                    </CarouselAll>
+                </CarouselWrapper>
             </CardMain>
             <Stepper
                 steps={maxSteps}
@@ -157,7 +175,6 @@ const SingleBoard = ({ item }) => {
                     subheader={item?.createdAt?.slice(0, 10)}
                 />
             </CardBodyContainer>
-
             <CardActionTab disableSpacing>
                 <CommentTitle variant="body2" color="text.secondary">
                     <span>댓글</span>
@@ -204,10 +221,19 @@ const Wrapper = styled.div`
     border-bottom: 2px dashed #305e63;
 `;
 
+const NoImageWrapper = styled.div`
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`;
+
 const CarouselWrapper = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+    align-items: center;
     width: 100%;
     height: auto;
 `;
@@ -219,7 +245,6 @@ const CarouselAll = styled.div`
     display: flex;
     justify-content: center;
     text-align: center;
-    background-color: #a7c4bc;
 `;
 const Slider = styled.div`
     width: 100%;
