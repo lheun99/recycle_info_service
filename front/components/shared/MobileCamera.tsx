@@ -52,7 +52,7 @@ const MobileCamera = ({
     return isUploaded !== "loading" ? (
         <Wrapper>
             <Image src={instax} alt="camera" width={250} height={250} />
-            <InputLabel htmlFor="input-mobile-file">찰~~카악</InputLabel>
+            <InputLabel htmlFor="input-mobile-file">{"사진 찍기"}</InputLabel>
             <input
                 type="file"
                 id="input-mobile-file"
@@ -60,10 +60,10 @@ const MobileCamera = ({
                 style={{ display: "none" }}
                 onChange={(e) => sendImage(e.target.files[0])}
             />
-            <p>
-                사물이 너무 많거나, 과도한 확대 등<br /> 불분명한 사진은 분석
-                오류 사항이 될 수 있습니다!{" "}
-            </p>
+            <Comment>
+                ⚠️&quot;사물이 너무 많거나, 과도한 확대 등 <br />
+                불분명한 사진은 분석 오류 사항이 될 수 있습니다!&quot;{" "}
+            </Comment>
         </Wrapper>
     ) : (
         <Wrapper>
@@ -78,7 +78,7 @@ const Wrapper = styled.div`
     width: 100%;
     height: 500px;
     min-height: 100vh;
-    padding-top: 100px;
+    padding: 100px 0 30px 0;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -88,9 +88,26 @@ const Wrapper = styled.div`
 `;
 
 const InputLabel = styled.label`
+    height: 50px;
     cursor: pointer;
-    background-color: #dedede;
     padding: 10px 50px;
     border-radius: 15px;
     margin-top: 40px;
+    font-size: 18px;
+    font-weight: bold;
+    background-color: #82c8a0;
+    box-shadow: 0 0 0 1px #82c8a0 inset,
+        0 0 0 2px rgba(255, 255, 255, 0.15) inset,
+        0 8px 0 0 rgba(126, 194, 155, 0.7), 0 8px 0 1px rgba(0, 0, 0, 0.4),
+        0 8px 8px 1px rgba(0, 0, 0, 0.5);
+        :active {
+            box-shadow: 0 0 0 1px #82c8a0 inset,
+                  0 0 0 2px rgba(255,255,255,0.15) inset,
+                  0 0 0 1px rgba(0,0,0,0.4);
+`;
+
+const Comment = styled.p`
+    padding-top: 50px;
+    font-size: 17px;
+    font-weight: bold;
 `;
