@@ -6,9 +6,10 @@ import styled from "styled-components";
 import { styled as materialStyled } from "@mui/material/styles";
 import { Box, TextField, Typography } from "@mui/material";
 
-const DeleteButton = ({ commentId }) => {
+const DeleteButton = ({ commentId, setSucDelete }) => {
     const deleteCmt = async () => {
         const res = await deleteComment(`comment/${commentId}`);
+        setSucDelete((cur) => !cur);
     };
     return (
         <Button name="delete" onClick={deleteCmt}>
@@ -22,7 +23,7 @@ const getCommentList = async (postId, setCommentList) => {
     setCommentList(newList);
 };
 
-const sendComment = async (comment, postId, setComment) => {
+const sendComment = async (comment, postId, setComment, setSucSend) => {
     if (comment === "") {
         // 입력한 내용이 없을 경우, 넘어가지 못함
         return;
@@ -33,6 +34,7 @@ const sendComment = async (comment, postId, setComment) => {
             content: comment,
         });
         setComment("");
+        setSucSend((cur) => !cur);
     }
 };
 
@@ -42,14 +44,15 @@ const Comment = ({ expand, postId, setExpanded }) => {
     const userInfo = useContext(UserStateContext);
     const nickname = userInfo?.user?.nickname ?? "로그인이 필요해요.";
     const [comment, setComment] = useState("");
+    const [sucSend, setSucSend] = useState(false);
+    const [sucDelete, setSucDelete] = useState(false);
     const [commentList, setCommentList] = useState([]);
-    console.log(userInfo?.user);
 
     useEffect(() => {
         if (expand && userInfo?.user) {
             getCommentList(postId, setCommentList);
         }
-    }, []);
+    }, [sucSend, sucDelete]);
 
     return (
         <div style={{ borderRadius: "15px" }}>
@@ -84,7 +87,12 @@ const Comment = ({ expand, postId, setExpanded }) => {
                             <Button
                                 name="upload"
                                 onClick={() =>
-                                    sendComment(comment, postId, setComment)
+                                    sendComment(
+                                        comment,
+                                        postId,
+                                        setComment,
+                                        setSucSend
+                                    )
                                 }
                             >
                                 완료
@@ -104,6 +112,7 @@ const Comment = ({ expand, postId, setExpanded }) => {
                                     <ButtonWrapper>
                                         <DeleteButton
                                             commentId={item.commentId}
+                                            setSucDelete={setSucDelete}
                                         />
                                     </ButtonWrapper>
                                 )}
