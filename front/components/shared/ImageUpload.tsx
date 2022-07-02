@@ -129,9 +129,7 @@ const ImageUpload = ({
                 setIsUploaded("complete");
             }
         } catch (e) {
-            // alert("다시 시도 해주세요!");
-            toast.error("다시 시도해주세요!");
-            location.reload();
+            toast("다시 시도해주세요!");
         }
     };
 

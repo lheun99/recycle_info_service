@@ -36,7 +36,6 @@ const InfoCarousel = ({ info, route }) => {
     const router = useRouter(); // 페이지 이동을 위해 useRouter 적용
     const [targetPage, setTargetPage] = useState(0);
     const [disabledBtn, setDisabledBtn] = useState(false);
-    const [login, setLogin] = useRecoilState(LoginState);
 
     // route === "ImageSearch", findInfo function
     const getInfo = async (uniqueCodeArr) => {
@@ -53,15 +52,11 @@ const InfoCarousel = ({ info, route }) => {
     };
 
     const getPoint = async (e) => {
-        if (e.type === "click") {            
-            if (!login) {
-                return toast.info("로그인이 필요한 서비스입니다.");
-            }
+        if (e.type === "click") {
             const res = await post("points", { route: "recycle", point: 100 });
-            // alert(`100포인트가 적립되었습니다!
-            // 당신의 작은 관심 하나가 지구를 숨쉬게 합니다.
-            // '마이페이지' 에서 자라나는 나무를 확인하세요~`);
-            toast.success("100 포인트가 적립 되었습니다!");
+            toast(`100포인트가 적립되었습니다!
+            당신의 작은 관심 하나가 지구를 숨쉬게 합니다.
+            '마이페이지' 에서 자라나는 나무를 확인하세요~`);
             setDisabledBtn(true);
         }
     };
@@ -121,9 +116,7 @@ const InfoCarousel = ({ info, route }) => {
                             width={35}
                             height={35}
                         />
-                        {
-                            disabledBtn ? <p>적립 완료</p> : <p>포인트 적립</p> 
-                        }
+                        {disabledBtn ? <p>적립 완료</p> : <p>포인트 적립</p>}
                     </NavButton>
                 </ButtonWrapper>
             </Wrapper>

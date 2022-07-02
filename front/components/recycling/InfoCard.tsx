@@ -2,10 +2,12 @@ import React, { useState } from "react";
 import Image from "next/image";
 import nextArrow from "../../public/images/next.arrow.png";
 import styled from "styled-components";
+import earth from "../../public/images/earth.png";
+import footerLogo from "../../public/images/footer.logo.png";
 
 const InfoCard = ({ cards, route }) => {
     const [slideIndex, setSlideIndex] = useState(1);
-
+    console.log(cards);
     const nextSlide = (idx) => {
         if (slideIndex === cards.length) {
             return;
@@ -31,32 +33,76 @@ const InfoCard = ({ cards, route }) => {
                 />
             </ArrowButton>
             <CarouselAll>
-                {cards?.map((card, idx) => {
-                    return (
-                        <Slider
-                            key={`page-${idx}`}
-                            className={
-                                slideIndex === idx + 1 ? "is_active" : "is_pass"
-                            }
-                        >
-                            <InfoBox>
-                                <Image
-                                    src={
-                                        route === "ImageSearch"
-                                            ? card.imgInfo
-                                            : card.infoImg
-                                    }
-                                    alt="recycle-information"
-                                    width={290}
-                                    height={400}
-                                />
-                            </InfoBox>
-                            <span>
-                                {idx + 1} / {cards.length}
-                            </span>
-                        </Slider>
-                    );
-                })}
+                {route === "ImageSearch" ? (
+                    cards?.map((card, idx) => {
+                        return (
+                            <Slider
+                                key={`page-${idx}`}
+                                className={
+                                    slideIndex === idx + 1
+                                        ? "is_active"
+                                        : "is_pass"
+                                }
+                            >
+                                <InfoBox>
+                                    <Image
+                                        src={card.imgInfo}
+                                        alt="recycle-information"
+                                        width={290}
+                                        height={400}
+                                    />
+                                </InfoBox>
+                                <span>
+                                    {idx + 1} / {cards.length}
+                                </span>
+                            </Slider>
+                        );
+                    })
+                ) : cards ? (
+                    cards?.map((card, idx) => {
+                        return (
+                            <Slider
+                                key={`page-${idx}`}
+                                className={
+                                    slideIndex === idx + 1
+                                        ? "is_active"
+                                        : "is_pass"
+                                }
+                            >
+                                <InfoBox>
+                                    <Image
+                                        src={card.infoImg}
+                                        alt="recycle-information"
+                                        width={290}
+                                        height={400}
+                                    />
+                                </InfoBox>
+                                <span>
+                                    {idx + 1} / {cards.length}
+                                </span>
+                            </Slider>
+                        );
+                    })
+                ) : (
+                    <NoImageBox>
+                        <Image
+                            src={earth}
+                            alt="recycle-information"
+                            width={100}
+                            height={100}
+                        />
+                        <Image
+                            src={footerLogo}
+                            alt="recycle-information"
+                            width={50}
+                            height={50}
+                        />
+                        <p>
+                            📍 분류 선택 시, <br />
+                            배출방법 카드가 나옵니다.
+                        </p>
+                    </NoImageBox>
+                )}
             </CarouselAll>
             <ArrowButton type="button" onClick={nextSlide}>
                 <Image
@@ -117,6 +163,15 @@ const InfoBox = styled.div`
     justify-content: center;
     align-items: center;
     height: 95%;
+`;
+const NoImageBox = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 280px;
+    height: 450px;
+    border: 2px solid #dedede;
 `;
 
 const ArrowButton = styled.button`
