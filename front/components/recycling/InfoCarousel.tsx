@@ -37,7 +37,7 @@ const InfoCarousel = ({ info, route }) => {
     const [targetPage, setTargetPage] = useState(0);
     const [disabledBtn, setDisabledBtn] = useState(false);
     const [login, setLogin] = useRecoilState(LoginState);
-    
+
     // route === "ImageSearch", findInfo function
     const getInfo = async (uniqueCodeArr) => {
         const res = await getRecycleInfo(`recycle-info/search`, {
@@ -141,12 +141,12 @@ const InfoCarousel = ({ info, route }) => {
             <Wrapper>
                 <InfoCard cards={info.recycleInfo} route={route} />
                 <ButtonWrapper>
-                    <Button type="button" name="waste" onClick={rendPage}>
+                    <NavButton type="button" name="waste" onClick={rendPage}>
                         대형폐기물 신고하기
-                    </Button>
-                    <Button type="button" name="market" onClick={rendPage}>
+                    </NavButton>
+                    <NavButton type="button" name="market" onClick={rendPage}>
                         중고마켓으로 가기
-                    </Button>
+                    </NavButton>
                 </ButtonWrapper>
             </Wrapper>
         </>
