@@ -47,7 +47,6 @@ const SingleBoard = ({ item }) => {
     const maxSteps = item?.postImg?.length ?? 0; // 자료의 총 길이
     const viewContainerRef = useRef<HTMLDivElement>(null);
     const theme = useTheme();
-    console.log(item);
 
     const handleExpandClick = () => {
         setExpanded(!expanded);

@@ -27,7 +27,6 @@ const NaverLogin = () => {
             setOpen((cur) => !cur);
             await router.push("/");
         } catch (error) {
-            // alert("다시 시도해주세요!");
             toast.error("다시 시도해주세요!");
         }
     };

@@ -5,17 +5,17 @@ import SingleBoard from "./SingleBoard";
 import Write from "./Write";
 import { getPost } from "../../api";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { toast } from "react-toastify";
 
-const ListComponent = ({ loadMore, board }) => {
+const ListComponent = ({ loadMore, board, hasMore }) => {
     return (
         <InfiniteScroll
             dataLength={board.length} // 반복되는 컴포넌트 갯수
             next={loadMore}
             height={600}
-            hasMore={true}
+            hasMore={hasMore}
             loader={<h3> Loading...</h3>}
-            endMessage={<h4>Nothing more to show</h4>}
+            endMessage={<h4>콘텐츠가 더 이상 없습니다.</h4>}
+            scrollableTarget="scrollableDiv"
         >
             {board.map((i, index) => (
                 <div
@@ -38,9 +38,8 @@ const MainBoard = ({ firstBoards }) => {
     const [title, setTitle] = useState(""); // [Write] 제목
     const [page, setPage] = useState(1); // [infinite] 페이지
     const [board, setBoard] = useState(firstBoards); // [Infinite] 게시글 리스트
-    const [isSearch, setIsSearch] = useState(false); // [Search] 특정 검색으로 게시글 필터 유무
-    const [inputValue, setInputValue] = useState(""); // [Search] 검색어
     const [show, setShow] = useState([]);
+    const [hasMore, setHasMore] = useState(true);
     const userInfo = useContext(UserStateContext); // 전역 user 정보
 
     const loadMore = async () => {
@@ -50,8 +49,8 @@ const MainBoard = ({ firstBoards }) => {
         const newLists = res.data.data.postList;
 
         if (newLists.length === 0) {
-            // alert("contents is end");
-            toast.info("마지막 게시글 입니다.");
+            setHasMore((cur) => !cur);
+            return;
         } else {
             setPage((cur) => cur + 1);
             const newBoard = [...board, ...newLists];
@@ -79,7 +78,7 @@ const MainBoard = ({ firstBoards }) => {
                         </Button>
                     )}
                 </Menu>
-                <BoardWrapper id={"hello"}>
+                <BoardWrapper id="scrollableDiv">
                     {isWrite ? (
                         <Write
                             title={title}
@@ -89,7 +88,11 @@ const MainBoard = ({ firstBoards }) => {
                             setIsWrite={setIsWrite}
                         />
                     ) : show ? (
-                        <ListComponent loadMore={loadMore} board={board} />
+                        <ListComponent
+                            loadMore={loadMore}
+                            board={board}
+                            hasMore={hasMore}
+                        />
                     ) : (
                         <></>
                     )}

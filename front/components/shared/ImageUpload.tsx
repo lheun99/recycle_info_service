@@ -74,7 +74,6 @@ const ImageUpload = ({
             case "fileDrop":
                 (e.target as HTMLElement).style.backgroundColor = "#F2F2F2";
                 if (e.dataTransfer.items[0].kind !== "file") {
-                    // alert("파일로 업로드 가능합니다.");
                     toast.info("파일로 업로드 가능합니다.");
                     location.reload();
                 } // FILE로 업로드 안 하는 경우 alert

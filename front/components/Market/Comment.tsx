@@ -6,15 +6,36 @@ import styled from "styled-components";
 import { styled as materialStyled } from "@mui/material/styles";
 import { Box, TextField, Typography } from "@mui/material";
 
-const DeleteButton = ({ commentId }) => {
+const DeleteButton = ({ commentId, setSucDelete }) => {
     const deleteCmt = async () => {
         const res = await deleteComment(`comment/${commentId}`);
+        setSucDelete((cur) => !cur);
     };
     return (
         <Button name="delete" onClick={deleteCmt}>
             삭제
         </Button>
     );
+};
+const getCommentList = async (postId, setCommentList) => {
+    const res = await get(`comment/${postId}`);
+    const newList = res.data.data;
+    setCommentList(newList);
+};
+
+const sendComment = async (comment, postId, setComment, setSucSend) => {
+    if (comment === "") {
+        // 입력한 내용이 없을 경우, 넘어가지 못함
+        return;
+    } else {
+        // 서버로 검색어 넘긴다
+        const res = await post("comment", {
+            postId: postId,
+            content: comment,
+        });
+        setComment("");
+        setSucSend((cur) => !cur);
+    }
 };
 
 // postId 도 받아 와야함
@@ -23,37 +44,15 @@ const Comment = ({ expand, postId, setExpanded }) => {
     const userInfo = useContext(UserStateContext);
     const nickname = userInfo?.user?.nickname ?? "로그인이 필요해요.";
     const [comment, setComment] = useState("");
+    const [sucSend, setSucSend] = useState(false);
+    const [sucDelete, setSucDelete] = useState(false);
     const [commentList, setCommentList] = useState([]);
-
-    const getCommentList = async () => {
-        const res = await get(`comment/${postId}`);
-        const newList = res.data.data;
-        setCommentList(newList);
-    };
-
-    const sendComment = async () => {
-        if (comment === "") {
-            // 입력한 내용이 없을 경우, 넘어가지 못함
-            return;
-        } else {
-            // 서버로 검색어 넘긴다
-            const res = await post("comment", {
-                postId: postId,
-                content: comment,
-            });
-            setComment("");
-        }
-    };
-
-    useEffect(() => {
-        getCommentList();
-    }, [sendComment]);
 
     useEffect(() => {
         if (expand && userInfo?.user) {
-            getCommentList();
+            getCommentList(postId, setCommentList);
         }
-    }, [expand]);
+    }, [sucSend, sucDelete]);
 
     return (
         <div style={{ borderRadius: "15px" }}>
@@ -85,7 +84,17 @@ const Comment = ({ expand, postId, setExpanded }) => {
                             >
                                 취소
                             </Button>
-                            <Button name="upload" onClick={sendComment}>
+                            <Button
+                                name="upload"
+                                onClick={() =>
+                                    sendComment(
+                                        comment,
+                                        postId,
+                                        setComment,
+                                        setSucSend
+                                    )
+                                }
+                            >
                                 완료
                             </Button>
                         </ButtonWrapper>
@@ -103,6 +112,7 @@ const Comment = ({ expand, postId, setExpanded }) => {
                                     <ButtonWrapper>
                                         <DeleteButton
                                             commentId={item.commentId}
+                                            setSucDelete={setSucDelete}
                                         />
                                     </ButtonWrapper>
                                 )}
