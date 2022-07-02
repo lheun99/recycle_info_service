@@ -5,6 +5,7 @@ import "react-quill/dist/quill.snow.css";
 import styled from "styled-components";
 import Image from "next/image";
 import { post, sendPostImageFile } from "../../api";
+import { toast } from "react-toastify";
 
 const QuillNoSSR = dynamic(import("react-quill"), {
     ssr: false,
@@ -72,7 +73,8 @@ export default function Write({
 
         if (imageUrlLists.length > 5) {
             imageUrlLists = imageUrlLists.slice(0, 5);
-            alert("이미지는 최대 5장까지 업로드 가능합니다.");
+            // alert("이미지는 최대 5장까지 업로드 가능합니다.");
+            toast.info("이미지는 최대 5장까지 업로드 가능합니다.");
         }
         setImgList(imageUrlLists);
     };
@@ -101,7 +103,8 @@ export default function Write({
 
             setIsWrite((cur) => !cur);
         } catch (e) {
-            alert("로그인이 필요한 서비스 입니다.");
+            // alert("로그인이 필요한 서비스 입니다.");
+            toast.info("로그인이 필요한 서비스 입니다.");
             router.push("/");
         }
     };

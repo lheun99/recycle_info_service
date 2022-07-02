@@ -5,6 +5,7 @@ import SingleBoard from "./SingleBoard";
 import Write from "./Write";
 import { getPost } from "../../api";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { toast } from "react-toastify";
 
 const ListComponent = ({ loadMore, board }) => {
     return (
@@ -49,7 +50,8 @@ const MainBoard = ({ firstBoards }) => {
         const newLists = res.data.data.postList;
 
         if (newLists.length === 0) {
-            alert("contents is end");
+            // alert("contents is end");
+            toast.info("마지막 게시글 입니다.");
         } else {
             setPage((cur) => cur + 1);
             const newBoard = [...board, ...newLists];
