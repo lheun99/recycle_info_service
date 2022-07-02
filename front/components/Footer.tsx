@@ -56,10 +56,6 @@ const Footer = () => {
                         </Link>
                         <span>· Recycle-Market</span>
                     </LinkWrapper>
-                    <LinkWrapper>
-                        <LinkText>Quiz</LinkText>
-                        <span>· Recycle-Quiz</span>
-                    </LinkWrapper>
                 </TextWrapper>
             )}
         </FooterWrapper>
