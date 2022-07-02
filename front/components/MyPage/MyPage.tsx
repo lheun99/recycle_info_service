@@ -119,7 +119,7 @@ export default MyPage;
 const Wrapper = styled.div`
     display: grid;
     width: 100%;
-    height: 700px;
+    height: 800px;
     grid-template-columns: 1.3fr 4fr;
     background-color: var(--gray);
     padding-top: 60px;
