@@ -2,6 +2,8 @@ import React from "react";
 import Nav from "./Nav";
 import Footer from "./Footer";
 import styled from "styled-components";
+import Fab from "@mui/material/Fab";
+import { styled as materialStyled } from "@mui/material/styles";
 
 type AppLayoutProps = {
     children: React.ReactNode;
@@ -12,7 +14,16 @@ const Layout = ({ children }: AppLayoutProps) => {
         <div>
             <title>구해줘!, 지구</title>
             <Nav />
-            <BodyWrapper>{children}</BodyWrapper>
+            <BodyWrapper>
+                {children}
+                <FaButton
+                    variant="extended"
+                    size="large"
+                    onClick={() => window.scrollTo(0, 0)}
+                >
+                    👆
+                </FaButton>
+            </BodyWrapper>
             <Footer />
         </div>
     );
@@ -23,3 +34,18 @@ export default Layout;
 const BodyWrapper = styled.div`
     min-height: 100vh;
 `;
+
+const FaButton = materialStyled(Fab)(() => ({
+    margin: "0px",
+    top: "auto",
+    right: "20px",
+    bottom: "20px",
+    left: "auto",
+    position: "fixed",
+    backgroundColor: "#E2D784",
+    fontFamily: "Elice Digital Baeum",
+    "&:hover": {
+        backgroundColor: "#fff",
+        color: "#305e63",
+    },
+}));

@@ -196,7 +196,7 @@ const FaButton = materialStyled(Fab)(() => ({
     margin: "0px",
     top: "auto",
     right: "20px",
-    bottom: "20px",
+    bottom: "80px",
     left: "auto",
     position: "fixed",
     backgroundColor: "#305e63",
