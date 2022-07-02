@@ -5,6 +5,7 @@ import "react-quill/dist/quill.snow.css";
 import styled from "styled-components";
 import Image from "next/image";
 import { post, sendPostImageFile } from "../../api";
+import { useMediaQuery } from "react-responsive";
 
 const QuillNoSSR = dynamic(import("react-quill"), {
     ssr: false,
@@ -101,7 +102,6 @@ export default function Write({
 
             setIsWrite((cur) => !cur);
         } catch (e) {
-            alert("로그인이 필요한 서비스 입니다.");
             router.push("/");
         }
     };
@@ -257,18 +257,22 @@ const InputWrapper = styled.div`
 
 const WriteWrapper = styled.div`
     width: 100%;
-    height: 100%;
-    min-height: 500px !important;
-    max-height: 1000px;
+    height: 470px;
     overflow: hidden;
     overflow-y: scroll;
     position: relative;
+    @media screen and (max-width: 500px) {
+        height: 350px;
+    } ;
 `;
 
 const QuillNoSSRWrapper = styled.div`
     position: absolute;
     width: 100%;
-    height: 100%;
+    height: 400px;
+    @media screen and (max-width: 500px) {
+        height: 300px;
+    } ;
 `;
 
 const ButtonWrapper = styled.div`
