@@ -7,6 +7,7 @@ import Button from "@mui/material/Button";
 import lottie from "lottie-web";
 import animationData from "../../public/trueEffect.json";
 import { post } from "../../api";
+import { toast } from "react-toastify";
 
 type QuizType = {
     question: string;
@@ -32,7 +33,7 @@ const QuizResult = ({ result, quiz, openClickHandler }: QuizResultProps) => {
                 route: "quiz",
                 point: 100,
             });
-            alert(`100포인트가 적립되었습니다!`);
+            toast.success("100 포인트가 적립 되었습니다!");
             setClick(true);
         } catch (err) {
             console.error("error message: ", err);
@@ -75,7 +76,9 @@ const QuizResult = ({ result, quiz, openClickHandler }: QuizResultProps) => {
                         width={35}
                         height={35}
                     />
-                    <p>포인트 적립</p>
+                    {
+                        click ? <p>적립 완료</p> : <p>포인트 적립</p>
+                    }
                 </NavButton>
             </ButtonForm>
         </ResultWrapper>

@@ -4,6 +4,7 @@ import Loading from "./Loading";
 import { sendImageFile } from "../../api";
 import instax from "../../public/images/Instax.png";
 import styled from "styled-components";
+import { toast } from "react-toastify";
 
 type ImageUploadProps = {
     setOpenInfo?: Dispatch<SetStateAction<boolean>>;
@@ -44,7 +45,8 @@ const MobileCamera = ({
             setOpenInfo(true);
             setIsUploaded("complete");
         } catch (e) {
-            alert("다시 시도 해주세요!");
+            // alert("다시 시도 해주세요!");
+            toast.error("다시 시도해주세요!");
             location.reload();
         }
     };

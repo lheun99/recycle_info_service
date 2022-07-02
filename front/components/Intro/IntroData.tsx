@@ -4,6 +4,7 @@ import { styled as materialStyled } from '@mui/material/styles';
 import styled from "styled-components";
 import { useRecoilState } from "recoil";
 import { LoginState } from "../../states/atoms";
+import { toast } from "react-toastify";
 
 type IntroDataProps = {
     title?: string;
@@ -16,9 +17,12 @@ type IntroDataProps = {
 const IntroData = ({ title, subtitle, text, hasButton, href } : IntroDataProps) => {
     const [login, setLogin] = useRecoilState(LoginState);
     const abled = ((href === "/quiz" || href === "/myPage") && !login) ? true : false;
-    
+
     const router = useRouter()
     const handleClick = () => {
+        if (abled) {
+            return toast.info("로그인이 필요한 서비스입니다.");
+        }
         router.push(href)
     }
 
@@ -33,7 +37,7 @@ const IntroData = ({ title, subtitle, text, hasButton, href } : IntroDataProps) 
                         sx={{ borderColor: "#818479", color: "#818479"}}
                         variant="outlined"
                         onClick={handleClick}
-                        disabled={abled}
+                        // disabled={abled}
                     >
                         {hasButton}
                     </NavButton>
@@ -106,4 +110,3 @@ const NavButton = materialStyled(Button)(
             }
         }
     ));
-    

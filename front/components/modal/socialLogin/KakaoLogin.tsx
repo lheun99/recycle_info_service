@@ -5,6 +5,7 @@ import { get } from "../../../api";
 import { DispatchContext } from "../../../pages/_app";
 import Loading from "../../shared/Loading";
 import Alert from "@mui/material/Alert";
+import { toast } from "react-toastify";
 
 const KakaoLogin = () => {
     const [open, setOpen] = useState(false);
@@ -26,7 +27,8 @@ const KakaoLogin = () => {
             setOpen((cur) => !cur);
             await router.push("/");
         } catch (error) {
-            alert("다시 시도해주세요!");
+            // alert("다시 시도해주세요!");
+            toast.error("다시 시도해주세요!");
         }
     };
 
