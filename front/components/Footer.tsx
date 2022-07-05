@@ -67,7 +67,7 @@ export default Footer;
 const FooterWrapper = styled.div`
     display: grid;
     grid-template-columns: 1.3fr 2fr 2fr;
-    height: 200px;
+    height: 100px;
     padding: 10px 0;
     color: #c4c4c4;
     font-size: 11px;
@@ -115,6 +115,7 @@ const PositionWrapper = styled.div`
     display: flex;
     width: 200px;
     justify-content: space-between;
+    padding: 10px 0;
 `;
 
 const PositionSubWrapper = styled.div`

@@ -72,10 +72,12 @@ const MainBoard = ({ firstBoards }) => {
             </Contents>
             <Container>
                 <Menu>
-                    {userInfo?.user && (
+                    {userInfo?.user ? (
                         <Button onClick={() => setIsWrite((cur) => !cur)}>
                             {isWrite ? "🏠 메인으로" : "+ 글쓰러 가기 ✏️"}
                         </Button>
+                    ) : (
+                        <p>⚠️글 작성은 로그인 후 이용가능합니다</p>
                     )}
                 </Menu>
                 <BoardWrapper id="scrollableDiv">
@@ -106,13 +108,13 @@ export default MainBoard;
 
 const Wrapper = styled.div`
     width: 100%;
-    height: auto;
+    height: 100%;
     background-color: var(--gray);
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
     align-items: center;
-    padding-top: 60px;
+    padding-top: 100px;
 `;
 
 const Contents = styled.p`
@@ -122,8 +124,8 @@ const Contents = styled.p`
 `;
 
 const Container = styled.div`
-    width: 80%;
-    height: auto;
+    width: 100%;
+    height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -148,7 +150,6 @@ const Button = styled.button`
     font-weight: bold;
     font-size: 16px;
     color: white;
-    max-width: 400px;
     width: 100%;
     height: 40px;
     border: none;

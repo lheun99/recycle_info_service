@@ -1,4 +1,5 @@
 import React from "react";
+import styled from "styled-components";
 import MainBoard from "../components/Market/MainBoard";
 import { getPost } from "../api";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
@@ -17,11 +18,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 const market = ({
     firstBoards,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-    return (
-        <div>
-            <MainBoard firstBoards={firstBoards} />
-        </div>
-    );
+    return <MainBoard firstBoards={firstBoards} />;
 };
 
 export default market;
