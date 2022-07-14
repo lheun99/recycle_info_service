@@ -1,7 +1,8 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useContext } from "react";
 import footerLogo from "../../public/images/footer.logo.png";
+import { deleteItem } from "../../api";
 import Comment from "./Comment";
-
+import { UserStateContext } from "../../pages/_app";
 import styled from "styled-components";
 import { styled as materialStyled } from "@mui/material/styles";
 import {
@@ -16,9 +17,10 @@ import {
     MobileStepper,
     Box,
 } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { toast } from "react-toastify";
 import IconButton, { IconButtonProps } from "@mui/material/IconButton";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
 import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import { useTheme } from "@mui/material/styles";
@@ -44,9 +46,21 @@ const SingleBoard = ({ item }) => {
     const [expanded, setExpanded] = useState(false);
     const [slideIndex, setSlideIndex] = useState(0);
     const [activeStep, setActiveStep] = useState(0);
+    const userInfo = useContext(UserStateContext);
     const maxSteps = item?.postImg?.length ?? 0; // 자료의 총 길이
     const viewContainerRef = useRef<HTMLDivElement>(null);
     const theme = useTheme();
+
+    const isDeleted = async () => {
+        try {
+            await deleteItem(`post/${item?.postId}`);
+            toast.success("삭제가 완료되었습니다.");
+            location.reload();
+        } catch (e) {
+            console.log(e);
+            toast.error("다시 시도해주세요!");
+        }
+    };
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
@@ -166,9 +180,21 @@ const SingleBoard = ({ item }) => {
                 <CardWriterContainer
                     avatar={<Avatar alt="userProfile" src={item.userImg} />}
                     action={
-                        <IconButton aria-label="settings">
-                            <MoreVertIcon />
-                        </IconButton>
+                        <div>
+                            {item?.userId === userInfo.user?.userId && (
+                                <IconButton
+                                    aria-label="settings"
+                                    style={{
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        position: "relative",
+                                    }}
+                                    onClick={isDeleted}
+                                >
+                                    <DeleteIcon />
+                                </IconButton>
+                            )}
+                        </div>
                     }
                     title={item?.nickname}
                     subheader={item?.createdAt?.slice(0, 10)}
