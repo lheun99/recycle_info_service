@@ -178,6 +178,7 @@ const SingleBoard = ({ item }) => {
                 <CommentTitle variant="body2" color="text.secondary">
                     <span>댓글</span>
                 </CommentTitle>
+                <CmtCnt>{item?.commentCnt}</CmtCnt>
                 <ExpandMore
                     expand={expanded}
                     onClick={handleExpandClick}
@@ -296,7 +297,21 @@ const CommentTitle = materialStyled(Typography)(() => ({
     fontWeight: "bold",
     paddingLeft: "10px",
     color: "#305e63",
+    display: "flex",
 }));
+
+const CmtCnt = styled.div`
+    font-size: 13px;
+    width: 18px;
+    height: 18px;
+    line-height: 15px;
+    text-align: center;
+    border: 1px solid #a7c4bc;
+    border-radius: 100%;
+    margin-left: 5px;
+    color: white;
+    background-color: #305e63;
+`;
 
 const CardMain = materialStyled(Card)(() => ({
     minHeight: "270px",
