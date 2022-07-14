@@ -141,19 +141,19 @@ const Button = styled.button`
     font-weight: bold;
     font-size: 16px;
     color: white;
-    width: 100%;
-    height: 3vh;
+    width: 80vw;
+    height: 5vh;
     border: none;
     border-radius: 15px;
     cursor: pointer;
-    margin: 30px 0;
+    margin: 20px 0;
+    padding: 5px 0;
     background-color: var(--deepgreen);
 `;
 
 const BoardWrapper = styled.div`
     width: 100%;
-    height: 63vh;
-    margin-bottom: 30px;
+    height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
