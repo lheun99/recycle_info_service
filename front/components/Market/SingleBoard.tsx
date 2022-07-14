@@ -208,7 +208,7 @@ const SingleBoard = ({ item }) => {
 export default SingleBoard;
 
 const Wrapper = styled.div`
-    width: 100%;
+    width: 80vw;
     height: 100%;
     display: flex;
     flex-direction: column;
