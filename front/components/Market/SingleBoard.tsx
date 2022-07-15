@@ -178,12 +178,12 @@ const SingleBoard = ({ item }) => {
                 <PostBody ref={viewContainerRef} />
 
                 <CardWriterContainer
-                    avatar={<Avatar alt="userProfile" src={item.userImg} />}
+                    avatar={<Avatar alt="userProfile" src={item?.userImg} />}
                     action={
                         <div>
                             {item?.userId === userInfo.user?.userId && (
                                 <IconButton
-                                    aria-label="settings"
+                                    aria-label="deletes"
                                     style={{
                                         display: "flex",
                                         flexDirection: "column",

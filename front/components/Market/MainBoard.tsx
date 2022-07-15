@@ -109,7 +109,7 @@ const Wrapper = styled.div`
     flex-direction: column;
     justify-content: space-evenly;
     align-items: center;
-    padding-top: 100px;
+    padding-top: 120px;
 `;
 
 const Contents = styled.p`
