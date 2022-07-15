@@ -58,8 +58,6 @@ const SingleBoard = ({ item }) => {
             location.reload();
         } catch (e) {
             toast.error("다시 시도해주세요!");
-            console.log(e);
-            console.log(item.postId);
         }
     };
 
