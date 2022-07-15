@@ -57,8 +57,9 @@ const SingleBoard = ({ item }) => {
             toast.success("삭제가 완료되었습니다.");
             location.reload();
         } catch (e) {
-            console.log(e);
             toast.error("다시 시도해주세요!");
+            console.log(e);
+            console.log(item.postId);
         }
     };
 
