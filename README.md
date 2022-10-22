@@ -71,9 +71,6 @@
         1. 카테고리 선택을 통한 분리배출 방법 안내 (셀렉박스)
 
 ### **`스토리보드 & 시나리오`**
-
-[프로젝트 구조도](https://s3.us-west-2.amazonaws.com/secure.notion-static.com/9586e707-ba9f-4298-a968-7f17d85ff0e5/Untitled.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20220722%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20220722T022846Z&X-Amz-Expires=86400&X-Amz-Signature=e6f01ebffa03840e45ac8f7adbbcdff76a807db46d17d59cf7521b0dea176e74&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22Untitled.png%22&x-id=GetObject)
-
  
 [와이어 프레임](https://www.figma.com/file/dSjdmhOweLps5vP9zIfsme/Wireframe?node-id=0%3A1)
 
@@ -87,16 +84,9 @@
     - 모바일 버전을 위해 컨텐츠를 중앙에 배치
     - 대표 로고
 
-[https://www.figma.com/embed?embed_host=notion&url=https%3A%2F%2Fwww.figma.com%2Ffile%2FdSjdmhOweLps5vP9zIfsme%2FWireframe%3Fnode-id%3D0%253A1](https://www.figma.com/embed?embed_host=notion&url=https%3A%2F%2Fwww.figma.com%2Ffile%2FdSjdmhOweLps5vP9zIfsme%2FWireframe%3Fnode-id%3D0%253A1)
-
 [스토리 보드 및 유저 시나리오](https://docs.google.com/spreadsheets/d/1Gv8fvA-80mt02lMYLZNUqs3o3ZKHG1Lz3iDeypcRL3A/edit#gid=0)
 
-
 [페이지 구조도](https://www.figma.com/file/dSjdmhOweLps5vP9zIfsme/Wireframe?node-id=323%3A1979)
-
-![page structure](https://s3.us-west-2.amazonaws.com/secure.notion-static.com/e4b4e6f3-f329-446a-b5f6-84cd746a7dbf/page_structure.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20220722%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20220722T023347Z&X-Amz-Expires=86400&X-Amz-Signature=34f1a9849f7387a520a9c89068ace830b8392720a69cb2cc35365dc193d0884a&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22page%2520structure.png%22&x-id=GetObject)
-
-[ERD](https://s3.us-west-2.amazonaws.com/secure.notion-static.com/5ef7a022-0eee-485f-8b34-ed459972b6ce/Untitled.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20220722%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20220722T023408Z&X-Amz-Expires=86400&X-Amz-Signature=51352e26da041293d388bfe13545dffd397e1277182c923ba72ecb01d3e71577&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22Untitled.png%22&x-id=GetObject)
 
 [api 명세서 보러가기](https://documenter.getpostman.com/view/19591285/UzBiQUw9#644af286-9b0d-4bdf-8ec2-d11a18e508f3) 
 
